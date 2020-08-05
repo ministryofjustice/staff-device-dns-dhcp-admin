@@ -16,7 +16,8 @@ RUN apk add --no-cache --virtual .build-deps build-base && \
 
 COPY Gemfile Gemfile.lock .ruby-version ./
 ARG BUNDLE_INSTALL_FLAGS
-RUN bundle install --no-cache ${BUNDLE_INSTALL_FLAGS}
+RUN bundle config set no-cache 'true' && \ 
+  bundle install ${BUNDLE_INSTALL_FLAGS}
 
 COPY package.json yarn.lock ./
 RUN yarn && yarn cache clean
@@ -29,4 +30,4 @@ ARG RUN_PRECOMPILATION=true
 RUN if [ ${RUN_PRECOMPILATION} = 'true' ]; then \
   ASSET_PRECOMPILATION_ONLY=true RAILS_ENV=production bundle exec rails assets:precompile; \
   fi
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]  
