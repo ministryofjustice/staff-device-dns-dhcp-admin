@@ -27,8 +27,8 @@ prebuild:
 serve: stop build
 	$(DOCKER_COMPOSE) up -d db
 	./mysql/bin/wait_for_mysql
-	# $(DOCKER_COMPOSE) run --rm app ./bin/rails db:create db:schema:load db:seed
-	$(DOCKER_COMPOSE) up -d app
+	$(DOCKER_COMPOSE) run --rm app ./bin/rails db:create db:migrate db:seed
+	$(DOCKER_COMPOSE) up --build app
 
 # lint: lint-ruby lint-erb
 # lint-ruby: build
