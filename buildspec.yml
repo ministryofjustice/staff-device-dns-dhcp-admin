@@ -4,11 +4,11 @@ env:
   variables:
     DB_PORT: 3306
   parameter-store:
-    DB_NAME: "/codebuild/dchp/$ENV/admin/db/name"
-    DB_USER: "/codebuild/dchp/$ENV/admin/db/username"
-    DB_PASS: "/codebuild/dchp/$ENV/admin/db/password"
-    DB_HOST: "/codebuild/dchp/$ENV/admin/db/hostname"
-    REGISTRY_URL: "/codebuild/dchp/$ENV/admin/ecr/endpoint"
+    DB_NAME: "/codebuild/dhcp/$ENV/admin/db/name"
+    DB_USER: "/codebuild/dhcp/$ENV/admin/db/username"
+    DB_PASS: "/codebuild/dhcp/$ENV/admin/db/password"
+    DB_HOST: "/codebuild/dhcp/$ENV/admin/db/hostname"
+    REGISTRY_URL: "/codebuild/dhcp/$ENV/admin/ecr/endpoint"
     TARGET_AWS_ACCOUNT_ID: "/codebuild/$ENV/account_id"
 
 phases:
