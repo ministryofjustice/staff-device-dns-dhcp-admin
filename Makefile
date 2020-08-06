@@ -8,7 +8,7 @@ endif
 DOCKER_BUILD_CMD = BUNDLE_INSTALL_FLAGS="$(BUNDLE_FLAGS)" $(DOCKER_COMPOSE) build
 
 build:
-	$(DOCKER_COMPOSE) build
+	docker build -t docker_admin .
 
 prebuild:
 	$(DOCKER_COMPOSE) build
@@ -33,9 +33,10 @@ stop:
 	$(DOCKER_COMPOSE) down -v
 
 deploy: build
+	echo ${SECRET_KEY_BASE}
 	echo ${REGISTRY_URL}
 	aws ecr get-login-password | docker login --username AWS --password-stdin ${REGISTRY_URL}
-	docker tag admin:latest ${REGISTRY_URL}/staff-device-${ENV}-dns-dhcp-admin:latest
+	docker tag docker_admin:latest ${REGISTRY_URL}/staff-device-${ENV}-dns-dhcp-admin:latest
 	docker push ${REGISTRY_URL}/staff-device-${ENV}-dns-dhcp-admin_app:latest
 
 .PHONY: build serve shell stop test deploy

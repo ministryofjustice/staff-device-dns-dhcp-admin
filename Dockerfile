@@ -27,6 +27,7 @@ RUN apk del .build-deps
 COPY . .
 
 ARG RUN_PRECOMPILATION=true
+RUN env
 RUN if [ ${RUN_PRECOMPILATION} = 'true' ]; then \
   ASSET_PRECOMPILATION_ONLY=true RAILS_ENV=production bundle exec rails assets:precompile; \
   fi
