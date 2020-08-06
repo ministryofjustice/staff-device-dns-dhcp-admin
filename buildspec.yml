@@ -10,6 +10,7 @@ env:
     DB_HOST: "/codebuild/dhcp/$ENV/admin/db/hostname"
     REGISTRY_URL: "/codebuild/dhcp/$ENV/admin/ecr/endpoint"
     TARGET_AWS_ACCOUNT_ID: "/codebuild/$ENV/account_id"
+    RAILS_MASTER_KEY: "/codebuild/dhcp/admin/rails_master_key"
 
 phases:
   install:
