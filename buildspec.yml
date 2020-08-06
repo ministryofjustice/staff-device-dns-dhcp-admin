@@ -1,0 +1,21 @@
+version: 0.2
+
+env:
+  variables:
+    DB_PORT: 3306
+  parameter-store:
+    DB_NAME: "/codebuild/dchp/$ENV/admin/db/name"
+    DB_USER: "/codebuild/dchp/$ENV/admin/db/username"
+    DB_PASS: "/codebuild/dchp/$ENV/admin/db/password"
+    DB_HOST: "/codebuild/dchp/$ENV/admin/db/hostname"
+    REGISTRY_URL: "/codebuild/dchp/$ENV/admin/ecr/endpoint"
+    TARGET_AWS_ACCOUNT_ID: "/codebuild/$ENV/account_id"
+
+phases:
+  install:
+    commands:
+      - echo none
+
+  build:
+    commands:
+      - make deploy
