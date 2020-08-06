@@ -7,7 +7,7 @@ ENV \
   RACK_ENV=development \
   DB_USER=root \
   DB_PASS=root \
-  DB_HOST=db
+  DB_HOST=db 
 
 WORKDIR /usr/src/app
 
@@ -27,7 +27,6 @@ RUN apk del .build-deps
 COPY . .
 
 ARG RUN_PRECOMPILATION=true
-RUN env
 RUN if [ ${RUN_PRECOMPILATION} = 'true' ]; then \
   ASSET_PRECOMPILATION_ONLY=true RAILS_ENV=production bundle exec rails assets:precompile; \
   fi
