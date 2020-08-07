@@ -24,6 +24,6 @@ deploy: build
 	echo ${REGISTRY_URL}
 	aws ecr get-login-password | docker login --username AWS --password-stdin ${REGISTRY_URL}
 	docker tag docker_admin:latest ${REGISTRY_URL}/staff-device-${ENV}-dns-dhcp-admin:latest
-	docker push ${REGISTRY_URL}/staff-device-${ENV}-dns-dhcp-admin_app:latest
+	docker push ${REGISTRY_URL}/staff-device-${ENV}-dns-dhcp-admin:latest
 
 .PHONY: build serve stop test deploy
