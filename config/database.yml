@@ -16,4 +16,4 @@ test:
 
 production:
   <<: *default
-  database: staff_device_dns_dhcp_admin_production
+  database: <%= ENV.fetch('DB_NAME') %>
