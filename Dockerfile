@@ -1,14 +1,19 @@
 FROM ruby:2.7.1-alpine3.12
 ARG BUNDLE_INSTALL_CMD
 
-# required for certain linting tools that read files, such as erb-lint
-ENV LANG='C.UTF-8'
-
 ARG RACK_ENV=development 
 ARG DB_HOST=db
 ARG DB_USER=root
 ARG DB_PASS=root
 ARG SECRET_KEY_BASE="fakekeybase"
+
+# required for certain linting tools that read files, such as erb-lint
+ENV LANG='C.UTF-8' \ 
+  RACK_ENV=${RACK_ENV} \
+  DB_HOST=${DB_HOST} \
+  DB_USER=${DB_USER} \ 
+  DB_PASS=${DB_PASS} \ 
+  SECRET_KEY_BASE=${SECRET_KEY_BASE}
 
 WORKDIR /usr/src/app
 
@@ -31,4 +36,7 @@ ARG RUN_PRECOMPILATION=true
 RUN if [ ${RUN_PRECOMPILATION} = 'true' ]; then \
   ASSET_PRECOMPILATION_ONLY=true RAILS_ENV=production bundle exec rails assets:precompile; \
   fi
+
+EXPOSE 3000
+
 CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]  
