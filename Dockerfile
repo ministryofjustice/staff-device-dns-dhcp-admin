@@ -6,14 +6,15 @@ ARG DB_HOST=db
 ARG DB_USER=root
 ARG DB_PASS=root
 ARG SECRET_KEY_BASE="fakekeybase"
-
+ARG DB_NAME=root
 # required for certain linting tools that read files, such as erb-lint
 ENV LANG='C.UTF-8' \ 
   RACK_ENV=${RACK_ENV} \
   DB_HOST=${DB_HOST} \
   DB_USER=${DB_USER} \ 
   DB_PASS=${DB_PASS} \ 
-  SECRET_KEY_BASE=${SECRET_KEY_BASE}
+  SECRET_KEY_BASE=${SECRET_KEY_BASE} \
+  DB_NAME=${DB_NAME}
 
 WORKDIR /usr/src/app
 

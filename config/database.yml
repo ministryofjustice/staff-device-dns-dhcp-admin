@@ -5,15 +5,13 @@ default: &default
   port: 3306
   username: <%= ENV.fetch('DB_USER') %>
   password: <%= ENV.fetch('DB_PASS') %>
+  database: <%= ENV.fetch('DB_NAME') %>
 
 development:
   <<: *default
-  database: staff_device_dns_dhcp_admin_development
 
 test:
   <<: *default
-  database: staff_device_dns_dhcp_admin_test
 
 production:
   <<: *default
-  database: <%= ENV.fetch('DB_NAME') %>
