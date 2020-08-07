@@ -8,7 +8,7 @@ env:
     DB_USER: "/codebuild/dhcp/$ENV/admin/db/username"
     DB_PASS: "/codebuild/dhcp/$ENV/admin/db/password"
     DB_HOST: "/codebuild/dhcp/$ENV/admin/db/hostname"
-    REGISTRY_URL: "/codebuild/dhcp/$ENV/admin/ecr/endpoint"
+    REGISTRY_URL: "/codebuild/dhcp/$ENV/ecr/endpoint"
     TARGET_AWS_ACCOUNT_ID: "/codebuild/$ENV/account_id"
     SECRET_KEY_BASE: "/codebuild/dhcp/admin/rails_master_key"
 
