@@ -7,6 +7,7 @@ ARG DB_USER=root
 ARG DB_PASS=root
 ARG SECRET_KEY_BASE="fakekeybase"
 ARG DB_NAME=root
+
 # required for certain linting tools that read files, such as erb-lint
 ENV LANG='C.UTF-8' \ 
   RACK_ENV=${RACK_ENV} \
