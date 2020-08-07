@@ -8,26 +8,13 @@ endif
 DOCKER_BUILD_CMD = BUNDLE_INSTALL_FLAGS="$(BUNDLE_FLAGS)" $(DOCKER_COMPOSE) build
 
 build:
-	docker build -t docker_admin .
-
-prebuild:
-	$(DOCKER_COMPOSE) build
-	$(DOCKER_COMPOSE) up --no-start
+	docker build -t docker_admin . --build-arg RACK_ENV --build-arg DB_HOST --build-arg DB_USER --build-arg DB_PASS --build-arg SECRET_KEY_BASE 
 
 serve: stop build
 	$(DOCKER_COMPOSE) up -d db
 	./mysql/bin/wait_for_mysql
 	$(DOCKER_COMPOSE) run --rm app ./bin/rails db:create db:migrate db:seed
 	$(DOCKER_COMPOSE) up --build app
-
-test: stop build
-	$(DOCKER_COMPOSE) up -d db
-	./mysql/bin/wait_for_mysql
-	$(DOCKER_COMPOSE) run -e RACK_ENV=test --rm app ./bin/rails db:create db:schema:load db:migrate
-	$(DOCKER_COMPOSE) run --rm app bundle exec rspec
-
-shell: serve
-	$(DOCKER_COMPOSE) exec app bash
 
 stop:
 	$(DOCKER_COMPOSE) down -v
@@ -39,4 +26,4 @@ deploy: build
 	docker tag docker_admin:latest ${REGISTRY_URL}/staff-device-${ENV}-dns-dhcp-admin:latest
 	docker push ${REGISTRY_URL}/staff-device-${ENV}-dns-dhcp-admin_app:latest
 
-.PHONY: build serve shell stop test deploy
+.PHONY: build serve stop test deploy

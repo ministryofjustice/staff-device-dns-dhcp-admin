@@ -2,12 +2,13 @@ FROM ruby:2.7.1-alpine3.12
 ARG BUNDLE_INSTALL_CMD
 
 # required for certain linting tools that read files, such as erb-lint
-ENV \
-  LANG='C.UTF-8' \
-  RACK_ENV=development \
-  DB_USER=root \
-  DB_PASS=root \
-  DB_HOST=db 
+ENV LANG='C.UTF-8'
+
+ARG RACK_ENV=development 
+ARG DB_HOST=db
+ARG DB_USER=root
+ARG DB_PASS=root
+ARG SECRET_KEY_BASE="fakekeybase"
 
 WORKDIR /usr/src/app
 

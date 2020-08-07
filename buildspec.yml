@@ -3,8 +3,8 @@ version: 0.2
 env:
   variables:
     DB_PORT: 3306
+    RACK_ENV: "production"
   parameter-store:
-    DB_NAME: "/codebuild/dhcp/$ENV/admin/db/name"
     DB_USER: "/codebuild/dhcp/$ENV/admin/db/username"
     DB_PASS: "/codebuild/dhcp/$ENV/admin/db/password"
     DB_HOST: "/codebuild/dhcp/$ENV/admin/db/hostname"
