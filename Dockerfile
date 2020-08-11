@@ -1,6 +1,8 @@
 FROM ruby:2.7.1-alpine3.12
 ARG BUNDLE_INSTALL_CMD
 
+RUN apk update && apk add --no-cache make
+
 ARG RACK_ENV=development 
 ARG DB_HOST=db
 ARG DB_USER=root
