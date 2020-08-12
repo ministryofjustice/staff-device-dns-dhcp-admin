@@ -10,6 +10,9 @@ DOCKER_BUILD_CMD = BUNDLE_INSTALL_FLAGS="$(BUNDLE_FLAGS)" $(DOCKER_COMPOSE) buil
 build:
 	docker build -t docker_admin . --build-arg RACK_ENV --build-arg DB_HOST --build-arg DB_USER --build-arg DB_PASS --build-arg SECRET_KEY_BASE --build-arg DB_NAME
 
+build-dev:
+	$(DOCKER_COMPOSE) build
+
 start-db:
 	$(DOCKER_COMPOSE) up -d db
 	./mysql/bin/wait_for_mysql
