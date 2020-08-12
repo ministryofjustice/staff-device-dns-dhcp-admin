@@ -15,7 +15,7 @@ start-db:
 	./mysql/bin/wait_for_mysql
 
 db-setup: start-db
-	$(DOCKER_COMPOSE) run --rm app ./bin/rails db:create db:migrate db:seed
+	$(DOCKER_COMPOSE) run --rm app ./bin/rails db:create db:schema:load db:seed
 
 serve: stop start-db
 	$(DOCKER_COMPOSE) up app
