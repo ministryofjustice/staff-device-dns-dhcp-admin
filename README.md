@@ -1,4 +1,4 @@
-# Staf Device DNS / DHCP Admin
+# Staff Device DNS / DHCP Admin
 
 This is the web frontend for managing Staff Device DNS / DHCP servers
 
