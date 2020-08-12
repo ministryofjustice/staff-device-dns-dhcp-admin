@@ -14,6 +14,8 @@ services:
       context: .
       args:
         BUNDLE_INSTALL_FLAGS: "${BUNDLE_INSTALL_FLAGS:- --jobs 20 --retry 5}"
+    volumes:
+    - ".:/usr/src/app"
     links:
       - db
     expose:
