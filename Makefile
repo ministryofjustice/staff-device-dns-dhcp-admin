@@ -16,6 +16,9 @@ serve: stop build
 	$(DOCKER_COMPOSE) run --rm app ./bin/rails db:create db:migrate db:seed
 	$(DOCKER_COMPOSE) up --build app
 
+shell:
+	$(DOCKER_COMPOSE) run --rm app sh
+
 stop:
 	$(DOCKER_COMPOSE) down -v
 
