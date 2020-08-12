@@ -1,6 +1,20 @@
-# Ministry of Justice Template Repository
+# Staf Device DNS / DHCP Admin
 
-Use this template to [create a repository] with the default initial files for a Ministry of Justice Github repository, including:
+This is the web frontend for managing Staff Device DNS / DHCP servers
+
+
+## Development
+
+1. Clone the repository
+1. If this is the first time you have setup the project, setup the database.
+```sh
+make db-setup
+```
+1. Start the application
+```sh
+$ make serve
+```
+
 
 * The correct LICENSE
 * Github actions
@@ -12,4 +26,4 @@ Once you have created your repository, please:
 * Grant permissions to the appropriate MoJ teams
 * Setup branch protection
 
-[create a repository]: https://github.com/ministryofjustice/template-repository/generate
+
