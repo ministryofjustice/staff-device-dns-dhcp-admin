@@ -10,11 +10,15 @@ DOCKER_BUILD_CMD = BUNDLE_INSTALL_FLAGS="$(BUNDLE_FLAGS)" $(DOCKER_COMPOSE) buil
 build:
 	docker build -t docker_admin . --build-arg RACK_ENV --build-arg DB_HOST --build-arg DB_USER --build-arg DB_PASS --build-arg SECRET_KEY_BASE 
 
-serve: stop build
+start-db:
 	$(DOCKER_COMPOSE) up -d db
 	./mysql/bin/wait_for_mysql
+
+db-setup: start-db
 	$(DOCKER_COMPOSE) run --rm app ./bin/rails db:create db:migrate db:seed
-	$(DOCKER_COMPOSE) up --build app
+
+serve: stop start-db
+	$(DOCKER_COMPOSE) up app
 
 shell:
 	$(DOCKER_COMPOSE) run --rm app sh
