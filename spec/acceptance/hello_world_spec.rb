@@ -7,11 +7,12 @@ RSpec.describe "GET /", type: :feature do
 
       Rails.application.env_config["devise.mapping"] = Devise.mappings[:user]
       Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:cognito]
+
+      visit "/sign_in"
+      click_link("Sign in with Cognito")
     end
 
     it "displays hello" do
-      visit "/sign_in"
-      click_link("Sign in with Cognito")
       visit "/"
       expect(page).to have_content "Hello from Staff Device"
     end
