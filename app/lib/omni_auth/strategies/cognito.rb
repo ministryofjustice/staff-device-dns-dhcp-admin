@@ -15,18 +15,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'omniauth-oauth2'
-require 'jwt'
+require "omniauth-oauth2"
+require "jwt"
 
 module OmniAuth
   module Strategies
     # OmniAuth strategy that authenticates against an Amazon Cognito User Pool
     class Cognito < OmniAuth::Strategies::OAuth2
-      option :name, 'cognito'
+      option :name, "cognito"
       option :client_options,
         {
-          authorize_url: '/oauth2/authorize',
-          token_url: '/oauth2/token',
+          authorize_url: "/oauth2/authorize",
+          token_url: "/oauth2/token",
           auth_scheme: :basic_auth
         }
       option :jwt_leeway, 60
@@ -34,21 +34,21 @@ module OmniAuth
       option :aws_region, nil
 
       uid do
-        parsed_id_token['sub'] if parsed_id_token
+        parsed_id_token["sub"] if parsed_id_token
       end
 
       info do
         if parsed_id_token
           {
-            name: parsed_id_token['name'],
-            email: parsed_id_token['email'],
-            phone: parsed_id_token['phone_number']
+            name: parsed_id_token["name"],
+            email: parsed_id_token["email"],
+            phone: parsed_id_token["phone_number"]
           }
         end
       end
 
       credentials do
-        { token: access_token.token }.tap do |hash|
+        {token: access_token.token}.tap do |hash|
           hash[:refresh_token] = access_token.refresh_token if access_token.expires? && access_token.refresh_token
           hash[:expires_at] = access_token.expires_at if access_token.expires?
           hash[:expires] = access_token.expires?
@@ -57,7 +57,7 @@ module OmniAuth
       end
 
       extra do
-        { raw_info: parsed_id_token.reject { |key| %w[iss aud exp iat token_use nbf].include?(key) } }
+        {raw_info: parsed_id_token.reject { |key| %w[iss aud exp iat token_use nbf].include?(key) }}
       end
 
       private
@@ -66,14 +66,14 @@ module OmniAuth
       # requires an exact match
       def build_access_token
         client.auth_code.get_token(
-          request.params['code'],
-          { redirect_uri: callback_url.split('?').first }.merge(token_params.to_hash(symbolize_keys: true)),
+          request.params["code"],
+          {redirect_uri: callback_url.split("?").first}.merge(token_params.to_hash(symbolize_keys: true)),
           deep_symbolize(options.auth_token_params)
         )
       end
 
       def id_token
-        access_token['id_token']
+        access_token["id_token"]
       end
 
       def parsed_id_token
@@ -92,7 +92,8 @@ module OmniAuth
           verify_not_before: true,
           verify_iat: true,
           verify_jti: false,
-          leeway: options[:jwt_leeway]).first
+          leeway: options[:jwt_leeway]
+        ).first
       end
     end
   end
