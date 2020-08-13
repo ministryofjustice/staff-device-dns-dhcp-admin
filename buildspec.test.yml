@@ -15,4 +15,4 @@ phases:
 
   build:
     commands:
-      - echo test
+      - make test
