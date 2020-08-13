@@ -1,14 +1,22 @@
 require "rails_helper"
 
 RSpec.describe "GET /", type: :feature do
-  it "displays hello when signed in" do
-    pending "Log in functionality not yet implemented"
+  context 'user signed in' do
+    before do
+      OmniAuth.config.add_mock(:cognito, { provider: 'cognito', uid: '12345' })
 
-    visit "/sign_in"
-    click_link("Sign in with Cognito")
-    visit "/"
-    expect(page).to have_content "Hello from Staff Device"
+      Rails.application.env_config["devise.mapping"] = Devise.mappings[:user]
+      Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:cognito]
+    end
+
+    it "displays hello" do
+      visit "/sign_in"
+      click_link("Sign in with Cognito")
+      visit "/"
+      expect(page).to have_content "Hello from Staff Device"
+    end
   end
+
 
   it "displays log in when not signed in" do
     visit "/"

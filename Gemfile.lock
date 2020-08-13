@@ -130,9 +130,6 @@ GEM
     omniauth (1.9.1)
       hashie (>= 3.4.6)
       rack (>= 1.6.2, < 3)
-    omniauth-cognito-idp (0.1.1)
-      jwt
-      omniauth-oauth2
     omniauth-oauth2 (1.6.0)
       oauth2 (~> 1.1)
       omniauth (~> 1.9)
@@ -263,9 +260,10 @@ DEPENDENCIES
   devise
   dotenv-rails
   jbuilder (~> 2.7)
+  jwt
   listen (~> 3.2)
   mysql2 (~> 0.5.3)
-  omniauth-cognito-idp (~> 0.1.1)
+  omniauth-oauth2
   puma (~> 4.1)
   rails (~> 6.0.3, >= 6.0.3.2)
   rspec-rails (~> 4.0.1)
