@@ -1,7 +1,6 @@
 require "rails_helper"
 
 RSpec.describe "GET /", type: :feature do
-
   it "displays hello when signed in" do
     pending "Log in functionality not yet implemented"
 

@@ -5,6 +5,5 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.0]
     create_table :users do |t|
       t.timestamps null: false
     end
-
   end
 end
