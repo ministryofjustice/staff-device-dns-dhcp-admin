@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
+  before_action :authenticate_user!
+
   def show
-    render body: "Hello from Staff Device"
   end
 end
