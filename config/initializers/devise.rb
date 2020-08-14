@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "omni_auth/strategies/cognito"
+
 # Assuming you have not yet modified this file, each configuration option below
 # is set to its default value. Note that some are commented out while others
 # are not: uncommented lines are intended to protect your configuration from
@@ -271,9 +273,9 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  config.omniauth "cognito-idp", ENV["COGNITO_CLIENT_ID"], ENV["COGNITO_CLIENT_SECRET"], client_options: {site: ENV["COGNITO_USER_POOL_SITE"]}, scope: "email openid aws.cognito.signin.user.admin profile",
-                                                                                         user_pool_id: ENV["COGNITO_USER_POOL_ID"],
-                                                                                         aws_region: "eu-west-2"
+  config.omniauth :cognito, ENV["COGNITO_CLIENT_ID"], ENV["COGNITO_CLIENT_SECRET"], client_options: {site: ENV["COGNITO_USER_POOL_SITE"]}, scope: "email openid aws.cognito.signin.user.admin profile",
+                                                                                    user_pool_id: ENV["COGNITO_USER_POOL_ID"],
+                                                                                    aws_region: "eu-west-2", strategy_class: OmniAuth::Strategies::Cognito
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
