@@ -20,4 +20,5 @@ phases:
 
   build:
     commands:
+      - make migrate
       - make deploy

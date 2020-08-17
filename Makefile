@@ -32,6 +32,10 @@ shell:
 stop:
 	$(DOCKER_COMPOSE) down -v
 
+migrate:
+	$(DOCKER_COMPOSE) run --rm app bin/rails db:migrate
+
+
 deploy: build
 	echo ${SECRET_KEY_BASE}
 	echo ${REGISTRY_URL}
