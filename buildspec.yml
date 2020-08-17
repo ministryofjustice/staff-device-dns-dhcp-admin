@@ -4,6 +4,7 @@ env:
   variables:
     DB_PORT: 3306
     RACK_ENV: "production"
+    ENV: ${ENV}
   parameter-store:
     DB_USER: "/codebuild/dhcp/$ENV/admin/db/username"
     DB_PASS: "/codebuild/dhcp/$ENV/admin/db/password"
@@ -20,4 +21,5 @@ phases:
 
   build:
     commands:
+      - make migrate
       - make deploy

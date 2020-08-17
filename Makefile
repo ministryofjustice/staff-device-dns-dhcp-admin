@@ -32,9 +32,8 @@ shell:
 stop:
 	$(DOCKER_COMPOSE) down -v
 
-migrate:
-	$(DOCKER_COMPOSE) run --rm app bin/rails db:migrate
-
+migrate: build
+	./scripts/migrate.sh
 
 deploy: build
 	echo ${SECRET_KEY_BASE}
@@ -43,4 +42,4 @@ deploy: build
 	docker tag docker_admin:latest ${REGISTRY_URL}/${ENV}-admin:latest
 	docker push ${REGISTRY_URL}/${ENV}-admin:latest
 
-.PHONY: build serve stop test deploy
+.PHONY: build serve stop test deploy migrate
