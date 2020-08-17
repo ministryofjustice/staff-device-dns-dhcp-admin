@@ -41,4 +41,6 @@ RUN if [ ${RUN_PRECOMPILATION} = 'true' ]; then \
 
 EXPOSE 3000
 
+RUN ./bin/rails db:migrate
+
 CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
