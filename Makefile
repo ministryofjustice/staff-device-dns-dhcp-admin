@@ -32,7 +32,7 @@ shell:
 stop:
 	$(DOCKER_COMPOSE) down -v
 
-migrate: build
+migrate: 
 	./scripts/migrate.sh
 
 deploy: build

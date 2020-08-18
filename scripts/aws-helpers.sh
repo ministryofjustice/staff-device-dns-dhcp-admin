@@ -2,19 +2,13 @@
 
 set -v -e -u -o pipefail
 
-function stage_name() {
-  local deploy_stage="${STAGE}"
-
-  echo "$deploy_stage"
-}
-
 function get_network_config() {
   local cluster_name="${1}"
   local service_name="${2}"
 
   aws ecs describe-services \
         --cluster "${cluster_name}" \
-        --service "${service_name}" \
+        --services "${service_name}" \
         --output json \
         --query 'services[0].networkConfiguration'
 }
@@ -25,7 +19,7 @@ function get_launch_type() {
 
   aws ecs describe-services \
         --cluster "${cluster_name}" \
-        --service "${service_name}" \
+        --services "${service_name}" \
         --output text \
         --query 'services[0].launchType'
 }
@@ -70,18 +64,6 @@ function override_command_structure() {
     ]
   }
 EOF
-}
-
-function ecs_deploy_region() {
-  local cluster_name="${1}"
-  local service_name="${2}"
-  local region="${3}"
-
-  aws ecs update-service \
-        --cluster "${cluster_name}" \
-        --service "${service_name}" \
-        --region "${region}" \
-        --force-new-deployment
 }
 
 function ecs_deploy() {
