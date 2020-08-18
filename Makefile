@@ -24,8 +24,7 @@ serve: stop start-db
 	$(DOCKER_COMPOSE) up app
 
 test:
-	#$(DOCKER_COMPOSE) run --rm app bundle exec rake
-	echo "test"
+	$(DOCKER_COMPOSE) run --rm app bundle exec rake
 
 shell:
 	$(DOCKER_COMPOSE) run --rm app sh
