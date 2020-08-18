@@ -13,6 +13,10 @@ function migrate() {
   service_name="staff-device-${ENV}-dhcp-admin"
   task_definition="staff-device-${ENV}-dhcp-admin-task"
 
+  echo "${cluster_name}"
+  echo "${service_name}"
+  echo "===================================================================================================="
+
   run_task_with_command \
     "${cluster_name}" \
     "${service_name}" \
