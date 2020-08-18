@@ -15,6 +15,7 @@ function migrate() {
 
   echo "${cluster_name}"
   echo "${service_name}"
+  aws sts get-caller-identity
   echo "===================================================================================================="
 
   run_task_with_command \
