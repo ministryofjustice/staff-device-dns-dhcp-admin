@@ -5,7 +5,6 @@ env:
     DB_PORT: 3306
     RACK_ENV: "production"
     ENV: ${ENV}
-    ROLE_ARN: "/codebuild/pttp-ci-infrastructure-core-pipeline/${ENV}/assume_role"
   parameter-store:
     DB_USER: "/codebuild/dhcp/$ENV/admin/db/username"
     DB_PASS: "/codebuild/dhcp/$ENV/admin/db/password"
@@ -14,6 +13,7 @@ env:
     REGISTRY_URL: "/codebuild/dhcp/$ENV/ecr/endpoint"
     TARGET_AWS_ACCOUNT_ID: "/codebuild/$ENV/account_id"
     SECRET_KEY_BASE: "/codebuild/dhcp/admin/rails_master_key"
+    ROLE_ARN: "/codebuild/pttp-ci-infrastructure-core-pipeline/${ENV}/assume_role"
 
 phases:
   install:
