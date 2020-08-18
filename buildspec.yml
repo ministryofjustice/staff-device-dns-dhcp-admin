@@ -23,5 +23,5 @@ phases:
   build:
     commands:
       #- make deploy
-      #- aws sts assume-role --role-arn "${ROLE_ARN}" --role-session-name "${ENV}-admin"
+      - aws sts assume-role --role-arn "${ROLE_ARN}" --role-session-name "${ENV}-admin"
       - make migrate
