@@ -5,6 +5,7 @@ env:
     DB_PORT: 3306
     RACK_ENV: "production"
     ENV: ${ENV}
+    ROLE_ARN: "/codebuild/pttp-ci-infrastructure-core-pipeline/${ENV}/assume_role"
   parameter-store:
     DB_USER: "/codebuild/dhcp/$ENV/admin/db/username"
     DB_PASS: "/codebuild/dhcp/$ENV/admin/db/password"
@@ -22,4 +23,5 @@ phases:
   build:
     commands:
       - make deploy
+      - aws sts assume-role --role-arn $ROLE_ARN --role-session-name "${ENV}-admin"
       - make migrate
