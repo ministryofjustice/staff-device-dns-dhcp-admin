@@ -1,10 +1,6 @@
 DOCKER_COMPOSE = docker-compose -f docker-compose.yml
 BUNDLE_FLAGS=
 
-ifdef DEPLOYMENT
-  BUNDLE_FLAGS = --without test development
-endif
-
 DOCKER_BUILD_CMD = BUNDLE_INSTALL_FLAGS="$(BUNDLE_FLAGS)" $(DOCKER_COMPOSE) build
 
 build:
@@ -45,4 +41,4 @@ deploy: build
 lint:
 	$(DOCKER_COMPOSE) run --rm app bundle exec standardrb --fix
 
-.PHONY: build serve stop test deploy migrate
+.PHONY: build serve stop test deploy migrate build-dev
