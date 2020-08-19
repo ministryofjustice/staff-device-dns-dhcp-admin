@@ -7,6 +7,7 @@ ARG DB_USER=root
 ARG DB_PASS=root
 ARG SECRET_KEY_BASE="fakekeybase"
 ARG DB_NAME=root
+ARG BUNDLE_WITHOUT=""
 
 # required for certain linting tools that read files, such as erb-lint
 ENV LANG='C.UTF-8' \
@@ -23,9 +24,8 @@ RUN apk add --no-cache --virtual .build-deps build-base && \
   apk add --no-cache nodejs yarn mysql-dev bash make
 
 COPY Gemfile Gemfile.lock .ruby-version ./
-ARG BUNDLE_INSTALL_FLAGS
 RUN bundle config set no-cache 'true' && \
-  bundle install ${BUNDLE_INSTALL_FLAGS}
+  bundle install
 
 COPY package.json yarn.lock ./
 RUN yarn && yarn cache clean
