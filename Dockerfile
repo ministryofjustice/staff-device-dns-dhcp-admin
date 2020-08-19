@@ -1,5 +1,4 @@
 FROM ruby:2.7.1-alpine3.12
-ARG BUNDLE_INSTALL_CMD
 
 ARG RACK_ENV=development
 ARG DB_HOST=db
@@ -8,6 +7,7 @@ ARG DB_PASS=root
 ARG SECRET_KEY_BASE="fakekeybase"
 ARG DB_NAME=root
 ARG BUNDLE_WITHOUT=""
+ARG BUNDLE_INSTALL_FLAGS=""
 
 # required for certain linting tools that read files, such as erb-lint
 ENV LANG='C.UTF-8' \
