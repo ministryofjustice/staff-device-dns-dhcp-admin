@@ -46,4 +46,7 @@ Rails.application.configure do
 
   # Raises error for missing translations.
   # config.action_view.raise_on_missing_translations = true
+
+  # Set a css_compressor so sassc-rails does not overwrite the compressor when running the tests
+  config.assets.css_compressor = nil
 end

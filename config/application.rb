@@ -29,6 +29,9 @@ module StaffDeviceDnsDhcpAdmin
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
+    # https://github.com/alphagov/govuk-frontend/issues/1350
+    config.assets.css_compressor = nil
+
     config.generators do |g|
       g.test_framework :rspec
       g.integration_tool :rspec

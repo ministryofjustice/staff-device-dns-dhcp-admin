@@ -9,7 +9,7 @@ RSpec.describe "GET /", type: :feature do
       Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:cognito]
 
       visit "/sign_in"
-      click_link("Sign in with Cognito")
+      click_button("Sign in with Azure")
     end
 
     it "displays hello" do
