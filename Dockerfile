@@ -25,7 +25,7 @@ RUN apk add --no-cache --virtual .build-deps build-base && \
 
 COPY Gemfile Gemfile.lock .ruby-version ./
 RUN bundle config set no-cache 'true' && \
-  bundle install
+  bundle install ${BUNDLE_INSTALL_FLAGS}
 
 COPY package.json yarn.lock ./
 RUN yarn && yarn cache clean
