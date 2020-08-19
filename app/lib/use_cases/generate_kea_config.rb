@@ -1,4 +1,4 @@
-#stub response until we can generate real configurations
+# stub response until we can generate real configurations
 
 module UseCases
   class GenerateKeaConfig

@@ -9,7 +9,7 @@ class UseCases::PublishKeaConfig
     destination_gateway.write(data: payload)
   end
 
-private
+  private
 
   attr_reader :generate_config, :destination_gateway
 end

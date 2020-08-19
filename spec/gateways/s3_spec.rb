@@ -3,8 +3,7 @@ describe Gateways::S3 do
 
   let(:bucket) { "StubBucket" }
   let(:key) { "StubKey" }
-  let(:data) { { blah: "foobar" }.to_json }
-
+  let(:data) { {blah: "foobar"}.to_json }
 
   it "writes the data to the S3 bucket" do
     expect(gateway.write(data: data)).to eq({})
@@ -16,10 +15,10 @@ describe Gateways::S3 do
         stub_responses: {
           get_object: ->(context) {
             if context.params.fetch(:bucket) == bucket && context.params.fetch(:key) == key
-              { body: "some data" }
+              {body: "some data"}
             end
-          },
-        },
+          }
+        }
       }
     end
 
