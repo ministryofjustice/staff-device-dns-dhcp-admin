@@ -61,4 +61,5 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   config.check_yarn_integrity = false
+  config.s3_aws_config = {}
 end
