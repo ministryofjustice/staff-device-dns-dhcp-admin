@@ -1,0 +1,2 @@
+class Subnet < ApplicationRecord
+end
