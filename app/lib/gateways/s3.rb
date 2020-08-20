@@ -1,9 +1,9 @@
 module Gateways
   class S3
-    def initialize(bucket:, key:)
+    def initialize(bucket:, key:, aws_config:)
       @bucket = bucket
       @key = key
-      @client = Aws::S3::Client.new(config)
+      @client = Aws::S3::Client.new(aws_config)
     end
 
     def write(data:)
@@ -22,12 +22,6 @@ module Gateways
 
     private
 
-    DEFAULT_REGION = "eu-west-2".freeze
-
     attr_reader :bucket, :key, :client
-
-    def config
-      {region: DEFAULT_REGION}.merge(Rails.application.config.s3_aws_config)
-    end
   end
 end
