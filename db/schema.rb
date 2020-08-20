@@ -12,9 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2020_08_20_134352) do
   create_table "subnets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "cidr_block"
-    t.string "start_address"
-    t.string "end_address"
+    t.string "cidr_block", null: false
+    t.string "start_address", null: false
+    t.string "end_address", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
