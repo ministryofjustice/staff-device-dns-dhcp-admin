@@ -16,6 +16,7 @@ ENV LANG='C.UTF-8' \
   DB_USER=${DB_USER} \
   DB_PASS=${DB_PASS} \
   SECRET_KEY_BASE=${SECRET_KEY_BASE} \
+  KEA_CONFIG_BUCKET='testbucket' \
   DB_NAME=${DB_NAME}
 
 WORKDIR /usr/src/app
