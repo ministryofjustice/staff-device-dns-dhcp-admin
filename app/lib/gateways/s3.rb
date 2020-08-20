@@ -10,7 +10,8 @@ module Gateways
       client.put_object(
         body: data,
         bucket: bucket,
-        key: key
+        key: key,
+        content_type: 'application/json'
       )
 
       {}
