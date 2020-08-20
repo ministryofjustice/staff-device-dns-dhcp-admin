@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2020_08_20_134352) do
-
   create_table "subnets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "cidr_block"
     t.string "start_address"
@@ -26,5 +25,4 @@ ActiveRecord::Schema.define(version: 2020_08_20_134352) do
     t.string "provider"
     t.string "uid"
   end
-
 end
