@@ -3,7 +3,7 @@
 module UseCases
   class GenerateKeaConfig
     def execute
-      '{
+      {
         "Dhcp4":{
           "interfaces-config":{
             "interfaces":[
@@ -57,7 +57,7 @@ module UseCases
             }
           ]
         }
-      }'
+      }
     end
   end
 end
