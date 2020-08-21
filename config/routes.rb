@@ -6,5 +6,6 @@ Rails.application.routes.draw do
   end
 
   get "/healthcheck", to: "monitoring#healthcheck"
+  get "/subnets", to: "subnets#index"
   root "home#show"
 end
