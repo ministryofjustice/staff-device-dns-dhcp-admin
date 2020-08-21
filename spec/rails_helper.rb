@@ -37,6 +37,9 @@ RSpec.configure do |config|
     OmniAuth.config.mock_auth[:cognito] = nil
   end
 
+  # This allows us to use login_as in feature specs
+  config.include Warden::Test::Helpers, type: :feature
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
