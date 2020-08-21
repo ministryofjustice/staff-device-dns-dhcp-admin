@@ -57,7 +57,7 @@ module UseCases
             }
           ]
         }
-      }.to_s
+      }.to_json
     end
   end
 end
