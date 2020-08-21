@@ -1,8 +1,14 @@
 require "rails_helper"
 
-RSpec.describe "GET /", type: :feature do
+RSpec.describe "GET /sign_in", type: :feature do
+  it "displays log in when not signed in" do
+    visit "/"
+    expect(page).to have_content "Log in"
+  end
+
   context "user signed in" do
     before do
+      # Simulate logging in via Cognito Omniauth provider
       OmniAuth.config.add_mock(:cognito, {provider: "cognito", uid: "12345"})
 
       Rails.application.env_config["devise.mapping"] = Devise.mappings[:user]
@@ -12,14 +18,9 @@ RSpec.describe "GET /", type: :feature do
       click_button("Sign in with Azure")
     end
 
-    it "displays hello" do
-      visit "/"
+    it "displays redirects to the root path if the user signs in" do
+      expect(current_path).to eq "/"
       expect(page).to have_content "Hello from Staff Device"
     end
-  end
-
-  it "displays log in when not signed in" do
-    visit "/"
-    expect(page).to have_content "Log in"
   end
 end
