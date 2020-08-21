@@ -41,6 +41,9 @@ RSpec.configure do |config|
   # This allows us to use login_as in feature specs
   config.include Warden::Test::Helpers, type: :feature
 
+  # Allows us to use sign_in in controller specs
+  config.include Devise::Test::ControllerHelpers, type: :controller
+
   # Allows you to use factory bot methods without prefacing with FactoryBot
   config.include FactoryBot::Syntax::Methods
 
