@@ -1,4 +1,4 @@
-version: '3.4'
+version: "3.4"
 
 services:
   db:
@@ -16,12 +16,13 @@ services:
         BUNDLE_INSTALL_FLAGS: "${BUNDLE_INSTALL_FLAGS:- --jobs 20 --retry 5}"
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
-    - ".:/usr/src/app"
-    - "node_modules:/usr/src/app/node_modules"
+      - ".:/usr/src/app"
+      - "node_modules:/usr/src/app/node_modules"
+      - /app/tmp
     links:
       - db
     expose:
-    - "3000"
+      - "3000"
     ports:
       - "3000:3000"
 
