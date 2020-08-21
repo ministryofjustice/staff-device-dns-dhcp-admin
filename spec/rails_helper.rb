@@ -41,6 +41,9 @@ RSpec.configure do |config|
   # This allows us to use login_as in feature specs
   config.include Warden::Test::Helpers, type: :feature
 
+  # Allows you to use factory bot methods without prefacing with FactoryBot
+  config.include FactoryBot::Syntax::Methods
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
