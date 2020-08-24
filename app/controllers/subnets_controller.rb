@@ -6,4 +6,19 @@ class SubnetsController < ApplicationController
   def new
     @subnet = Subnet.new
   end
+
+  def create
+    @subnet = Subnet.new(subnet_params)
+    if @subnet.save
+      redirect_to subnets_path
+    else
+      render :new
+    end
+  end
+
+  private
+
+  def subnet_params
+    params.require(:subnet).permit(:cidr_block, :start_address, :end_address)
+  end
 end
