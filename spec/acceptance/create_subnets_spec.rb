@@ -21,4 +21,16 @@ describe "create subnets", type: :feature do
     expect(subnet.start_address).to eq "10.0.1.1"
     expect(subnet.end_address).to eq "10.0.1.255"
   end
+
+  it "displays error if form cannot be submitted" do
+    visit "/subnets/new"
+
+    fill_in "CIDR Block", with: "a"
+    fill_in "Start Address", with: "b"
+    fill_in "End Address", with: "c"
+
+    click_button "Create"
+
+    expect(page).to have_content "There is a problem"
+  end
 end
