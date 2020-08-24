@@ -1,6 +1,6 @@
 <h2 class="govuk-heading-l">Create a new Subnet</h2>
 
-<%= form_with model: @subnet do |f| %>
+<%= form_with model: @subnet, local: true do |f| %>
   <div class="govuk-form-group">
     <%= f.label :cidr_block, "CIDR Block", class: "govuk-label" %>
     <%= f.text_field :cidr_block, required: true, class: "govuk-input" %>
