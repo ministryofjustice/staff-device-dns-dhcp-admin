@@ -120,6 +120,7 @@ GEM
     hashie (4.1.0)
     i18n (1.8.5)
       concurrent-ruby (~> 1.0)
+    ipaddress_2 (0.13.0)
     jbuilder (2.10.0)
       activesupport (>= 5.0.0)
     jmespath (1.4.0)
@@ -313,6 +314,7 @@ DEPENDENCIES
   devise
   dotenv-rails
   factory_bot_rails
+  ipaddress_2
   jbuilder (~> 2.7)
   jwt
   listen (~> 3.2)
