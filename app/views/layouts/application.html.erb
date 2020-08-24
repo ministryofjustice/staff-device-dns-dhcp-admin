@@ -53,12 +53,14 @@
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-three-quarters">
             <main class="govuk-main-wrapper govuk-!-padding-top-4" id="main-content" role="main">
+              <%= render "layouts/flash_notices" %>
               <%= yield %>
             </main>
           </div>
         </div>
       <% else %>
         <main class="govuk-main-wrapper" id="main-content" role="main">
+          <%= render "layouts/flash_notices" %>
           <%= yield %>
         </main>
       <% end %>

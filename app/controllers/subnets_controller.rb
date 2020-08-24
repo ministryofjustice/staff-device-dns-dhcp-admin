@@ -10,7 +10,7 @@ class SubnetsController < ApplicationController
   def create
     @subnet = Subnet.new(subnet_params)
     if @subnet.save
-      redirect_to subnets_path
+      redirect_to subnets_path, notice: "Successfully created subnet"
     else
       render :new
     end
