@@ -1,6 +1,10 @@
 require "rails_helper"
 
 RSpec.describe Subnet, type: :model do
+  it { is_expected.to validate_presence_of :cidr_block }
+  it { is_expected.to validate_presence_of :start_address }
+  it { is_expected.to validate_presence_of :end_address }
+
   it "validates a correct CIDR block" do
     subnet = build :subnet, cidr_block: "10.0.4.0/24"
     expect(subnet).to be_valid
