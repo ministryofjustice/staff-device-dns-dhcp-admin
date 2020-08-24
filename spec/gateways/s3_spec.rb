@@ -5,17 +5,17 @@ describe Gateways::S3 do
   let(:key) { "StubKey" }
   let(:data) { {blah: "foobar"}.to_json }
   let(:aws_config) do
-      {
-        region: "eu-west-2",
-        stub_responses: {
-          get_object: ->(context) {
-            if context.params.fetch(:bucket) == bucket && context.params.fetch(:key) == key
-              { body: "some data" }
-            end
-          },
+    {
+      region: "eu-west-2",
+      stub_responses: {
+        get_object: ->(context) {
+          if context.params.fetch(:bucket) == bucket && context.params.fetch(:key) == key
+            {body: "some data"}
+          end
         }
       }
-    end
+    }
+  end
 
   it "writes the data to the S3 bucket" do
     expect(gateway.write(data: data)).to eq({})

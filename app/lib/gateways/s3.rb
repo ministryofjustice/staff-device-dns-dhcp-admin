@@ -11,7 +11,7 @@ module Gateways
         body: data,
         bucket: bucket,
         key: key,
-        content_type: 'application/json'
+        content_type: "application/json"
       )
 
       {}
