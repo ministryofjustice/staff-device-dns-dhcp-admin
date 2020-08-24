@@ -8,9 +8,9 @@ describe "create subnets", type: :feature do
   it "creates a new subnet" do
     visit "/subnets/new"
 
-    fill_in 'CIDR Block', with: "10.0.1.0/24"
-    fill_in 'Start Address', with: "10.0.1.1"
-    fill_in 'End Address', with: "10.0.1.255"
+    fill_in "CIDR Block", with: "10.0.1.0/24"
+    fill_in "Start Address", with: "10.0.1.1"
+    fill_in "End Address", with: "10.0.1.255"
 
     click_button "Create"
 
