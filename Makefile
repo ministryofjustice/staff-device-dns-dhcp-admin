@@ -26,7 +26,7 @@ shell:
 	$(DOCKER_COMPOSE) run --rm app sh
 
 stop:
-	$(DOCKER_COMPOSE) down -v
+	$(DOCKER_COMPOSE) down
 
 migrate:
 	./scripts/migrate.sh
