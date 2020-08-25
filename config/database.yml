@@ -12,6 +12,7 @@ development:
 
 test:
   <<: *default
+  database: <%= "#{ENV.fetch('DB_NAME')}_test" %>
 
 production:
   <<: *default
