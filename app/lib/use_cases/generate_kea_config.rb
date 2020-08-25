@@ -7,7 +7,8 @@ module UseCases
         "Dhcp4":{
           "interfaces-config":{
             "interfaces":[
-              "<INTERFACE>"
+              "*",
+              "dhcp-socket-type": "udp"
             ]
           },
           "lease-database":{
@@ -37,11 +38,10 @@ module UseCases
             {
               "pools":[
                 {
-                  "pool":"192.0.2.10 - 192.0.2.200"
+                  "pool":"0.0.0.0 - 255.255.255.255"
                 }
               ],
-              "subnet":"192.0.2.0/24",
-              "interface":"<INTERFACE>",
+              "subnet":"0.0.0.0/0",
               "id":1
             }
           ],
@@ -53,7 +53,7 @@ module UseCases
                   "output":"stdout"
                 }
               ],
-              "severity":"INFO"
+              "severity":"DEBUG"
             }
           ]
         }
