@@ -23,6 +23,7 @@ db-setup: start-db
 serve: stop start-db
 	$(DOCKER_COMPOSE) up app
 
+test: export ENV=test
 test:
 	$(DOCKER_COMPOSE) run --rm app bundle exec rake
 
