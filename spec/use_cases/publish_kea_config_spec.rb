@@ -13,7 +13,7 @@ describe UseCases::PublishKeaConfig do
   end
   let(:s3_gateway) { instance_spy(Gateways::S3) }
   let(:config) do
-    { some: "json" }
+    {some: "json"}
   end
 
   before do
