@@ -38,11 +38,11 @@ module UseCases
             {
               "pools":[
                 {
-                  "pool":"0.0.0.0 - 255.255.255.255"
+                  "pool":"172.0.0.1 - 172.0.2.0"
                 }
               ],
-              "subnet":"0.0.0.0/0",
-              "id":1
+              "subnet":"127.0.0.1/0",
+              "id":1 # This is the subnet used for smoke testing
             }
           ],
           "loggers":[
