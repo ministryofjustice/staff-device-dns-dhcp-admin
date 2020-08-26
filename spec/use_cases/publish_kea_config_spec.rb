@@ -13,7 +13,7 @@ describe UseCases::PublishKeaConfig do
   end
   let(:s3_gateway) { instance_spy(Gateways::S3) }
   let(:config) do
-    '{ some: "json" }'
+    {some: "json"}
   end
 
   before do
@@ -22,6 +22,6 @@ describe UseCases::PublishKeaConfig do
 
   it "publishes the Kea config" do
     expect(s3_gateway).to have_received(:write)
-      .with(data: config)
+      .with(data: config.to_json)
   end
 end

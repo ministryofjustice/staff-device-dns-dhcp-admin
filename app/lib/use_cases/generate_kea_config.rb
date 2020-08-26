@@ -1,63 +1,61 @@
-# stub response until we can generate real configurations
-
 module UseCases
   class GenerateKeaConfig
     def execute
-      '{
-        "Dhcp4":{
-          "interfaces-config":{
-            "interfaces":[
+      {
+        Dhcp4: {
+          "interfaces-config": {
+            "interfaces": [
               "*",
               "dhcp-socket-type": "udp"
             ]
           },
-          "lease-database":{
-            "type":"mysql",
-            "name":"<DB_NAME>",
-            "user":"<DB_USER>",
-            "password":"<DB_PASS>",
-            "host":"<DB_HOST>",
-            "port":3306
+          "lease-database": {
+            type: "mysql",
+            name: "<DB_NAME>",
+            user: "<DB_USER>",
+            password: "<DB_PASS>",
+            host: "<DB_HOST>",
+            port: 3306
           },
-          "valid-lifetime":4000,
-          "host-reservation-identifiers":[
+          "valid-lifetime": 4000,
+          "host-reservation-identifiers": [
             "circuit-id",
             "hw-address",
             "duid",
             "client-id"
           ],
-          "hosts-database":{
-            "type":"mysql",
-            "name":"<DB_NAME>",
-            "user":"<DB_USER>",
-            "password":"<DB_PASS>",
-            "host":"<DB_HOST>",
-            "port":3306
+          "hosts-database": {
+            type: "mysql",
+            name: "<DB_NAME>",
+            user: "<DB_USER>",
+            password: "<DB_PASS>",
+            host: "<DB_HOST>",
+            port: 3306
           },
-          "subnet4":[
+          subnet4: [
             {
-              "pools":[
+              pools: [
                 {
-                  "pool":"172.0.0.1 - 172.0.2.0"
+                  pool: "172.0.0.1 - 172.0.2.0"
                 }
               ],
-              "subnet":"127.0.0.1/0",
-              "id":1 # This is the subnet used for smoke testing
+              subnet: "127.0.0.1/0",
+              id: 1 # This is the subnet used for smoke testing
             }
           ],
-          "loggers":[
+          loggers: [
             {
-              "name":"kea-dhcp4",
-              "output_options":[
+              name: "kea-dhcp4",
+              "output_options": [
                 {
-                  "output":"stdout"
+                  output: "stdout"
                 }
               ],
-              "severity":"DEBUG"
+              severity: "DEBUG"
             }
           ]
         }
-      }'
+      }
     end
   end
 end
