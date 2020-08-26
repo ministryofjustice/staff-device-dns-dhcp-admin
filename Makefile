@@ -1,4 +1,8 @@
-DOCKER_COMPOSE = docker-compose -f docker-compose.yml
+ifndef ENV
+ENV=development
+endif
+
+DOCKER_COMPOSE = ENV=${ENV} docker-compose -f docker-compose.yml
 BUNDLE_FLAGS=
 
 DOCKER_BUILD_CMD = BUNDLE_INSTALL_FLAGS="$(BUNDLE_FLAGS)" $(DOCKER_COMPOSE) build
@@ -11,7 +15,7 @@ build-dev:
 
 start-db:
 	$(DOCKER_COMPOSE) up -d db
-	./mysql/bin/wait_for_mysql
+	ENV=${ENV} ./mysql/bin/wait_for_mysql
 
 db-setup: start-db
 	$(DOCKER_COMPOSE) run --rm app ./bin/rails db:create db:schema:load db:seed
