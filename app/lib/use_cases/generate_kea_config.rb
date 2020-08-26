@@ -1,6 +1,32 @@
 module UseCases
   class GenerateKeaConfig
+    def initialize(subnets: [])
+      @subnets = subnets
+    end
+
     def execute
+      config = default_config
+
+      config[:Dhcp4][:subnet4] += @subnets.map { |subnet| subnet_config(subnet) }
+
+      config
+    end
+
+    private
+
+    def subnet_config(subnet)
+      {
+        pools: [
+          {
+            pool: "#{subnet.start_address} - #{subnet.end_address}"
+          }
+        ],
+        subnet: subnet.cidr_block,
+        id: subnet.id
+      }
+    end
+
+    def default_config
       {
         Dhcp4: {
           "interfaces-config": {
