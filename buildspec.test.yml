@@ -15,4 +15,5 @@ phases:
 
   build:
     commands:
+      - ENV=test make db-setup
       - make test
