@@ -6,7 +6,7 @@ class UseCases::PublishKeaConfig
 
   def execute
     payload = generate_config.execute
-    destination_gateway.write(data: payload)
+    destination_gateway.write(data: payload.to_json)
   end
 
   private
