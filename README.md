@@ -26,6 +26,26 @@ This is the web frontend for managing Staff Device DNS / DHCP servers
 $ make serve
 ```
 
+### Running tests
+
+1. First setup your test database
+```sh
+ENV=test make db-setup
+```
+1. To run the entire test suite
+```sh
+make test
+```
+1. If you would like to run individual tests
+  1. First shell onto a test container
+  ```sh
+  ENV=test make shell
+  ```
+  1. Run the tests you would like, for example rspec.
+  ```sh
+  bundle exec rspec path/to/spec/file
+  ```
+
 ### Environment Variables
 
 The following environment variables must be added to .env to authenticate against AWS Cognito.
