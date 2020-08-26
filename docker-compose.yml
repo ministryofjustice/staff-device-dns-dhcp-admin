@@ -3,9 +3,7 @@ version: "3.4"
 services:
   db:
     image: "mysql:5.7"
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: root
+    env_file: .env.${ENV}
     expose:
       - "3306"
 
@@ -25,6 +23,7 @@ services:
       - "3000"
     ports:
       - "3000:3000"
+    env_file: .env.${ENV}
 
 volumes:
   node_modules:
