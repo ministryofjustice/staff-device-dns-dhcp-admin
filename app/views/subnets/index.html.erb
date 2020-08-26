@@ -6,6 +6,7 @@
         <th scope="col" class="govuk-table__header">CIDR Block</th>
         <th scope="col" class="govuk-table__header">Start Address</th>
         <th scope="col" class="govuk-table__header">End Address</th>
+        <th scope="col" class="govuk-table__header"></th>
       </tr>
     </thead>
     <tbody class="govuk-table__body">
@@ -14,6 +15,7 @@
           <td class="govuk-table__cell"><%= subnet.cidr_block %></td>
           <td class="govuk-table__cell"><%= subnet.start_address %></td>
           <td class="govuk-table__cell"><%= subnet.end_address %></td>
+          <td class="govuk-table__cell"><%= link_to "Edit", edit_subnet_path(subnet), class: "govuk-link" %></td>
         </tr>
       <% end %>
     </tbody>

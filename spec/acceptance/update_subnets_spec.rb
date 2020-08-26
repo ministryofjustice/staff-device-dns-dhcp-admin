@@ -1,14 +1,16 @@
 require "rails_helper"
 
 describe "update subnets", type: :feature do
-  let(:subnet) { create(:subnet) }
+  let!(:subnet) { create(:subnet) }
 
   before do
     login_as User.create
   end
 
   it "update an existing subnet" do
-    visit "/subnets/#{subnet.to_param}/edit"
+    visit "/subnets"
+
+    click_on "Edit"
 
     expect(page).to have_field("CIDR Block", with: subnet.cidr_block)
     expect(page).to have_field("Start Address", with: subnet.start_address)
