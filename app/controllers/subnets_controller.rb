@@ -19,7 +19,6 @@ class SubnetsController < ApplicationController
     end
   end
 
-
   def edit
   end
 
