@@ -1,5 +1,5 @@
 class SubnetsController < ApplicationController
-  before_action :set_subnet, only: [:edit, :update]
+  before_action :set_subnet, only: [:edit, :update, :destroy]
 
   def index
     @subnets = Subnet.all.sort_by(&:ip_addr)
@@ -19,6 +19,7 @@ class SubnetsController < ApplicationController
     end
   end
 
+
   def edit
   end
 
@@ -30,6 +31,18 @@ class SubnetsController < ApplicationController
     end
   end
 
+  def destroy
+    if confirmed?
+      if @subnet.destroy
+        redirect_to subnets_path, notice: "Successfully deleted subnet"
+      else
+        redirect_to subnets_path, error: "Failed to delete the subnet"
+      end
+    else
+      render "subnets/destroy"
+    end
+  end
+
   private
 
   def set_subnet
@@ -38,6 +51,10 @@ class SubnetsController < ApplicationController
 
   def subnet_id
     params.fetch(:id)
+  end
+
+  def confirmed?
+    params.fetch(:confirm, false)
   end
 
   def subnet_params

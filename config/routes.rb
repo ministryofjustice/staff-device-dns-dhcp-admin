@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     get "sign_out", to: "devise/sessions#destroy", as: :destroy_user_session
   end
 
-  resources :subnets, only: [:index, :new, :create, :edit, :update]
+  resources :subnets, only: [:index, :new, :create, :edit, :update, :destroy]
 
   get "/healthcheck", to: "monitoring#healthcheck"
   root "home#show"
