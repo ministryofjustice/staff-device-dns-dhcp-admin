@@ -61,5 +61,13 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   config.check_yarn_integrity = false
-  config.s3_aws_config = {region: "eu-west-2"}
+  config.s3_aws_config = {
+    region: "eu-west-2",
+    stub_responses: {
+      put_object: {},
+      get_object: {
+        body: '^[a-zA-Z0-9\.-]+@([a-zA-Z0-9-]+\.)*(gov\.uk)$'
+      }
+    }
+  }
 end
