@@ -24,6 +24,7 @@ class SubnetsController < ApplicationController
 
   def update
     if @subnet.update(subnet_params)
+      publish_kea_config
       redirect_to subnets_path, notice: "Successfully updated subnet"
     else
       render :edit
