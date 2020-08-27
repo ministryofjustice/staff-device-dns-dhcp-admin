@@ -6,7 +6,11 @@ describe "create subnets", type: :feature do
   end
 
   it "creates a new subnet" do
-    visit "/subnets/new"
+    visit "/subnets"
+
+    click_on "Create a new subnet"
+
+    expect(current_path).to eql("/subnets/new")
 
     fill_in "CIDR Block", with: "10.0.1.0/24"
     fill_in "Start Address", with: "10.0.1.1"
