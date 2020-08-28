@@ -34,6 +34,7 @@ class SubnetsController < ApplicationController
   def destroy
     if confirmed?
       if @subnet.destroy
+        publish_kea_config
         redirect_to subnets_path, notice: "Successfully deleted subnet"
       else
         redirect_to subnets_path, error: "Failed to delete the subnet"
