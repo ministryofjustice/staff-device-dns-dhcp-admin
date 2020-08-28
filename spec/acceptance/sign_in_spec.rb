@@ -20,7 +20,7 @@ RSpec.describe "GET /sign_in", type: :feature do
 
     it "displays redirects to the root path if the user signs in" do
       expect(current_path).to eq "/"
-      expect(page).to have_content "Hello from Staff Device"
+      expect(page).to have_content "Subnets"
     end
   end
 end
