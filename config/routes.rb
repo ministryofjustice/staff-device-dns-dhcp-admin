@@ -8,5 +8,5 @@ Rails.application.routes.draw do
   resources :subnets, only: [:index, :new, :create, :edit, :update, :destroy]
 
   get "/healthcheck", to: "monitoring#healthcheck"
-  root "home#show"
+  root "subnets#index"
 end
