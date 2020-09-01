@@ -30,10 +30,8 @@ module UseCases
       {
         Dhcp4: {
           "interfaces-config": {
-            "interfaces": [
-              "*",
-              "dhcp-socket-type": "udp"
-            ]
+            "interfaces": ["*"],
+            "dhcp-socket-type": "udp"
           },
           "lease-database": {
             type: "mysql",
