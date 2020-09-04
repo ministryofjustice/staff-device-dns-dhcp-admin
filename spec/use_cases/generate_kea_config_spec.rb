@@ -64,7 +64,7 @@ describe UseCases::GenerateKeaConfig do
       ])
     end
 
-    it "offsets the id for subnets to avoid collision with the default subnet" do
+    it "offsets the id to avoid collision with the reserved smoke testing subnet" do
       subnet1 = build_stubbed(:subnet, id: 1, cidr_block: "10.0.1.0/24")
       subnet2 = build_stubbed(:subnet, id: 2, cidr_block: "10.0.2.0/24")
 
