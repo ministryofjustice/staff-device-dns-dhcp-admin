@@ -1,4 +1,6 @@
 class Subnet < ApplicationRecord
+  KEA_SUBNET_ID_OFFSET = 1000
+
   validates :cidr_block, presence: true
   validates :start_address, presence: true
   validates :end_address, presence: true
@@ -8,6 +10,10 @@ class Subnet < ApplicationRecord
 
   def ip_addr
     IPAddr.new(cidr_block)
+  end
+
+  def kea_id
+    id + KEA_SUBNET_ID_OFFSET
   end
 
   private
