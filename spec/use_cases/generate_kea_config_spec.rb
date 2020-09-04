@@ -41,7 +41,7 @@ describe UseCases::GenerateKeaConfig do
             }
           ],
           subnet: "10.0.1.0/24",
-          id: subnet1.id
+          id: subnet1.kea_id
         },
         {
           pools: [
@@ -50,7 +50,7 @@ describe UseCases::GenerateKeaConfig do
             }
           ],
           subnet: "10.0.2.0/24",
-          id: subnet2.id
+          id: subnet2.kea_id
         }
       ])
     end
@@ -61,6 +61,19 @@ describe UseCases::GenerateKeaConfig do
       expect(config[:Dhcp4].keys).to match_array([
         :"host-reservation-identifiers", :"hosts-database", :"interfaces-config",
         :"lease-database", :"valid-lifetime", :loggers, :subnet4
+      ])
+    end
+
+    it "offsets the id to avoid collision with the reserved smoke testing subnet" do
+      subnet1 = build_stubbed(:subnet, id: 1, cidr_block: "10.0.1.0/24")
+      subnet2 = build_stubbed(:subnet, id: 2, cidr_block: "10.0.2.0/24")
+
+      config = UseCases::GenerateKeaConfig.new(subnets: [subnet1, subnet2]).execute
+
+      expect(config.dig(:Dhcp4, :subnet4)).to match_array([
+        hash_including(subnet: "127.0.0.1/0", id: 1),
+        hash_including(subnet: "10.0.1.0/24", id: 1001),
+        hash_including(subnet: "10.0.2.0/24", id: 1002)
       ])
     end
   end

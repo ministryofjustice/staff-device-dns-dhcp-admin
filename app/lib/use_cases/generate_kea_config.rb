@@ -22,7 +22,7 @@ module UseCases
           }
         ],
         subnet: subnet.cidr_block,
-        id: subnet.id
+        id: subnet.kea_id
       }
     end
 
