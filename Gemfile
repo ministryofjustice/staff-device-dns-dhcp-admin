@@ -16,6 +16,7 @@ gem "jwt"
 gem "omniauth-oauth2"
 gem "aws-sdk-s3", "~> 1.73"
 gem "ipaddress_2"
+gem 'aws-sdk-ecs', '~> 1.8'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

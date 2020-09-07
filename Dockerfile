@@ -17,7 +17,9 @@ ENV LANG='C.UTF-8' \
   DB_PASS=${DB_PASS} \
   SECRET_KEY_BASE=${SECRET_KEY_BASE} \
   KEA_CONFIG_BUCKET='testbucket' \
-  DB_NAME=${DB_NAME}
+  DB_NAME=${DB_NAME} \
+  DHCP_SERVICE_NAME="some-service" \
+  DHCP_CLUSTER_NAME="some-cluster"
 
 WORKDIR /usr/src/app
 
