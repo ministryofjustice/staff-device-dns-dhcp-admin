@@ -1,4 +1,4 @@
-describe UseCases::DeployKeaConfig do
+describe UseCases::DeployService do
   subject(:use_case) do
     described_class.new(
       ecs_gateway: ecs_gateway
@@ -11,7 +11,7 @@ describe UseCases::DeployKeaConfig do
     use_case.execute
   end
 
-  it "deploys the KEA config" do
+  it "deploys the DHCP service" do
     expect(ecs_gateway).to have_received(:update_service)
   end
 end

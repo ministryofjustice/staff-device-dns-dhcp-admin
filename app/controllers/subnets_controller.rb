@@ -13,7 +13,7 @@ class SubnetsController < ApplicationController
     @subnet = Subnet.new(subnet_params)
     if @subnet.save
       publish_kea_config
-      deploy_dhcp_service
+      deploy_service
       redirect_to subnets_path, notice: "Successfully created subnet"
     else
       render :new
@@ -26,7 +26,7 @@ class SubnetsController < ApplicationController
   def update
     if @subnet.update(subnet_params)
       publish_kea_config
-      deploy_dhcp_service
+      deploy_service
       redirect_to subnets_path, notice: "Successfully updated subnet"
     else
       render :edit
@@ -37,7 +37,7 @@ class SubnetsController < ApplicationController
     if confirmed?
       if @subnet.destroy
         publish_kea_config
-        deploy_dhcp_service
+        deploy_service
         redirect_to subnets_path, notice: "Successfully deleted subnet"
       else
         redirect_to subnets_path, error: "Failed to delete the subnet"
@@ -76,8 +76,8 @@ class SubnetsController < ApplicationController
     ).execute
   end
 
-  def deploy_dhcp_service
-    UseCases::DeployKeaConfig.new(
+  def deploy_service
+    UseCases::DeployService.new(
       ecs_gateway: Gateways::Ecs.new(
         cluster_name: ENV.fetch("DHCP_CLUSTER_NAME"),
         service_name: ENV.fetch("DHCP_SERVICE_NAME"),

@@ -1,5 +1,5 @@
 module UseCases
-  class DeployKeaConfig
+  class DeployService
     def initialize(ecs_gateway:)
       @ecs_gateway = ecs_gateway
     end
