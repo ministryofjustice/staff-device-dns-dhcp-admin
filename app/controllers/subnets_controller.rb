@@ -83,6 +83,6 @@ class SubnetsController < ApplicationController
         service_name: ENV.fetch("DHCP_SERVICE_NAME"),
         aws_config: Rails.application.config.s3_aws_config
       )
-    )
+    ).execute
   end
 end
