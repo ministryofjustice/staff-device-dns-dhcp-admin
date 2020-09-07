@@ -9,6 +9,12 @@ RSpec.describe Zone, type: :model do
 
   context "forwarders validation" do
     it "must be a valid IPv4 address" do
+      zone = build :zone, forwarders: ";"
+      expect(zone).to_not be_valid
+      expect(zone.errors[:forwarders]).to eq(["contains an invalid IPv4 address"])
+    end
+
+    it "must be a valid IPv4 address" do
       zone = build :zone, forwarders: "poorly_entered_data;"
       expect(zone).to_not be_valid
       expect(zone.errors[:forwarders]).to eq(["contains an invalid IPv4 address"])
