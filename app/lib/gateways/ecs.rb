@@ -1,4 +1,4 @@
-require 'aws-sdk-ecs'
+require "aws-sdk-ecs"
 
 module Gateways
   class Ecs
