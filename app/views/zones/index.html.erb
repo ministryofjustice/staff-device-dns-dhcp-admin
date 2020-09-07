@@ -1,0 +1,22 @@
+<div>
+  <h2 class="govuk-heading-l">Zones</h2>
+  <table class="govuk-table">
+    <caption class="govuk-table__caption">List of Zones</caption>
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Name</th>
+        <th scope="col" class="govuk-table__header">Forwarders</th>
+        <th scope="col" class="govuk-table__header">Purpose</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% @zones.each do |zone| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell"><%= zone.name %></td>
+          <td class="govuk-table__cell"><%= zone.forwarders %></td>
+          <td class="govuk-table__cell"><%= zone.purpose %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
