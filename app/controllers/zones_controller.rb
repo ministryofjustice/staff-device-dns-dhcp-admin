@@ -1,5 +1,5 @@
 class ZonesController < ApplicationController
-  before_action :set_zone, only: [:edit, :update]
+  before_action :set_zone, only: [:edit, :update, :destroy]
 
   def index
     @zones = Zone.select(:id, :name, :forwarders, :purpose).all
@@ -29,6 +29,16 @@ class ZonesController < ApplicationController
     end
   end
 
+  def destroy
+    if confirmed?
+      if @zone.destroy
+        redirect_to zones_path, notice: "Successfully deleted zone"
+      else
+        redirect_to zones_path, error: "Failed to delete the zone"
+      end
+    end
+  end
+
   private
 
   def set_zone
@@ -37,6 +47,10 @@ class ZonesController < ApplicationController
 
   def zone_id
     params.fetch(:id)
+  end
+
+  def confirmed?
+    params.fetch(:confirm, false)
   end
 
   def zone_params
