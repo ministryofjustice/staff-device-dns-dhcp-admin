@@ -43,8 +43,8 @@ Rails.application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
-  config.s3_aws_config = {stub_responses: true, region: "eu-west-2"}
-  config.ecs_aws_config = {stub_responses: true, region: "eu-west-2"}
+  config.s3_aws_config = {stub_responses: true}
+  config.ecs_aws_config = {stub_responses: true}
 
   # Raises error for missing translations.
   # config.action_view.raise_on_missing_translations = true

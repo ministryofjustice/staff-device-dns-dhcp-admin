@@ -6,7 +6,6 @@ describe Gateways::S3 do
   let(:data) { {blah: "foobar"}.to_json }
   let(:aws_config) do
     {
-      region: "eu-west-2",
       stub_responses: {
         get_object: ->(context) {
           if context.params.fetch(:bucket) == bucket && context.params.fetch(:key) == key

@@ -275,7 +275,7 @@ Devise.setup do |config|
   # up on your models and hooks.
   config.omniauth :cognito, ENV["COGNITO_CLIENT_ID"], ENV["COGNITO_CLIENT_SECRET"], client_options: {site: ENV["COGNITO_USER_POOL_SITE"]}, scope: "email openid aws.cognito.signin.user.admin profile",
                                                                                     user_pool_id: ENV["COGNITO_USER_POOL_ID"],
-                                                                                    aws_region: "eu-west-2", strategy_class: OmniAuth::Strategies::Cognito
+                                                                                    strategy_class: OmniAuth::Strategies::Cognito
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

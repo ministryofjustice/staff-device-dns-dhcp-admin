@@ -5,7 +5,6 @@ describe Gateways::Ecs do
   let(:service_name) { "some-service-name" }
   let(:aws_config) do
     {
-      region: "eu-west-2",
       stub_responses: true
     }
   end

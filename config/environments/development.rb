@@ -62,7 +62,6 @@ Rails.application.configure do
 
   config.check_yarn_integrity = false
   config.s3_aws_config = {
-    region: "eu-west-2",
     stub_responses: {
       put_object: {},
       get_object: {
@@ -72,7 +71,6 @@ Rails.application.configure do
   }
 
   config.ecs_aws_config = {
-    region: "eu-west-2",
     stub_responses: {
       update_service: {}
     }

@@ -88,8 +88,8 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-  config.s3_aws_config = {region: "eu-west-2"}
-  config.ecs_aws_config = {region: "eu-west-2"}
+  config.s3_aws_config = {}
+  config.ecs_aws_config = {}
 
   # Inserts middleware to perform automatic connection switching.
   # The `database_selector` hash is used to pass options to the DatabaseSelector
