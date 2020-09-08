@@ -1,0 +1,17 @@
+describe UseCases::DeployService do
+  subject(:use_case) do
+    described_class.new(
+      ecs_gateway: ecs_gateway
+    )
+  end
+
+  let(:ecs_gateway) { instance_spy(Gateways::Ecs) }
+
+  before do
+    use_case.execute
+  end
+
+  it "deploys the DHCP service" do
+    expect(ecs_gateway).to have_received(:update_service)
+  end
+end

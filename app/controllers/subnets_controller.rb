@@ -13,6 +13,7 @@ class SubnetsController < ApplicationController
     @subnet = Subnet.new(subnet_params)
     if @subnet.save
       publish_kea_config
+      deploy_service
       redirect_to subnets_path, notice: "Successfully created subnet"
     else
       render :new
@@ -25,6 +26,7 @@ class SubnetsController < ApplicationController
   def update
     if @subnet.update(subnet_params)
       publish_kea_config
+      deploy_service
       redirect_to subnets_path, notice: "Successfully updated subnet"
     else
       render :edit
@@ -35,6 +37,7 @@ class SubnetsController < ApplicationController
     if confirmed?
       if @subnet.destroy
         publish_kea_config
+        deploy_service
         redirect_to subnets_path, notice: "Successfully deleted subnet"
       else
         redirect_to subnets_path, error: "Failed to delete the subnet"
@@ -70,6 +73,16 @@ class SubnetsController < ApplicationController
         aws_config: Rails.application.config.s3_aws_config
       ),
       generate_config: UseCases::GenerateKeaConfig.new(subnets: Subnet.all)
+    ).execute
+  end
+
+  def deploy_service
+    UseCases::DeployService.new(
+      ecs_gateway: Gateways::Ecs.new(
+        cluster_name: ENV.fetch("DHCP_CLUSTER_NAME"),
+        service_name: ENV.fetch("DHCP_SERVICE_NAME"),
+        aws_config: Rails.application.config.s3_aws_config
+      )
     ).execute
   end
 end
