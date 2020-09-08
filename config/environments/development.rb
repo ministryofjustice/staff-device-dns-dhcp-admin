@@ -70,10 +70,4 @@ Rails.application.configure do
       update_service: {}
     }
   }
-
-  config.ecs_aws_config = {
-    stub_responses: {
-      update_service: {}
-    }
-  }
 end
