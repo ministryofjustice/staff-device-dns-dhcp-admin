@@ -70,4 +70,11 @@ Rails.application.configure do
       }
     }
   }
+
+  config.ecs_aws_config = {
+    region: "eu-west-2",
+    stub_responses: {
+      update_service: {}
+    }
+  }
 end
