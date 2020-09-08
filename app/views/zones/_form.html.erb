@@ -20,7 +20,7 @@
     <%= f.text_field :purpose, class: "govuk-input" %>
   </div>
 
-  <%= f.submit "Create", {
+  <%= f.submit f.object.new_record? ? "Create" : "Update", {
     class: "govuk-button",
     "data-module" => "govuk-button"
   } %>
