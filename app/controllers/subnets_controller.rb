@@ -81,7 +81,7 @@ class SubnetsController < ApplicationController
       ecs_gateway: Gateways::Ecs.new(
         cluster_name: ENV.fetch("DHCP_CLUSTER_NAME"),
         service_name: ENV.fetch("DHCP_SERVICE_NAME"),
-        aws_config: Rails.application.config.s3_aws_config
+        aws_config: Rails.application.config.ecs_aws_config
       )
     ).execute
   end

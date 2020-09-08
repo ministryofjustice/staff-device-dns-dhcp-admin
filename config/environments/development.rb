@@ -62,7 +62,10 @@ Rails.application.configure do
 
   config.check_yarn_integrity = false
   config.s3_aws_config = {
-    region: "eu-west-2",
+    stub_responses: true
+  }
+
+  config.ecs_aws_config = {
     stub_responses: true
   }
 end
