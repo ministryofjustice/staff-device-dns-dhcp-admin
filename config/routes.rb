@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   resources :subnets, only: [:index, :new, :create, :edit, :update, :destroy]
 
-  resources :zones, only: [:index, :new, :create, :edit, :update]
+  resources :zones, only: [:index, :new, :create, :edit, :update, :destroy]
 
   get "/healthcheck", to: "monitoring#healthcheck"
   root "subnets#index"
