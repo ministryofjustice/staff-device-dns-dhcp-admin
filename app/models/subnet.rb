@@ -47,7 +47,9 @@ class Subnet < ApplicationRecord
     return unless IPAddress.valid_ipv4_subnet?(cidr_block)
 
     subnet_address = IPAddress::IPv4.new(cidr_block).address
-    if Subnet.where.not(id: id).where("cidr_block LIKE ?", "#{subnet_address}/%").exists?
+    if Subnet.where.not(id: id)
+        .where.not(cidr_block: cidr_block)
+        .where("cidr_block LIKE ?", "#{subnet_address}/%").exists?
       errors.add(:cidr_block, "matches a subnet with the same address")
     end
   end

@@ -48,4 +48,12 @@ RSpec.describe Subnet, type: :model do
     expect(subnet).not_to be_valid
     expect(subnet.errors[:cidr_block]).to eq(["matches a subnet with the same address"])
   end
+
+  it "does not append the subnet address validation when the cidr_block matches exactly" do
+    create :subnet, cidr_block: "10.0.4.0/24"
+    subnet = build :subnet, cidr_block: "10.0.4.0/24"
+
+    expect(subnet).not_to be_valid
+    expect(subnet.errors[:cidr_block]).to_not include "matches a subnet with the same address"
+  end
 end
