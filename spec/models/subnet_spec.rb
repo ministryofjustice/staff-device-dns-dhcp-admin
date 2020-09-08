@@ -1,7 +1,10 @@
 require "rails_helper"
 
 RSpec.describe Subnet, type: :model do
+  subject { build :subnet }
+
   it { is_expected.to validate_presence_of :cidr_block }
+  it { is_expected.to validate_uniqueness_of(:cidr_block).case_insensitive }
   it { is_expected.to validate_presence_of :start_address }
   it { is_expected.to validate_presence_of :end_address }
 
@@ -36,5 +39,13 @@ RSpec.describe Subnet, type: :model do
     subnet = build :subnet, end_address: "10.0.4"
     expect(subnet).not_to be_valid
     expect(subnet.errors[:end_address]).to eq(["is not a valid IPv4 address"])
+  end
+
+  it "validates cidr_block is unique by the address" do
+    create :subnet, cidr_block: "10.0.4.0/24"
+    subnet = build :subnet, cidr_block: "10.0.4.0/20"
+
+    expect(subnet).not_to be_valid
+    expect(subnet.errors[:cidr_block]).to eq(["matches a subnet with the same address"])
   end
 end
