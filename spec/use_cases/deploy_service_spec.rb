@@ -1,3 +1,5 @@
+require "rails_helper"
+
 describe UseCases::DeployService do
   subject(:use_case) do
     described_class.new(
