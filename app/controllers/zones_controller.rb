@@ -12,6 +12,7 @@ class ZonesController < ApplicationController
   def create
     @zone = Zone.new(zone_params)
     if @zone.save
+      publish_bind_config
       redirect_to zones_path, notice: "Successfully created zone"
     else
       render :new
@@ -23,6 +24,7 @@ class ZonesController < ApplicationController
 
   def update
     if @zone.update(zone_params)
+      publish_bind_config
       redirect_to zones_path, notice: "Successfully updated DNS zone"
     else
       render :edit
@@ -32,6 +34,7 @@ class ZonesController < ApplicationController
   def destroy
     if confirmed?
       if @zone.destroy
+        publish_bind_config
         redirect_to zones_path, notice: "Successfully deleted zone"
       else
         redirect_to zones_path, error: "Failed to delete the zone"
@@ -55,5 +58,16 @@ class ZonesController < ApplicationController
 
   def zone_params
     params.require(:zone).permit(:name, :forwarders, :purpose)
+  end
+
+  def publish_bind_config
+    UseCases::PublishBindConfig.new(
+      destination_gateway: Gateways::S3.new(
+        bucket: ENV.fetch("BIND_CONFIG_BUCKET"),
+        key: "named.conf",
+        aws_config: Rails.application.config.s3_aws_config
+      ),
+      generate_config: UseCases::GenerateBindConfig.new
+    ).execute
   end
 end
