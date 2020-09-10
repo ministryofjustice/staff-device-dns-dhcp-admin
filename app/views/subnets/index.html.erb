@@ -24,7 +24,9 @@
           <td class="govuk-table__cell"><%= subnet.start_address %></td>
           <td class="govuk-table__cell"><%= subnet.end_address %></td>
           <td class="govuk-table__cell">
+          <% if can? :update, Subnet %>
             <%= link_to "Edit", edit_subnet_path(subnet), class: "govuk-link" %>
+          <% end %>
             <%= link_to "Delete", subnet_path(subnet), class:"govuk-link", method: :delete %>
           </td>
         </tr>

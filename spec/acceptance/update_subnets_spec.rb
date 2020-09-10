@@ -4,7 +4,7 @@ describe "update subnets", type: :feature do
   let!(:subnet) { create(:subnet) }
 
   before do
-    login_as User.create
+    login_as User.create!(editor: true)
   end
 
   it "update an existing subnet" do

@@ -27,6 +27,13 @@ describe "GET /subnets", type: :feature do
 
       expect(page).to_not have_content "Create a new subnet"
     end
+
+    it "cannot see the edit subnet link" do
+      create :subnet
+      visit "/subnets"
+
+      expect(page).to_not have_content "Edit"
+    end
   end
 
   context "User with editor permissions" do
@@ -38,6 +45,13 @@ describe "GET /subnets", type: :feature do
       visit "/subnets"
 
       expect(page).to have_content "Create a new subnet"
+    end
+
+    it "can see the edit subnet link" do
+      create :subnet
+      visit "/subnets"
+
+      expect(page).to have_content "Edit"
     end
   end
 end

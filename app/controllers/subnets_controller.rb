@@ -23,9 +23,11 @@ class SubnetsController < ApplicationController
   end
 
   def edit
+    authorize! :update, @subnet
   end
 
   def update
+    authorize! :update, @subnet
     if @subnet.update(subnet_params)
       publish_kea_config
       deploy_service
