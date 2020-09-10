@@ -38,6 +38,7 @@ class SubnetsController < ApplicationController
   end
 
   def destroy
+    authorize! :destroy, @subnet
     if confirmed?
       if @subnet.destroy
         publish_kea_config

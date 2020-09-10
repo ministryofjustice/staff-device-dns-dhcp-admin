@@ -20,38 +20,30 @@ describe "GET /subnets", type: :feature do
   context "User with viewer permissions" do
     before do
       login_as User.create!(editor: false)
+      create :subnet
     end
 
-    it "cannot see the create subnet link" do
+    it "can see the subnet management links" do
       visit "/subnets"
 
       expect(page).to_not have_content "Create a new subnet"
-    end
-
-    it "cannot see the edit subnet link" do
-      create :subnet
-      visit "/subnets"
-
       expect(page).to_not have_content "Edit"
+      expect(page).to_not have_content "Delete"
     end
   end
 
   context "User with editor permissions" do
     before do
       login_as User.create!(editor: true)
+      create :subnet
     end
 
-    it "can see the create subnet link" do
+    it "can see the subnet management links" do
       visit "/subnets"
 
       expect(page).to have_content "Create a new subnet"
-    end
-
-    it "can see the edit subnet link" do
-      create :subnet
-      visit "/subnets"
-
       expect(page).to have_content "Edit"
+      expect(page).to have_content "Delete"
     end
   end
 end

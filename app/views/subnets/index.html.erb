@@ -12,9 +12,11 @@
         <th scope="col" class="govuk-table__header">CIDR Block</th>
         <th scope="col" class="govuk-table__header">Start Address</th>
         <th scope="col" class="govuk-table__header">End Address</th>
-        <th scope="col" class="govuk-table__header">
-          <span class="govuk-visually-hidden">Actions</span>
-        </th>
+        <% if can? :manage, Subnet %>
+          <th scope="col" class="govuk-table__header">
+            <span class="govuk-visually-hidden">Actions</span>
+          </th>
+        <% end %>
       </tr>
     </thead>
     <tbody class="govuk-table__body">
@@ -23,12 +25,12 @@
           <td class="govuk-table__cell"><%= subnet.cidr_block %></td>
           <td class="govuk-table__cell"><%= subnet.start_address %></td>
           <td class="govuk-table__cell"><%= subnet.end_address %></td>
-          <td class="govuk-table__cell">
-          <% if can? :update, Subnet %>
-            <%= link_to "Edit", edit_subnet_path(subnet), class: "govuk-link" %>
+          <% if can? :manage, Subnet %>
+            <td class="govuk-table__cell">
+              <%= link_to "Edit", edit_subnet_path(subnet), class: "govuk-link" %>
+              <%= link_to "Delete", subnet_path(subnet), class:"govuk-link", method: :delete %>
+            </td>
           <% end %>
-            <%= link_to "Delete", subnet_path(subnet), class:"govuk-link", method: :delete %>
-          </td>
         </tr>
       <% end %>
     </tbody>
