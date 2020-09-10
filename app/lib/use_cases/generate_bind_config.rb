@@ -1,5 +1,9 @@
 class UseCases::GenerateBindConfig
-  def execute(zones: [])
+  def initialize(zones: [])
+    @zones = zones
+  end
+
+  def execute
     %(
 options {
   directory "/var/bind";
@@ -34,13 +38,15 @@ zone "127.in-addr.arpa" IN {
   allow-update { none; };
   notify no;
 };
-#{render_zones(zones)}
+#{render_zones}
 )
   end
 
   private
 
-  def render_zones(zones)
+  attr_reader :zones
+
+  def render_zones
     zones.map { |zone|
       %(
 zone "#{zone.name}" IN {

@@ -68,7 +68,7 @@ class ZonesController < ApplicationController
         aws_config: Rails.application.config.s3_aws_config,
         content_type: "application/octet-stream"
       ),
-      generate_config: UseCases::GenerateBindConfig.new
+      generate_config: UseCases::GenerateBindConfig.new(Zone.all)
     ).execute
   end
 end

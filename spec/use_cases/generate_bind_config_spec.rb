@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe UseCases::GenerateBindConfig do
-  let(:generated_config) { UseCases::GenerateBindConfig.new.execute(zones: all_zones) }
+  let(:generated_config) { UseCases::GenerateBindConfig.new(zones: all_zones).execute }
 
   describe "#execute" do
     let(:all_zones) { [] }
