@@ -7,7 +7,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def developer
-    @user = User.where(provider: "developer", editor: true).first_or_create
+    @user = User.from_developer_omniauth(request.env["omniauth.auth"])
     sign_in_and_redirect @user
   end
 

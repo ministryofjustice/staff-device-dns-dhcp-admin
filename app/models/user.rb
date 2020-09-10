@@ -7,4 +7,11 @@ class User < ApplicationRecord
     user.save
     user
   end
+
+  def self.from_developer_omniauth(auth)
+    user = find_or_initialize_by(provider: auth.provider, uid: auth.uid)
+    user.editor = true
+    user.save
+    user
+  end
 end
