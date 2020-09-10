@@ -1,9 +1,10 @@
 module Gateways
   class S3
-    def initialize(bucket:, key:, aws_config:)
+    def initialize(bucket:, key:, aws_config:, content_type:)
       @bucket = bucket
       @key = key
       @client = Aws::S3::Client.new(aws_config)
+      @content_type = content_type
     end
 
     def write(data:)
@@ -11,7 +12,7 @@ module Gateways
         body: data,
         bucket: bucket,
         key: key,
-        content_type: "application/json"
+        content_type: content_type
       )
 
       {}
@@ -23,6 +24,6 @@ module Gateways
 
     private
 
-    attr_reader :bucket, :key, :client
+    attr_reader :bucket, :key, :client, :content_type
   end
 end

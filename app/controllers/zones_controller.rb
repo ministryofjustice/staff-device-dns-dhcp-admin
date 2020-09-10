@@ -65,7 +65,8 @@ class ZonesController < ApplicationController
       destination_gateway: Gateways::S3.new(
         bucket: ENV.fetch("BIND_CONFIG_BUCKET"),
         key: "named.conf",
-        aws_config: Rails.application.config.s3_aws_config
+        aws_config: Rails.application.config.s3_aws_config,
+        content_type: "application/octet-stream"
       ),
       generate_config: UseCases::GenerateBindConfig.new
     ).execute
