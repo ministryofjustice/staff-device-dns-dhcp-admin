@@ -7,7 +7,7 @@ describe UseCases::GenerateBindConfig do
     let(:all_zones) { [] }
 
     it "generates a BIND template with no dynamic zones" do
-      expected_config = %{
+      expected_config = %(
 options {
   directory "/var/bind";
 
@@ -42,7 +42,7 @@ zone "127.in-addr.arpa" IN {
   notify no;
 };
 
-}
+)
       expect(generated_config).to eq(expected_config)
     end
   end
@@ -56,7 +56,7 @@ zone "127.in-addr.arpa" IN {
     let(:all_zones) { Zone.all }
 
     it "Renders dynamic zones from the database" do
-      expected_config = %{
+      expected_config = %(
 zone "example.test.com" IN {
   type forward;
   forwarders {127.0.0.1;127.0.0.2;};
@@ -66,7 +66,7 @@ zone "example2.test.com" IN {
   type forward;
   forwarders {10.0.0.1;10.0.0.255;};
 };
-}
+)
       expect(generated_config).to include(expected_config)
     end
   end

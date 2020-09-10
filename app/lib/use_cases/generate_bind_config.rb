@@ -1,7 +1,6 @@
 class UseCases::GenerateBindConfig
-
   def execute(zones: [])
-%{
+    %(
 options {
   directory "/var/bind";
 
@@ -36,21 +35,19 @@ zone "127.in-addr.arpa" IN {
   notify no;
 };
 #{render_zones(zones)}
-}
-
+)
   end
 
   private
 
   def render_zones(zones)
-    zones.map do |zone|
-     %{
+    zones.map { |zone|
+      %(
 zone "#{zone.name}" IN {
   type forward;
   forwarders {#{zone.forwarders}};
 };
-}
-      end.join
+)
+    }.join
   end
-
 end
