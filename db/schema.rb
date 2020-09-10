@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_07_101734) do
+ActiveRecord::Schema.define(version: 2020_09_10_123842) do
 
   create_table "subnets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "cidr_block", null: false
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 2020_09_07_101734) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "provider"
     t.string "uid"
+    t.boolean "editor", default: false
   end
 
   create_table "zones", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
