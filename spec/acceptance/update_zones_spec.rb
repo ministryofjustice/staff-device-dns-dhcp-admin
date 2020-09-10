@@ -4,7 +4,7 @@ describe "update zones", type: :feature do
   let!(:zone) { create(:zone) }
 
   before do
-    login_as User.create
+    login_as User.create!(editor: true)
   end
 
   it "update an existing zone" do

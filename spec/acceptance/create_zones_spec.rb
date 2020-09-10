@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe "create zones", type: :feature do
   before do
-    login_as User.create
+    login_as User.create!(editor: true)
   end
 
   it "creates a new zone" do

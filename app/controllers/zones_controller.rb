@@ -7,10 +7,12 @@ class ZonesController < ApplicationController
 
   def new
     @zone = Zone.new
+    authorize! :create, @zone
   end
 
   def create
     @zone = Zone.new(zone_params)
+    authorize! :create, @zone
     if @zone.save
       publish_bind_config
       redirect_to zones_path, notice: "Successfully created zone"
@@ -20,9 +22,11 @@ class ZonesController < ApplicationController
   end
 
   def edit
+    authorize! :update, @zone
   end
 
   def update
+    authorize! :update, @zone
     if @zone.update(zone_params)
       publish_bind_config
       redirect_to zones_path, notice: "Successfully updated DNS zone"
@@ -32,6 +36,7 @@ class ZonesController < ApplicationController
   end
 
   def destroy
+    authorize! :destroy, @zone
     if confirmed?
       if @zone.destroy
         publish_bind_config

@@ -1,7 +1,9 @@
 <div>
   <h2 class="govuk-heading-l">DNS Zones</h2>
 
-  <%= link_to "Create a new zone", new_zone_path, class: "govuk-button" %>
+  <% if can? :manage, Subnet %>
+    <%= link_to "Create a new zone", new_zone_path, class: "govuk-button" %>
+  <% end %>
 
   <table class="govuk-table">
     <caption class="govuk-table__caption">List of DNS Zones</caption>
@@ -10,9 +12,11 @@
         <th scope="col" class="govuk-table__header">Name</th>
         <th scope="col" class="govuk-table__header">Forwarders</th>
         <th scope="col" class="govuk-table__header">Purpose</th>
-        <th scope="col" class="govuk-table__header">
-          <span class="govuk-visually-hidden">Actions</span>
-        </th>
+        <% if can? :manage, Subnet %>
+          <th scope="col" class="govuk-table__header">
+            <span class="govuk-visually-hidden">Actions</span>
+          </th>
+        <% end %>
       </tr>
     </thead>
     <tbody class="govuk-table__body">
@@ -21,10 +25,12 @@
           <td class="govuk-table__cell"><%= zone.name %></td>
           <td class="govuk-table__cell"><%= zone.forwarders %></td>
           <td class="govuk-table__cell"><%= zone.purpose %></td>
-          <td class="govuk-table__cell">
-            <%= link_to "Edit", edit_zone_path(zone), class: "govuk-link" %>
-            <%= link_to "Delete", zone_path(zone), class:"govuk-link", method: :delete %>
-          </td>
+          <% if can? :manage, Subnet %>
+            <td class="govuk-table__cell">
+              <%= link_to "Edit", edit_zone_path(zone), class: "govuk-link" %>
+              <%= link_to "Delete", zone_path(zone), class:"govuk-link", method: :delete %>
+            </td>
+          <% end %>
         </tr>
       <% end %>
     </tbody>

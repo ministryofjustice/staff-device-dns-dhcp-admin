@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe "delete zones", type: :feature do
   before do
-    login_as User.create
+    login_as User.create!(editor: true)
   end
 
   it "delete a zone" do
