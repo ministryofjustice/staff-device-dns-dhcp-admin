@@ -7,10 +7,12 @@ class SubnetsController < ApplicationController
 
   def new
     @subnet = Subnet.new
+    authorize! :create, @subnet
   end
 
   def create
     @subnet = Subnet.new(subnet_params)
+    authorize! :create, @subnet
     if @subnet.save
       publish_kea_config
       deploy_service

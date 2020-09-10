@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe "create subnets", type: :feature do
   before do
-    login_as User.create
+    login_as User.create!(editor: true)
   end
 
   it "creates a new subnet" do

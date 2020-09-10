@@ -5,6 +5,12 @@ class ApplicationController < ActionController::Base
     new_user_session_path
   end
 
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      format.html { redirect_to main_app.new_user_session_path, notice: exception.message }
+    end
+  end
+
   private
 
   # Overwriting the sign_out redirect path method
