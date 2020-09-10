@@ -16,4 +16,28 @@ describe "GET /subnets", type: :feature do
 
     expect(page).to have_content subnet2.cidr_block
   end
+
+  context "User with viewer permissions" do
+    before do
+      login_as User.create!(editor: false)
+    end
+
+    it "cannot see the create subnet link" do
+      visit "/subnets"
+
+      expect(page).to_not have_content "Create a new subnet"
+    end
+  end
+
+  context "User with editor permissions" do
+    before do
+      login_as User.create!(editor: true)
+    end
+
+    it "can see the create subnet link" do
+      visit "/subnets"
+
+      expect(page).to have_content "Create a new subnet"
+    end
+  end
 end
