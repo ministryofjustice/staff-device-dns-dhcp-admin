@@ -1,9 +1,9 @@
 require "rails_helper"
 
 RSpec.describe "GET /sign_in", type: :feature do
-  it "displays log in when not signed in" do
+  it "displays sign in when not signed in" do
     visit "/"
-    expect(page).to have_content "Log in"
+    expect(page).to have_content "Sign in"
   end
 
   context "user signed in" do
