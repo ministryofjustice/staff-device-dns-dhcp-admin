@@ -23,6 +23,8 @@ ENV LANG='C.UTF-8' \
 
 WORKDIR /usr/src/app
 
+ADD https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem /usr/src/cert/
+
 RUN apk add --no-cache --virtual .build-deps build-base && \
   apk add --no-cache nodejs yarn mysql-dev bash make
 
