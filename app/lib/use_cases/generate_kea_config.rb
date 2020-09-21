@@ -31,7 +31,8 @@ module UseCases
         Dhcp4: {
           "interfaces-config": {
             "interfaces": ["*"],
-            "dhcp-socket-type": "udp"
+            "dhcp-socket-type": "udp",
+            "outbound-interface": "use-routing"
           },
           "lease-database": {
             type: "mysql",
