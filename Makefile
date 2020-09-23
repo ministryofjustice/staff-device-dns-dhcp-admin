@@ -36,6 +36,9 @@ stop:
 migrate:
 	./scripts/migrate.sh
 
+bootstrap:
+	./scripts/bootstrap.sh
+
 deploy: build
 	echo ${SECRET_KEY_BASE}
 	echo ${REGISTRY_URL}
