@@ -9,9 +9,9 @@ function require_ssl() {
   local docker_service_name="admin"
   local cluster_name service_name task_definition docker_service_name
 
-  cluster_name="staff-device-${ENV}-dhcp-admin-cluster"
-  service_name="staff-device-${ENV}-dhcp-admin"
-  task_definition="staff-device-${ENV}-dhcp-admin-task"
+  cluster_name="staff-device-${RACK_ENV}-dhcp-admin-cluster"
+  service_name="staff-device-${RACK_ENV}-dhcp-admin"
+  task_definition="staff-device-${RACK_ENV}-dhcp-admin-task"
 
   echo "${cluster_name}"
   echo "${service_name}"
