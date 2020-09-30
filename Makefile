@@ -39,7 +39,7 @@ migrate:
 deploy:
 	./scripts/deploy
 
-publish:
+publish: build
 	echo ${REGISTRY_URL}
 	aws ecr get-login-password | docker login --username AWS --password-stdin ${REGISTRY_URL}
 	docker tag docker_admin:latest ${REGISTRY_URL}/${ENV}-admin:latest
