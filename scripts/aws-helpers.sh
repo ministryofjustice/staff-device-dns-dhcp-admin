@@ -65,13 +65,3 @@ function override_command_structure() {
   }
 EOF
 }
-
-function ecs_deploy() {
-  local cluster_name="${1}"
-  local service_name="${2}"
-
-  aws ecs update-service \
-        --cluster "${cluster_name}" \
-        --service "${service_name}" \
-        --force-new-deployment
-}
