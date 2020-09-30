@@ -51,4 +51,7 @@ publish: build
 lint:
 	$(DOCKER_COMPOSE) run --rm app bundle exec standardrb --fix
 
-.PHONY: build serve stop test deploy migrate build-dev publish
+implode:
+	$(DOCKER_COMPOSE) rm
+
+.PHONY: build serve stop test deploy migrate migrate-dev build-dev publish implode
