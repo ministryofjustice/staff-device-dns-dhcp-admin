@@ -15,6 +15,7 @@ env:
     TARGET_AWS_ACCOUNT_ID: "/codebuild/$ENV/account_id"
     SECRET_KEY_BASE: "/codebuild/dhcp/admin/rails_master_key"
     ROLE_ARN: "/codebuild/pttp-ci-infrastructure-core-pipeline/${ENV}/assume_role"
+    DHCP_DNS_TERRAFORM_OUTPUTS: "/terraform_dns_dhcp/$ENV/outputs"
 
 phases:
   install:
