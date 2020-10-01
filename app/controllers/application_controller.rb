@@ -5,6 +5,12 @@ class ApplicationController < ActionController::Base
     new_user_session_path
   end
 
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+    respond_to do |format|
+      format.html { render file: "#{Rails.root}/public/404.html" , status: :not_found }
+    end
+  end
+
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
       format.html { redirect_to main_app.root_path, notice: exception.message }
