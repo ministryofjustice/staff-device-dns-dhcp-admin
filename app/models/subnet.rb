@@ -1,6 +1,8 @@
 class Subnet < ApplicationRecord
   KEA_SUBNET_ID_OFFSET = 1000
 
+  belongs_to :site
+
   validates :cidr_block, presence: true, uniqueness: {case_sensitive: false}
   validates :start_address, presence: true
   validates :end_address, presence: true

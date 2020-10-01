@@ -1,22 +1,19 @@
 class SubnetsController < ApplicationController
+  before_action :set_site, only: [:new, :create]
   before_action :set_subnet, only: [:edit, :update, :destroy]
 
-  def index
-    @subnets = Subnet.all.sort_by(&:ip_addr)
-  end
-
   def new
-    @subnet = Subnet.new
+    @subnet = @site.subnets.build
     authorize! :create, @subnet
   end
 
   def create
-    @subnet = Subnet.new(subnet_params)
+    @subnet = @site.subnets.build(subnet_params)
     authorize! :create, @subnet
     if @subnet.save
       publish_kea_config
       deploy_service
-      redirect_to subnets_path, notice: "Successfully created subnet"
+      redirect_to @site, notice: "Successfully created subnet"
     else
       render :new
     end
@@ -31,7 +28,7 @@ class SubnetsController < ApplicationController
     if @subnet.update(subnet_params)
       publish_kea_config
       deploy_service
-      redirect_to subnets_path, notice: "Successfully updated subnet"
+      redirect_to @subnet.site, notice: "Successfully updated subnet"
     else
       render :edit
     end
@@ -43,9 +40,9 @@ class SubnetsController < ApplicationController
       if @subnet.destroy
         publish_kea_config
         deploy_service
-        redirect_to subnets_path, notice: "Successfully deleted subnet"
+        redirect_to @subnet.site, notice: "Successfully deleted subnet"
       else
-        redirect_to subnets_path, error: "Failed to delete the subnet"
+        redirect_to @subnet.site, error: "Failed to delete the subnet"
       end
     else
       render "subnets/destroy"
@@ -53,6 +50,14 @@ class SubnetsController < ApplicationController
   end
 
   private
+
+  def set_site
+    @site = Site.find(site_id)
+  end
+
+  def site_id
+    params.fetch(:site_id)
+  end
 
   def set_subnet
     @subnet = Subnet.find(subnet_id)

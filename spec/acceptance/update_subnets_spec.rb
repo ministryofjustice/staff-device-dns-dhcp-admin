@@ -8,7 +8,7 @@ describe "update subnets", type: :feature do
   end
 
   it "update an existing subnet" do
-    visit "/subnets"
+    visit "/sites/#{subnet.site.to_param}"
 
     click_on "Edit"
 
@@ -22,7 +22,7 @@ describe "update subnets", type: :feature do
 
     click_button "Update"
 
-    expect(current_path).to eq("/subnets")
+    expect(page).to have_content("Successfully updated subnet")
 
     expect(page).to have_content("10.1.1.0/24")
     expect(page).to have_content("10.1.1.1")

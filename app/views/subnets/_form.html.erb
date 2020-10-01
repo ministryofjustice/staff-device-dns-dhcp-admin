@@ -1,4 +1,4 @@
-<%= form_with model: subnet, local: true do |f| %>
+<%= form_with(model: (subnet.new_record? ? [subnet.site, subnet] : subnet), local: true) do |f| %>
   <div class="govuk-form-group <%= field_error(f.object, :cidr_block )%>">
     <%= f.label :cidr_block, "CIDR Block", class: "govuk-label" %>
     <%= f.text_field :cidr_block, class: "govuk-input" %>
@@ -19,7 +19,7 @@
     "data-module" => "govuk-button"
   } %>
 
-  <%= link_to "Cancel", subnets_path,
+  <%= link_to "Cancel", site_path(subnet.site),
   class: "govuk-button govuk-button--secondary",
   data: {
     module: "govuk-button"

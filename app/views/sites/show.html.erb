@@ -11,3 +11,10 @@
     <dd class="govuk-summary-list__value"><%= @site.name %></dd>
   </div>
 </dl>
+
+<% if can? :create, Subnet %>
+  <%= link_to "Create a new subnet", new_site_subnet_path(@site), class: "govuk-button" %>
+<% end %>
+
+
+<%= render "subnets/list", subnets: @subnets %>

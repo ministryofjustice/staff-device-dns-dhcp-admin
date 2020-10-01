@@ -5,34 +5,5 @@
     <%= link_to "Create a new subnet", new_subnet_path, class: "govuk-button" %>
   <% end %>
 
-  <table class="govuk-table">
-    <caption class="govuk-table__caption">List of Subnets</caption>
-    <thead class="govuk-table__head">
-      <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header">CIDR Block</th>
-        <th scope="col" class="govuk-table__header">Start Address</th>
-        <th scope="col" class="govuk-table__header">End Address</th>
-        <% if can? :manage, Subnet %>
-          <th scope="col" class="govuk-table__header">
-            <span class="govuk-visually-hidden">Actions</span>
-          </th>
-        <% end %>
-      </tr>
-    </thead>
-    <tbody class="govuk-table__body">
-      <% @subnets.each do |subnet| %>
-        <tr class="govuk-table__row">
-          <td class="govuk-table__cell"><%= subnet.cidr_block %></td>
-          <td class="govuk-table__cell"><%= subnet.start_address %></td>
-          <td class="govuk-table__cell"><%= subnet.end_address %></td>
-          <% if can? :manage, Subnet %>
-            <td class="govuk-table__cell">
-              <%= link_to "Edit", edit_subnet_path(subnet), class: "govuk-link" %>
-              <%= link_to "Delete", subnet_path(subnet), class:"govuk-link", method: :delete %>
-            </td>
-          <% end %>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <%= render "list", subnets: @subnets %>
 </div>

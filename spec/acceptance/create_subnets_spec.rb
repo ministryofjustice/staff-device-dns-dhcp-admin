@@ -6,11 +6,12 @@ describe "create subnets", type: :feature do
   end
 
   it "creates a new subnet" do
-    visit "/subnets"
+    site = create :site
+    visit "/sites/#{site.to_param}"
 
     click_on "Create a new subnet"
 
-    expect(current_path).to eql("/subnets/new")
+    expect(current_path).to eql("/sites/#{site.to_param}/subnets/new")
 
     fill_in "CIDR Block", with: "10.0.1.0/24"
     fill_in "Start Address", with: "10.0.1.1"
@@ -18,16 +19,18 @@ describe "create subnets", type: :feature do
 
     click_button "Create"
 
-    expect(current_path).to eq("/subnets")
+    expect(current_path).to eq("/sites/#{site.to_param}")
 
-    subnet = Subnet.last
-    expect(subnet.cidr_block).to eq "10.0.1.0/24"
-    expect(subnet.start_address).to eq "10.0.1.1"
-    expect(subnet.end_address).to eq "10.0.1.255"
+    expect(page).to have_content("10.0.1.0/24")
+    expect(page).to have_content("10.0.1.1")
+    expect(page).to have_content("10.0.1.255")
   end
 
   it "displays error if form cannot be submitted" do
-    visit "/subnets/new"
+    site = create :site
+    visit "/sites/#{site.to_param}"
+
+    click_on "Create a new subnet"
 
     fill_in "CIDR Block", with: "a"
     fill_in "Start Address", with: "b"
