@@ -4,9 +4,8 @@ RSpec.describe Option, type: :model do
   subject { build :option }
 
   it { is_expected.to validate_presence_of :routers }
-  it { is_expected.to validate_presence_of :domain_name_servers	 }
+  it { is_expected.to validate_presence_of :domain_name_servers }
   it { is_expected.to validate_presence_of :domain_name }
-
 
   it "rejects an incorrect routers" do
     option = build :option, routers: "abcd,efg"
@@ -19,7 +18,6 @@ RSpec.describe Option, type: :model do
     expect(option).not_to be_valid
     expect(option.errors[:domain_name_servers]).to eq(["contains an invalid IPv4 address"])
   end
-
 
   it "validates some routers" do
     option = build :option, routers: "10.0.3.1,10.0.3.3"

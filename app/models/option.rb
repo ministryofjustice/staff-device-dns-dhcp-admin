@@ -16,7 +16,7 @@ class Option < ApplicationRecord
     validate_ip_addresses(:domain_name_servers, domain_name_servers)
   end
 
-  private 
+  private
 
   def all_ips_valid?(ip_addresses_string)
     ip_addresses = ip_addresses_string.split(",")
