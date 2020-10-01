@@ -1,8 +1,11 @@
 class SitesController < ApplicationController
-  before_action :set_site, only: [:edit, :update, :destroy]
+  before_action :set_site, only: [:show, :edit, :update, :destroy]
 
   def index
     @sites = Site.order(:fits_id).all
+  end
+
+  def show
   end
 
   def new

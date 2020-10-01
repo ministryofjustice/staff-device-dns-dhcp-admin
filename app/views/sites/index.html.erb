@@ -21,7 +21,7 @@
     <tbody class="govuk-table__body">
       <% @sites.each do |site| %>
         <tr class="govuk-table__row">
-          <td class="govuk-table__cell"><%= site.fits_id %></td>
+          <td class="govuk-table__cell"><%= link_to site.fits_id, site, class: "govuk-link" %></td>
           <td class="govuk-table__cell"><%= site.name %></td>
           <% if can? :manage, Site %>
             <td class="govuk-table__cell">
