@@ -3,6 +3,10 @@ require "rails_helper"
 RSpec.describe Subnet, type: :model do
   subject { build :subnet }
 
+  it "has a valid factory" do
+    expect(subject).to be_valid
+  end
+
   it { is_expected.to validate_presence_of :cidr_block }
   it { is_expected.to validate_uniqueness_of(:cidr_block).case_insensitive }
   it { is_expected.to validate_presence_of :start_address }
