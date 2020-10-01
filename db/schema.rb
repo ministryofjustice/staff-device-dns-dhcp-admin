@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_30_132008) do
+ActiveRecord::Schema.define(version: 2020_10_01_110011) do
 
   create_table "sites", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "name", null: false
@@ -25,6 +25,8 @@ ActiveRecord::Schema.define(version: 2020_09_30_132008) do
     t.string "end_address", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "site_id", null: false
+    t.index ["site_id"], name: "index_subnets_on_site_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
@@ -43,4 +45,5 @@ ActiveRecord::Schema.define(version: 2020_09_30_132008) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "subnets", "sites"
 end

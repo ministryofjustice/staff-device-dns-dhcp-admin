@@ -16,14 +16,25 @@ describe "showing a site", type: :feature do
 
     context "when the site exists" do
       let!(:site) { create :site }
+      let!(:subnet) { create :subnet, site: site }
+      let!(:subnet2) { create :subnet, site: site }
+      let!(:subnet3) { create :subnet }
 
-      it "allows viewing sites" do
+      it "allows viewing sites and its subnets" do
         visit "/sites"
 
         click_on site.fits_id
 
         expect(page).to have_content site.fits_id
         expect(page).to have_content site.name
+
+        expect(page).to have_content subnet.cidr_block
+        expect(page).to have_content subnet.start_address
+        expect(page).to have_content subnet.end_address
+
+        expect(page).to have_content subnet2.cidr_block
+
+        expect(page).not_to have_content subnet3.cidr_block
       end
     end
   end

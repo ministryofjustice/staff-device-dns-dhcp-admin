@@ -8,7 +8,7 @@ describe "delete subnets", type: :feature do
   it "delete a subnet" do
     subnet = create(:subnet)
 
-    visit "/subnets"
+    visit "/sites/#{subnet.site.to_param}"
 
     click_on "Delete"
 
@@ -16,7 +16,6 @@ describe "delete subnets", type: :feature do
 
     click_on "Delete subnet"
 
-    expect(current_path).to eq("/subnets")
     expect(page).to have_content("Successfully deleted subnet")
     expect(page).not_to have_content(subnet.cidr_block)
   end

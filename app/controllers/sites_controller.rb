@@ -6,6 +6,7 @@ class SitesController < ApplicationController
   end
 
   def show
+    @subnets = @site.subnets.sort_by(&:ip_addr)
   end
 
   def new
