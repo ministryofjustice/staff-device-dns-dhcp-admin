@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2020_10_01_124256) do
     t.string "routers", null: false
     t.string "domain_name_servers", null: false
     t.string "domain_name", null: false
-    t.boolean "is_global", default: false
+    t.boolean "global", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

@@ -4,7 +4,7 @@ class CreateOptions < ActiveRecord::Migration[6.0]
       t.string :routers, null: false
       t.string :domain_name_servers, null: false
       t.string :domain_name, null: false
-      t.boolean :is_global, default: false
+      t.boolean :global, default: false
 
       t.timestamps
     end
