@@ -22,13 +22,13 @@ RSpec.describe Option, type: :model do
   it { is_expected.to validate_presence_of :domain_name }
 
   it "rejects an incorrect routers" do
-    option = build :option, routers: ["abcd","efg"]
+    option = build :option, routers: ["abcd", "efg"]
     expect(option).not_to be_valid
     expect(option.errors[:routers]).to eq(["contains an invalid IPv4 address"])
   end
 
   it "rejects an incorrect domain_name_server" do
-    option = build :option, domain_name_servers: ["abcd","efg"]
+    option = build :option, domain_name_servers: ["abcd", "efg"]
     expect(option).not_to be_valid
     expect(option.errors[:domain_name_servers]).to eq(["contains an invalid IPv4 address"])
   end
