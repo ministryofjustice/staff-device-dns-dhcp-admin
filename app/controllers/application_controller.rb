@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
     respond_to do |format|
-      format.html { render file: "#{Rails.root}/public/404.html" , status: :not_found }
+      format.html { render file: "#{Rails.root}/public/404.html", status: :not_found }
     end
   end
 
