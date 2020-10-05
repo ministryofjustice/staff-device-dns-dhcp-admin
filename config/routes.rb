@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   end
 
   resources :subnets, only: [:edit, :update, :destroy] do
-    resource :options, only: [:new]
+    resource :options, only: [:new, :create]
   end
 
   resources :zones, only: [:index, :new, :create, :edit, :update, :destroy]

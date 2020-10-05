@@ -1,0 +1,3 @@
+<%= link_to  "Create options", new_subnet_options_path(@subnet) %>
+
+<%= render "options/details", option: @subnet.option if @subnet.option %>
