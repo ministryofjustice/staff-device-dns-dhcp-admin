@@ -1,0 +1,28 @@
+<dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Routers
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <%= @subnet.routers.join(",") %>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Domain Name Servers
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <%= @subnet.domain_name_servers.join(",") %>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Domain Name
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <%= @subnet.domain_name %>
+    </dd>
+  </div>
+</dl>

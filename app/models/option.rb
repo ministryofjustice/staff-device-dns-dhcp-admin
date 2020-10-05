@@ -1,4 +1,6 @@
 class Option < ApplicationRecord
+  belongs_to :subnet
+
   validates :routers, presence: {message: "must contain at least one IPv4 address"}, ipv4_list: true
   validates :domain_name_servers, presence: {message: "must contain at least one IPv4 address"}, ipv4_list: true
   validates :domain_name, presence: true
@@ -9,7 +11,11 @@ class Option < ApplicationRecord
   end
 
   def routers=(val)
-    self[:routers] = val.join(",") || ""
+    if val.respond_to?(:join)
+      self[:routers] = val.join(",")
+    else
+      self[:routers] = val
+    end
   end
 
   def domain_name_servers
@@ -18,6 +24,10 @@ class Option < ApplicationRecord
   end
 
   def domain_name_servers=(val)
-    self[:domain_name_servers] = val.join(",") || ""
+    if val.respond_to?(:join)
+      self[:domain_name_servers] = val.join(",")
+    else
+      self[:domain_name_servers] = val
+    end
   end
 end

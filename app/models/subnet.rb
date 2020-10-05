@@ -2,6 +2,7 @@ class Subnet < ApplicationRecord
   KEA_SUBNET_ID_OFFSET = 1000
 
   belongs_to :site
+  has_one :option, dependent: :destroy
 
   validates :cidr_block, presence: true, uniqueness: {case_sensitive: false}
   validates :start_address, presence: true
@@ -9,6 +10,11 @@ class Subnet < ApplicationRecord
 
   validate :cidr_block_is_a_valid_ipv4_subnet, :start_address_is_a_valid_ipv4_address,
     :end_address_is_a_valid_ipv4_address, :cidr_block_address_is_unique
+
+  delegate :routers,
+           :domain_name_servers,
+           :domain_name,
+           to: :option
 
   def ip_addr
     IPAddr.new(cidr_block)

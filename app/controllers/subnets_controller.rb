@@ -1,6 +1,6 @@
 class SubnetsController < ApplicationController
   before_action :set_site, only: [:new, :create]
-  before_action :set_subnet, only: [:edit, :update, :destroy]
+  before_action :set_subnet, only: [:show, :edit, :update, :destroy]
 
   def new
     @subnet = @site.subnets.build
