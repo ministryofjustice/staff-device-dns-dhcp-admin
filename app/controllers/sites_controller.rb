@@ -43,6 +43,7 @@ class SitesController < ApplicationController
 
   def destroy
     authorize! :destroy, @site
+    @subnets = @site.subnets.sort_by(&:ip_addr)
     if confirmed?
       if @site.destroy
         # publish_kea_config

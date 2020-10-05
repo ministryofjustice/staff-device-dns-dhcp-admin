@@ -1,9 +1,11 @@
 <h2 class="govuk-heading-l">Are you sure you want to delete this site?</h2>
 
 <p class="govuk-body">Deleting a site cannot be undone</p>
-<p class="govuk-body">The following subnets will be destroyed</p>
 
-<%= render "list", subnets: @site.subnets %>
+<% if @subnets.any? %>
+  <p class="govuk-body">The following subnets will be destroyed</p>
+  <%= render "subnets/list", subnets: @subnets, hide_actions: true %>
+<% end %>
 
 <%= button_to "Delete site", site_path(@site),
   method: :delete,
@@ -24,4 +26,3 @@
     module: "govuk-button"
   }
 %>
-
