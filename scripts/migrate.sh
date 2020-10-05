@@ -5,7 +5,7 @@ set -v -e -u -o pipefail
 source ./scripts/aws-helpers.sh
 
 function migrate() {
-  local migration_command="./bin/rails db:migrate"
+  local migration_command="./bin/rails db:migrate:reset"
   local docker_service_name="admin"
   local cluster_name service_name task_definition docker_service_name
 
