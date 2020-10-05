@@ -19,6 +19,9 @@ class SubnetsController < ApplicationController
     end
   end
 
+  def show
+  end
+
   def edit
     authorize! :update, @subnet
   end
