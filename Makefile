@@ -36,7 +36,7 @@ stop:
 migrate:
 	./scripts/migrate.sh
 
-migrate-dev:
+migrate-dev: start-db
 	$(DOCKER_COMPOSE) run --rm app bundle exec rake db:migrate
 
 deploy:
