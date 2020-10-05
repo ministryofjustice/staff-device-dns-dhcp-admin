@@ -18,8 +18,8 @@ class SitesController < ApplicationController
     @site = Site.new(site_params)
     authorize! :create, @site
     if @site.save
-      # publish_kea_config
-      # deploy_service
+      publish_kea_config
+      deploy_service
       redirect_to sites_path, notice: "Successfully created site"
     else
       render :new
@@ -33,8 +33,8 @@ class SitesController < ApplicationController
   def update
     authorize! :update, @site
     if @site.update(site_params)
-      # publish_kea_config
-      # deploy_service
+      publish_kea_config
+      deploy_service
       redirect_to sites_path, notice: "Successfully updated site"
     else
       render :edit
@@ -46,8 +46,8 @@ class SitesController < ApplicationController
     @subnets = @site.subnets.sort_by(&:ip_addr)
     if confirmed?
       if @site.destroy
-        # publish_kea_config
-        # deploy_service
+        publish_kea_config
+        deploy_service
         redirect_to sites_path, notice: "Successfully deleted site"
       else
         redirect_to sites_path, error: "Failed to delete the site"
@@ -83,7 +83,7 @@ class SitesController < ApplicationController
         aws_config: Rails.application.config.s3_aws_config,
         content_type: "application/json"
       ),
-      generate_config: UseCases::GenerateKeaConfig.new(sites: Site.all)
+      generate_config: UseCases::GenerateKeaConfig.new(subnets: Subnet.all)
     ).execute
   end
 
