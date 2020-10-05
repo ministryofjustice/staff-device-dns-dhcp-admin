@@ -1,3 +1,5 @@
+<% hide_actions ||= false %>
+
 <table class="govuk-table">
   <caption class="govuk-table__caption">List of Subnets</caption>
   <thead class="govuk-table__head">
@@ -5,7 +7,7 @@
       <th scope="col" class="govuk-table__header">CIDR Block</th>
       <th scope="col" class="govuk-table__header">Start Address</th>
       <th scope="col" class="govuk-table__header">End Address</th>
-      <% if can? :manage, Subnet %>
+      <% if can?(:manage, Subnet) && !hide_actions %>
         <th scope="col" class="govuk-table__header">
           <span class="govuk-visually-hidden">Actions</span>
         </th>
@@ -18,7 +20,7 @@
         <td class="govuk-table__cell"><%= subnet.cidr_block %></td>
         <td class="govuk-table__cell"><%= subnet.start_address %></td>
         <td class="govuk-table__cell"><%= subnet.end_address %></td>
-        <% if can? :manage, Subnet %>
+        <% if can?(:manage, Subnet) && !hide_actions %>
           <td class="govuk-table__cell">
             <%= link_to "Edit", edit_subnet_path(subnet), class: "govuk-link" %>
             <%= link_to "Delete", subnet_path(subnet), class:"govuk-link", method: :delete %>
