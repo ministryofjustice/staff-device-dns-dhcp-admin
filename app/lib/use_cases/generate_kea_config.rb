@@ -22,7 +22,11 @@ module UseCases
           }
         ],
         subnet: subnet.cidr_block,
-        id: subnet.kea_id
+        id: subnet.kea_id,
+        "user-context": {
+          "site-id": subnet.site.fits_id,
+          "site-name": subnet.site.name
+        }
       }
     end
 

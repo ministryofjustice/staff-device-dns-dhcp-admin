@@ -19,8 +19,9 @@ describe UseCases::GenerateKeaConfig do
     end
 
     it "appends subnets to the subnet4 list" do
-      subnet1 = build_stubbed(:subnet, cidr_block: "10.0.1.0/24", start_address: "10.0.1.1", end_address: "10.0.1.255")
-      subnet2 = build_stubbed(:subnet, cidr_block: "10.0.2.0/24", start_address: "10.0.2.1", end_address: "10.0.2.255")
+      site = build_stubbed(:site, fits_id: "FITSID01", name: "SITENAME01")
+      subnet1 = build_stubbed(:subnet, cidr_block: "10.0.1.0/24", start_address: "10.0.1.1", end_address: "10.0.1.255", site: site)
+      subnet2 = build_stubbed(:subnet, cidr_block: "10.0.2.0/24", start_address: "10.0.2.1", end_address: "10.0.2.255", site: site)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1, subnet2]).execute
 
@@ -41,7 +42,11 @@ describe UseCases::GenerateKeaConfig do
             }
           ],
           subnet: "10.0.1.0/24",
-          id: subnet1.kea_id
+          id: subnet1.kea_id,
+          "user-context": {
+            "site-id": subnet1.site.fits_id,
+            "site-name": subnet1.site.name
+          }
         },
         {
           pools: [
@@ -50,7 +55,11 @@ describe UseCases::GenerateKeaConfig do
             }
           ],
           subnet: "10.0.2.0/24",
-          id: subnet2.kea_id
+          id: subnet2.kea_id,
+          "user-context": {
+            "site-id": subnet1.site.fits_id,
+            "site-name": subnet1.site.name
+          }
         }
       ])
     end
