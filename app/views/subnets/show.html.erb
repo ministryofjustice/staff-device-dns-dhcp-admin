@@ -1,7 +1,13 @@
 <% if @subnet.option %>
-  <%= link_to "Edit options", edit_subnet_options_path(@subnet) if can?(:update, @subnet.option) %>
+  <% if can?(:update, @subnet.option) %>
+    <%= link_to "Edit options", edit_subnet_options_path(@subnet) if can?(:update, @subnet.option) %>
+  <% end %>
+
+  <% if can?(:destroy, @subnet.option) %>
+    <%= link_to "Delete options", subnet_options_path(@subnet), class:"govuk-link", method: :delete %>
+  <% end %>
+
+  <%= render "options/details", option: @subnet.option %>
 <% else %>
   <%= link_to "Create options", new_subnet_options_path(@subnet) if can?(:create, Option) %>
 <% end %>
-
-<%= render "options/details", option: @subnet.option if @subnet.option %>

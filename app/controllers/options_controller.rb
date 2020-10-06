@@ -1,6 +1,6 @@
 class OptionsController < ApplicationController
   before_action :set_subnet
-  before_action :set_option, only: [:edit, :update]
+  before_action :set_option, only: [:edit, :update, :destroy]
 
   def new
     @option = @subnet.build_option
@@ -30,6 +30,19 @@ class OptionsController < ApplicationController
     end
   end
 
+  def destroy
+    authorize! :destroy, @option
+    if confirmed?
+      if @option.destroy
+        redirect_to subnet_path(@option.subnet), notice: "Successfully deleted option"
+      else
+        redirect_to subnet_path(@option.subnet), error: "Failed to delete the option"
+      end
+    else
+      render "destroy"
+    end
+  end
+
   private
 
   def subnet_id
@@ -46,5 +59,9 @@ class OptionsController < ApplicationController
 
   def option_params
     params.require(:option).permit(:routers, :domain_name_servers, :domain_name)
+  end
+
+  def confirmed?
+    params.fetch(:confirm, false)
   end
 end
