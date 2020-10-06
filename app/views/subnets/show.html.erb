@@ -1,3 +1,23 @@
+<h2 class="govuk-heading-l">Subnet <%= @subnet.cidr_block %></h2>
+
+<dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">CIDR Block</dt>
+    <dd class="govuk-summary-list__value"><%= @subnet.cidr_block %></dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Start Address</dt>
+    <dd class="govuk-summary-list__value"><%= @subnet.start_address %></dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">End Address</dt>
+    <dd class="govuk-summary-list__value"><%= @subnet.end_address %></dd>
+  </div>
+</dl>
+
+<h3 class="govuk-heading-m">Options</h3>
 <% if @subnet.option %>
   <% if can?(:update, @subnet.option) %>
     <%= link_to "Edit options", edit_subnet_options_path(@subnet) if can?(:update, @subnet.option) %>
