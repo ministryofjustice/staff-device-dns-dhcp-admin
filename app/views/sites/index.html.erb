@@ -11,24 +11,23 @@
       <tr class="govuk-table__row">
         <th scope="col" class="govuk-table__header">FITS Id</th>
         <th scope="col" class="govuk-table__header">Name</th>
-        <% if can? :manage, Site %>
-          <th scope="col" class="govuk-table__header">
-            <span class="govuk-visually-hidden">Actions</span>
-          </th>
-        <% end %>
+        <th scope="col" class="govuk-table__header">
+          <span class="govuk-visually-hidden">Actions</span>
+        </th>
       </tr>
     </thead>
     <tbody class="govuk-table__body">
       <% @sites.each do |site| %>
         <tr class="govuk-table__row">
-          <td class="govuk-table__cell"><%= link_to site.fits_id, site, class: "govuk-link" %></td>
+          <td class="govuk-table__cell"><%= site.fits_id %></td>
           <td class="govuk-table__cell"><%= site.name %></td>
-          <% if can? :manage, Site %>
-            <td class="govuk-table__cell">
+          <td class="govuk-table__cell">
+            <%= link_to "View", site_path(site), class: "govuk-link" %>
+            <% if can? :manage, Site %>
               <%= link_to "Edit", edit_site_path(site), class: "govuk-link" %>
               <%= link_to "Delete", site_path(site), class:"govuk-link", method: :delete %>
-            </td>
-          <% end %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>
