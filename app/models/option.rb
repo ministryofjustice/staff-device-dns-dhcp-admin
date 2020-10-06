@@ -2,11 +2,11 @@ class Option < ApplicationRecord
   belongs_to :subnet
 
   validates :routers,
-            presence: {message: "must contain at least one IPv4 address separated using commas"},
-            ipv4_list: {message: "contains an invalid IPv4 address or is not separated using commas"}
+    presence: {message: "must contain at least one IPv4 address separated using commas"},
+    ipv4_list: {message: "contains an invalid IPv4 address or is not separated using commas"}
   validates :domain_name_servers,
-            presence: {message: "must contain at least one IPv4 address separated using commas"},
-            ipv4_list: {message: "contains an invalid IPv4 address or is not separated using commas"}
+    presence: {message: "must contain at least one IPv4 address separated using commas"},
+    ipv4_list: {message: "contains an invalid IPv4 address or is not separated using commas"}
   validates :domain_name, presence: true
 
   def routers
