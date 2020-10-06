@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "create subnet options", type: :feature do
+describe "create options", type: :feature do
   let(:subnet) { create(:subnet) }
 
   context "when a user is not logged in" do
@@ -19,7 +19,7 @@ describe "create subnet options", type: :feature do
     it "does not allow editing options" do
       visit "/subnets/#{subnet.to_param}"
 
-      expect(page).not_to have_content("Edit options")
+      expect(page).not_to have_content("Create options")
 
       visit "/subnets/#{subnet.to_param}/options/new"
 
@@ -35,6 +35,7 @@ describe "create subnet options", type: :feature do
     it "creates a new subnet option" do
       visit "/subnets/#{subnet.to_param}"
 
+      expect(page).not_to have_content("Edit options")
       click_on "Create options"
 
       fill_in "Routers", with: "10.0.1.0,10.0.1.2"
