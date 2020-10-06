@@ -11,10 +11,10 @@ class Option < ApplicationRecord
   end
 
   def routers=(val)
-    if val.respond_to?(:join)
-      self[:routers] = val.join(",")
+    self[:routers] = if val.respond_to?(:join)
+      val.join(",")
     else
-      self[:routers] = val
+      val
     end
   end
 
@@ -24,10 +24,10 @@ class Option < ApplicationRecord
   end
 
   def domain_name_servers=(val)
-    if val.respond_to?(:join)
-      self[:domain_name_servers] = val.join(",")
+    self[:domain_name_servers] = if val.respond_to?(:join)
+      val.join(",")
     else
-      self[:domain_name_servers] = val
+      val
     end
   end
 end
