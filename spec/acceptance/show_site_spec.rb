@@ -23,7 +23,7 @@ describe "showing a site", type: :feature do
       it "allows viewing sites and its subnets" do
         visit "/sites"
 
-        click_on site.fits_id
+        click_on "View", match: :first
 
         expect(page).to have_content site.fits_id
         expect(page).to have_content site.name
