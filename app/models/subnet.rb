@@ -12,9 +12,9 @@ class Subnet < ApplicationRecord
     :end_address_is_a_valid_ipv4_address, :cidr_block_address_is_unique
 
   delegate :routers,
-           :domain_name_servers,
-           :domain_name,
-           to: :option
+    :domain_name_servers,
+    :domain_name,
+    to: :option
 
   def ip_addr
     IPAddr.new(cidr_block)
