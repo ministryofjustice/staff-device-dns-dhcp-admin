@@ -1,3 +1,7 @@
-<%= link_to  "Create options", new_subnet_options_path(@subnet) %>
+<% if @subnet.option %>
+  <%= link_to "Edit options", edit_subnet_options_path(@subnet) if can?(:update, @subnet.option) %>
+<% else %>
+  <%= link_to "Create options", new_subnet_options_path(@subnet) if can?(:create, Option) %>
+<% end %>
 
 <%= render "options/details", option: @subnet.option if @subnet.option %>

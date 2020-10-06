@@ -1,0 +1,31 @@
+<%= form_with model: option,
+              url: subnet_options_path(option.subnet),
+              method: option.new_record? ? :post : :put,
+              local: true do |f| %>
+  <div class="govuk-form-group <%= field_error(f.object, :routers )%>">
+    <%= f.label :routers, "Routers", class: "govuk-label" %>
+    <%= f.text_area :routers, value: f.object.routers.join(","), class: "govuk-input" %>
+  </div>
+
+  <div class="govuk-form-group <%= field_error(f.object, :domain_name_servers) %>">
+    <%= f.label :domain_name_servers, "Domain Name Servers", class: "govuk-label" %>
+    <%= f.text_area :domain_name_servers, value: f.object.domain_name_servers.join(","), class: "govuk-input" %>
+  </div>
+
+  <div class="govuk-form-group <%= field_error(f.object, :domain_name) %>">
+    <%= f.label :domain_name, "Domain Name", class: "govuk-label" %>
+    <%= f.text_field :domain_name, class: "govuk-input" %>
+  </div>
+
+  <%= f.submit f.object.new_record? ? "Create" : "Update", {
+    class: "govuk-button",
+    "data-module" => "govuk-button"
+  } %>
+
+  <%= link_to "Cancel", subnet_path(option.subnet),
+    class: "govuk-button govuk-button--secondary",
+    data: {
+      module: "govuk-button"
+    }
+  %>
+<% end %>

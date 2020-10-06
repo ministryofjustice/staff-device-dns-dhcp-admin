@@ -1,5 +1,6 @@
 class OptionsController < ApplicationController
   before_action :set_subnet
+  before_action :set_option, only: [:edit, :update]
 
   def new
     @option = @subnet.build_option
@@ -10,9 +11,22 @@ class OptionsController < ApplicationController
     @option = @subnet.build_option(option_params)
     authorize! :create, @option
     if @option.save
-      redirect_to subnet_path(@option.subnet), notice: "Successfully created option"
+      redirect_to subnet_path(@option.subnet), notice: "Successfully created options"
     else
       render :new
+    end
+  end
+
+  def edit
+    authorize! :update, @option
+  end
+
+  def update
+    authorize! :update, @option
+    if @option.update(option_params)
+      redirect_to subnet_path(@option.subnet), notice: "Successfully updated options"
+    else
+      render :edit
     end
   end
 
@@ -24,6 +38,10 @@ class OptionsController < ApplicationController
 
   def set_subnet
     @subnet = Subnet.find(subnet_id)
+  end
+
+  def set_option
+    @option = @subnet.option
   end
 
   def option_params
