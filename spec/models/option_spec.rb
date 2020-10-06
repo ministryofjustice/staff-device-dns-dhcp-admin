@@ -50,7 +50,7 @@ RSpec.describe Option, type: :model do
       end
 
       it "returns an empty array" do
-        expect(subject.routers).to eq(["192.168.0.2","192.168.0.3"])
+        expect(subject.routers).to eq(["192.168.0.2", "192.168.0.3"])
       end
     end
   end
@@ -62,17 +62,17 @@ RSpec.describe Option, type: :model do
       end
 
       it "returns an empty array" do
-        expect(subject.routers).to eq(["192.168.0.2","192.168.0.3"])
+        expect(subject.routers).to eq(["192.168.0.2", "192.168.0.3"])
       end
     end
 
     context "when the value is an array" do
       before do
-        subject.routers = ["192.168.0.2","192.168.0.3"]
+        subject.routers = ["192.168.0.2", "192.168.0.3"]
       end
 
       it "returns an empty array" do
-        expect(subject.routers).to eq(["192.168.0.2","192.168.0.3"])
+        expect(subject.routers).to eq(["192.168.0.2", "192.168.0.3"])
       end
     end
   end
@@ -94,7 +94,7 @@ RSpec.describe Option, type: :model do
       end
 
       it "returns an empty array" do
-        expect(subject.domain_name_servers).to eq(["192.168.0.2","192.168.0.3"])
+        expect(subject.domain_name_servers).to eq(["192.168.0.2", "192.168.0.3"])
       end
     end
   end
@@ -106,17 +106,17 @@ RSpec.describe Option, type: :model do
       end
 
       it "returns an empty array" do
-        expect(subject.domain_name_servers).to eq(["192.168.0.2","192.168.0.3"])
+        expect(subject.domain_name_servers).to eq(["192.168.0.2", "192.168.0.3"])
       end
     end
 
     context "when the value is an array" do
       before do
-        subject.domain_name_servers = ["192.168.0.2","192.168.0.3"]
+        subject.domain_name_servers = ["192.168.0.2", "192.168.0.3"]
       end
 
       it "returns an empty array" do
-        expect(subject.domain_name_servers).to eq(["192.168.0.2","192.168.0.3"])
+        expect(subject.domain_name_servers).to eq(["192.168.0.2", "192.168.0.3"])
       end
     end
   end
