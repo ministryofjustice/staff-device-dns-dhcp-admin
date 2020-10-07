@@ -26,6 +26,8 @@ class OptionsController < ApplicationController
   def update
     authorize! :update, @option
     if @option.update(option_params)
+      publish_kea_config
+      deploy_dhcp_service
       redirect_to subnet_path(@option.subnet), notice: "Successfully updated options"
     else
       render :edit
@@ -36,6 +38,8 @@ class OptionsController < ApplicationController
     authorize! :destroy, @option
     if confirmed?
       if @option.destroy
+        publish_kea_config
+        deploy_dhcp_service
         redirect_to subnet_path(@option.subnet), notice: "Successfully deleted option"
       else
         redirect_to subnet_path(@option.subnet), error: "Failed to delete the option"
