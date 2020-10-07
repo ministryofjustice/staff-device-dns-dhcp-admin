@@ -4,10 +4,10 @@
   <% end %>
 
   <% if can?(:destroy, @subnet.option) %>
-    <%= link_to "Delete options", subnet_options_path(@subnet), class:"govuk-link", method: :delete %>
+    <%= link_to "Reset to global options", subnet_options_path(@subnet), class:"govuk-link", method: :delete %>
   <% end %>
 
   <%= render "options/details", option: @subnet.option %>
 <% else %>
-  <%= link_to "Create options", new_subnet_options_path(@subnet) if can?(:create, Option) %>
+  <%= link_to "Override global options", new_subnet_options_path(@subnet) if can?(:create, Option) %>
 <% end %>

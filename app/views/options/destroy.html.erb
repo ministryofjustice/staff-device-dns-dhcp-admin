@@ -1,8 +1,8 @@
-<h2 class="govuk-heading-l">Are you sure you want to delete these options?</h2>
+<h2 class="govuk-heading-l">Are you sure you want reset these options back to the global?</h2>
 
-<p class="govuk-body">Deleting options cannot be undone</p>
+<p class="govuk-body">Resetting options cannot be undone</p>
 
-<%= button_to "Delete options", subnet_options_path(@option.subnet),
+<%= button_to "Reset options", subnet_options_path(@option.subnet),
   method: :delete,
   class: "govuk-button govuk-button--warning govuk-!-margin-right-1",
   data: {
