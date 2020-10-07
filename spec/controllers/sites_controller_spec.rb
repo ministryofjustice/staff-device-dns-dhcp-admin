@@ -27,7 +27,7 @@ describe SitesController, type: :controller do
       subnet2 = create :subnet, cidr_block: "10.0.3.0/24", site: subnet1.site
       subnet3 = create :subnet, cidr_block: "10.0.10.0/24", site: subnet1.site
 
-      get :show, params: { id: subnet1.site_id }
+      get :show, params: {id: subnet1.site_id}
 
       expect(assigns(:subnets)).to eq [subnet2, subnet3, subnet1]
     end
