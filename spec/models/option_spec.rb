@@ -7,19 +7,14 @@ RSpec.describe Option, type: :model do
     expect(subject).to be_valid
   end
 
-  it "is invalid with no routers" do
-    subject.routers = []
-    expect(subject).not_to be_valid
-    expect(subject.errors[:routers]).to include("must contain at least one IPv4 address separated using commas")
-  end
+  it "is invalid if none of the options are completed" do
+    subject.routers = nil
+    subject.domain_name_servers = nil
+    subject.domain_name = nil
 
-  it "is invalid with no domain_name_servers" do
-    subject.domain_name_servers = []
     expect(subject).not_to be_valid
-    expect(subject.errors[:domain_name_servers]).to include("must contain at least one IPv4 address separated using commas")
+    expect(subject.errors[:base]).to include("At least one option must be filled out")
   end
-
-  it { is_expected.to validate_presence_of :domain_name }
 
   it "rejects an incorrect routers" do
     option = build :option, routers: ["abcd", "efg"]

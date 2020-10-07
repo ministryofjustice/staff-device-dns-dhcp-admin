@@ -62,6 +62,8 @@ describe "update options", type: :feature do
       visit "/subnets/#{subnet.to_param}/options/edit"
 
       fill_in "Routers", with: ""
+      fill_in "Domain Name Servers", with: ""
+      fill_in "Domain Name", with: ""
 
       click_on "Update"
 
