@@ -37,20 +37,26 @@ module UseCases
         "option-data": []
       }
 
-      result[:"option-data"] << {
-        "name": "domain-name-servers",
-        "data": option.domain_name_servers.join(", ")
-      } if option.domain_name_servers.any?
+      if option.domain_name_servers.any?
+        result[:"option-data"] << {
+          "name": "domain-name-servers",
+          "data": option.domain_name_servers.join(", ")
+        }
+      end
 
-      result[:"option-data"] << {
-        "name": "routers",
-        "data": option.routers.join(", ")
-      } if option.routers.any?
+      if option.routers.any?
+        result[:"option-data"] << {
+          "name": "routers",
+          "data": option.routers.join(", ")
+        }
+      end
 
-      result[:"option-data"] << {
-        "name": "domain-name",
-        "data": option.domain_name
-      } if option.domain_name.present?
+      if option.domain_name.present?
+        result[:"option-data"] << {
+          "name": "domain-name",
+          "data": option.domain_name
+        }
+      end
 
       result
     end
