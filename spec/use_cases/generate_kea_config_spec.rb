@@ -85,5 +85,28 @@ describe UseCases::GenerateKeaConfig do
         hash_including(subnet: "10.0.2.0/24", id: 1002)
       ])
     end
+
+    it "appends options to the subnet" do
+      option = build_stubbed(:option)
+
+      config = UseCases::GenerateKeaConfig.new(subnets: [option.subnet]).execute
+
+      expect(config.dig(:Dhcp4, :subnet4)).to include(hash_including({
+        "option-data": [
+          {
+            "name": "domain-name-servers",
+            "data": option.domain_name_servers.join(", ")
+          },
+          {
+            "name": "routers",
+            "data": option.routers.join(", ")
+          },
+          {
+            "name": "domain-name",
+            "data": option.domain_name
+          }
+        ]
+      }))
+    end
   end
 end
