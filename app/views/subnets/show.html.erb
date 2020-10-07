@@ -20,14 +20,14 @@
 <h3 class="govuk-heading-m">Options</h3>
 <% if @subnet.option %>
   <% if can?(:update, @subnet.option) %>
-    <%= link_to "Edit options", edit_subnet_options_path(@subnet) if can?(:update, @subnet.option) %>
+    <%= link_to "Edit options", edit_subnet_options_path(@subnet), class: "govuk-button" if can?(:update, @subnet.option) %>
   <% end %>
 
   <% if can?(:destroy, @subnet.option) %>
-    <%= link_to "Delete options", subnet_options_path(@subnet), class:"govuk-link", method: :delete %>
+    <%= link_to "Delete options", subnet_options_path(@subnet), class: "govuk-button govuk-button--secondary", method: :delete %>
   <% end %>
 
   <%= render "options/details", option: @subnet.option %>
 <% else %>
-  <%= link_to "Create options", new_subnet_options_path(@subnet) if can?(:create, Option) %>
+  <%= link_to "Create options", new_subnet_options_path(@subnet), class: "govuk-button" if can?(:create, Option) %>
 <% end %>
