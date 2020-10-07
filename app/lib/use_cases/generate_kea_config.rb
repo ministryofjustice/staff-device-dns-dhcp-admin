@@ -27,6 +27,26 @@ module UseCases
           "site-id": subnet.site.fits_id,
           "site-name": subnet.site.name
         }
+      }.merge(options_config(subnet))
+    end
+
+    def options_config(subnet)
+      return {} unless subnet.option.present?
+      {
+        "option-data": [
+          {
+            "name": "domain-name-servers",
+            "data": subnet.option.domain_name_servers.join(", ")
+          },
+          {
+            "name": "routers",
+            "data": subnet.option.routers.join(", ")
+          },
+          {
+            "name": "domain-name",
+            "data": subnet.option.domain_name
+          }
+        ]
       }
     end
 
