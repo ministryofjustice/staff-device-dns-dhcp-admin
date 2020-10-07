@@ -23,4 +23,14 @@ class ApplicationController < ActionController::Base
   def after_sign_out_path_for(resource_or_scope)
     new_user_session_path
   end
+
+  def deploy_dhcp_service
+    UseCases::DeployService.new(
+      ecs_gateway: Gateways::Ecs.new(
+        cluster_name: ENV.fetch("DHCP_CLUSTER_NAME"),
+        service_name: ENV.fetch("DHCP_SERVICE_NAME"),
+        aws_config: Rails.application.config.ecs_aws_config
+      )
+    ).execute
+  end
 end
