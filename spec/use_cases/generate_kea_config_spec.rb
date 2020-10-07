@@ -87,7 +87,7 @@ describe UseCases::GenerateKeaConfig do
     end
 
     it "appends options to the subnet" do
-      option = build_stubbed(:option)
+      option = build_stubbed(:option, routers: nil)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [option.subnet]).execute
 
@@ -96,10 +96,6 @@ describe UseCases::GenerateKeaConfig do
           {
             "name": "domain-name-servers",
             "data": option.domain_name_servers.join(", ")
-          },
-          {
-            "name": "routers",
-            "data": option.routers.join(", ")
           },
           {
             "name": "domain-name",

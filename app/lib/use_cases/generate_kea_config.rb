@@ -27,27 +27,32 @@ module UseCases
           "site-id": subnet.site.fits_id,
           "site-name": subnet.site.name
         }
-      }.merge(options_config(subnet))
+      }.merge(options_config(subnet.option))
     end
 
-    def options_config(subnet)
-      return {} unless subnet.option.present?
-      {
-        "option-data": [
-          {
-            "name": "domain-name-servers",
-            "data": subnet.option.domain_name_servers.join(", ")
-          },
-          {
-            "name": "routers",
-            "data": subnet.option.routers.join(", ")
-          },
-          {
-            "name": "domain-name",
-            "data": subnet.option.domain_name
-          }
-        ]
+    def options_config(option)
+      return {} unless option.present?
+
+      result = {
+        "option-data": []
       }
+
+      result[:"option-data"] << {
+        "name": "domain-name-servers",
+        "data": option.domain_name_servers.join(", ")
+      } if option.domain_name_servers.any?
+
+      result[:"option-data"] << {
+        "name": "routers",
+        "data": option.routers.join(", ")
+      } if option.routers.any?
+
+      result[:"option-data"] << {
+        "name": "domain-name",
+        "data": option.domain_name
+      } if option.domain_name.present?
+
+      result
     end
 
     def default_config
