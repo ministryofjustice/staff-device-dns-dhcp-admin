@@ -23,7 +23,6 @@ ActiveRecord::Schema.define(version: 2020_10_08_085614) do
     t.string "routers"
     t.string "domain_name_servers"
     t.string "domain_name"
-    t.boolean "global", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "subnet_id"
