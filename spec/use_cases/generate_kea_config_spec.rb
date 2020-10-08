@@ -104,5 +104,31 @@ describe UseCases::GenerateKeaConfig do
         ]
       }))
     end
+
+    it "includes global options in the config" do
+      global_option = build_stubbed(:global_option)
+
+      config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: global_option).execute
+
+      expect(config.dig(:Dhcp4, :"option-data")).to match_array([
+        {
+          "name": "domain-name-servers",
+          "data": global_option.domain_name_servers.join(", ")
+        },
+        {
+          "name": "domain-name",
+          "data": global_option.domain_name
+        },
+        {
+          "name": "routers",
+          "data": global_option.routers.join(", ")
+        }
+      ])
+    end
+
+    it "does not set the global options if none are passed in" do
+      config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: nil).execute
+      expect(config[:Dhcp4].keys).to_not include :"option-data"
+    end
   end
 end

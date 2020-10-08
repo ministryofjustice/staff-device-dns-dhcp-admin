@@ -1,7 +1,8 @@
 module UseCases
   class GenerateKeaConfig
-    def initialize(subnets: [])
+    def initialize(subnets: [], global_option: nil)
       @subnets = subnets
+      @global_option = global_option
     end
 
     def execute
@@ -61,6 +62,25 @@ module UseCases
       result
     end
 
+    def global_options_config
+      return {} if @global_option.blank?
+
+      {
+        "option-data": [
+          {
+            "name": "domain-name-servers",
+            "data": @global_option.domain_name_servers.join(", ")
+          }, {
+            "name": "routers",
+            "data": @global_option.routers.join(", ")
+          }, {
+            "name": "domain-name",
+            "data": @global_option.domain_name
+          }
+        ]
+      }
+    end
+
     def default_config
       {
         Dhcp4: {
@@ -114,7 +134,7 @@ module UseCases
               severity: "DEBUG"
             }
           ]
-        }
+        }.merge(global_options_config)
       }
     end
   end
