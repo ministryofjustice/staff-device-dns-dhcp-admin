@@ -118,4 +118,12 @@ RSpec.describe GlobalOption, type: :model do
       end
     end
   end
+
+  it "can only have 1 record in the database" do
+    create(:global_option)
+
+    new_global_option = build(:global_option)
+    expect(new_global_option).to_not be_valid
+    expect(new_global_option.errors[:base]).to include "A global option already exists"
+  end
 end

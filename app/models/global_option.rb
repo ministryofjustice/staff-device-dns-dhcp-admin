@@ -7,6 +7,8 @@ class GlobalOption < ApplicationRecord
     ipv4_list: {message: "contains an invalid IPv4 address or is not separated using commas"}
   validates :domain_name, presence: true
 
+  validate :only_one_record
+
   def routers
     return [] unless self[:routers]
     self[:routers].split(",")
@@ -30,6 +32,14 @@ class GlobalOption < ApplicationRecord
       val.join(",")
     else
       val
+    end
+  end
+
+  private
+
+  def only_one_record
+    if GlobalOption.where.not(id: id).exists?
+      errors.add(:base, "A global option already exists")
     end
   end
 end
