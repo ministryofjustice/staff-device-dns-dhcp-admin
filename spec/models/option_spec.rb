@@ -7,6 +7,8 @@ RSpec.describe Option, type: :model do
     expect(subject).to be_valid
   end
 
+  it { is_expected.to validate_presence_of :subnet }
+
   it "is invalid if none of the options are completed" do
     subject.routers = nil
     subject.domain_name_servers = nil
