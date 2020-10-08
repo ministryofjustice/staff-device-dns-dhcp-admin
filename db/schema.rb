@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_08_085614) do
+ActiveRecord::Schema.define(version: 2020_10_08_093043) do
+
   create_table "global_options", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "routers", null: false
     t.string "domain_name_servers", null: false
@@ -25,7 +26,7 @@ ActiveRecord::Schema.define(version: 2020_10_08_085614) do
     t.string "domain_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "subnet_id"
+    t.bigint "subnet_id", null: false
     t.index ["subnet_id"], name: "index_options_on_subnet_id"
   end
 
