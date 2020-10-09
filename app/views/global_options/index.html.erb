@@ -31,8 +31,8 @@
       </div>
     </dl>
     <% if can? :manage, GlobalOption %>
-      <%= link_to "Edit", edit_global_option_path(@global_option.id), class:"govuk-link" %>
-      <%= link_to "Delete", global_option_path(@global_option), class:"govuk-link", method: :delete %>
+      <%= link_to "Edit global options", edit_global_option_path(@global_option.id), class:"govuk-link" %>
+      <%= link_to "Delete global options", global_option_path(@global_option), class:"govuk-link", method: :delete %>
     <% end %>
   <% else %>
     <p class="govuk-body">There are no global options configured.</p>
