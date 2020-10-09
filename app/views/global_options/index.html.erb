@@ -8,7 +8,7 @@
           Routers
         </dt>
         <dd class="govuk-summary-list__value">
-          <%= @global_option && @global_option.routers.join(",") %>
+          <%= @global_option.routers.join(",") %>
         </dd>
       </div>
 
@@ -17,7 +17,7 @@
           Domain Name Servers
         </dt>
         <dd class="govuk-summary-list__value">
-          <%= @global_option && @global_option.domain_name_servers.join(",") %>
+          <%= @global_option.domain_name_servers.join(",") %>
         </dd>
       </div>
 
@@ -26,7 +26,7 @@
           Domain Name
         </dt>
         <dd class="govuk-summary-list__value">
-          <%= @global_option && @global_option.domain_name %>
+          <%= @global_option.domain_name %>
         </dd>
       </div>
     </dl>
