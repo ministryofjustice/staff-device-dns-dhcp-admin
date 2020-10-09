@@ -11,7 +11,7 @@ describe "delete gobal options", type: :feature do
 
     click_on "Delete global options"
 
-    expect(page).to have_content("Are you sure you want to delete these global options?")
+    expect(page).to have_content("Are you sure you want to delete the global options?")
 
     click_on "Delete global options"
 
