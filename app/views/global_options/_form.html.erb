@@ -1,8 +1,8 @@
-<%= form_with model: global_option, 
+<%= form_with model: global_option,
               method: global_option.new_record? ? :post : :put,
               local: true do |f| %>
   <div class="govuk-form-group <%= field_error(f.object, :routers )%>">
-    <%= f.label :routers, "Routers", class: "govuk-label" %>
+    <%= f.label :routers, class: "govuk-label" %>
     <div id="zone_forwarders-hint" class="govuk-hint">
       Must be in the form: 127.0.0.1,127.0.0.2
     </div>
@@ -10,7 +10,7 @@
   </div>
 
   <div class="govuk-form-group <%= field_error(f.object, :domain_name_servers) %>">
-    <%= f.label :domain_name_servers, "Domain Name Servers", class: "govuk-label" %>
+    <%= f.label :domain_name_servers, class: "govuk-label" %>
     <div id="zone_forwarders-hint" class="govuk-hint">
       Must be in the form: 127.0.0.1,127.0.0.2
     </div>
@@ -18,7 +18,7 @@
   </div>
 
   <div class="govuk-form-group <%= field_error(f.object, :domain_name) %>">
-    <%= f.label :domain_name, "Domain Name", class: "govuk-label" %>
+    <%= f.label :domain_name, class: "govuk-label" %>
     <div id="zone_name-hint" class="govuk-hint">
       Must be in the form: test.example.com
     </div>
