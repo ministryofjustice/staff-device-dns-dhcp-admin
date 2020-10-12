@@ -1,16 +1,16 @@
 <%= form_with(model: (subnet.new_record? ? [subnet.site, subnet] : subnet), local: true) do |f| %>
   <div class="govuk-form-group <%= field_error(f.object, :cidr_block )%>">
-    <%= f.label :cidr_block, "CIDR Block", class: "govuk-label" %>
+    <%= f.label :cidr_block, class: "govuk-label" %>
     <%= f.text_field :cidr_block, class: "govuk-input" %>
   </div>
 
   <div class="govuk-form-group <%= field_error(f.object, :start_address) %>">
-    <%= f.label :start_address, "Start Address", class: "govuk-label" %>
+    <%= f.label :start_address, class: "govuk-label" %>
     <%= f.text_field :start_address, class: "govuk-input" %>
   </div>
 
   <div class="govuk-form-group <%= field_error(f.object, :end_address) %>">
-    <%= f.label :end_address, "End Address", class: "govuk-label" %>
+    <%= f.label :end_address, class: "govuk-label" %>
     <%= f.text_field :end_address, class: "govuk-input" %>
   </div>
 
