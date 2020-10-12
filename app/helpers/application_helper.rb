@@ -5,7 +5,7 @@ module ApplicationHelper
 
   def selected_class_if_controller(controller_names)
     if [controller_names].flatten.include?(controller_name)
-      return ' govuk-header__navigation-item--active'
+      " govuk-header__navigation-item--active"
     end
   end
 end
