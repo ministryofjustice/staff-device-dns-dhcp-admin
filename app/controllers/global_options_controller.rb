@@ -14,6 +14,8 @@ class GlobalOptionsController < ApplicationController
     @global_option = GlobalOption.new(global_option_params)
     authorize! :create, @global_option
     if @global_option.save
+      publish_kea_config
+      deploy_dhcp_service
       redirect_to global_options_path, notice: "Successfully created global options"
     else
       render :new
@@ -27,6 +29,8 @@ class GlobalOptionsController < ApplicationController
   def update
     authorize! :update, @global_option
     if @global_option.update(global_option_params)
+      publish_kea_config
+      deploy_dhcp_service
       redirect_to global_options_path, notice: "Successfully updated global options"
     else
       render :edit
@@ -37,6 +41,8 @@ class GlobalOptionsController < ApplicationController
     authorize! :destroy, @global_option
     if confirmed?
       if @global_option.destroy
+        publish_kea_config
+        deploy_dhcp_service
         redirect_to global_options_path, notice: "Successfully deleted global options"
       else
         redirect_to global_options_path, error: "Failed to delete the global options"
