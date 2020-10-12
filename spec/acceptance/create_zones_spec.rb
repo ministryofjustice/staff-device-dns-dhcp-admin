@@ -13,7 +13,7 @@ describe "create zones", type: :feature do
     expect(current_path).to eql("/zones/new")
 
     fill_in "Name", with: "test.example.com"
-    fill_in "Forwarders", with: "10.1.1.25;10.1.1.28;"
+    fill_in "Forwarders", with: "10.1.1.25,10.1.1.28"
     fill_in "Purpose", with: "Frontend Driven Test"
 
     click_button "Create"
@@ -22,7 +22,7 @@ describe "create zones", type: :feature do
 
     zone = Zone.last
     expect(zone.name).to eq "test.example.com"
-    expect(zone.forwarders).to eq "10.1.1.25;10.1.1.28;"
+    expect(zone.forwarders).to eq ["10.1.1.25", "10.1.1.28"]
     expect(zone.purpose).to eq "Frontend Driven Test"
   end
 
