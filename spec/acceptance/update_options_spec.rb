@@ -40,12 +40,12 @@ describe "update options", type: :feature do
       click_on "Edit options"
 
       expect(page).to have_field("Routers", with: option.routers.join(","))
-      expect(page).to have_field("Domain Name Servers", with: option.domain_name_servers.join(","))
-      expect(page).to have_field("Domain Name", with: option.domain_name)
+      expect(page).to have_field("Domain name servers", with: option.domain_name_servers.join(","))
+      expect(page).to have_field("Domain name", with: option.domain_name)
 
       fill_in "Routers", with: "10.0.1.1,10.0.1.3"
-      fill_in "Domain Name Servers", with: "10.0.2.2,10.0.2.3"
-      fill_in "Domain Name", with: "testier.example.com"
+      fill_in "Domain name servers", with: "10.0.2.2,10.0.2.3"
+      fill_in "Domain name", with: "testier.example.com"
 
       expect_config_to_be_published
       expect_service_to_be_rebooted
@@ -62,8 +62,8 @@ describe "update options", type: :feature do
       visit "/subnets/#{subnet.to_param}/options/edit"
 
       fill_in "Routers", with: ""
-      fill_in "Domain Name Servers", with: ""
-      fill_in "Domain Name", with: ""
+      fill_in "Domain name servers", with: ""
+      fill_in "Domain name", with: ""
 
       click_on "Update"
 

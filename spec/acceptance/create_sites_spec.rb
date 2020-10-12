@@ -37,7 +37,7 @@ describe "create sites", type: :feature do
 
       expect(current_path).to eql("/sites/new")
 
-      fill_in "FITS ID", with: "MYFITS101"
+      fill_in "FITS id", with: "MYFITS101"
       fill_in "Name", with: "My London Site"
 
       click_on "Create"

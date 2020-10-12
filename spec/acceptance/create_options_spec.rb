@@ -39,8 +39,8 @@ describe "create options", type: :feature do
       click_on "Create options"
 
       fill_in "Routers", with: "10.0.1.0,10.0.1.2"
-      fill_in "Domain Name Servers", with: "10.0.2.1,10.0.2.2"
-      fill_in "Domain Name", with: "test.example.com"
+      fill_in "Domain name servers", with: "10.0.2.1,10.0.2.2"
+      fill_in "Domain name", with: "test.example.com"
 
       expect_config_to_be_published
       expect_service_to_be_rebooted

@@ -13,9 +13,9 @@ describe "create subnets", type: :feature do
 
     expect(current_path).to eql("/sites/#{site.to_param}/subnets/new")
 
-    fill_in "CIDR Block", with: "10.0.1.0/24"
-    fill_in "Start Address", with: "10.0.1.1"
-    fill_in "End Address", with: "10.0.1.255"
+    fill_in "CIDR block", with: "10.0.1.0/24"
+    fill_in "Start address", with: "10.0.1.1"
+    fill_in "End address", with: "10.0.1.255"
 
     click_button "Create"
 
@@ -32,9 +32,9 @@ describe "create subnets", type: :feature do
 
     click_on "Create a new subnet"
 
-    fill_in "CIDR Block", with: "a"
-    fill_in "Start Address", with: "b"
-    fill_in "End Address", with: "c"
+    fill_in "CIDR block", with: "a"
+    fill_in "Start address", with: "b"
+    fill_in "End address", with: "c"
 
     click_button "Create"
 

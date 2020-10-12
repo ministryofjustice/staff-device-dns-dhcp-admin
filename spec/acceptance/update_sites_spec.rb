@@ -37,10 +37,10 @@ describe "update sites", type: :feature do
 
       click_on "Edit"
 
-      expect(page).to have_field("FITS ID", with: site.fits_id)
+      expect(page).to have_field("FITS id", with: site.fits_id)
       expect(page).to have_field("Name", with: site.name)
 
-      fill_in "FITS ID", with: "MYFITS202"
+      fill_in "FITS id", with: "MYFITS202"
       fill_in "Name", with: "My Manchester Site"
 
       click_on "Update"

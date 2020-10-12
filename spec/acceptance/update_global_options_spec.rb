@@ -40,12 +40,12 @@ describe "update global options", type: :feature do
       click_on "Edit global option"
 
       expect(page).to have_field("Routers", with: global_option.routers.join(","))
-      expect(page).to have_field("Domain Name Servers", with: global_option.domain_name_servers.join(","))
-      expect(page).to have_field("Domain Name", with: global_option.domain_name)
+      expect(page).to have_field("Domain name servers", with: global_option.domain_name_servers.join(","))
+      expect(page).to have_field("Domain name", with: global_option.domain_name)
 
       fill_in "Routers", with: "10.0.1.1,10.0.1.3"
-      fill_in "Domain Name Servers", with: "10.0.2.2,10.0.2.3"
-      fill_in "Domain Name", with: "testier.example.com"
+      fill_in "Domain name servers", with: "10.0.2.2,10.0.2.3"
+      fill_in "Domain name", with: "testier.example.com"
 
       click_on "Update"
 
