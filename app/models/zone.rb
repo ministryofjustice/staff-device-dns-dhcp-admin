@@ -8,10 +8,4 @@ class Zone < ApplicationRecord
     return [] unless self[:forwarders]
     self[:forwarders].split(",")
   end
-
-  def kea_forwarders
-    return "" if forwarders.blank?
-
-    forwarders.join(";") + ";"
-  end
 end

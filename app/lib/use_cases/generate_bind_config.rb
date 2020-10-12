@@ -51,9 +51,13 @@ zone "127.in-addr.arpa" IN {
       %(
 zone "#{zone.name}" IN {
   type forward;
-  forwarders {#{zone.kea_forwarders}};
+  forwarders {#{format_zone_forwarders(zone.forwarders)}};
 };
 )
     }.join
+  end
+
+  def format_zone_forwarders(forwarders)
+    forwarders.join(";") + ";"
   end
 end
