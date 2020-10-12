@@ -34,3 +34,5 @@ en:
     attributes:
       subnet:
         cidr_block: "CIDR block"
+      site: 
+        fits_id: "FITS ID"
