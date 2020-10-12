@@ -3,7 +3,6 @@ version: "3.4"
 services:
   db:
     image: "mysql:5.7"
-    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
     env_file: .env.${ENV}
     expose:
       - "3306"
