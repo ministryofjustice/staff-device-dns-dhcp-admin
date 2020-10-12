@@ -34,29 +34,29 @@
               </svg>
               <span class="govuk-header__logotype-text">GOV.UK</span>
             </span>
-            <span class="govuk-header__product-name">
-              GovUK DHCP Admin
-              <strong class="govuk-tag govuk-phase-banner__content__tag">
-                beta
-              </strong>
-            </span>
-            <%- end %>
+          <%- end %>
         </div>
+
         <div class="govuk-header__content">
           <button type="button" class="govuk-header__menu-button govuk-js-header-toggle" aria-controls="navigation" aria-label="Show or hide Top Level Navigation">Menu</button>
-          <nav>
-            <ul id="navigation" class="govuk-header__navigation " aria-label="Top Level Navigation" dir="RTL">
-              <% if user_signed_in? %>
-                <li class="govuk-header__navigation-item">
-                  <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "govuk-header__link" %>
-                </li>
-              <% end %>
-            </ul>
-          </nav>
+          <%= link_to "Staff device DNS / DHCP Admin", root_path, class: "govuk-header__link govuk-header__link--service-name" %>
+          <%= render "layouts/navigation" %>
         </div>
       </div>
     </header>
+
     <div class="govuk-width-container">
+      <div class="govuk-phase-banner">
+        <p class="govuk-phase-banner__content">
+          <strong class="govuk-tag govuk-phase-banner__content__tag">
+            beta
+          </strong>
+          <span class="govuk-phase-banner__text">
+            This is a new service.
+          </span>
+        </p>
+      </div>
+
       <% if user_signed_in? %>
         <hr class="govuk-section-break govuk-section-break--xs govuk-section-break--visible">
         <div class="govuk-grid-row">

@@ -1,6 +1,8 @@
 <div>
   <h2 class="govuk-heading-l">Sites</h2>
 
+  <%= link_to "Global configuration", global_options_path, class: "govuk-button govuk-button--secondary" %>
+
   <% if can? :create, Site %>
     <%= link_to "Create a new site", new_site_path, class: "govuk-button" %>
   <% end %>
