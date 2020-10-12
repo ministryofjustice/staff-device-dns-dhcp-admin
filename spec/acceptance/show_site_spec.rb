@@ -21,7 +21,7 @@ describe "showing a site", type: :feature do
       let!(:subnet3) { create :subnet }
 
       it "allows viewing sites and its subnets" do
-        visit "/sites"
+        visit "/dhcp"
 
         click_on "View", match: :first
 

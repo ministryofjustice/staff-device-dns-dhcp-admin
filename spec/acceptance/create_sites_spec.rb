@@ -15,7 +15,7 @@ describe "create sites", type: :feature do
     end
 
     it "does not allow creating sites" do
-      visit "/sites"
+      visit "/dhcp"
 
       expect(page).not_to have_content "Create a new site"
 
@@ -31,7 +31,7 @@ describe "create sites", type: :feature do
     end
 
     it "creates a new site" do
-      visit "/sites"
+      visit "/dhcp"
 
       click_on "Create a new site"
 
@@ -42,7 +42,7 @@ describe "create sites", type: :feature do
 
       click_on "Create"
 
-      expect(current_path).to eq("/sites")
+      expect(current_path).to eq("/dhcp")
 
       expect(page).to have_content("MYFITS101")
       expect(page).to have_content("My London Site")

@@ -7,7 +7,7 @@ describe "delete gobal options", type: :feature do
 
   it "delete global options" do
     global_option = create :global_option
-    visit "/global_options"
+    visit "/global-options"
 
     click_on "Delete global options"
 

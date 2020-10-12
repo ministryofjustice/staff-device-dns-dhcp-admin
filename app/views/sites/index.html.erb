@@ -1,7 +1,8 @@
 <div>
-  <h2 class="govuk-heading-l">Sites</h2>
+  <h2 class="govuk-heading-l">DHCP</h2>
+  <%= link_to "Global options", global_options_path, class: "govuk-button govuk-button--secondary" %>
 
-  <%= link_to "Global configuration", global_options_path, class: "govuk-button govuk-button--secondary" %>
+  <h3 class="govuk-heading-m">Sites</h3>
 
   <% if can? :create, Site %>
     <%= link_to "Create a new site", new_site_path, class: "govuk-button" %>

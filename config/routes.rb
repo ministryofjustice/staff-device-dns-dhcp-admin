@@ -5,17 +5,17 @@ Rails.application.routes.draw do
     match "sign_out", to: "devise/sessions#destroy", as: :destroy_user_session, via: [:get, :delete]
   end
 
-  resources :sites do
+  get "/dns", to: "zones#index", as: :dns
+  resources :zones, except: [:index]
+
+  get "/dhcp", to: "sites#index", as: :dhcp
+  resources :sites, except: [:index] do
     resources :subnets, only: [:new, :create]
   end
-
   resources :subnets, only: [:show, :edit, :update, :destroy] do
     resource :options, only: [:new, :create, :edit, :update, :destroy]
   end
-
-  resources :zones, only: [:index, :new, :create, :edit, :update, :destroy]
-
-  resources :global_options, only: [:index, :new, :create, :edit, :update, :destroy]
+  resources :global_options, only: [:index, :new, :create, :edit, :update, :destroy], path: "/global-options"
 
   get "/healthcheck", to: "monitoring#healthcheck"
 

@@ -1,12 +1,12 @@
 <nav>
   <ul id="navigation" class="govuk-header__navigation" aria-label="Top Level Navigation">
     <% if user_signed_in? %>
-      <li class="govuk-header__navigation-item<%= selected_class_if_controller('sites') %>">
-        <%= link_to "DHCP", sites_path, class: "govuk-header__link", data: { topnav: "DHCP" } %>
+      <li class="govuk-header__navigation-item<%= selected_class_if_controller('zones') %>">
+        <%= link_to "DNS", dns_path, class: "govuk-header__link", data: { topnav: "DNS" } %>
       </li>
 
-      <li class="govuk-header__navigation-item<%= selected_class_if_controller('zones') %>">
-        <%= link_to "DNS", zones_path, class: "govuk-header__link", data: { topnav: "DNS" } %>
+      <li class="govuk-header__navigation-item<%= selected_class_if_controller('sites') %>">
+        <%= link_to "DHCP", dhcp_path, class: "govuk-header__link", data: { topnav: "DHCP" } %>
       </li>
 
       <li class="govuk-header__navigation-item">

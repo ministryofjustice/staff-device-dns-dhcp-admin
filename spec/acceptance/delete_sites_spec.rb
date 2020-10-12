@@ -7,7 +7,7 @@ describe "delete sites", type: :feature do
     end
 
     it "does not allow creating sites" do
-      visit "/sites"
+      visit "/dhcp"
 
       expect(page).not_to have_content "Delete"
     end
@@ -21,7 +21,7 @@ describe "delete sites", type: :feature do
     it "delete a site" do
       site = create(:site)
 
-      visit "/sites"
+      visit "/dhcp"
 
       click_on "Delete"
 
@@ -29,7 +29,7 @@ describe "delete sites", type: :feature do
 
       click_on "Delete site"
 
-      expect(current_path).to eq("/sites")
+      expect(current_path).to eq("/dhcp")
       expect(page).to have_content("Successfully deleted site")
       expect(page).not_to have_content(site.name)
     end

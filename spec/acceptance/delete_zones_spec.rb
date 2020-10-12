@@ -8,7 +8,7 @@ describe "delete zones", type: :feature do
   it "delete a zone" do
     zone = create(:zone)
 
-    visit "/zones"
+    visit "/dns"
 
     click_on "Delete"
 
@@ -16,7 +16,7 @@ describe "delete zones", type: :feature do
 
     click_on "Delete zone"
 
-    expect(current_path).to eq("/zones")
+    expect(current_path).to eq("/dns")
     expect(page).to have_content("Successfully deleted zone")
     expect(page).not_to have_content(zone.name)
   end

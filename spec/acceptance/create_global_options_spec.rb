@@ -5,7 +5,7 @@ describe "create global options", type: :feature do
 
   context "when a user is not logged in" do
     it "it does not allow editing global_options" do
-      visit "/global_options/new"
+      visit "/global-options/new"
 
       expect(page).to have_content("You need to sign in or sign up before continuing.")
     end
@@ -17,11 +17,11 @@ describe "create global options", type: :feature do
     end
 
     it "does not allow editing global options" do
-      visit "/global_options"
+      visit "/global-options"
 
       expect(page).not_to have_content("Create global options")
 
-      visit "/global_options/new"
+      visit "/global-options/new"
 
       expect(page).to have_content("You are not authorized to access this page.")
     end
@@ -33,7 +33,7 @@ describe "create global options", type: :feature do
     end
 
     it "creates a new global option" do
-      visit "/global_options"
+      visit "/global-options"
 
       click_on "Create global options"
 
@@ -50,7 +50,7 @@ describe "create global options", type: :feature do
     end
 
     it "displays error if form cannot be submitted" do
-      visit "/global_options/new"
+      visit "/global-options/new"
 
       click_on "Create"
 

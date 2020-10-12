@@ -8,7 +8,7 @@ describe "update zones", type: :feature do
   end
 
   it "update an existing zone" do
-    visit "/zones"
+    visit "/dns"
 
     click_on "Edit"
 
@@ -22,7 +22,7 @@ describe "update zones", type: :feature do
 
     click_button "Update"
 
-    expect(current_path).to eq("/zones")
+    expect(current_path).to eq("/dns")
 
     expect(page).to have_content("test.example.com")
     expect(page).to have_content("127.0.0.2,127.0.0.1")
