@@ -5,7 +5,7 @@ describe "update global options", type: :feature do
 
   context "when a user is not logged in" do
     it "it does not allow editing global options" do
-      visit "/global_options/#{global_option.id}/edit"
+      visit "/global-options/#{global_option.id}/edit"
 
       expect(page).to have_content("You need to sign in or sign up before continuing.")
     end
@@ -17,11 +17,11 @@ describe "update global options", type: :feature do
     end
 
     it "does not allow editing global options" do
-      visit "/global_options"
+      visit "/global-options"
 
       expect(page).not_to have_content("Edit global option")
 
-      visit "/global_options/#{global_option.id}/edit"
+      visit "/global-options/#{global_option.id}/edit"
 
       expect(page).to have_content("You are not authorized to access this page.")
     end
@@ -34,7 +34,7 @@ describe "update global options", type: :feature do
     end
 
     it "edits an existing global option" do
-      visit "/global_options"
+      visit "/global-options"
 
       expect(page).not_to have_content("Create global options")
       click_on "Edit global option"
@@ -56,7 +56,7 @@ describe "update global options", type: :feature do
     end
 
     it "displays error if form cannot be submitted" do
-      visit "/global_options/#{global_option.id}/edit"
+      visit "/global-options/#{global_option.id}/edit"
 
       fill_in "Routers", with: ""
 

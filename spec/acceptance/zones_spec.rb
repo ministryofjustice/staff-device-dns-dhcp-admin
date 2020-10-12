@@ -9,7 +9,7 @@ describe "GET /zones", type: :feature do
     zone = create :zone
     zone2 = create :zone, name: "test.example.com"
 
-    visit "/zones"
+    visit "/dns"
     expect(page).to have_content zone.name
     expect(page).to have_content zone.forwarders.join(",")
     expect(page).to have_content zone.purpose
@@ -24,7 +24,7 @@ describe "GET /zones", type: :feature do
     end
 
     it "can see the zone management links" do
-      visit "/zones"
+      visit "/dns"
 
       expect(page).to_not have_content "Create a new zone"
       expect(page).to_not have_content "Edit"
@@ -39,7 +39,7 @@ describe "GET /zones", type: :feature do
     end
 
     it "can see the zone management links" do
-      visit "/zones"
+      visit "/dns"
 
       expect(page).to have_content "Create a new zone"
       expect(page).to have_content "Edit"

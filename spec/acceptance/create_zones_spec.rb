@@ -6,7 +6,7 @@ describe "create zones", type: :feature do
   end
 
   it "creates a new zone" do
-    visit "/zones"
+    visit "/dns"
 
     click_on "Create a new zone"
 
@@ -18,7 +18,7 @@ describe "create zones", type: :feature do
 
     click_button "Create"
 
-    expect(current_path).to eq("/zones")
+    expect(current_path).to eq("/dns")
 
     zone = Zone.last
     expect(zone.name).to eq "test.example.com"

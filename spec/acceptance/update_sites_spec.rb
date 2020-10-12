@@ -17,7 +17,7 @@ describe "update sites", type: :feature do
     end
 
     it "does not allow editing sites" do
-      visit "/sites"
+      visit "/dhcp"
 
       expect(page).not_to have_content "Edit"
 
@@ -33,7 +33,7 @@ describe "update sites", type: :feature do
     end
 
     it "update an existing site" do
-      visit "/sites"
+      visit "/dhcp"
 
       click_on "Edit"
 
@@ -45,7 +45,7 @@ describe "update sites", type: :feature do
 
       click_on "Update"
 
-      expect(current_path).to eq("/sites")
+      expect(current_path).to eq("/dhcp")
 
       expect(page).to have_content("MYFITS202")
       expect(page).to have_content("My Manchester Site")

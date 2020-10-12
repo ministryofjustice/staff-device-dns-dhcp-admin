@@ -20,7 +20,7 @@ class SitesController < ApplicationController
     if @site.save
       publish_kea_config
       deploy_dhcp_service
-      redirect_to sites_path, notice: "Successfully created site"
+      redirect_to dhcp_path, notice: "Successfully created site"
     else
       render :new
     end
@@ -35,7 +35,7 @@ class SitesController < ApplicationController
     if @site.update(site_params)
       publish_kea_config
       deploy_dhcp_service
-      redirect_to sites_path, notice: "Successfully updated site"
+      redirect_to dhcp_path, notice: "Successfully updated site"
     else
       render :edit
     end
@@ -48,9 +48,9 @@ class SitesController < ApplicationController
       if @site.destroy
         publish_kea_config
         deploy_dhcp_service
-        redirect_to sites_path, notice: "Successfully deleted site"
+        redirect_to dhcp_path, notice: "Successfully deleted site"
       else
-        redirect_to sites_path, error: "Failed to delete the site"
+        redirect_to dhcp_path, error: "Failed to delete the site"
       end
     else
       render "sites/destroy"
