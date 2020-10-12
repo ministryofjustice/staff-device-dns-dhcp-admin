@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_08_093043) do
+ActiveRecord::Schema.define(version: 2020_10_12_115948) do
   create_table "global_options", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "routers", null: false
     t.string "domain_name_servers", null: false

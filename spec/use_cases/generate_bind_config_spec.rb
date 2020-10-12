@@ -49,8 +49,8 @@ zone "127.in-addr.arpa" IN {
 
   describe "Dynamic zones" do
     before do
-      create(:zone, name: "example.test.com", forwarders: "127.0.0.1;127.0.0.2;")
-      create(:zone, name: "example2.test.com", forwarders: "10.0.0.1;10.0.0.255;")
+      create(:zone, name: "example.test.com", forwarders: "127.0.0.1,127.0.0.2")
+      create(:zone, name: "example2.test.com", forwarders: "10.0.0.1,10.0.0.255")
     end
 
     let(:all_zones) { Zone.all }
