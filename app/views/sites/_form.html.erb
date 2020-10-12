@@ -1,6 +1,6 @@
 <%= form_with model: site, local: true do |f| %>
   <div class="govuk-form-group <%= field_error(f.object, :fits_id )%>">
-    <%= f.label :fits_id, "FITS Id", class: "govuk-label" %>
+    <%= f.label :fits_id, class: "govuk-label" %>
     <%= f.text_field :fits_id, class: "govuk-input" %>
   </div>
 
