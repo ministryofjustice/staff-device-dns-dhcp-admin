@@ -11,6 +11,11 @@ RSpec.describe Zone, type: :model do
   it { is_expected.to validate_presence_of :name }
   it { is_expected.to validate_presence_of(:forwarders).with_message("must contain at least one IPv4 address separated using commas") }
 
+  it { should allow_value("example.com").for(:name) }
+  it { should allow_value("foo.example.com").for(:name) }
+  it { should_not allow_value("i_contain_an_at_sign@gov.uk").for(:name) }
+  it { should_not allow_value("测试.com").for(:name) }
+
   context "forwarders validation" do
     it "must be a valid IPv4 address" do
       zone = build :zone, forwarders: ","
