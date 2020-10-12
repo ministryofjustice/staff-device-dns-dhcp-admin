@@ -1,6 +1,6 @@
 <%= form_with model: zone, local: true do |f| %>
   <div class="govuk-form-group <%= field_error(f.object, :name )%>">
-    <%= f.label :name, "Domain Name", class: "govuk-label" %>
+    <%= f.label :name, class: "govuk-label" %>
     <div id="zone_name-hint" class="govuk-hint">
       Must be in the form: test.example.com
     </div>

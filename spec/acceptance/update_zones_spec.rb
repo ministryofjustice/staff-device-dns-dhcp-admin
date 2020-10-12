@@ -12,11 +12,11 @@ describe "update zones", type: :feature do
 
     click_on "Edit"
 
-    expect(page).to have_field("Name", with: zone.name)
+    expect(page).to have_field("Domain name", with: zone.name)
     expect(page).to have_field("Forwarders", with: zone.forwarders.join(","))
     expect(page).to have_field("Purpose", with: zone.purpose)
 
-    fill_in "Name", with: "test.example.com"
+    fill_in "Domain name", with: "test.example.com"
     fill_in "Forwarders", with: "127.0.0.2,127.0.0.1"
     fill_in "Purpose", with: "UI Testing for Updating"
 

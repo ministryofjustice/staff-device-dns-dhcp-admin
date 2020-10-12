@@ -34,5 +34,7 @@ en:
     attributes:
       subnet:
         cidr_block: "CIDR block"
-      site: 
+      site:
         fits_id: "FITS ID"
+      zone:
+        name: "Domain name"
