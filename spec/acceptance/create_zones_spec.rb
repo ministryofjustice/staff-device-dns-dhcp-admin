@@ -12,7 +12,7 @@ describe "create zones", type: :feature do
 
     expect(current_path).to eql("/zones/new")
 
-    fill_in "Name", with: "test.example.com"
+    fill_in "Domain name", with: "test.example.com"
     fill_in "Forwarders", with: "10.1.1.25,10.1.1.28"
     fill_in "Purpose", with: "Frontend Driven Test"
 
