@@ -35,11 +35,4 @@ RSpec.describe Zone, type: :model do
       expect(zone).to be_valid
     end
   end
-
-  context "kea_forwarders" do
-    it "returns a semicolon separated list of IPv4s" do
-      zone = build :zone, forwarders: "127.0.0.1,127.0.0.2"
-      expect(zone.kea_forwarders).to eq "127.0.0.1;127.0.0.2;"
-    end
-  end
 end
