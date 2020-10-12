@@ -5,7 +5,7 @@
         <%= link_to "DNS", dns_path, class: "govuk-header__link", data: { topnav: "DNS" } %>
       </li>
 
-      <li class="govuk-header__navigation-item<%= selected_class_if_controller('sites') %>">
+      <li class="govuk-header__navigation-item<%= selected_class_if_controller(['sites', 'global_options', 'subnets', 'options']) %>">
         <%= link_to "DHCP", dhcp_path, class: "govuk-header__link", data: { topnav: "DHCP" } %>
       </li>
 
