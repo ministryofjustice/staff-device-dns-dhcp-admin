@@ -42,4 +42,9 @@ RSpec.describe Zone, type: :model do
       expect(zone).to be_valid
     end
   end
+
+  it "stores the name downcased" do
+    zone = create :zone, name: "cAsE.EXamPLE.com"
+    expect(zone.name).to eq "case.example.com"
+  end
 end
