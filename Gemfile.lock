@@ -60,6 +60,8 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     ansi (1.5.0)
     ast (2.4.1)
+    audited (4.9.0)
+      activerecord (>= 4.2, < 6.1)
     aws-eventstream (1.1.0)
     aws-partitions (1.357.0)
     aws-sdk-core (3.104.3)
@@ -324,6 +326,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  audited
   aws-sdk-ecs (~> 1.8)
   aws-sdk-s3 (~> 1.73)
   bootsnap (>= 1.4.2)
