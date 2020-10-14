@@ -11,6 +11,8 @@ class Subnet < ApplicationRecord
   validate :cidr_block_is_a_valid_ipv4_subnet, :start_address_is_a_valid_ipv4_address,
     :end_address_is_a_valid_ipv4_address, :cidr_block_address_is_unique
 
+  audited
+
   delegate :routers,
     :domain_name_servers,
     :domain_name,
