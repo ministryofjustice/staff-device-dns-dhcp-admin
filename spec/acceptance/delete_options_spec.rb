@@ -3,9 +3,10 @@ require "rails_helper"
 describe "delete options", type: :feature do
   let(:option) { create :option }
   let(:subnet) { option.subnet }
+  let(:editor) { User.create!(editor: true) }
 
   before do
-    login_as User.create!(editor: true)
+    login_as editor
   end
 
   it "delete an option" do
@@ -22,5 +23,11 @@ describe "delete options", type: :feature do
 
     expect(page).to have_content("Successfully deleted option")
     expect(page).not_to have_content(option.domain_name)
+
+    click_on "Audit log"
+
+    expect(page).to have_content("#{editor.id}")
+    expect(page).to have_content("destroy")
+    expect(page).to have_content("Option")
   end
 end
