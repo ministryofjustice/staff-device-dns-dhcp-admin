@@ -26,8 +26,10 @@ describe "create sites", type: :feature do
   end
 
   context "when the user is an editor" do
+    let(:editor) { User.create!(editor: true) }
+
     before do
-      login_as User.create!(editor: true)
+      login_as editor
     end
 
     it "creates a new site" do
@@ -46,6 +48,12 @@ describe "create sites", type: :feature do
 
       expect(page).to have_content("MYFITS101")
       expect(page).to have_content("My London Site")
+
+      click_on "Audit log"
+
+      expect(page).to have_content("#{editor.id}")
+      expect(page).to have_content("create")
+      expect(page).to have_content("Site")
     end
 
     it "displays error if form cannot be submitted" do

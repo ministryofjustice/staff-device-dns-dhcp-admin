@@ -28,8 +28,10 @@ describe "update sites", type: :feature do
   end
 
   context "when the user is an editor" do
+    let(:editor) { User.create!(editor: true) }
+
     before do
-      login_as User.create!(editor: true)
+      login_as editor
     end
 
     it "update an existing site" do
@@ -49,6 +51,12 @@ describe "update sites", type: :feature do
 
       expect(page).to have_content("MYFITS202")
       expect(page).to have_content("My Manchester Site")
+
+      click_on "Audit log"
+
+      expect(page).to have_content("#{editor.id}")
+      expect(page).to have_content("update")
+      expect(page).to have_content("Site")
     end
   end
 end
