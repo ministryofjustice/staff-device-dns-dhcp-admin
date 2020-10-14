@@ -2,9 +2,10 @@ require "rails_helper"
 
 describe "update subnets", type: :feature do
   let!(:subnet) { create(:subnet) }
+  let(:editor) { User.create!(editor: true) }
 
   before do
-    login_as User.create!(editor: true)
+    login_as editor
   end
 
   it "update an existing subnet" do
@@ -27,5 +28,11 @@ describe "update subnets", type: :feature do
     expect(page).to have_content("10.1.1.0/24")
     expect(page).to have_content("10.1.1.1")
     expect(page).to have_content("10.1.1.255")
+
+    click_on "Audit log"
+
+    expect(page).to have_content("#{editor.id}")
+    expect(page).to have_content("update")
+    expect(page).to have_content("Subnet")
   end
 end

@@ -1,9 +1,12 @@
 require "rails_helper"
 
 describe "create subnets", type: :feature do
+  let(:editor) { User.create!(editor: true) }
+
   before do
-    login_as User.create!(editor: true)
+    login_as editor
   end
+
 
   it "creates a new subnet" do
     site = create :site
@@ -24,6 +27,12 @@ describe "create subnets", type: :feature do
     expect(page).to have_content("10.0.1.0/24")
     expect(page).to have_content("10.0.1.1")
     expect(page).to have_content("10.0.1.255")
+
+    click_on "Audit log"
+
+    expect(page).to have_content("#{editor.id}")
+    expect(page).to have_content("create")
+    expect(page).to have_content("Subnet")
   end
 
   it "displays error if form cannot be submitted" do
