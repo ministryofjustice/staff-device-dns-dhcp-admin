@@ -1,5 +1,5 @@
 class AuditsController < ApplicationController
   def index
-    @audits = Audit.all
+    @audits = Audit.order(created_at: 'DESC').all
   end
 end
