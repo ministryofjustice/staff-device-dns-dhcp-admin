@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_12_115948) do
+ActiveRecord::Schema.define(version: 2020_10_14_104412) do
   create_table "global_options", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "routers", null: false
     t.string "domain_name_servers", null: false
@@ -52,6 +52,11 @@ ActiveRecord::Schema.define(version: 2020_10_12_115948) do
     t.string "provider"
     t.string "uid"
     t.boolean "editor", default: false
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
   end
 
   create_table "zones", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
