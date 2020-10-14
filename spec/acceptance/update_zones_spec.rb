@@ -2,9 +2,10 @@ require "rails_helper"
 
 describe "update zones", type: :feature do
   let!(:zone) { create(:zone) }
+  let(:editor) { User.create!(editor: true) }
 
   before do
-    login_as User.create!(editor: true)
+    login_as editor
   end
 
   it "update an existing zone" do
@@ -27,6 +28,12 @@ describe "update zones", type: :feature do
     expect(page).to have_content("test.example.com")
     expect(page).to have_content("127.0.0.2,127.0.0.1")
     expect(page).to have_content("UI Testing for Updating")
+
+    click_on "Audit log"
+
+    expect(page).to have_content("#{editor.id}")
+    expect(page).to have_content("update")
+    expect(page).to have_content("Zone")
   end
 
   it "displays error if form cannot be submitted" do

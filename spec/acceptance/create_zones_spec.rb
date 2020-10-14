@@ -1,9 +1,12 @@
 require "rails_helper"
 
 describe "create zones", type: :feature do
+  let(:editor) { User.create!(editor: true) }
+
   before do
-    login_as User.create!(editor: true)
+    login_as editor
   end
+
 
   it "creates a new zone" do
     visit "/dns"
@@ -24,6 +27,12 @@ describe "create zones", type: :feature do
     expect(zone.name).to eq "test.example.com"
     expect(zone.forwarders).to eq ["10.1.1.25", "10.1.1.28"]
     expect(zone.purpose).to eq "Frontend Driven Test"
+
+    click_on "Audit log"
+
+    expect(page).to have_content("#{editor.id}")
+    expect(page).to have_content("create")
+    expect(page).to have_content("Zone")
   end
 
   it "displays error if form cannot be submitted" do
