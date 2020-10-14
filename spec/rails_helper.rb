@@ -2,7 +2,7 @@
 require "simplecov"
 require "simplecov-console"
 SimpleCov.formatter = SimpleCov::Formatter::Console
-SimpleCov.start "rails"
+SimpleCov.start "rails" if ENV["COVERAGE"]
 
 require "spec_helper"
 ENV["RAILS_ENV"] ||= "test"
