@@ -1,0 +1,21 @@
+<h2 class="govuk-heading-l">Audit Log</h2>
+
+<table class="govuk-table">
+  <caption class="govuk-table__caption">List of audited changes</caption>
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">User</th>
+      <th scope="col" class="govuk-table__header">Action</th>
+      <th scope="col" class="govuk-table__header">Record</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <% @audits.each do |audit| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell"><%= audit.user_id %></td>
+        <td class="govuk-table__cell"><%= audit.action %></td>
+        <td class="govuk-table__cell"><%= audit.revision.model_name.human %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

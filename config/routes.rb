@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   end
   resources :global_options, only: [:index, :new, :create, :edit, :update, :destroy], path: "/global-options"
 
+  resources :audits, only: [:index]
+
   get "/healthcheck", to: "monitoring#healthcheck"
 
   root "home#index"
