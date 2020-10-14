@@ -28,9 +28,12 @@ describe "create options", type: :feature do
   end
 
   context "when a user is logged in as an editor" do
+    let(:editor) { User.create!(editor: true) }
+
     before do
-      login_as User.create!(editor: true)
+      login_as editor
     end
+
 
     it "creates a new subnet option" do
       visit "/subnets/#{subnet.to_param}"
@@ -51,6 +54,12 @@ describe "create options", type: :feature do
       expect(page).to have_content("10.0.1.0,10.0.1.2")
       expect(page).to have_content("10.0.2.1,10.0.2.2")
       expect(page).to have_content("test.example.com")
+
+      click_on "Audit log"
+
+      expect(page).to have_content("#{editor.id}")
+      expect(page).to have_content("create")
+      expect(page).to have_content("Option")
     end
 
     it "displays error if form cannot be submitted" do

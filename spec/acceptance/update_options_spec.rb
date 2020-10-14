@@ -29,8 +29,10 @@ describe "update options", type: :feature do
   end
 
   context "when a user is logged in as an editor" do
+    let(:editor) { User.create!(editor: true) }
+
     before do
-      login_as User.create!(editor: true)
+      login_as editor
     end
 
     it "edits an existing option" do
@@ -56,6 +58,12 @@ describe "update options", type: :feature do
       expect(page).to have_content("10.0.1.1,10.0.1.3")
       expect(page).to have_content("10.0.2.2,10.0.2.3")
       expect(page).to have_content("testier.example.com")
+
+      click_on "Audit log"
+
+      expect(page).to have_content("#{editor.id}")
+      expect(page).to have_content("update")
+      expect(page).to have_content("Option")
     end
 
     it "displays error if form cannot be submitted" do
