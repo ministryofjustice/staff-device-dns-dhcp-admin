@@ -314,3 +314,24 @@ Devise.setup do |config|
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
 end
+
+#
+# Hook for HardTimeoutable module
+#
+# Each time a record is set we check whether its session has already timed out
+# or not, based on time between sign in and max session duration. If so, the record is logged out and
+# redirected to the sign in page. Also, each time the request comes and the
+# record is set, we set the last request time inside its scoped session to
+# verify timeout in the following request.
+Warden::Manager.after_set_user do |record, warden, options|
+  scope = options[:scope]
+
+  if record && record.respond_to?(:hard_timedout?) && warden.authenticated?(scope) &&
+      proxy = Devise::Hooks::Proxy.new(warden)
+
+    if record.hard_timedout?
+      Devise.sign_out_all_scopes ? proxy.sign_out : proxy.sign_out(scope)
+      throw :warden, scope: scope, message: :timeout
+    end
+  end
+end

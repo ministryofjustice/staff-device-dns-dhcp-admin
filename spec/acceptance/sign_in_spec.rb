@@ -25,4 +25,24 @@ RSpec.describe "GET /sign_in", type: :feature do
       expect(page).to have_content "DHCP / DNS Admin portal"
     end
   end
+
+  context "user signed in for more than 8 hours" do
+    let(:user) { User.create! }
+
+    before do
+      login_as user
+
+      visit "/"
+      expect(current_path).to eq "/"
+    end
+
+    it "signs the user out" do
+      user.update!(current_sign_in_at: 10.hours.ago)
+
+      visit "/"
+
+      expect(current_path).to eq "/sign_in"
+      expect(page).to have_content "Sign in"
+    end
+  end
 end
