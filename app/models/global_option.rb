@@ -9,6 +9,8 @@ class GlobalOption < ApplicationRecord
 
   validate :only_one_record
 
+  audited
+
   def routers
     return [] unless self[:routers]
     self[:routers].split(",")

@@ -1,8 +1,10 @@
 require "rails_helper"
 
 describe "delete gobal options", type: :feature do
+  let(:editor) { User.create!(editor: true) }
+
   before do
-    login_as User.create!(editor: true)
+    login_as editor
   end
 
   it "delete global options" do
@@ -17,5 +19,11 @@ describe "delete gobal options", type: :feature do
 
     expect(page).to have_content("Successfully deleted global options")
     expect(page).not_to have_content(global_option.domain_name)
+
+    click_on "Audit log"
+
+    expect(page).to have_content("#{editor.id}")
+    expect(page).to have_content("destroy")
+    expect(page).to have_content("Global option")
   end
 end
