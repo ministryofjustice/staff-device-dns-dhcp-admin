@@ -7,6 +7,8 @@ class Zone < ApplicationRecord
 
   before_save { name.downcase! }
 
+  audited
+
   def forwarders
     return [] unless self[:forwarders]
     self[:forwarders].split(",")
