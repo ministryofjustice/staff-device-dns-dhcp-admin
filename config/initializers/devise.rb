@@ -319,19 +319,33 @@ end
 # Hook for HardTimeoutable module
 #
 # Each time a record is set we check whether its session has already timed out
-# or not, based on time between sign in and max session duration. If so, the record is logged out and
-# redirected to the sign in page. Also, each time the request comes and the
-# record is set, we set the last request time inside its scoped session to
-# verify timeout in the following request.
+# or not, based on time between sign in and the max session duration. If so,
+# the record is logged out and redirected to the sign in page.
+#
 Warden::Manager.after_set_user do |record, warden, options|
   scope = options[:scope]
 
-  if record && record.respond_to?(:hard_timedout?) && warden.authenticated?(scope) &&
-      proxy = Devise::Hooks::Proxy.new(warden)
+  if record&.respond_to?(:hard_timedout?) && warden.authenticated?(scope) &&
+      options[:store] != false
+    signed_in_at = warden.session(scope)["signed_in_at"]
 
-    if record.hard_timedout?
+    if signed_in_at.is_a? Integer
+      signed_in_at = Time.at(signed_in_at).utc
+    elsif signed_in_at.is_a? String
+      signed_in_at = Time.parse(signed_in_at)
+    end
+
+    proxy = Devise::Hooks::Proxy.new(warden)
+
+    if record.hard_timedout?(signed_in_at)
       Devise.sign_out_all_scopes ? proxy.sign_out : proxy.sign_out(scope)
       throw :warden, scope: scope, message: :timeout
+    end
+
+    # Only set this once (to represent when the user signed in)
+    # signed_in_at gets cleared when the user is signed out
+    unless warden.session(scope)["signed_in_at"]
+      warden.session(scope)["signed_in_at"] = Time.now.utc.to_i
     end
   end
 end

@@ -1,4 +1,5 @@
 require "rails_helper"
+include ActiveSupport::Testing::TimeHelpers
 
 RSpec.describe "GET /sign_in", type: :feature do
   it "displays sign in when not signed in" do
@@ -26,7 +27,7 @@ RSpec.describe "GET /sign_in", type: :feature do
     end
   end
 
-  xcontext "user signed in for more than 8 hours" do
+  context "user signed in for more than 8 hours" do
     let(:user) { User.create! }
 
     before do
@@ -37,7 +38,7 @@ RSpec.describe "GET /sign_in", type: :feature do
     end
 
     it "signs the user out" do
-      user.update!(current_sign_in_at: 10.hours.ago)
+      travel_to 10.hours.from_now
 
       visit "/"
 
