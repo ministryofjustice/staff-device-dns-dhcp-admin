@@ -7,7 +7,6 @@ describe "create zones", type: :feature do
     login_as editor
   end
 
-
   it "creates a new zone" do
     visit "/dns"
 
@@ -30,7 +29,7 @@ describe "create zones", type: :feature do
 
     click_on "Audit log"
 
-    expect(page).to have_content("#{editor.id}")
+    expect(page).to have_content(editor.id.to_s)
     expect(page).to have_content("create")
     expect(page).to have_content("Zone")
   end
