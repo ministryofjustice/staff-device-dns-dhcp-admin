@@ -5,11 +5,6 @@ module Devise
     # HardTimeoutable ensures that users are not signed in for longer then the max
     # sign in duration. When a user has been signed in for longer then configured duration,
     # the user will be asked for credentials again.
-
-    # It requires the following columns:
-    #
-    # * current_sign_in_at - A timestamp updated when the user signs in
-    #                        This comes from the trackable module
     #
     # == Options
     #
@@ -25,12 +20,12 @@ module Devise
       extend ActiveSupport::Concern
 
       def self.required_fields(klass)
-        [:current_sign_in_at]
+        []
       end
 
       # Checks whether the user session has expired based on configured time.
-      def hard_timedout?
-        hard_timeout_in.present? && current_sign_in_at.present? && current_sign_in_at <= hard_timeout_in.ago
+      def hard_timedout?(signed_in_at)
+        hard_timeout_in.present? && signed_in_at.present? && signed_in_at <= hard_timeout_in.ago
       end
 
       def hard_timeout_in
