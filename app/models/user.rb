@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   EDITOR_ROLE = "editor"
 
-  MAX_SESSION_TIME = 8.hours
+  MAX_SESSION_TIME = 10.minutes
 
   devise :omniauthable, :timeoutable, :trackable, :hard_timeoutable,
     omniauth_providers: (Rails.env.development? ? %i[cognito developer] : %i[cognito]),
