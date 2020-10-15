@@ -54,7 +54,7 @@ describe "update sites", type: :feature do
 
       click_on "Audit log"
 
-      expect(page).to have_content("#{editor.id}")
+      expect(page).to have_content(editor.id.to_s)
       expect(page).to have_content("update")
       expect(page).to have_content("Site")
     end

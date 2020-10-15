@@ -23,7 +23,7 @@ describe "delete subnets", type: :feature do
 
     click_on "Audit log"
 
-    expect(page).to have_content("#{editor.id}")
+    expect(page).to have_content(editor.id.to_s)
     expect(page).to have_content("destroy")
     expect(page).to have_content("Subnet")
   end
