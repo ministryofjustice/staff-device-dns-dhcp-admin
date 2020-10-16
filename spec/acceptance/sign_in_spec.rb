@@ -39,7 +39,7 @@ RSpec.describe "GET /sign_in", type: :feature do
     end
 
     it "signs the user out" do
-      travel_to 10.hours.from_now
+      travel_to 10.minutes.from_now
 
       visit "/"
 
