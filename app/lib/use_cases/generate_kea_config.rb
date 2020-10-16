@@ -113,8 +113,8 @@ module UseCases
             port: 3306
           },
           "control-socket": {
-              "socket-type": "unix",
-              "socket-name": "/tmp/dhcp4-socket"
+            "socket-type": "unix",
+            "socket-name": "/tmp/dhcp4-socket"
           },
           subnet4: [
             {
