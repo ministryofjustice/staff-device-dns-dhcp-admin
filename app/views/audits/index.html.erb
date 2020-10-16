@@ -8,6 +8,7 @@
       <th scope="col" class="govuk-table__header">Action</th>
       <th scope="col" class="govuk-table__header">Record</th>
       <th scope="col" class="govuk-table__header">Datetime</th>
+      <th scope="col" class="govuk-table__header"><span class="govuk-visually-hidden">Actions</span></th>
     </tr>
   </thead>
   <tbody class="govuk-table__body">
@@ -17,6 +18,7 @@
         <td class="govuk-table__cell"><%= audit.action %></td>
         <td class="govuk-table__cell"><%= audit.revision.model_name.human %></td>
         <td class="govuk-table__cell"><%= audit.created_at.to_s(:long) %></td>
+        <td class="govuk-table__cell"><%= link_to "Details", audit_path(audit), class: "govuk-link" %></td>
       </tr>
     <% end %>
   </tbody>
