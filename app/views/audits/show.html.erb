@@ -14,7 +14,7 @@
       Record
     </dt>
     <dd class="govuk-summary-list__value">
-      <%= link_to @audit.auditable_type, @audit.auditable %>
+      <%= @audit.auditable_type.underscore.humanize %>
     </dd>
   </div>
   <div class="govuk-summary-list__row">
