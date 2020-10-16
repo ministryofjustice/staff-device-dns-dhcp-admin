@@ -1,7 +1,8 @@
 require "rails_helper"
-include ActiveSupport::Testing::TimeHelpers
 
 RSpec.describe "GET /sign_in", type: :feature do
+  include ActiveSupport::Testing::TimeHelpers
+
   it "displays sign in when not signed in" do
     visit "/"
     expect(page).to have_content "Sign in"
