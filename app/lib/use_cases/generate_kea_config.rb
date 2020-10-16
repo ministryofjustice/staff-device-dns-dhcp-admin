@@ -112,6 +112,10 @@ module UseCases
             host: "<DB_HOST>",
             port: 3306
           },
+          "control-socket": {
+              "socket-type": "unix",
+              "socket-name": "/tmp/dhcp4-socket"
+          },
           subnet4: [
             {
               pools: [
