@@ -8,4 +8,9 @@ module ApplicationHelper
       " govuk-header__navigation-item--active"
     end
   end
+
+  def present(model)
+    presenter = "#{model.class}Presenter".constantize
+    presenter.new(model)
+  end
 end

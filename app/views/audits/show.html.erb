@@ -1,3 +1,5 @@
+<% presenter = present(@audit) %>
+
 <h2 class="govuk-heading-l">Audit Log</h2>
 
 <dl class="govuk-summary-list">
@@ -14,7 +16,7 @@
       Record
     </dt>
     <dd class="govuk-summary-list__value">
-      <%= @audit.auditable_type.underscore.humanize %>
+      <%= presenter.name %>
     </dd>
   </div>
   <div class="govuk-summary-list__row">
