@@ -3,7 +3,7 @@ class User < ApplicationRecord
 
   MAX_SESSION_TIME = 8.hours
 
-  devise :omniauthable, :timeoutable, :trackable, :hard_timeoutable,
+  devise :omniauthable, :timeoutable, :hard_timeoutable,
     omniauth_providers: (Rails.env.development? ? %i[cognito developer] : %i[cognito]),
     hard_timeout_in: MAX_SESSION_TIME
 
@@ -19,13 +19,5 @@ class User < ApplicationRecord
     user.editor = true
     user.save
     user
-  end
-
-  protected
-
-  # Method called by devise Trackable module to track IPs
-  # Removing this method will result in IPs being logged in the user table
-  def extract_ip_from(request)
-    # Skip IP logging in Trackable module
   end
 end
