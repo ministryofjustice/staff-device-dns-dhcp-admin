@@ -133,6 +133,11 @@ module UseCases
               ],
               severity: "DEBUG"
             }
+          ],
+          "hooks-libraries": [
+            {
+              "library": "/usr/lib/kea/hooks/libdhcp_lease_cmds.so"
+            }
           ]
         }.merge(global_options_config)
       }
