@@ -9,6 +9,8 @@ class GlobalOption < ApplicationRecord
 
   validate :only_one_record
 
+  before_validation :strip_whitespace
+
   audited
 
   def routers
@@ -43,5 +45,9 @@ class GlobalOption < ApplicationRecord
     if GlobalOption.where.not(id: id).exists?
       errors.add(:base, "A global option already exists")
     end
+  end
+
+  def strip_whitespace
+    self[:routers] = self[:routers]&.strip&.delete(" ")
   end
 end

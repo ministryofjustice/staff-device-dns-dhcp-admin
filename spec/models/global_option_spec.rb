@@ -73,6 +73,14 @@ RSpec.describe GlobalOption, type: :model do
         expect(subject.routers).to eq(["192.168.0.2", "192.168.0.3"])
       end
     end
+
+    context "when the value is an string with whitespace" do
+      subject { create :global_option, routers: " 192.168.0.2, 192.168.0.3  " }
+
+      it "stores the routers correctly" do
+        expect(subject.routers).to eq(["192.168.0.2", "192.168.0.3"])
+      end
+    end
   end
 
   describe "#domain_name_servers" do
