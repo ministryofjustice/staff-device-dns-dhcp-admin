@@ -49,5 +49,6 @@ class GlobalOption < ApplicationRecord
 
   def strip_whitespace
     self[:routers] = self[:routers]&.strip&.delete(" ")
+    self[:domain_name_servers] = self[:domain_name_servers]&.strip&.delete(" ")
   end
 end

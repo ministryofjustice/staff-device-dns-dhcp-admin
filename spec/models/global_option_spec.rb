@@ -125,6 +125,14 @@ RSpec.describe GlobalOption, type: :model do
         expect(subject.domain_name_servers).to eq(["192.168.0.2", "192.168.0.3"])
       end
     end
+
+    context "when the value is an string with whitespace" do
+      subject { create :global_option, domain_name_servers: " 192.168.0.2, 192.168.0.3  " }
+
+      it "stores the routers correctly" do
+        expect(subject.domain_name_servers).to eq(["192.168.0.2", "192.168.0.3"])
+      end
+    end
   end
 
   it "can only have 1 record in the database" do
