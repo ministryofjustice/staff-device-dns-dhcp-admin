@@ -41,6 +41,12 @@ RSpec.describe Zone, type: :model do
       zone = build :zone, forwarders: "127.0.0.1,127.0.0.2"
       expect(zone).to be_valid
     end
+
+    it "strips all whitespace from forwarders before saving" do
+      zone = create :zone, forwarders: " 127.0.0.1, 127.0.0.1 "
+
+      expect(zone.forwarders).to eq(["127.0.0.1", "127.0.0.1"])
+    end
   end
 
   it "stores the name downcased" do

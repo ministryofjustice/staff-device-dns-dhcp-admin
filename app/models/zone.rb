@@ -7,10 +7,18 @@ class Zone < ApplicationRecord
 
   before_save { name.downcase! }
 
+  before_validation :strip_whitespace
+
   audited
 
   def forwarders
     return [] unless self[:forwarders]
     self[:forwarders].split(",")
+  end
+
+  private
+
+  def strip_whitespace
+    self[:forwarders] = self[:forwarders]&.strip&.delete(" ")
   end
 end
