@@ -50,6 +50,4 @@ RUN if [ ${RUN_PRECOMPILATION} = 'true' ]; then \
 
 EXPOSE 3000
 
-RUN mysql -u ${DHCP_DB_USER} -p${DHCP_DB_PASS} -n ${DHCP_DB_NAME} -h ${DHCP_DB_HOST}
-
 CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
