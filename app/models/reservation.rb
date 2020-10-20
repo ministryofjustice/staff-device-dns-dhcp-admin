@@ -1,6 +1,8 @@
 class Reservation < ApplicationRecord
   belongs_to :subnet
 
+  validates :hostname, domain_name: true
+
   validate :ip_address_is_a_valid_ipv4_address
 
   private
