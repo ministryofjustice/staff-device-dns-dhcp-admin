@@ -7,7 +7,7 @@ class Reservation < ApplicationRecord
   validates :hw_address, format: {with: MAC_ADDRESS_REGEX}
 
   validate :ip_address_is_a_valid_ipv4_address
-  validate :ip_address_is_within_the_subnet_cidr_block
+  validate :ip_address_is_within_the_subnet
 
   def ip_addr
     IPAddr.new(ip_address)
@@ -23,12 +23,17 @@ class Reservation < ApplicationRecord
     end
   end
 
-  def ip_address_is_within_the_subnet_cidr_block
+  def ip_address_is_within_the_subnet
     return if ip_address.blank?
     return unless IPAddress.valid_ipv4?(ip_address)
 
     unless subnet.ip_addr === ip_addr
       errors.add(:ip_address, "is not within the subnets CIDR block")
+      return
+    end
+
+    if ip_addr < subnet.start_address_ip_addr || ip_addr > subnet.end_address_ip_addr
+      errors.add(:ip_address, "is not within the subnet range")
     end
   end
 end
