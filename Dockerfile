@@ -26,7 +26,7 @@ WORKDIR /usr/src/app
 ADD https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem /usr/src/cert/
 
 RUN apk add --no-cache --virtual .build-deps build-base && \
-  apk add --no-cache nodejs yarn mysql-dev bash make
+  apk add --no-cache nodejs yarn mysql-dev mysql-client bash make
 
 COPY Gemfile Gemfile.lock .ruby-version ./
 RUN bundle config set no-cache 'true' && \
