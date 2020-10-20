@@ -9,7 +9,7 @@ class User < ApplicationRecord
 
   def self.from_omniauth(auth)
     user = find_or_initialize_by(provider: auth.provider, uid: auth.uid)
-    user.email = auth.extra.raw_info.email
+    user.email = auth.extra.raw_info.identities[0].userId
     user.editor = auth.extra.raw_info["custom:app_role"] == EDITOR_ROLE
     user.save
     user
