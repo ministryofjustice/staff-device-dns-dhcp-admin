@@ -55,6 +55,6 @@ implode:
 	$(DOCKER_COMPOSE) rm
 
 test-dhcp-db:
-	./scripts/testdhcpdb.sh
+	mysql -u ${DHCP_DB_USER} -p${DHCP_DB_PASS} -n ${DHCP_DB_NAME} -h ${DHCP_DB_HOST}
 
 .PHONY: build serve stop test deploy migrate migrate-dev build-dev publish implode test-dhcp-db
