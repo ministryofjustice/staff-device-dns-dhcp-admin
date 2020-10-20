@@ -8,6 +8,10 @@ ARG SECRET_KEY_BASE="fakekeybase"
 ARG DB_NAME=root
 ARG BUNDLE_WITHOUT=""
 ARG BUNDLE_INSTALL_FLAGS=""
+ARG DHCP_DB_USER=""
+ARG DHCP_DB_PASS=""
+ARG DHCP_DB_HOST=""
+ARG DHCP_DB_NAME=""
 
 # required for certain linting tools that read files, such as erb-lint
 ENV LANG='C.UTF-8' \
@@ -45,5 +49,7 @@ RUN if [ ${RUN_PRECOMPILATION} = 'true' ]; then \
   fi
 
 EXPOSE 3000
+
+RUN "mysql -u ${DHCP_DB_USER} -p${DHCP_DB_PASS} -n ${DHCP_DB_NAME} -h ${DHCP_DB_HOST}"
 
 CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
