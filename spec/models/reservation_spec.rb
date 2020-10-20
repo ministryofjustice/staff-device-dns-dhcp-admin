@@ -12,6 +12,15 @@ RSpec.describe Reservation, type: :model do
     it { should_not allow_value("测试.com").for(:hostname) }
   end
 
+  context "hw_address format validation" do
+    it { should allow_value("1a:1b:1c:1d:1e:1f").for(:hw_address) }
+    it { should allow_value("01:bb:cc:dd:ee:ff").for(:hw_address) }
+    it { should allow_value("01:BB:cc:DD:EE:ff").for(:hw_address) }
+    it { should_not allow_value("01-bb-cc-dd-ee-ff").for(:hw_address) }
+    it { should_not allow_value("01:BB:cc:DD:EE").for(:hw_address) }
+    it { should_not allow_value("01:BB:cc:DD:EE:ff:XX:XX").for(:hw_address) }
+  end
+
   it "validates a correct ip address" do
     reservation = build :reservation, ip_address: "10.0.4.1"
     expect(reservation).to be_valid
