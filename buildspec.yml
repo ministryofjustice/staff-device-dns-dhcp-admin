@@ -24,6 +24,7 @@ phases:
 
   build:
     commands:
+      - make test-dhcp-db
       - make publish
       - TEMP_ROLE=`aws sts assume-role --role-arn $ROLE_ARN --role-session-name test-$BUILD_ID`
       - export AWS_ACCESS_KEY_ID=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.AccessKeyId')
