@@ -5,7 +5,7 @@ class Reservation < ApplicationRecord
 
   validates :ip_address, presence: true
   validates :hostname, domain_name: true
-  validates :hw_address, format: {with: MAC_ADDRESS_REGEX}
+  validates :hw_address, format: {with: MAC_ADDRESS_REGEX}, presence: true
 
   validate :ip_address_is_a_valid_ipv4_address
   validate :ip_address_is_within_the_subnet
