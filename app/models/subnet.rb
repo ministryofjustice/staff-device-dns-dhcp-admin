@@ -23,7 +23,7 @@ class Subnet < ApplicationRecord
   def ip_addr
     IPAddr.new(cidr_block)
   end
-  
+
   def start_address_ip_addr
     IPAddr.new(start_address)
   end

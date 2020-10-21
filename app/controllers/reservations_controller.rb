@@ -20,5 +20,4 @@ class ReservationsController < ApplicationController
   def subnet_id
     params.fetch(:subnet_id)
   end
-
 end
