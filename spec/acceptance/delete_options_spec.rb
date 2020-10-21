@@ -3,7 +3,7 @@ require "rails_helper"
 describe "delete options", type: :feature do
   let(:option) { create :option }
   let(:subnet) { option.subnet }
-  let(:editor) { User.create!(editor: true) }
+  let(:editor) { create(:user, :editor) }
 
   before do
     login_as editor

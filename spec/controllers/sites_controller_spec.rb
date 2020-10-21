@@ -3,7 +3,7 @@ require "rails_helper"
 describe SitesController, type: :controller do
   describe "GET index" do
     before do
-      sign_in User.create!
+      sign_in create(:user, :reader)
     end
 
     it "returns sites ordered by fits_id" do
@@ -19,7 +19,7 @@ describe SitesController, type: :controller do
 
   describe "GET show" do
     before do
-      sign_in User.create!
+      sign_in create(:user, :reader)
     end
 
     it "returns subnets ordered by cidr_block" do

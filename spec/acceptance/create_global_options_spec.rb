@@ -13,7 +13,7 @@ describe "create global options", type: :feature do
 
   context "when a user is logged in as an viewer" do
     before do
-      login_as User.create!(editor: false)
+      login_as create(:user, :reader)
     end
 
     it "does not allow editing global options" do

@@ -11,7 +11,7 @@ describe "showing a site", type: :feature do
 
   context "when the user is authenticated" do
     before do
-      login_as User.create!
+      login_as create(:user, :reader)
     end
 
     context "when the site exists" do

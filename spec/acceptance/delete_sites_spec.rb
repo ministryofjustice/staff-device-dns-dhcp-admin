@@ -3,7 +3,7 @@ require "rails_helper"
 describe "delete sites", type: :feature do
   context "when the user is a viewer" do
     before do
-      login_as User.create!(editor: false)
+      login_as create(:user, :reader)
     end
 
     it "does not allow creating sites" do
@@ -14,7 +14,7 @@ describe "delete sites", type: :feature do
   end
 
   context "when the user is an editor" do
-    let(:editor) { User.create!(editor: true) }
+    let(:editor) { create(:user, :editor) }
 
     before do
       login_as editor

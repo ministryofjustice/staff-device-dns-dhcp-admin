@@ -29,7 +29,7 @@ RSpec.describe "GET /sign_in", type: :feature do
   end
 
   context "user signed in for more than 8 hours" do
-    let(:user) { User.create! }
+    let(:user) { create(:user, :reader) }
 
     before do
       login_as user
