@@ -1,0 +1,20 @@
+<h2 class="govuk-heading-l">Reservation <%= @site.name %></h2>
+
+<dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">FITS id</dt>
+    <dd class="govuk-summary-list__value"><%= @site.fits_id %></dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Name</dt>
+    <dd class="govuk-summary-list__value"><%= @site.name %></dd>
+  </div>
+</dl>
+
+<% if can? :create, Subnet %>
+  <%= link_to "Create a new subnet", new_site_subnet_path(@site), class: "govuk-button" %>
+<% end %>
+
+
+<%= render "subnets/list", subnets: @subnets %>

@@ -1,0 +1,34 @@
+<%= form_with(model: (reservation.new_record? ? [reservation.subnet, reservation] : reservation), local: true) do |f| %>
+  <div class="govuk-form-group <%= field_error(f.object, :hw_address )%>">
+    <%= f.label :hw_address, class: "govuk-label" %>
+    <%= f.text_field :hw_address, class: "govuk-input" %>
+  </div>
+
+  <div class="govuk-form-group <%= field_error(f.object, :ip_address) %>">
+    <%= f.label :ip_address, class: "govuk-label" %>
+    <%= f.text_field :ip_address, class: "govuk-input" %>
+  </div>
+
+  <div class="govuk-form-group <%= field_error(f.object, :hostname) %>">
+    <%= f.label :hostname, class: "govuk-label" %>
+    <%= f.text_field :hostname, class: "govuk-input" %>
+  </div>
+
+  <div class="govuk-form-group <%= field_error(f.object, :description) %>">
+    <%= f.label :description, class: "govuk-label" %>
+    <%= f.text_field :description, class: "govuk-input" %>
+  </div>
+
+  <%= f.submit f.object.new_record? ? "Create" : "Update", {
+    class: "govuk-button",
+    "data-module" => "govuk-button"
+  } %>
+
+  <%= link_to "Cancel", subnet_path(reservation.subnet),
+  class: "govuk-button govuk-button--secondary",
+  data: {
+    module: "govuk-button"
+  }
+%>
+
+<% end %>
