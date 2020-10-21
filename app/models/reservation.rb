@@ -3,6 +3,7 @@ class Reservation < ApplicationRecord
 
   belongs_to :subnet
 
+  validates :ip_address, presence: true
   validates :hostname, domain_name: true
   validates :hw_address, format: {with: MAC_ADDRESS_REGEX}
 

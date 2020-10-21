@@ -3,6 +3,8 @@ require "rails_helper"
 RSpec.describe Reservation, type: :model do
   subject { build :reservation }
 
+  it { is_expected.to validate_presence_of :ip_address }
+
   context "hostname validation" do
     it { should allow_value("example.com").for(:hostname) }
     it { should allow_value("foo.example.com").for(:hostname) }
