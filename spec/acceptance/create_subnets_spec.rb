@@ -8,7 +8,7 @@ describe "create subnets", type: :feature do
   end
 
   it "creates a new subnet" do
-    site = create :site
+    site = Audited.audit_class.as_user(editor) { create :site }
     visit "/sites/#{site.to_param}"
 
     click_on "Create a new subnet"
@@ -29,7 +29,7 @@ describe "create subnets", type: :feature do
 
     click_on "Audit log"
 
-    expect(page).to have_content(editor.id.to_s)
+    expect(page).to have_content(editor.email)
     expect(page).to have_content("create")
     expect(page).to have_content("Subnet")
   end

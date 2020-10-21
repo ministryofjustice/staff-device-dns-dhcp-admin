@@ -8,7 +8,7 @@ describe "delete subnets", type: :feature do
   end
 
   it "delete a subnet" do
-    subnet = create(:subnet)
+    subnet = Audited.audit_class.as_user(editor) { create(:subnet) }
 
     visit "/sites/#{subnet.site.to_param}"
 
@@ -23,7 +23,7 @@ describe "delete subnets", type: :feature do
 
     click_on "Audit log"
 
-    expect(page).to have_content(editor.id.to_s)
+    expect(page).to have_content(editor.email)
     expect(page).to have_content("destroy")
     expect(page).to have_content("Subnet")
   end

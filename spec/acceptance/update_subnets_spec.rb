@@ -1,7 +1,6 @@
 require "rails_helper"
 
 describe "update subnets", type: :feature do
-  let!(:subnet) { create(:subnet) }
   let(:editor) { create(:user, :editor) }
 
   before do
@@ -9,6 +8,7 @@ describe "update subnets", type: :feature do
   end
 
   it "update an existing subnet" do
+    subnet = Audited.audit_class.as_user(User.first) { create(:subnet) }
     visit "/sites/#{subnet.site.to_param}"
 
     click_on "Edit"
@@ -31,7 +31,7 @@ describe "update subnets", type: :feature do
 
     click_on "Audit log"
 
-    expect(page).to have_content(editor.id.to_s)
+    expect(page).to have_content(editor.email)
     expect(page).to have_content("update")
     expect(page).to have_content("Subnet")
   end

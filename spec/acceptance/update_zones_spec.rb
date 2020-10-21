@@ -1,7 +1,12 @@
 require "rails_helper"
 
 describe "update zones", type: :feature do
-  let!(:zone) { create(:zone) }
+  let!(:zone) do
+    Audited.audit_class.as_user(editor) do
+      create(:zone)
+    end
+  end
+
   let(:editor) { create(:user, :editor) }
 
   before do
@@ -31,7 +36,7 @@ describe "update zones", type: :feature do
 
     click_on "Audit log"
 
-    expect(page).to have_content(editor.id.to_s)
+    expect(page).to have_content(editor.email)
     expect(page).to have_content("update")
     expect(page).to have_content("Zone")
   end

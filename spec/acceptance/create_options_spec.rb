@@ -1,7 +1,11 @@
 require "rails_helper"
 
 describe "create options", type: :feature do
-  let(:subnet) { create(:subnet) }
+  let(:subnet) do
+    Audited.audit_class.as_user(User.first) do
+      create(:subnet)
+    end
+  end
 
   context "when a user is not logged in" do
     it "it does not allow editing options" do
@@ -13,7 +17,7 @@ describe "create options", type: :feature do
 
   context "when a user is logged in as an viewer" do
     before do
-      login_as User.create!(editor: false)
+      login_as create(:user, :reader)
     end
 
     it "does not allow editing options" do
@@ -28,7 +32,7 @@ describe "create options", type: :feature do
   end
 
   context "when a user is logged in as an editor" do
-    let(:editor) { User.create!(editor: true) }
+    let(:editor) { create :user, :editor }
 
     before do
       login_as editor
@@ -56,7 +60,7 @@ describe "create options", type: :feature do
 
       click_on "Audit log"
 
-      expect(page).to have_content(editor.id.to_s)
+      expect(page).to have_content(editor.email)
       expect(page).to have_content("create")
       expect(page).to have_content("Option")
     end

@@ -29,7 +29,7 @@ describe "create zones", type: :feature do
 
     click_on "Audit log"
 
-    expect(page).to have_content(editor.id.to_s)
+    expect(page).to have_content(editor.email)
     expect(page).to have_content("create")
     expect(page).to have_content("Zone")
   end
