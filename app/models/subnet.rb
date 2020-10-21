@@ -9,7 +9,8 @@ class Subnet < ApplicationRecord
   validates :end_address, presence: true
 
   validate :cidr_block_is_a_valid_ipv4_subnet, :start_address_is_a_valid_ipv4_address,
-    :end_address_is_a_valid_ipv4_address, :cidr_block_address_is_unique
+    :end_address_is_a_valid_ipv4_address, :cidr_block_address_is_unique,
+    :start_address_is_within_subnet_range, :end_address_is_within_subnet_range
 
   audited
 
@@ -61,6 +62,24 @@ class Subnet < ApplicationRecord
         .where.not(cidr_block: cidr_block)
         .where("cidr_block LIKE ?", "#{subnet_address}/%").exists?
       errors.add(:cidr_block, "matches a subnet with the same address")
+    end
+  end
+
+  def start_address_is_within_subnet_range
+    return if start_address.blank? || !IPAddress.valid_ipv4?(start_address)
+    return if cidr_block.blank? || !IPAddress.valid_ipv4_subnet?(cidr_block)
+
+    unless ip_addr.include?(start_address)
+      errors.add(:start_address, "is not within the subnet range")
+    end
+  end
+
+  def end_address_is_within_subnet_range
+    return if end_address.blank? || !IPAddress.valid_ipv4?(end_address)
+    return if cidr_block.blank? || !IPAddress.valid_ipv4_subnet?(cidr_block)
+
+    unless ip_addr.include?(end_address)
+      errors.add(:end_address, "is not within the subnet range")
     end
   end
 end

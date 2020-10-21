@@ -23,9 +23,9 @@ describe SitesController, type: :controller do
     end
 
     it "returns subnets ordered by cidr_block" do
-      subnet1 = create :subnet, cidr_block: "10.0.12.0/24"
-      subnet2 = create :subnet, cidr_block: "10.0.3.0/24", site: subnet1.site
-      subnet3 = create :subnet, cidr_block: "10.0.10.0/24", site: subnet1.site
+      subnet1 = create :subnet, start_address: "10.1.12.1", end_address: "10.1.12.100", cidr_block: "10.1.12.0/24"
+      subnet2 = create :subnet, start_address: "10.1.3.1", end_address: "10.1.3.100", cidr_block: "10.1.3.0/24", site: subnet1.site
+      subnet3 = create :subnet, start_address: "10.1.10.1", end_address: "10.1.10.100", cidr_block: "10.1.10.0/24", site: subnet1.site
 
       get :show, params: {id: subnet1.site_id}
 

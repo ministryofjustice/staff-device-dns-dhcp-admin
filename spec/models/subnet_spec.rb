@@ -60,4 +60,28 @@ RSpec.describe Subnet, type: :model do
     expect(subnet).not_to be_valid
     expect(subnet.errors[:cidr_block]).to_not include "matches a subnet with the same address"
   end
+
+  it "validates the start address is within the subnet range" do
+    subnet = build :subnet, cidr_block: "10.0.4.0/30", start_address: "10.0.4.20", end_address: "10.0.4.100"
+    expect(subnet).not_to be_valid
+    expect(subnet.errors[:start_address]).to include("is not within the subnet range")
+  end
+
+  it "validates the end address is within the subnet range" do
+    subnet = build :subnet, cidr_block: "10.0.4.0/30", start_address: "10.0.4.1", end_address: "10.0.4.20"
+    expect(subnet).not_to be_valid
+    expect(subnet.errors[:end_address]).to eq(["is not within the subnet range"])
+  end
+
+  it "validates the start address matches the host address" do
+    subnet = build :subnet, cidr_block: "10.0.4.0/24", start_address: "10.0.5.1", end_address: "10.0.4.100"
+    expect(subnet).not_to be_valid
+    expect(subnet.errors[:start_address]).to eq(["is not within the subnet range"])
+  end
+
+  it "validates the end address matches the host address" do
+    subnet = build :subnet, cidr_block: "10.0.4.0/24", start_address: "10.0.4.1", end_address: "10.0.5.100"
+    expect(subnet).not_to be_valid
+    expect(subnet.errors[:end_address]).to eq(["is not within the subnet range"])
+  end
 end
