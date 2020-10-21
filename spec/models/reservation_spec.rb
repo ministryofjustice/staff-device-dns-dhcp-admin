@@ -45,7 +45,7 @@ RSpec.describe Reservation, type: :model do
     subnet = create(:subnet, cidr_block: "10.0.4.0/24")
     reservation = build :reservation, subnet: subnet, ip_address: "10.0.10.20"
     expect(reservation).to_not be_valid
-    expect(reservation.errors[:ip_address]).to eq(["is not within the subnets CIDR block"])
+    expect(reservation.errors[:ip_address]).to eq(["is not within the subnet range"])
   end
 
   it "is valid if the ip_address is within the subnet start and end address" do

@@ -10,6 +10,8 @@ class Reservation < ApplicationRecord
   validate :ip_address_is_a_valid_ipv4_address
   validate :ip_address_is_within_the_subnet
 
+  delegate :ip_addr, :start_address_ip_addr, :end_address_ip_addr, to: :subnet, prefix: true
+
   def ip_addr
     IPAddr.new(ip_address)
   end
@@ -28,12 +30,8 @@ class Reservation < ApplicationRecord
     return if ip_address.blank?
     return unless IPAddress.valid_ipv4?(ip_address)
 
-    unless subnet.ip_addr === ip_addr
-      errors.add(:ip_address, "is not within the subnets CIDR block")
-      return
-    end
-
-    if ip_addr < subnet.start_address_ip_addr || ip_addr > subnet.end_address_ip_addr
+    if !subnet_ip_addr.include?(ip_addr) ||
+        (ip_addr < subnet_start_address_ip_addr || ip_addr > subnet_end_address_ip_addr)
       errors.add(:ip_address, "is not within the subnet range")
     end
   end
