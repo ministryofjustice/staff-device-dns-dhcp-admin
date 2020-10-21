@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe "update zones", type: :feature do
   let!(:zone) { create(:zone) }
-  let(:editor) { User.create!(editor: true) }
+  let(:editor) { create(:user, :editor) }
 
   before do
     login_as editor

@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe "update subnets", type: :feature do
   let!(:subnet) { create(:subnet) }
-  let(:editor) { User.create!(editor: true) }
+  let(:editor) { create(:user, :editor) }
 
   before do
     login_as editor

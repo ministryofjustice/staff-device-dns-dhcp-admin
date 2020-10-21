@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe "create zones", type: :feature do
-  let(:editor) { User.create!(editor: true) }
+  let(:editor) { create(:user, :editor) }
 
   before do
     login_as editor

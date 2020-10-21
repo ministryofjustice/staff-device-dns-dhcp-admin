@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe "delete gobal options", type: :feature do
-  let(:editor) { User.create!(editor: true) }
+  let(:editor) { create(:user, :editor) }
 
   before do
     login_as editor

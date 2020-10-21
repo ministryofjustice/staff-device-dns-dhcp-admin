@@ -13,7 +13,7 @@ describe "update global options", type: :feature do
 
   context "when a user is logged in as an viewer" do
     before do
-      login_as User.create!(editor: false)
+      login_as create(:user, :reader)
     end
 
     it "does not allow editing global options" do
@@ -28,7 +28,7 @@ describe "update global options", type: :feature do
   end
 
   context "when a user is logged in as an editor" do
-    let(:editor) { User.create!(editor: true) }
+    let(:editor) { create(:user, :editor) }
 
     before do
       login_as editor
