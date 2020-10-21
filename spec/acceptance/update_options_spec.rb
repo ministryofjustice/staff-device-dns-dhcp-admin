@@ -1,7 +1,12 @@
 require "rails_helper"
 
 describe "update options", type: :feature do
-  let(:option) { create(:option) }
+  let(:option) do
+    Audited.audit_class.as_user(User.first) do
+      create(:option)
+    end
+  end
+
   let(:subnet) { option.subnet }
 
   context "when a user is not logged in" do
@@ -61,7 +66,7 @@ describe "update options", type: :feature do
 
       click_on "Audit log"
 
-      expect(page).to have_content(editor.id.to_s)
+      expect(page).to have_content(editor.email)
       expect(page).to have_content("update")
       expect(page).to have_content("Option")
     end

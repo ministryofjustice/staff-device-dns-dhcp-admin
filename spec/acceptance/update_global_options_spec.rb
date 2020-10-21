@@ -1,7 +1,11 @@
 require "rails_helper"
 
 describe "update global options", type: :feature do
-  let(:global_option) { create(:global_option) }
+  let(:global_option) do
+    Audited.audit_class.as_user(User.first) do
+      create(:global_option)
+    end
+  end
 
   context "when a user is not logged in" do
     it "it does not allow editing global options" do
@@ -58,7 +62,7 @@ describe "update global options", type: :feature do
 
       click_on "Audit log"
 
-      expect(page).to have_content(editor.id.to_s)
+      expect(page).to have_content(editor.email)
       expect(page).to have_content("update")
       expect(page).to have_content("Global option")
     end

@@ -1,7 +1,11 @@
 require "rails_helper"
 
 describe "update sites", type: :feature do
-  let!(:site) { create(:site) }
+  let(:site) do
+    Audited.audit_class.as_user(User.first) do
+      create(:site)
+    end
+  end
 
   context "when the user is a unauthenticated" do
     it "does not allow creating sites" do
@@ -32,6 +36,7 @@ describe "update sites", type: :feature do
 
     before do
       login_as editor
+      site
     end
 
     it "update an existing site" do
@@ -54,7 +59,7 @@ describe "update sites", type: :feature do
 
       click_on "Audit log"
 
-      expect(page).to have_content(editor.id.to_s)
+      expect(page).to have_content(editor.email)
       expect(page).to have_content("update")
       expect(page).to have_content("Site")
     end

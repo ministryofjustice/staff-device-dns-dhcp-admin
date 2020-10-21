@@ -8,7 +8,7 @@ describe "delete zones", type: :feature do
   end
 
   it "delete a zone" do
-    zone = create(:zone)
+    zone = Audited.audit_class.as_user(editor) { create(:zone) }
 
     visit "/dns"
 
@@ -24,7 +24,7 @@ describe "delete zones", type: :feature do
 
     click_on "Audit log"
 
-    expect(page).to have_content(editor.id.to_s)
+    expect(page).to have_content(editor.email)
     expect(page).to have_content("destroy")
     expect(page).to have_content("Zone")
   end

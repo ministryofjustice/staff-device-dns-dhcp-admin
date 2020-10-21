@@ -8,7 +8,7 @@ describe "delete gobal options", type: :feature do
   end
 
   it "delete global options" do
-    global_option = create :global_option
+    global_option = Audited.audit_class.as_user(editor) { create :global_option }
     visit "/global-options"
 
     click_on "Delete global options"
@@ -22,7 +22,7 @@ describe "delete gobal options", type: :feature do
 
     click_on "Audit log"
 
-    expect(page).to have_content(editor.id.to_s)
+    expect(page).to have_content(editor.email)
     expect(page).to have_content("destroy")
     expect(page).to have_content("Global option")
   end

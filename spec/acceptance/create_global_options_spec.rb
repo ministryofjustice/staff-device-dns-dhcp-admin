@@ -1,8 +1,6 @@
 require "rails_helper"
 
 describe "create global options", type: :feature do
-  let(:subnet) { create(:subnet) }
-
   context "when a user is not logged in" do
     it "it does not allow editing global_options" do
       visit "/global-options/new"
@@ -28,7 +26,7 @@ describe "create global options", type: :feature do
   end
 
   context "when a user is logged in as an editor" do
-    let(:editor) { User.create!(editor: true) }
+    let(:editor) { create :user, :editor }
 
     before do
       login_as editor
@@ -52,7 +50,7 @@ describe "create global options", type: :feature do
 
       click_on "Audit log"
 
-      expect(page).to have_content(editor.id.to_s)
+      expect(page).to have_content(editor.email)
       expect(page).to have_content("create")
       expect(page).to have_content("Global option")
     end
