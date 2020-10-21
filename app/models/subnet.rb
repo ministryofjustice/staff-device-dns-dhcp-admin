@@ -23,6 +23,14 @@ class Subnet < ApplicationRecord
     IPAddr.new(cidr_block)
   end
 
+  def start_address_ip_addr
+    IPAddr.new(start_address)
+  end
+
+  def end_address_ip_addr
+    IPAddr.new(end_address)
+  end
+
   def kea_id
     id + KEA_SUBNET_ID_OFFSET
   end
