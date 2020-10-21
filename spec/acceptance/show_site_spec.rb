@@ -16,9 +16,9 @@ describe "showing a site", type: :feature do
 
     context "when the site exists" do
       let!(:site) { create :site }
-      let!(:subnet) { create :subnet, site: site }
-      let!(:subnet2) { create :subnet, site: site }
-      let!(:subnet3) { create :subnet }
+      let!(:subnet) { create :subnet, index: 1, site: site }
+      let!(:subnet2) { create :subnet, index: 2, site: site }
+      let!(:subnet3) { create :subnet, index: 3 }
 
       it "allows viewing sites and its subnets" do
         visit "/dhcp"

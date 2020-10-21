@@ -1,8 +1,12 @@
 FactoryBot.define do
   factory :subnet do
-    sequence(:cidr_block) { |n| "10.#{n}.4.0/24" }
-    start_address { "10.0.4.1" }
-    end_address { "10.0.4.255" }
+    transient do
+      index { 0 }
+    end
+
+    cidr_block { "10.#{index}.4.0/24" }
+    start_address { "10.#{index}.4.1" }
+    end_address { "10.#{index}.4.255" }
 
     site
   end
