@@ -86,5 +86,6 @@ ActiveRecord::Schema.define(version: 2020_10_19_152742) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "options", "subnets"
   add_foreign_key "subnets", "sites"
 end
