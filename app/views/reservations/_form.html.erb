@@ -1,5 +1,5 @@
   <%= form_with model: reservation,
-  url: subnet_reservations_path(reservation.subnet),
+  url: reservation.new_record? ? subnet_reservations_path(reservation.subnet) : reservation_path(reservation),
   method: reservation.new_record? ? :post : :put,
   local: true do |f| %>
   <div class="govuk-form-group <%= field_error(f.object, :hw_address )%>">
