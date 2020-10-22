@@ -11,8 +11,8 @@ class ReservationsController < ApplicationController
     @reservation = @subnet.reservations.build(reservation_params)
     authorize! :create, @reservation
     if @reservation.save
-      #publish_kea_config
-      #deploy_dhcp_service
+      # publish_kea_config
+      # deploy_dhcp_service
       redirect_to subnet_path(@reservation.subnet), notice: "Successfully created reservation"
     else
       render :new
@@ -36,5 +36,4 @@ class ReservationsController < ApplicationController
   def reservation_params
     params.require(:reservation).permit(:hw_address, :ip_address, :hostname, :description)
   end
-
 end
