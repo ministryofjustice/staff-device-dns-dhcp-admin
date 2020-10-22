@@ -55,8 +55,8 @@ describe "update reservations", type: :feature do
       fill_in "Hostname", with: "testier.example.com"
       fill_in "Description", with: "Changed test reservation"
 
-      #expect_config_to_be_published
-      #expect_service_to_be_rebooted
+      # expect_config_to_be_published
+      # expect_service_to_be_rebooted
 
       click_on "Update"
 
@@ -66,11 +66,11 @@ describe "update reservations", type: :feature do
       expect(page).to have_content("testier.example.com")
       expect(page).to have_content("Changed test reservation")
 
-      #click_on "Audit log"
+      # click_on "Audit log"
 
-      #expect(page).to have_content(editor.email)
-      #expect(page).to have_content("update")
-      #expect(page).to have_content("Option")
+      # expect(page).to have_content(editor.email)
+      # expect(page).to have_content("update")
+      # expect(page).to have_content("Option")
     end
 
     it "displays error if form cannot be submitted" do
