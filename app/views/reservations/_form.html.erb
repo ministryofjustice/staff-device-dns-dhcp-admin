@@ -1,16 +1,28 @@
-<%= form_with(model: (reservation.new_record? ? [reservation.subnet, reservation] : reservation), local: true) do |f| %>
+  <%= form_with model: reservation,
+  url: subnet_reservations_path(reservation.subnet),
+  method: reservation.new_record? ? :post : :put,
+  local: true do |f| %>
   <div class="govuk-form-group <%= field_error(f.object, :hw_address )%>">
     <%= f.label :hw_address, class: "govuk-label" %>
+    <div id="hw_address-hint" class="govuk-hint">
+      Must be in the form: 1a:1b:1c:1d:1e:1f
+    </div>
     <%= f.text_field :hw_address, class: "govuk-input" %>
   </div>
 
   <div class="govuk-form-group <%= field_error(f.object, :ip_address) %>">
     <%= f.label :ip_address, class: "govuk-label" %>
+    <div id="ip_address-hint" class="govuk-hint">
+      Must be in the form: 127.0.0.1
+    </div>
     <%= f.text_field :ip_address, class: "govuk-input" %>
   </div>
 
   <div class="govuk-form-group <%= field_error(f.object, :hostname) %>">
     <%= f.label :hostname, class: "govuk-label" %>
+    <div id="hostname-hint" class="govuk-hint">
+      Must be in the form: test.example.com
+    </div>
     <%= f.text_field :hostname, class: "govuk-input" %>
   </div>
 
