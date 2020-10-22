@@ -32,12 +32,9 @@ class ReservationsController < ApplicationController
   def subnet_id
     params.fetch(:subnet_id)
   end
-<<<<<<< HEAD
 
   def reservation_params
     params.require(:reservation).permit(:hw_address, :ip_address, :hostname, :description)
   end
 
-=======
->>>>>>> 2bc1eb6aa9f4776e007b00ed1d8fb13bac3b3772
 end
