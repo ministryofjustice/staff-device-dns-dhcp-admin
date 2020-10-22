@@ -31,3 +31,13 @@
 <% else %>
   <%= link_to "Create options", new_subnet_options_path(@subnet), class: "govuk-button" if can?(:create, Option) %>
 <% end %>
+
+<h3 class="govuk-heading-m">Reservations</h3>
+
+<% if can? :create, Reservation %>
+  <%= link_to "Create a new reservation", new_subnet_reservations_path(@subnet), class: "govuk-button" if can?(:create, Reservation) %>
+<% end %>
+
+<% if @subnet.reservations.any? %>
+  <%= render "reservations/list", reservations: @subnet.reservations %>
+<% end %>

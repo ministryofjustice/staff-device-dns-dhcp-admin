@@ -4,6 +4,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    can :read, Reservation
     can :read, GlobalOption
     can :read, Option
     can :read, Site
@@ -11,6 +12,7 @@ class Ability
     can :read, Zone
 
     if user.editor?
+      can :manage, Reservation
       can :manage, GlobalOption
       can :manage, Option
       can :manage, Site
