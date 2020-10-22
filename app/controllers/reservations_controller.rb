@@ -22,12 +22,12 @@ class ReservationsController < ApplicationController
   def edit
     authorize! :update, @reservation
   end
-  
+
   def update
     authorize! :update, @reservation
     if @reservation.update(reservation_params)
-      #publish_kea_config
-      #deploy_dhcp_service
+      # publish_kea_config
+      # deploy_dhcp_service
       redirect_to subnet_path(@reservation.subnet), notice: "Successfully updated reservation"
     else
       render :edit
@@ -47,7 +47,7 @@ class ReservationsController < ApplicationController
   def subnet_id
     params.fetch(:subnet_id)
   end
-  
+
   def reservation_id
     params.fetch(:id)
   end
