@@ -1,5 +1,7 @@
 module UseCases
   class GenerateKeaConfig
+    DEFAULT_VALID_LIFETIME_SECONDS = 4000
+
     def initialize(subnets: [], global_option: nil)
       @subnets = subnets
       @global_option = global_option
@@ -106,7 +108,7 @@ module UseCases
             host: "<DB_HOST>",
             port: 3306
           },
-          "valid-lifetime": 4000,
+          "valid-lifetime": DEFAULT_VALID_LIFETIME_SECONDS,
           "host-reservation-identifiers": [
             "circuit-id",
             "hw-address",
