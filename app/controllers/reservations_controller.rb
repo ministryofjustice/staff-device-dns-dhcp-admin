@@ -38,8 +38,8 @@ class ReservationsController < ApplicationController
     authorize! :destroy, @reservation
     if confirmed?
       if @reservation.destroy
-        #publish_kea_config
-        #deploy_dhcp_service
+        # publish_kea_config
+        # deploy_dhcp_service
         redirect_to subnet_path(@reservation.subnet), notice: "Successfully deleted reservation"
       else
         redirect_to subnet_path(@reservation.subnet), error: "Failed to delete the reservation"
@@ -70,7 +70,7 @@ class ReservationsController < ApplicationController
   def reservation_params
     params.require(:reservation).permit(:hw_address, :ip_address, :hostname, :description)
   end
-  
+
   def confirmed?
     params.fetch(:confirm, false)
   end

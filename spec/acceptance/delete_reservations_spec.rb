@@ -21,18 +21,18 @@ describe "delete reservations", type: :feature do
 
     expect(page).to have_content("Are you sure you want to delete this reservation?")
 
-    #expect_config_to_be_published
-    #expect_service_to_be_rebooted
+    # expect_config_to_be_published
+    # expect_service_to_be_rebooted
 
     click_on "Delete reservation"
 
     expect(page).to have_content("Successfully deleted reservation")
     expect(page).not_to have_content(reservation.hw_address)
 
-    #click_on "Audit log"
+    # click_on "Audit log"
 
-    #expect(page).to have_content(editor.email)
-    #expect(page).to have_content("destroy")
-    #expect(page).to have_content("Option")
+    # expect(page).to have_content(editor.email)
+    # expect(page).to have_content("destroy")
+    # expect(page).to have_content("Option")
   end
 end
