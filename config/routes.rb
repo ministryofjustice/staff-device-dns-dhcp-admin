@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     resource :options, only: [:new, :create, :edit, :update, :destroy]
     resource :reservations, only: [:new, :create]
   end
-  resources :reservations, only: [:edit, :update]
+  resources :reservations, only: [:edit, :update, :destroy]
 
   resources :global_options, only: [:index, :new, :create, :edit, :update, :destroy], path: "/global-options"
 
