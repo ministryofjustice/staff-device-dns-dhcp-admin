@@ -26,6 +26,14 @@
     <%= f.text_field :domain_name, class: "govuk-input" %>
   </div>
 
+  <div class="govuk-form-group <%= field_error(f.object, :valid_lifetime) %>">
+    <%= f.label :valid_lifetime, class: "govuk-label" %>
+    <div id="options_valid_lifetime-hint" class="govuk-hint">
+      How long the addresses (leases) given out by the server for this subnet are valid for in seconds
+    </div>
+    <%= f.text_field :valid_lifetime, class: "govuk-input" %>
+  </div>
+
   <%= f.submit f.object.new_record? ? "Create" : "Update", {
     class: "govuk-button",
     "data-module" => "govuk-button"
