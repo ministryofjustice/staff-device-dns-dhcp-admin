@@ -4,7 +4,7 @@
               local: true do |f| %>
   <div class="govuk-form-group <%= field_error(f.object, :routers )%>">
     <%= f.label :routers, class: "govuk-label" %>
-    <div id="zone_forwarders-hint" class="govuk-hint">
+    <div id="options_routers-hint" class="govuk-hint">
       Must be in the form: 127.0.0.1,127.0.0.2
     </div>
     <%= f.text_area :routers, value: f.object.routers.join(","), class: "govuk-input" %>
@@ -12,7 +12,7 @@
 
   <div class="govuk-form-group <%= field_error(f.object, :domain_name_servers) %>">
     <%= f.label :domain_name_servers, class: "govuk-label" %>
-    <div id="zone_forwarders-hint" class="govuk-hint">
+    <div id="options_domain_name_servers-hint" class="govuk-hint">
       Must be in the form: 127.0.0.1,127.0.0.2
     </div>
     <%= f.text_area :domain_name_servers, value: f.object.domain_name_servers.join(","), class: "govuk-input" %>
@@ -20,7 +20,7 @@
 
   <div class="govuk-form-group <%= field_error(f.object, :domain_name) %>">
     <%= f.label :domain_name, class: "govuk-label" %>
-    <div id="zone_name-hint" class="govuk-hint">
+    <div id="options_domain_name-hint" class="govuk-hint">
       Must be in the form: test.example.com
     </div>
     <%= f.text_field :domain_name, class: "govuk-input" %>
