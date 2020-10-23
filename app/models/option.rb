@@ -5,6 +5,8 @@ class Option < ApplicationRecord
   INVALID_IPV4_LIST_MESSAGE = "contains an invalid IPv4 address or is not separated using commas"
   validates :routers, ipv4_list: {message: INVALID_IPV4_LIST_MESSAGE}
   validates :domain_name_servers, ipv4_list: {message: INVALID_IPV4_LIST_MESSAGE}
+  validates :valid_lifetime, numericality: {greater_than_or_equal_to: 0, only_integer: true},
+                             allow_nil: true
 
   validate :at_least_one_option
 
