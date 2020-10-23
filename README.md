@@ -28,9 +28,9 @@ $ make serve
 
 ### Running tests
 
-1. First setup your test database
+1. First setup your test database if you haven't done so already
 ```sh
-ENV=test make db-setup
+make db-setup
 ```
 1. To run the entire test suite
 ```sh
