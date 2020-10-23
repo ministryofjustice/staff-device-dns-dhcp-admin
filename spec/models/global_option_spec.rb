@@ -18,6 +18,8 @@ RSpec.describe GlobalOption, type: :model do
   end
 
   it { is_expected.to validate_presence_of :domain_name }
+  it { is_expected.to validate_numericality_of(:valid_lifetime).is_greater_than_or_equal_to(0) }
+  it { is_expected.to validate_numericality_of(:valid_lifetime).only_integer }
 
   it "rejects an incorrect routers" do
     option = build :option, routers: ["abcd", "efg"]

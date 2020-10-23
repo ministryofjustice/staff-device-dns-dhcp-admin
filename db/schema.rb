@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_20_153648) do
+ActiveRecord::Schema.define(version: 2020_10_23_095801) do
   create_table "audits", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2020_10_20_153648) do
     t.string "domain_name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "valid_lifetime", unsigned: true
   end
 
   create_table "options", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
