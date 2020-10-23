@@ -87,11 +87,12 @@ describe UseCases::GenerateKeaConfig do
     end
 
     it "appends options to the subnet" do
-      option = build_stubbed(:option, routers: nil)
+      option = build_stubbed(:option, routers: nil, valid_lifetime: 1234)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [option.subnet]).execute
 
       expect(config.dig(:Dhcp4, :subnet4)).to include(hash_including({
+        "valid-lifetime": 1234,
         "option-data": [
           {
             "name": "domain-name-servers",
@@ -149,6 +150,27 @@ describe UseCases::GenerateKeaConfig do
       config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: global_option).execute
 
       expect(config.dig(:Dhcp4, :"valid-lifetime")).to eq 600
+    end
+
+    it "does not set the valid lifetime for a subnet if the subnet option is not set" do
+      subnet = build_stubbed(:subnet, option: nil)
+      config = UseCases::GenerateKeaConfig.new(subnets: [subnet]).execute
+
+      expect(config.dig(:Dhcp4, :subnet4)).to_not include(hash_including(:"valid-lifetime"))
+    end
+
+    it "does not set the valid lifetime for a subnet if the subnet option does not set a valid lifetime" do
+      option = build_stubbed(:option, valid_lifetime: nil)
+      config = UseCases::GenerateKeaConfig.new(subnets: [option.subnet]).execute
+
+      expect(config.dig(:Dhcp4, :subnet4)).to_not include(hash_including(:"valid-lifetime"))
+    end
+
+    it "sets the valid-lifetime for a subnet using the subnet option" do
+      option = build_stubbed(:option, valid_lifetime: 1800)
+      config = UseCases::GenerateKeaConfig.new(subnets: [option.subnet]).execute
+
+      expect(config.dig(:Dhcp4, :subnet4)).to include(hash_including("valid-lifetime": 1800))
     end
   end
 end

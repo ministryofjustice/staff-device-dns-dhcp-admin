@@ -31,6 +31,7 @@ module UseCases
           "site-name": subnet.site.name
         }
       }.merge(options_config(subnet.option))
+        .merge(subnet_valid_lifetime_config(subnet.option))
     end
 
     def options_config(option)
@@ -90,6 +91,12 @@ module UseCases
       {
         "valid-lifetime": @global_option.valid_lifetime
       }
+    end
+
+    def subnet_valid_lifetime_config(option)
+      return {} if option&.valid_lifetime.blank?
+
+      {"valid-lifetime": option.valid_lifetime}
     end
 
     def default_config
