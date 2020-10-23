@@ -2,5 +2,7 @@
 
 <h2 class="govuk-heading-l">Create a new reservation</h2>
 
+<h3 class="govuk-heading-m">Subnet CIDR Block: <%= @reservation.subnet.cidr_block %></h3>
+
 <%= render "reservations/form", reservation: @reservation %>
 

@@ -1,6 +1,6 @@
 class ReservationsController < ApplicationController
-  before_action :set_subnet, except: [:edit, :update]
-  before_action :set_reservation, only: [:show, :edit, :update]
+  before_action :set_subnet, except: [:edit, :update, :destroy]
+  before_action :set_reservation, only: [:show, :edit, :update, :destroy]
 
   def new
     @reservation = @subnet.reservations.build
@@ -34,6 +34,21 @@ class ReservationsController < ApplicationController
     end
   end
 
+  def destroy
+    authorize! :destroy, @reservation
+    if confirmed?
+      if @reservation.destroy
+        #publish_kea_config
+        #deploy_dhcp_service
+        redirect_to subnet_path(@reservation.subnet), notice: "Successfully deleted reservation"
+      else
+        redirect_to subnet_path(@reservation.subnet), error: "Failed to delete the reservation"
+      end
+    else
+      render "destroy"
+    end
+  end
+
   private
 
   def set_subnet
@@ -54,5 +69,9 @@ class ReservationsController < ApplicationController
 
   def reservation_params
     params.require(:reservation).permit(:hw_address, :ip_address, :hostname, :description)
+  end
+  
+  def confirmed?
+    params.fetch(:confirm, false)
   end
 end
