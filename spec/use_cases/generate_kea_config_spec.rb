@@ -130,5 +130,25 @@ describe UseCases::GenerateKeaConfig do
       config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: nil).execute
       expect(config[:Dhcp4].keys).to_not include :"option-data"
     end
+
+    it "sets a default valid lifetime if a global option is not passed in" do
+      config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: nil).execute
+
+      expect(config.dig(:Dhcp4, :"valid-lifetime")).to eq 4000
+    end
+
+    it "sets a default valid lifetime if the global option has no valid lifetime set" do
+      global_option = build_stubbed(:global_option, valid_lifetime: nil)
+      config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: global_option).execute
+
+      expect(config.dig(:Dhcp4, :"valid-lifetime")).to eq 4000
+    end
+
+    it "sets the valid-lifetime using the global option valid lifetime" do
+      global_option = build_stubbed(:global_option, valid_lifetime: 600)
+      config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: global_option).execute
+
+      expect(config.dig(:Dhcp4, :"valid-lifetime")).to eq 600
+    end
   end
 end

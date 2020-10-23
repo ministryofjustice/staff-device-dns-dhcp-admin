@@ -81,6 +81,15 @@ module UseCases
       }
     end
 
+    def valid_lifetime_config
+      return {} if @global_option.blank?
+      return {} if @global_option.valid_lifetime.blank?
+
+      {
+        "valid-lifetime": @global_option.valid_lifetime
+      }
+    end
+
     def default_config
       {
         Dhcp4: {
@@ -134,7 +143,7 @@ module UseCases
               severity: "DEBUG"
             }
           ]
-        }.merge(global_options_config)
+        }.merge(global_options_config).merge(valid_lifetime_config)
       }
     end
   end
