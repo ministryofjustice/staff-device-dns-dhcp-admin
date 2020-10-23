@@ -1,4 +1,5 @@
 class Reservation < ApplicationRecord
+  before_validation :strip_whitespace
   MAC_ADDRESS_REGEX = /\A([0-9a-fA-F][0-9a-fA-F]:){5}([0-9a-fA-F][0-9a-fA-F])\z/
 
   belongs_to :subnet
@@ -34,5 +35,14 @@ class Reservation < ApplicationRecord
         (ip_addr < subnet_start_address_ip_addr || ip_addr > subnet_end_address_ip_addr)
       errors.add(:ip_address, "is not within the subnet range")
     end
+  end
+
+  def strip_whitespace
+    puts self.inspect
+    self.hw_address = self.hw_address.strip unless self.hw_address.nil?
+    self.ip_address = self.ip_address.strip unless self.ip_address.nil?
+    self.hostname = self.hostname.strip unless self.hostname.nil?
+    puts "-------------------------------------------"
+    puts self.inspect
   end
 end
