@@ -18,6 +18,7 @@ class Subnet < ApplicationRecord
   delegate :routers,
     :domain_name_servers,
     :domain_name,
+    :valid_lifetime,
     to: :option
 
   def ip_addr
