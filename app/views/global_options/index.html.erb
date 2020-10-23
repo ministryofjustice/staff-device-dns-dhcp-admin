@@ -29,6 +29,15 @@
           <%= @global_option.domain_name %>
         </dd>
       </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Valid lifetime
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <%= @global_option.valid_lifetime %>
+        </dd>
+      </div>
     </dl>
     <% if can? :manage, GlobalOption %>
       <%= link_to "Edit global options", edit_global_option_path(@global_option.id), class:"govuk-button" %>
