@@ -60,11 +60,7 @@ describe "create options", type: :feature do
       expect(page).to have_content("test.example.com")
       expect(page).to have_content("12345")
 
-      click_on "Audit log"
-
-      expect(page).to have_content(editor.email)
-      expect(page).to have_content("create")
-      expect(page).to have_content("Option")
+      expect_audit_log_entry_for(editor.email, "create", "Option")
     end
 
     it "displays error if form cannot be submitted" do

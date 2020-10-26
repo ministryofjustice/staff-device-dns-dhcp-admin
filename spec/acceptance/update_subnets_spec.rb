@@ -29,10 +29,6 @@ describe "update subnets", type: :feature do
     expect(page).to have_content("10.1.1.1")
     expect(page).to have_content("10.1.1.255")
 
-    click_on "Audit log"
-
-    expect(page).to have_content(editor.email)
-    expect(page).to have_content("update")
-    expect(page).to have_content("Subnet")
+    expect_audit_log_entry_for(editor.email, "update", "Subnet")
   end
 end
