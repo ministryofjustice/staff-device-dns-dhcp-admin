@@ -12,7 +12,7 @@ class ReservationsController < ApplicationController
     authorize! :create, @reservation
     if @reservation.save
       publish_kea_config
-      # deploy_dhcp_service
+      deploy_dhcp_service
       redirect_to subnet_path(@reservation.subnet), notice: "Successfully created reservation"
     else
       render :new
@@ -27,7 +27,7 @@ class ReservationsController < ApplicationController
     authorize! :update, @reservation
     if @reservation.update(reservation_params)
       publish_kea_config
-      # deploy_dhcp_service
+      deploy_dhcp_service
       redirect_to subnet_path(@reservation.subnet), notice: "Successfully updated reservation"
     else
       render :edit
