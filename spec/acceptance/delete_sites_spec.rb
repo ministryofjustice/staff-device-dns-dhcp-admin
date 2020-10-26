@@ -35,11 +35,7 @@ describe "delete sites", type: :feature do
       expect(page).to have_content("Successfully deleted site")
       expect(page).not_to have_content(site.name)
 
-      click_on "Audit log"
-
-      expect(page).to have_content(editor.email)
-      expect(page).to have_content("destroy")
-      expect(page).to have_content("Site")
+      expect_audit_log_entry_for(editor.email, "destroy", "Site")
     end
   end
 end

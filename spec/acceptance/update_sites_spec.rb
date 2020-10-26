@@ -57,11 +57,7 @@ describe "update sites", type: :feature do
       expect(page).to have_content("MYFITS202")
       expect(page).to have_content("My Manchester Site")
 
-      click_on "Audit log"
-
-      expect(page).to have_content(editor.email)
-      expect(page).to have_content("update")
-      expect(page).to have_content("Site")
+      expect_audit_log_entry_for(editor.email, "update", "Site")
     end
   end
 end
