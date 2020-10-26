@@ -70,16 +70,4 @@ class OptionsController < ApplicationController
   def confirmed?
     params.fetch(:confirm, false)
   end
-
-  def publish_kea_config
-    UseCases::PublishKeaConfig.new(
-      destination_gateway: Gateways::S3.new(
-        bucket: ENV.fetch("KEA_CONFIG_BUCKET"),
-        key: "config.json",
-        aws_config: Rails.application.config.s3_aws_config,
-        content_type: "application/json"
-      ),
-      generate_config: UseCases::GenerateKeaConfig.new(subnets: Subnet.all)
-    ).execute
-  end
 end
