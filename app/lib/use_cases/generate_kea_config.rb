@@ -92,12 +92,14 @@ module UseCases
         "reservations": []
       }
 
-      result[:"reservations"] += reservations.map { |reservation| {
-        "hw-address": reservation.hw_address,
-        "ip-address": reservation.ip_address,
-        "hostname": reservation.hostname
-      } }
-      
+      result[:reservations] += reservations.map { |reservation|
+        {
+          "hw-address": reservation.hw_address,
+          "ip-address": reservation.ip_address,
+          "hostname": reservation.hostname
+        }
+      }
+
       result
     end
 
