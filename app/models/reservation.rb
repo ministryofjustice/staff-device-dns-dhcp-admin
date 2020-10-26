@@ -5,7 +5,7 @@ class Reservation < ApplicationRecord
 
   validates :ip_address, presence: true
   validates :hostname, domain_name: true
-  validates :hw_address, format: {with: MAC_ADDRESS_REGEX}, presence: true
+  validates :hw_address, format: {with: MAC_ADDRESS_REGEX, message: "must be in the form 1a:1b:1c:1d:1e:1f"}, presence: true
 
   validate :ip_address_is_a_valid_ipv4_address
   validate :ip_address_is_within_the_subnet
@@ -14,6 +14,18 @@ class Reservation < ApplicationRecord
 
   def ip_addr
     IPAddr.new(ip_address)
+  end
+
+  def hw_address=(val)
+    self[:hw_address] = val.try(:strip)
+  end
+
+  def ip_address=(val)
+    self[:ip_address] = val.try(:strip)
+  end
+
+  def hostname=(val)
+    self[:hostname] = val.try(:strip)
   end
 
   private
