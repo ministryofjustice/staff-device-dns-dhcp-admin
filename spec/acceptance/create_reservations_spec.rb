@@ -79,7 +79,7 @@ describe "create reservations", type: :feature do
 
       click_on "Create a new reservation"
 
-      fill_in "HW address", with: " 01:bb:cc:dd:ee:gg "
+      fill_in "HW address", with: " 1a:1b:1c:1d:1e:1f "
       fill_in "IP address", with: " 192.0.2.2 "
       fill_in "Hostname", with: " test.example.com "
       fill_in "Description", with: "Test reservation"
@@ -90,7 +90,7 @@ describe "create reservations", type: :feature do
       click_on "Create"
 
       expect(page).to have_content("Successfully created reservation")
-      expect(page).to have_content("01:bb:cc:dd:ee:gg")
+      expect(page).to have_content("1a:1b:1c:1d:1e:1f")
       expect(page).to have_content("192.0.2.2")
       expect(page).to have_content("test.example.com")
       expect(page).to have_content("Test reservation")
