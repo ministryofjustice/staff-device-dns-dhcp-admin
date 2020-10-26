@@ -15,7 +15,7 @@ class Reservation < ApplicationRecord
   def ip_addr
     IPAddr.new(ip_address)
   end
-  
+
   def hw_address=(val)
     self[:hw_address] = val.try(:strip)
   end
@@ -27,7 +27,7 @@ class Reservation < ApplicationRecord
   def hostname=(val)
     self[:hostname] = val.try(:strip)
   end
-  
+
   private
 
   def ip_address_is_a_valid_ipv4_address
@@ -47,5 +47,4 @@ class Reservation < ApplicationRecord
       errors.add(:ip_address, "is not within the subnet range")
     end
   end
-
 end
