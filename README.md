@@ -8,17 +8,18 @@ This is the web frontend for managing Staff Device DNS / DHCP servers
 
 1. Clone the repository
 1. If this is the first time you have setup the project
-    1. Setup the database.
+    1. Build the base containers.
+
+        ```sh
+        make build-dev
+        ```
+
+    2. Setup the database.
 
         ```sh
         make db-setup
         ```
 
-    2. Build the base containers.
-
-        ```sh
-        make build-dev
-        ```
 
 1. Start the application
 

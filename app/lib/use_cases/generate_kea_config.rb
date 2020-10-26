@@ -1,5 +1,7 @@
 module UseCases
   class GenerateKeaConfig
+    DEFAULT_VALID_LIFETIME_SECONDS = 4000
+
     def initialize(subnets: [], global_option: nil)
       @subnets = subnets
       @global_option = global_option
@@ -28,7 +30,9 @@ module UseCases
           "site-id": subnet.site.fits_id,
           "site-name": subnet.site.name
         }
-      }.merge(options_config(subnet.option)).merge(reservations_config(subnet.reservations))
+      }.merge(options_config(subnet.option))
+        .merge(subnet_valid_lifetime_config(subnet.option))
+        .merge(reservations_config(subnet.reservations))
     end
 
     def options_config(option)
@@ -97,6 +101,21 @@ module UseCases
       result
     end
 
+    def valid_lifetime_config
+      return {} if @global_option.blank?
+      return {} if @global_option.valid_lifetime.blank?
+
+      {
+        "valid-lifetime": @global_option.valid_lifetime
+      }
+    end
+
+    def subnet_valid_lifetime_config(option)
+      return {} if option&.valid_lifetime.blank?
+
+      {"valid-lifetime": option.valid_lifetime}
+    end
+
     def default_config
       {
         Dhcp4: {
@@ -113,7 +132,7 @@ module UseCases
             host: "<DB_HOST>",
             port: 3306
           },
-          "valid-lifetime": 4000,
+          "valid-lifetime": DEFAULT_VALID_LIFETIME_SECONDS,
           "host-reservation-identifiers": [
             "circuit-id",
             "hw-address",
@@ -150,7 +169,7 @@ module UseCases
               severity: "DEBUG"
             }
           ]
-        }.merge(global_options_config)
+        }.merge(global_options_config).merge(valid_lifetime_config)
       }
     end
   end

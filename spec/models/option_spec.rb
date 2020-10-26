@@ -9,6 +9,9 @@ RSpec.describe Option, type: :model do
 
   it { is_expected.to validate_presence_of :subnet }
 
+  it { is_expected.to validate_numericality_of(:valid_lifetime).is_greater_than_or_equal_to(0) }
+  it { is_expected.to validate_numericality_of(:valid_lifetime).only_integer }
+
   it "is invalid if none of the options are completed" do
     subject.routers = nil
     subject.domain_name_servers = nil

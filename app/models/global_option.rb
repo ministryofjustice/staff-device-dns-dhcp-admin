@@ -6,6 +6,8 @@ class GlobalOption < ApplicationRecord
     presence: {message: "must contain at least one IPv4 address separated using commas"},
     ipv4_list: {message: "contains an invalid IPv4 address or is not separated using commas"}
   validates :domain_name, presence: true
+  validates :valid_lifetime, numericality: {greater_than_or_equal_to: 0, only_integer: true},
+                             allow_nil: true
 
   validate :only_one_record
 
