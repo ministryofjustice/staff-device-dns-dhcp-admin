@@ -10,6 +10,9 @@ class Reservation < ApplicationRecord
   validate :ip_address_is_a_valid_ipv4_address
   validate :ip_address_is_within_the_subnet
 
+  validate :hw_address_is_unique_within_subnet
+  validate :hostname_is_unique_within_subnet
+
   audited
 
   delegate :ip_addr, :start_address_ip_addr, :end_address_ip_addr, to: :subnet, prefix: true
@@ -49,4 +52,50 @@ class Reservation < ApplicationRecord
       errors.add(:ip_address, "is not within the subnet range")
     end
   end
+
+  def hw_address_is_unique_within_subnet
+    return if hw_address.blank?
+
+    Reservation.where(subnet_id: self.subnet_id).each do |reservation|
+      if reservation.id != self.id
+        if reservation.hw_address == self.hw_address
+          errors.add(:hw_address, "has already been reserved in the subnet")
+          return false
+        end
+      end
+    end
+    
+    return true
+  end
+  
+  def ip_address_is_unique_within_subnet
+    return if ip_address.blank?
+
+    Reservation.where(subnet_id: self.subnet_id).each do |reservation|
+      if reservation.id != self.id
+        if reservation.ip_address == self.ip_address
+          errors.add(:ip_address, "has already been reserved in the subnet")
+          return false
+        end
+      end
+    end
+    
+    return true
+  end
+  
+  def hostname_is_unique_within_subnet
+    return if hostname.blank?
+
+    Reservation.where(subnet_id: self.subnet_id).each do |reservation|
+      if reservation.id != self.id
+        if reservation.hostname == self.hostname
+          errors.add(:hostname, "has already been reserved in the subnet")
+          return false
+        end
+      end
+    end
+    
+    return true
+  end
+
 end
