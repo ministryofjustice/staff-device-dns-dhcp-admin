@@ -84,6 +84,24 @@ module UseCases
       }
     end
 
+    def reservations_config(reservations)
+      return {} unless reservations.present?
+
+      result = {
+        "reservations": []
+      }
+
+      result[:reservations] += reservations.map { |reservation|
+        {
+          "hw-address": reservation.hw_address,
+          "ip-address": reservation.ip_address,
+          "hostname": reservation.hostname
+        }
+      }
+
+      result
+    end
+
     def valid_lifetime_config
       return {} if @global_option.blank?
       return {} if @global_option.valid_lifetime.blank?
