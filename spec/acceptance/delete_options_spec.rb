@@ -29,10 +29,6 @@ describe "delete options", type: :feature do
     expect(page).to have_content("Successfully deleted option")
     expect(page).not_to have_content(option.domain_name)
 
-    click_on "Audit log"
-
-    expect(page).to have_content(editor.email)
-    expect(page).to have_content("destroy")
-    expect(page).to have_content("Option")
+    expect_audit_log_entry_for(editor.email, "destroy", "Option")
   end
 end

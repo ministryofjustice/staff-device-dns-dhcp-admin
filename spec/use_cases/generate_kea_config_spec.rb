@@ -211,5 +211,53 @@ describe UseCases::GenerateKeaConfig do
 
       expect(config.dig(:Dhcp4, :subnet4)).to include(hash_including("valid-lifetime": 1800))
     end
+
+    it "appends reservation to the subnet" do
+      reservation = create(:reservation)
+
+      config = UseCases::GenerateKeaConfig.new(subnets: [reservation.subnet]).execute
+
+      expect(config.dig(:Dhcp4, :subnet4)).to include(hash_including({
+        "reservations": [
+          {
+            "hw-address": reservation.hw_address,
+            "ip-address": reservation.ip_address,
+            "hostname": reservation.hostname
+          }
+        ]
+      }))
+    end
+
+    it "appends multiple reservations to the subnet" do
+<<<<<<< HEAD
+      subnet = build_stubbed(:subnet, id: 1, cidr_block:"10.7.4.0/24",start_address:"10.7.4.1",end_address:"10.7.4.255")
+      reservation1 = create(:reservation, subnet:subnet, ip_address: "10.7.4.2" )
+      reservation2 = create(:reservation, subnet:subnet, ip_address: "10.7.4.3", hostname: "reservation2.example.com")
+
+      config = UseCases::GenerateKeaConfig.new(subnets: [reservation1.subnet]).execute
+      #puts config.to_json
+=======
+      subnet = create(:subnet, cidr_block: "10.7.4.0/24", start_address: "10.7.4.1", end_address: "10.7.4.255")
+      reservation1 = create(:reservation, subnet: subnet, ip_address: "10.7.4.2")
+      reservation2 = create(:reservation, subnet: subnet, ip_address: "10.7.4.3", hostname: "reservation2.example.com")
+
+      config = UseCases::GenerateKeaConfig.new(subnets: [reservation1.subnet]).execute
+>>>>>>> 8f5a551d113cc92d9aaafc6466bc807beb594c2e
+
+      expect(config.dig(:Dhcp4, :subnet4)).to include(hash_including({
+        "reservations": [
+          {
+            "hw-address": reservation1.hw_address,
+            "ip-address": reservation1.ip_address,
+            "hostname": reservation1.hostname
+          },
+          {
+            "hw-address": reservation2.hw_address,
+            "ip-address": reservation2.ip_address,
+            "hostname": reservation2.hostname
+          }
+        ]
+      }))
+    end
   end
 end

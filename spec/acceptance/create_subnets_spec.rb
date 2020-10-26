@@ -27,11 +27,7 @@ describe "create subnets", type: :feature do
     expect(page).to have_content("10.0.1.1")
     expect(page).to have_content("10.0.1.255")
 
-    click_on "Audit log"
-
-    expect(page).to have_content(editor.email)
-    expect(page).to have_content("create")
-    expect(page).to have_content("Subnet")
+    expect_audit_log_entry_for(editor.email, "create", "Subnet")
   end
 
   it "displays error if form cannot be submitted" do

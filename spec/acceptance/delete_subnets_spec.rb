@@ -21,10 +21,6 @@ describe "delete subnets", type: :feature do
     expect(page).to have_content("Successfully deleted subnet")
     expect(page).not_to have_content(subnet.cidr_block)
 
-    click_on "Audit log"
-
-    expect(page).to have_content(editor.email)
-    expect(page).to have_content("destroy")
-    expect(page).to have_content("Subnet")
+    expect_audit_log_entry_for(editor.email, "destroy", "Subnet")
   end
 end
