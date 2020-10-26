@@ -28,7 +28,7 @@ module UseCases
           "site-id": subnet.site.fits_id,
           "site-name": subnet.site.name
         }
-      }.merge(options_config(subnet.option))
+      }.merge(options_config(subnet.option)).merge(reservations_config(subnet.reservations))
     end
 
     def options_config(option)
@@ -79,6 +79,22 @@ module UseCases
           }
         ]
       }
+    end
+
+    def reservations_config(reservations)
+      return {} unless reservations.present?
+
+      result = {
+        "reservations": []
+      }
+
+      result[:"reservations"] += reservations.map { |reservation| {
+        "hw-address": reservation.hw_address,
+        "ip-address": reservation.ip_address,
+        "hostname": reservation.hostname
+      } }
+      
+      result
     end
 
     def default_config
