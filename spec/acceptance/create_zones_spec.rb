@@ -27,11 +27,7 @@ describe "create zones", type: :feature do
     expect(zone.forwarders).to eq ["10.1.1.25", "10.1.1.28"]
     expect(zone.purpose).to eq "Frontend Driven Test"
 
-    click_on "Audit log"
-
-    expect(page).to have_content(editor.email)
-    expect(page).to have_content("create")
-    expect(page).to have_content("Zone")
+    expect_audit_log_entry_for(editor.email, "create", "Zone")
   end
 
   it "displays error if form cannot be submitted" do

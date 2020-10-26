@@ -190,12 +190,20 @@ describe UseCases::GenerateKeaConfig do
     end
 
     it "appends multiple reservations to the subnet" do
+<<<<<<< HEAD
       subnet = build_stubbed(:subnet, id: 1, cidr_block:"10.7.4.0/24",start_address:"10.7.4.1",end_address:"10.7.4.255")
       reservation1 = create(:reservation, subnet:subnet, ip_address: "10.7.4.2" )
       reservation2 = create(:reservation, subnet:subnet, ip_address: "10.7.4.3", hostname: "reservation2.example.com")
 
       config = UseCases::GenerateKeaConfig.new(subnets: [reservation1.subnet]).execute
       #puts config.to_json
+=======
+      subnet = create(:subnet, cidr_block: "10.7.4.0/24", start_address: "10.7.4.1", end_address: "10.7.4.255")
+      reservation1 = create(:reservation, subnet: subnet, ip_address: "10.7.4.2")
+      reservation2 = create(:reservation, subnet: subnet, ip_address: "10.7.4.3", hostname: "reservation2.example.com")
+
+      config = UseCases::GenerateKeaConfig.new(subnets: [reservation1.subnet]).execute
+>>>>>>> 8f5a551d113cc92d9aaafc6466bc807beb594c2e
 
       expect(config.dig(:Dhcp4, :subnet4)).to include(hash_including({
         "reservations": [

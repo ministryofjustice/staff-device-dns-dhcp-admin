@@ -22,10 +22,6 @@ describe "delete zones", type: :feature do
     expect(page).to have_content("Successfully deleted zone")
     expect(page).not_to have_content(zone.name)
 
-    click_on "Audit log"
-
-    expect(page).to have_content(editor.email)
-    expect(page).to have_content("destroy")
-    expect(page).to have_content("Zone")
+    expect_audit_log_entry_for(editor.email, "destroy", "Zone")
   end
 end

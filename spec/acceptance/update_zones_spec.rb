@@ -34,11 +34,7 @@ describe "update zones", type: :feature do
     expect(page).to have_content("127.0.0.2,127.0.0.1")
     expect(page).to have_content("UI Testing for Updating")
 
-    click_on "Audit log"
-
-    expect(page).to have_content(editor.email)
-    expect(page).to have_content("update")
-    expect(page).to have_content("Zone")
+    expect_audit_log_entry_for(editor.email, "update", "Zone")
   end
 
   it "displays error if form cannot be submitted" do
