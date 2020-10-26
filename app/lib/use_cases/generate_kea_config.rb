@@ -32,6 +32,7 @@ module UseCases
         }
       }.merge(options_config(subnet.option))
         .merge(subnet_valid_lifetime_config(subnet.option))
+        .merge(reservations_config(subnet.reservations))
     end
 
     def options_config(option)
@@ -82,6 +83,24 @@ module UseCases
           }
         ]
       }
+    end
+
+    def reservations_config(reservations)
+      return {} unless reservations.present?
+
+      result = {
+        "reservations": []
+      }
+
+      result[:reservations] += reservations.map { |reservation|
+        {
+          "hw-address": reservation.hw_address,
+          "ip-address": reservation.ip_address,
+          "hostname": reservation.hostname
+        }
+      }
+
+      result
     end
 
     def valid_lifetime_config
