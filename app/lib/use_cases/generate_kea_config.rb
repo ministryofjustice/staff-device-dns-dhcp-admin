@@ -98,7 +98,7 @@ module UseCases
 
       {"valid-lifetime": option.valid_lifetime}
     end
-    
+
     def reservations_config(reservations)
       return {} unless reservations.present?
 
@@ -106,12 +106,14 @@ module UseCases
         "reservations": []
       }
 
-      result[:"reservations"] += reservations.map { |reservation| {
-        "hw-address": reservation.hw_address,
-        "ip-address": reservation.ip_address,
-        "hostname": reservation.hostname
-      } }
-      
+      result[:reservations] += reservations.map { |reservation|
+        {
+          "hw-address": reservation.hw_address,
+          "ip-address": reservation.ip_address,
+          "hostname": reservation.hostname
+        }
+      }
+
       result
     end
 

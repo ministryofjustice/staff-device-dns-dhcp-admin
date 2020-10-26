@@ -190,9 +190,9 @@ describe UseCases::GenerateKeaConfig do
     end
 
     it "appends multiple reservations to the subnet" do
-      subnet = create(:subnet, cidr_block:"10.7.4.0/24",start_address:"10.7.4.1",end_address:"10.7.4.255")
-      reservation1 = create(:reservation, subnet:subnet, ip_address: "10.7.4.2" )
-      reservation2 = create(:reservation, subnet:subnet, ip_address: "10.7.4.3", hostname: "reservation2.example.com")
+      subnet = create(:subnet, cidr_block: "10.7.4.0/24", start_address: "10.7.4.1", end_address: "10.7.4.255")
+      reservation1 = create(:reservation, subnet: subnet, ip_address: "10.7.4.2")
+      reservation2 = create(:reservation, subnet: subnet, ip_address: "10.7.4.3", hostname: "reservation2.example.com")
 
       config = UseCases::GenerateKeaConfig.new(subnets: [reservation1.subnet]).execute
 
