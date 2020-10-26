@@ -29,10 +29,6 @@ describe "delete reservations", type: :feature do
     expect(page).to have_content("Successfully deleted reservation")
     expect(page).not_to have_content(reservation.hw_address)
 
-    # click_on "Audit log"
-
-    # expect(page).to have_content(editor.email)
-    # expect(page).to have_content("destroy")
-    # expect(page).to have_content("Option")
+    expect_audit_log_entry_for(editor.email, "destroy", "Reservation")
   end
 end

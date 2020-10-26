@@ -10,6 +10,8 @@ class Reservation < ApplicationRecord
   validate :ip_address_is_a_valid_ipv4_address
   validate :ip_address_is_within_the_subnet
 
+  audited
+
   delegate :ip_addr, :start_address_ip_addr, :end_address_ip_addr, to: :subnet, prefix: true
 
   def ip_addr
