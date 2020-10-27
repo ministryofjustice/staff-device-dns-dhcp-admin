@@ -43,9 +43,9 @@ describe "create reservations", type: :feature do
 
       click_on "Create a new reservation"
 
-      fill_in "HW address", with: "01:bb:cc:dd:ee:ff"
-      fill_in "IP address", with: "192.0.2.1"
-      fill_in "Hostname", with: "test.example.com"
+      fill_in "HW address", with: "01:bb:cc:dd:ee:fe"
+      fill_in "IP address", with: "192.0.2.2"
+      fill_in "Hostname", with: "test.example2.com"
       fill_in "Description", with: "Test reservation"
 
       # expect_config_to_be_published
@@ -54,9 +54,9 @@ describe "create reservations", type: :feature do
       click_on "Create"
 
       expect(page).to have_content("Successfully created reservation")
-      expect(page).to have_content("01:bb:cc:dd:ee:ff")
-      expect(page).to have_content("192.0.2.1")
-      expect(page).to have_content("test.example.com")
+      expect(page).to have_content("01:bb:cc:dd:ee:fe")
+      expect(page).to have_content("192.0.2.2")
+      expect(page).to have_content("test.example2.com")
       expect(page).to have_content("Test reservation")
 
       expect_audit_log_entry_for(editor.email, "create", "Reservation")
@@ -68,34 +68,6 @@ describe "create reservations", type: :feature do
       click_on "Create"
 
       expect(page).to have_content "There is a problem"
-    end
-
-    it "handles whitespace in reservation form" do
-      visit "/subnets/#{reservation.subnet_id}"
-
-      click_on "Create a new reservation"
-
-      fill_in "HW address", with: " 1a:1b:1c:1d:1e:1f "
-      fill_in "IP address", with: " 192.0.2.2 "
-      fill_in "Hostname", with: " test.example.com "
-      fill_in "Description", with: "Test reservation"
-
-      # expect_config_to_be_published
-      # expect_service_to_be_rebooted
-
-      click_on "Create"
-
-      expect(page).to have_content("Successfully created reservation")
-      expect(page).to have_content("1a:1b:1c:1d:1e:1f")
-      expect(page).to have_content("192.0.2.2")
-      expect(page).to have_content("test.example.com")
-      expect(page).to have_content("Test reservation")
-
-      # click_on "Audit log"
-
-      # expect(page).to have_content(editor.email)
-      # expect(page).to have_content("create")
-      # expect(page).to have_content("Option")
-    end
+    end    
   end
 end
