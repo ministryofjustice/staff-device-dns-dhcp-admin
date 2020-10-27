@@ -68,13 +68,6 @@ RSpec.describe Reservation, type: :model do
     expect(reservation.errors[:ip_address]).to eq(["is not within the subnet range"])
   end
 
-  it "is invalid if the ip_address is after the subnet end address" do
-    subnet = create(:subnet, cidr_block: "10.0.4.0/24", start_address: "10.0.4.10", end_address: "10.0.4.100")
-    reservation = build :reservation, subnet: subnet, ip_address: "10.0.4.120"
-    expect(reservation).to_not be_valid
-    expect(reservation.errors[:ip_address]).to eq(["is not within the subnet range"])
-  end
-
   it "removes trailing whitespace in hw address" do
     reservation = build :reservation, hw_address: " 1a:1b:1c:1d:1e:1f "
     expect(reservation.hw_address == "1a:1b:1c:1d:1e:1f")
