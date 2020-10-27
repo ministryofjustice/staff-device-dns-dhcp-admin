@@ -116,8 +116,8 @@ RSpec.describe Reservation, type: :model do
 
   it "is invalid if an update to hw address has already been assigned within a subnet" do
     subnet = create :subnet, cidr_block: "10.0.3.0/24", start_address: "10.0.3.10", end_address: "10.0.3.100"
-    reservation1 = create :reservation, subnet: subnet,  hw_address: "1a:1b:1c:1d:1e:1f", hostname: "test.example.com", ip_address: "10.0.3.11"
-    reservation2 = create :reservation, subnet: subnet,  hw_address: "1a:1b:1c:1d:1e:1e", hostname: "test.example2.com", ip_address: "10.0.3.12"
+    reservation1 = create :reservation, subnet: subnet, hw_address: "1a:1b:1c:1d:1e:1f", hostname: "test.example.com", ip_address: "10.0.3.11"
+    reservation2 = create :reservation, subnet: subnet, hw_address: "1a:1b:1c:1d:1e:1e", hostname: "test.example2.com", ip_address: "10.0.3.12"
 
     reservation2.update(hw_address: "1a:1b:1c:1d:1e:1f")
     expect(reservation2).to_not be_valid
@@ -126,8 +126,8 @@ RSpec.describe Reservation, type: :model do
 
   it "is invalid if an update to ip_address has already been assigned within a subnet" do
     subnet = create :subnet, cidr_block: "10.0.3.0/24", start_address: "10.0.3.10", end_address: "10.0.3.100"
-    reservation1 = create :reservation, subnet: subnet,  hw_address: "1a:1b:1c:1d:1e:1f", hostname: "test.example.com", ip_address: "10.0.3.11"
-    reservation2 = create :reservation, subnet: subnet,  hw_address: "1a:1b:1c:1d:1e:1e", hostname: "test.example2.com", ip_address: "10.0.3.12"
+    reservation1 = create :reservation, subnet: subnet, hw_address: "1a:1b:1c:1d:1e:1f", hostname: "test.example.com", ip_address: "10.0.3.11"
+    reservation2 = create :reservation, subnet: subnet, hw_address: "1a:1b:1c:1d:1e:1e", hostname: "test.example2.com", ip_address: "10.0.3.12"
 
     reservation2.update(ip_address: "10.0.3.11")
     expect(reservation2).to_not be_valid
@@ -136,8 +136,8 @@ RSpec.describe Reservation, type: :model do
 
   it "is invalid if an update to hostname has already been assigned within a subnet" do
     subnet = create :subnet, cidr_block: "10.0.3.0/24", start_address: "10.0.3.10", end_address: "10.0.3.100"
-    reservation1 = create :reservation, subnet: subnet,  hw_address: "1a:1b:1c:1d:1e:1f", hostname: "test.example.com", ip_address: "10.0.3.11"
-    reservation2 = create :reservation, subnet: subnet,  hw_address: "1a:1b:1c:1d:1e:1e", hostname: "test.example2.com", ip_address: "10.0.3.12"
+    reservation1 = create :reservation, subnet: subnet, hw_address: "1a:1b:1c:1d:1e:1f", hostname: "test.example.com", ip_address: "10.0.3.11"
+    reservation2 = create :reservation, subnet: subnet, hw_address: "1a:1b:1c:1d:1e:1e", hostname: "test.example2.com", ip_address: "10.0.3.12"
 
     reservation2.update(hostname: "test.example.com")
     expect(reservation2).to_not be_valid
