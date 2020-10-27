@@ -25,7 +25,7 @@ class Reservation < ApplicationRecord
   scope :for_subnet_and_hw_address, ->(subnet_id, hw_address) do
     for_subnet(subnet_id).where(hw_address: hw_address)
   end
-  
+
   scope :for_subnet_and_ip_address, ->(subnet_id, ip_address) do
     for_subnet(subnet_id).where(ip_address: ip_address)
   end
@@ -71,20 +71,20 @@ class Reservation < ApplicationRecord
   end
 
   def hw_address_is_unique_within_subnet
-    Reservation.for_subnet_and_hw_address(subnet_id,hw_address).each do |reservation|
-        errors.add(:hw_address, "has already been reserved in the subnet")
+    Reservation.for_subnet_and_hw_address(subnet_id, hw_address).each do |reservation|
+      errors.add(:hw_address, "has already been reserved in the subnet")
     end
   end
 
   def ip_address_is_unique_within_subnet
-    Reservation.for_subnet_and_ip_address(subnet_id,ip_address).each do |reservation|
-        errors.add(:ip_address, "has already been reserved in the subnet")
+    Reservation.for_subnet_and_ip_address(subnet_id, ip_address).each do |reservation|
+      errors.add(:ip_address, "has already been reserved in the subnet")
     end
   end
 
   def hostname_is_unique_within_subnet
-    Reservation.for_subnet_and_hostname(subnet_id,hostname).each do |reservation|
-        errors.add(:hostname, "has already been reserved in the subnet")
+    Reservation.for_subnet_and_hostname(subnet_id, hostname).each do |reservation|
+      errors.add(:hostname, "has already been reserved in the subnet")
     end
   end
 end

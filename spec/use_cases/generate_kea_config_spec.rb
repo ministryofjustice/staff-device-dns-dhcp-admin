@@ -131,7 +131,7 @@ describe UseCases::GenerateKeaConfig do
       config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: nil).execute
       expect(config[:Dhcp4].keys).to_not include :"option-data"
     end
-    
+
     it "sets a default valid lifetime if a global option is not passed in" do
       config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: nil).execute
 

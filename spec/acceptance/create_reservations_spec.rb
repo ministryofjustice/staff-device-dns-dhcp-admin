@@ -68,6 +68,6 @@ describe "create reservations", type: :feature do
       click_on "Create"
 
       expect(page).to have_content "There is a problem"
-    end    
+    end
   end
 end

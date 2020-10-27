@@ -67,7 +67,7 @@ RSpec.describe Reservation, type: :model do
     expect(reservation).to_not be_valid
     expect(reservation.errors[:ip_address]).to eq(["is not within the subnet range"])
   end
-  
+
   it "is invalid if the ip_address is after the subnet end address" do
     subnet = create(:subnet, cidr_block: "10.0.4.0/24", start_address: "10.0.4.10", end_address: "10.0.4.100")
     reservation = build :reservation, subnet: subnet, ip_address: "10.0.4.120"
@@ -79,17 +79,17 @@ RSpec.describe Reservation, type: :model do
     reservation = build :reservation, hw_address: " 1a:1b:1c:1d:1e:1f "
     expect(reservation.hw_address == "1a:1b:1c:1d:1e:1f")
   end
-  
+
   it "removes trailing whitespace in ip address" do
     reservation = build :reservation, ip_address: " 192.0.2.2 "
     expect(reservation.ip_address == "192.0.2.2")
   end
-  
+
   it "removes trailing whitespace in hostname" do
-    reservation = build :reservation,  hostname: " test.example.com "
+    reservation = build :reservation, hostname: " test.example.com "
     expect(reservation.hw_address == "test.example.com")
   end
-  
+
   it "is invalid if the hw address is already assigned within the subnet" do
     subnet = create :subnet, cidr_block: "10.0.4.0/24", start_address: "10.0.4.10", end_address: "10.0.4.100"
     reservation1 = create :reservation, subnet: subnet, hw_address: "1a:1b:1c:1d:1e:1f", ip_address: "10.0.4.11"
@@ -105,7 +105,7 @@ RSpec.describe Reservation, type: :model do
     expect(reservation2).to_not be_valid
     expect(reservation2.errors[:ip_address]).to eq(["has already been reserved in the subnet"])
   end
-  
+
   it "is invalid if the hostname is already assigned within the subnet" do
     subnet = create :subnet, cidr_block: "10.0.3.0/24", start_address: "10.0.3.10", end_address: "10.0.3.100"
     reservation1 = create :reservation, subnet: subnet, hostname: "test.example.com", ip_address: "10.0.3.11"
