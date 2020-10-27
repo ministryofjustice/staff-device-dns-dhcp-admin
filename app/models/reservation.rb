@@ -71,20 +71,20 @@ class Reservation < ApplicationRecord
   end
 
   def hw_address_is_unique_within_subnet
-    if Reservation.for_subnet_and_hw_address(subnet_id,hw_address).where.not(id: id).exists?
-        errors.add(:hw_address, "has already been reserved in the subnet")
+    if Reservation.for_subnet_and_hw_address(subnet_id, hw_address).where.not(id: id).exists?
+      errors.add(:hw_address, "has already been reserved in the subnet")
     end
   end
 
   def ip_address_is_unique_within_subnet
-    if Reservation.for_subnet_and_ip_address(subnet_id,ip_address).where.not(id: id).exists?
-        errors.add(:ip_address, "has already been reserved in the subnet")
+    if Reservation.for_subnet_and_ip_address(subnet_id, ip_address).where.not(id: id).exists?
+      errors.add(:ip_address, "has already been reserved in the subnet")
     end
   end
 
   def hostname_is_unique_within_subnet
-    if Reservation.for_subnet_and_hostname(subnet_id,hostname).where.not(id: id).exists?
-        errors.add(:hostname, "has already been reserved in the subnet")
+    if Reservation.for_subnet_and_hostname(subnet_id, hostname).where.not(id: id).exists?
+      errors.add(:hostname, "has already been reserved in the subnet")
     end
   end
 end
