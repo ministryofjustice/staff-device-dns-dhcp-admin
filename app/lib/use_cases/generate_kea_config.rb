@@ -117,42 +117,6 @@ module UseCases
       {"valid-lifetime": option.valid_lifetime}
     end
 
-    def reservations_config(reservations)
-      return {} unless reservations.present?
-
-      result = {
-        "reservations": []
-      }
-
-      result[:reservations] += reservations.map { |reservation|
-        {
-          "hw-address": reservation.hw_address,
-          "ip-address": reservation.ip_address,
-          "hostname": reservation.hostname
-        }
-      }
-
-      result
-    end
-
-    def reservations_config(reservations)
-      return {} unless reservations.present?
-
-      result = {
-        "reservations": []
-      }
-
-      result[:reservations] += reservations.map { |reservation|
-        {
-          "hw-address": reservation.hw_address,
-          "ip-address": reservation.ip_address,
-          "hostname": reservation.hostname
-        }
-      }
-
-      result
-    end
-
     def default_config
       {
         Dhcp4: {
