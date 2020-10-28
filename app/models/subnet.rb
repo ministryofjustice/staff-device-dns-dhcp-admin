@@ -37,6 +37,18 @@ class Subnet < ApplicationRecord
     id + KEA_SUBNET_ID_OFFSET
   end
 
+  def cidr_block=(val)
+    self[:cidr_block] = val.try(:strip)
+  end
+
+  def start_address=(val)
+    self[:start_address] = val.try(:strip)
+  end
+
+  def end_address=(val)
+    self[:end_address] = val.try(:strip)
+  end
+
   private
 
   def cidr_block_is_a_valid_ipv4_subnet
