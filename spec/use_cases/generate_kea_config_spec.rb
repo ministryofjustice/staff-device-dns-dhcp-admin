@@ -183,6 +183,25 @@ describe UseCases::GenerateKeaConfig do
           {
             "hw-address": reservation.hw_address,
             "ip-address": reservation.ip_address,
+            "hostname": reservation.hostname,
+            "user-context": {
+              "description": reservation.description
+            }
+          }
+        ]
+      }))
+    end
+
+    it "appends reservation without description to the subnet" do
+      reservation = create(:reservation, description:nil)
+
+      config = UseCases::GenerateKeaConfig.new(subnets: [reservation.subnet]).execute
+
+      expect(config.dig(:Dhcp4, :subnet4)).to include(hash_including({
+        "reservations": [
+          {
+            "hw-address": reservation.hw_address,
+            "ip-address": reservation.ip_address,
             "hostname": reservation.hostname
           }
         ]
@@ -201,12 +220,18 @@ describe UseCases::GenerateKeaConfig do
           {
             "hw-address": reservation1.hw_address,
             "ip-address": reservation1.ip_address,
-            "hostname": reservation1.hostname
+            "hostname": reservation1.hostname,
+            "user-context": {
+              "description": reservation1.description
+            }
           },
           {
             "hw-address": reservation2.hw_address,
             "ip-address": reservation2.ip_address,
-            "hostname": reservation2.hostname
+            "hostname": reservation2.hostname,
+            "user-context": {
+              "description": reservation2.description
+            }
           }
         ]
       }))
