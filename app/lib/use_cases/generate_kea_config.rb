@@ -96,10 +96,19 @@ module UseCases
           "hw-address": reservation.hw_address,
           "ip-address": reservation.ip_address,
           "hostname": reservation.hostname
-        }
+        }.merge(reservation_description(reservation))
       }
 
       result
+    end
+
+    def reservation_description(reservation)
+      return {} if reservation.description.blank?
+      {
+        "user-context": {
+          "description": reservation.description
+        }
+      }
     end
 
     def valid_lifetime_config
