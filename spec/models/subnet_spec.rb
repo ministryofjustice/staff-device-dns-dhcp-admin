@@ -84,4 +84,19 @@ RSpec.describe Subnet, type: :model do
     expect(subnet).not_to be_valid
     expect(subnet.errors[:end_address]).to eq(["is not within the subnet range"])
   end
+
+  it "removes trailing whitespace in CIDR block" do
+    subnet = build :subnet, cidr_block: " 10.0.4.0/24 ", start_address: "10.0.4.1", end_address: "10.0.5.100"
+    expect(subnet.cidr_block).to eq("10.0.4.0/24")
+  end
+
+  it "removes trailing whitespace in start address" do
+    subnet = build :subnet, cidr_block: "10.0.4.0/24", start_address: " 10.0.4.1 ", end_address: "10.0.5.100"
+    expect(subnet.start_address).to eq("10.0.4.1")
+  end
+
+  it "removes trailing whitespace in end address" do
+    subnet = build :subnet, cidr_block: "10.0.4.0/24", start_address: "10.0.4.1", end_address: " 10.0.5.100 "
+    expect(subnet.end_address).to eq("10.0.5.100")
+  end
 end
