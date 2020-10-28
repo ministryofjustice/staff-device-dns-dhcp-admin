@@ -193,7 +193,7 @@ describe UseCases::GenerateKeaConfig do
     end
 
     it "appends reservation without description to the subnet" do
-      reservation = create(:reservation, description:nil)
+      reservation = create(:reservation, description: nil)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [reservation.subnet]).execute
 

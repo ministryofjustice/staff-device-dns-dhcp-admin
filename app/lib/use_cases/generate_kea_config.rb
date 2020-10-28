@@ -91,11 +91,11 @@ module UseCases
         "reservations": []
       }
 
-      result[:reservations] += reservations.map { |reservation| 
+      result[:reservations] += reservations.map { |reservation|
         {
           "hw-address": reservation.hw_address,
           "ip-address": reservation.ip_address,
-          "hostname": reservation.hostname, 
+          "hostname": reservation.hostname
         }.merge(reservation_description(reservation))
       }
 
@@ -104,11 +104,11 @@ module UseCases
 
     def reservation_description(reservation)
       return {} if reservation.description.blank?
-        {
-          "user-context": {
-            "description": reservation.description
-          }
+      {
+        "user-context": {
+          "description": reservation.description
         }
+      }
     end
 
     def valid_lifetime_config
