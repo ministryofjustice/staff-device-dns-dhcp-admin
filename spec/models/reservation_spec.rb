@@ -70,17 +70,17 @@ RSpec.describe Reservation, type: :model do
 
   it "removes trailing whitespace in hw address" do
     reservation = build :reservation, hw_address: " 1a:1b:1c:1d:1e:1f "
-    expect(reservation.hw_address == "1a:1b:1c:1d:1e:1f")
+    expect(reservation.hw_address).to eq("1a:1b:1c:1d:1e:1f")
   end
 
   it "removes trailing whitespace in ip address" do
     reservation = build :reservation, ip_address: " 192.0.2.2 "
-    expect(reservation.ip_address == "192.0.2.2")
+    expect(reservation.ip_address).to eq("192.0.2.2")
   end
 
   it "removes trailing whitespace in hostname" do
     reservation = build :reservation, hostname: " test.example.com "
-    expect(reservation.hw_address == "test.example.com")
+    expect(reservation.hostname).to eq("test.example.com")
   end
 
   it "is invalid if the hw address is already assigned within the subnet" do
