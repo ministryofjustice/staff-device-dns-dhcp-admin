@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_23_115012) do
+ActiveRecord::Schema.define(version: 2020_10_29_112254) do
+
   create_table "audits", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
@@ -51,6 +52,15 @@ ActiveRecord::Schema.define(version: 2020_10_23_115012) do
     t.bigint "subnet_id", null: false
     t.integer "valid_lifetime", unsigned: true
     t.index ["subnet_id"], name: "index_options_on_subnet_id"
+  end
+
+  create_table "reservation_options", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+    t.string "domain_name"
+    t.string "routers"
+    t.bigint "reservation_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["reservation_id"], name: "index_reservation_options_on_reservation_id"
   end
 
   create_table "reservations", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
@@ -99,6 +109,7 @@ ActiveRecord::Schema.define(version: 2020_10_23_115012) do
   end
 
   add_foreign_key "options", "subnets"
+  add_foreign_key "reservation_options", "reservations"
   add_foreign_key "reservations", "subnets"
   add_foreign_key "subnets", "sites"
 end
