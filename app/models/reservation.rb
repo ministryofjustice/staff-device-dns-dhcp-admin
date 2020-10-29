@@ -4,7 +4,7 @@ class Reservation < ApplicationRecord
   belongs_to :subnet
 
   validates :ip_address, presence: true
-  validates :hostname, domain_name: true
+  validates :hostname, domain_name: true, presence: true
   validates :hw_address, format: {with: MAC_ADDRESS_REGEX, message: "must be in the form 1a:1b:1c:1d:1e:1f"}, presence: true
 
   validate :ip_address_is_a_valid_ipv4_address
