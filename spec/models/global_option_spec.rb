@@ -49,7 +49,7 @@ RSpec.describe GlobalOption, type: :model do
         subject.routers = "192.168.0.2,192.168.0.3"
       end
 
-      it "returns an empty array" do
+      it "stores the routers correctly" do
         expect(subject.routers).to eq(["192.168.0.2", "192.168.0.3"])
       end
     end
@@ -61,7 +61,7 @@ RSpec.describe GlobalOption, type: :model do
         subject.routers = "192.168.0.2,192.168.0.3"
       end
 
-      it "returns an empty array" do
+      it "stores the routers correctly" do
         expect(subject.routers).to eq(["192.168.0.2", "192.168.0.3"])
       end
     end
@@ -91,7 +91,7 @@ RSpec.describe GlobalOption, type: :model do
         subject.domain_name_servers = "192.168.0.2,192.168.0.3"
       end
 
-      it "returns an empty array" do
+      it "stores the domain_name_servers correctly" do
         expect(subject.domain_name_servers).to eq(["192.168.0.2", "192.168.0.3"])
       end
     end
@@ -103,7 +103,7 @@ RSpec.describe GlobalOption, type: :model do
         subject.domain_name_servers = "192.168.0.2,192.168.0.3"
       end
 
-      it "returns an empty array" do
+      it "stores the domain_name_servers correctly" do
         expect(subject.domain_name_servers).to eq(["192.168.0.2", "192.168.0.3"])
       end
     end
@@ -111,7 +111,7 @@ RSpec.describe GlobalOption, type: :model do
     context "when the value is an string with whitespace" do
       subject { create :global_option, domain_name_servers: " 192.168.0.2, 192.168.0.3  " }
 
-      it "stores the routers correctly" do
+      it "stores the domain_name_servers correctly" do
         expect(subject.domain_name_servers).to eq(["192.168.0.2", "192.168.0.3"])
       end
     end
