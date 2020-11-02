@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     resource :options, only: [:new, :create, :edit, :update, :destroy]
     resource :reservations, only: [:new, :create]
   end
-  resources :reservations, only: [:edit, :update, :destroy] do
+  resources :reservations, only: [:show, :edit, :update, :destroy] do
     resource :reservation_options, only: [:new, :create]
   end
 
