@@ -12,7 +12,6 @@ class Ability
     can :read, Zone
     can :read, ReservationOption
 
-
     if user.editor?
       can :manage, Reservation
       can :manage, GlobalOption

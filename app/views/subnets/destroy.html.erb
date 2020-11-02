@@ -2,6 +2,11 @@
 
 <p class="govuk-body">Deleting a subnet cannot be undone</p>
 
+<% if @subnet.reservations.any? %>
+  <p class="govuk-body">The following reservations will be destroyed</p>
+  <%= render "reservations/list", reservations: @subnet.reservations, hide_actions: true %>
+<% end %>
+
 <%= button_to "Delete subnet", subnet_path(@subnet),
   method: :delete,
   class: "govuk-button govuk-button--warning govuk-!-margin-right-1",

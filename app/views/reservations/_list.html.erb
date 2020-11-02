@@ -1,3 +1,5 @@
+<% hide_actions ||= false %>
+
 <table class="govuk-table">
   <caption class="govuk-table__caption">List of reservations</caption>
   <thead class="govuk-table__head">
@@ -6,9 +8,11 @@
       <th scope="col" class="govuk-table__header">IP address</th>
       <th scope="col" class="govuk-table__header">Hostname</th>
       <th scope="col" class="govuk-table__header">Description</th>
+      <% if !hide_actions %>
         <th scope="col" class="govuk-table__header">
           <span class="govuk-visually-hidden">Actions</span>
         </th>
+      <% end %>
     </tr>
   </thead>
   <tbody class="govuk-table__body">
@@ -18,12 +22,14 @@
         <td class="govuk-table__cell"><%= reservation.ip_address %></td>
         <td class="govuk-table__cell"><%= reservation.hostname %></td>
         <td class="govuk-table__cell"><%= reservation.description %></td>
-        <td class="govuk-table__cell">
-          <% if can?(:manage, Subnet) %>
-            <%= link_to "Edit", edit_reservation_path(reservation), class: "govuk-link" %>
-            <%= link_to "Delete", reservation_path(reservation), class: "govuk-link", method: :delete %>
-          <% end %>
-        </td>
+        <% if !hide_actions %>
+          <td class="govuk-table__cell">
+            <% if can?(:manage, Subnet) %>
+              <%= link_to "Edit", edit_reservation_path(reservation), class: "govuk-link" %>
+              <%= link_to "Delete", reservation_path(reservation), class: "govuk-link", method: :delete %>
+            <% end %>
+          </td>
+      <% end %>
       </tr>
       <% if reservation.reservation_option.nil? %>
         <tr class="govuk-table__row">

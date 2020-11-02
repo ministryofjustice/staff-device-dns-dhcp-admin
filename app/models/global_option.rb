@@ -20,25 +20,9 @@ class GlobalOption < ApplicationRecord
     self[:routers].split(",")
   end
 
-  def routers=(val)
-    self[:routers] = if val.respond_to?(:join)
-      val.join(",")
-    else
-      val
-    end
-  end
-
   def domain_name_servers
     return [] unless self[:domain_name_servers]
     self[:domain_name_servers].split(",")
-  end
-
-  def domain_name_servers=(val)
-    self[:domain_name_servers] = if val.respond_to?(:join)
-      val.join(",")
-    else
-      val
-    end
   end
 
   private
