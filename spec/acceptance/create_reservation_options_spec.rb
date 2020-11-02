@@ -39,10 +39,11 @@ describe "create reservation options", type: :feature do
     end
 
     it "creates a new reservation option" do
-      # visit "/subnets/#{reservation.subnet.to_param}"
+      visit "/subnets/#{reservation.subnet.to_param}"
 
-      # expect(page).not_to have_content("Edit reservation options")
-      # click_on "Create reservation options"
+      expect(page).not_to have_content("Edit reservation options")
+      click_on "Create reservation options"
+
       visit "/reservations/#{reservation.to_param}/reservation_options/new"
 
       fill_in "Routers", with: "10.0.1.0,10.0.1.2"
