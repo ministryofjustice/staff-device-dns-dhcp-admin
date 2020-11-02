@@ -1,6 +1,6 @@
 class ReservationOptionsController < ApplicationController
-before_action :set_reservation
-before_action :set_reservation_option
+  before_action :set_reservation
+  before_action :set_reservation_option
 
   def new
     @reservation_option = @reservation.build_reservation_option
@@ -36,5 +36,4 @@ before_action :set_reservation_option
   def reservation_option_params
     params.require(:reservation_option).permit(:routers, :domain_name)
   end
-
 end
