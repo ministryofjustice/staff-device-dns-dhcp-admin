@@ -10,6 +10,7 @@ class Ability
     can :read, Site
     can :read, Subnet
     can :read, Zone
+    can :read, ReservationOption
 
     if user.editor?
       can :manage, Reservation
@@ -18,6 +19,7 @@ class Ability
       can :manage, Site
       can :manage, Subnet
       can :manage, Zone
+      can :manage, ReservationOption
     end
   end
 end

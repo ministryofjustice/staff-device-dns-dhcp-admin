@@ -1,0 +1,32 @@
+<%= form_with model: reservation_option,
+              url: reservation_reservation_options_path(reservation_option.reservation),
+              method: reservation_option.new_record? ? :post : :put,
+              local: true do |f| %>
+  <div class="govuk-form-group <%= field_error(f.object, :routers )%>">
+    <%= f.label :routers, class: "govuk-label" %>
+    <div id="reservation_options_routers-hint" class="govuk-hint">
+      Must be in the form: 127.0.0.1,127.0.0.2
+    </div>
+    <%= f.text_area :routers, value: f.object.routers.join(","), class: "govuk-input" %>
+  </div>
+
+  <div class="govuk-form-group <%= field_error(f.object, :domain_name) %>">
+    <%= f.label :domain_name, class: "govuk-label" %>
+    <div id="reservation_options_domain_name-hint" class="govuk-hint">
+      Must be in the form: test.example.com
+    </div>
+    <%= f.text_field :domain_name, class: "govuk-input" %>
+  </div>
+
+  <%= f.submit f.object.new_record? ? "Create" : "Update", {
+    class: "govuk-button",
+    "data-module" => "govuk-button"
+  } %>
+
+  <%= link_to "Cancel", reservation_path(reservation_option.reservation),
+    class: "govuk-button govuk-button--secondary",
+    data: {
+      module: "govuk-button"
+    }
+  %>
+<% end %>
