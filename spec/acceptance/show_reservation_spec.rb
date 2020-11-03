@@ -20,7 +20,7 @@ describe "showing a reservation", type: :feature do
 
       it "allows viewing reservations and its options" do
         visit "/subnets/#{subnet.to_param}"
-        
+
         click_on "View"
 
         expect(page).to have_content reservation.hw_address
