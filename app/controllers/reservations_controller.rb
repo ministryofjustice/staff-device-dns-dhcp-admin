@@ -1,5 +1,5 @@
 class ReservationsController < ApplicationController
-  before_action :set_subnet, except: [:edit, :update, :destroy]
+  before_action :set_subnet, except: [:show, :edit, :update, :destroy]
   before_action :set_reservation, only: [:show, :edit, :update, :destroy]
 
   def new
@@ -17,6 +17,9 @@ class ReservationsController < ApplicationController
     else
       render :new
     end
+  end
+
+  def show
   end
 
   def edit

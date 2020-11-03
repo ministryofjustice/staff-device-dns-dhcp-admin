@@ -13,7 +13,7 @@ class ReservationOptionsController < ApplicationController
     if @reservation_option.save
       # publish_kea_config
       # deploy_dhcp_service
-      redirect_to subnet_path(@reservation.subnet), notice: "Successfully created reservation options"
+      redirect_to reservation_path(@reservation), notice: "Successfully created reservation options"
     else
       render :new
     end
