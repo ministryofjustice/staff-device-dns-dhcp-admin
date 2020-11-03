@@ -32,3 +32,8 @@ services:
 volumes:
   node_modules:
   datavolume:
+
+networks:
+  default:
+    external:
+      name: staff-device-dhcp-server_default

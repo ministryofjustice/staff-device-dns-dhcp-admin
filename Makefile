@@ -23,6 +23,8 @@ db-setup: start-db
 serve: stop start-db
 	$(DOCKER_COMPOSE) up app
 
+run: serve
+
 test: export ENV=test
 test:
 	$(DOCKER_COMPOSE) run -e COVERAGE=true --rm app bundle exec rake
