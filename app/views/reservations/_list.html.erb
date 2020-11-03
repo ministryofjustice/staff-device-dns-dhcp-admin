@@ -32,18 +32,6 @@
           </td>
       <% end %>
       </tr>
-      <% if reservation.reservation_option.nil? %>
-        <tr class="govuk-table__row">
-          <td class="govuk-table__header">Options:</td>
-          <td class="govuk-table__cell"><%= link_to "Create reservation options", new_reservation_reservation_options_path(reservation), class: "govuk-link" if can?(:create, ReservationOption) %></td>
-        </tr>
-      <% else %>
-        <tr class="govuk-table__row">
-          <td class="govuk-table__header">Options:</td>
-          <td class="govuk-table__cell"><%= reservation.reservation_option.routers.join(",") %></td>
-          <td class="govuk-table__cell"><%= reservation.reservation_option.domain_name %></td>
-        </tr>
-      <% end %>
     <% end %>
   </tbody>
 </table>
