@@ -15,6 +15,7 @@ class ZonesController < ApplicationController
     authorize! :create, @zone
     if @zone.save
       publish_bind_config
+      deploy_dns_service
       redirect_to dns_path, notice: "Successfully created zone"
     else
       render :new
@@ -29,6 +30,7 @@ class ZonesController < ApplicationController
     authorize! :update, @zone
     if @zone.update(zone_params)
       publish_bind_config
+      deploy_dns_service
       redirect_to dns_path, notice: "Successfully updated DNS zone"
     else
       render :edit
@@ -40,6 +42,7 @@ class ZonesController < ApplicationController
     if confirmed?
       if @zone.destroy
         publish_bind_config
+        deploy_dns_service
         redirect_to dns_path, notice: "Successfully deleted zone"
       else
         redirect_to dns_path, error: "Failed to delete the zone"
