@@ -48,8 +48,8 @@ describe "create reservation options", type: :feature do
       fill_in "Routers", with: "10.0.1.0,10.0.1.2"
       fill_in "Domain name", with: "test.example.com"
 
-      # expect_config_to_be_published
-      # expect_service_to_be_rebooted
+      expect_config_to_be_published
+      expect_service_to_be_rebooted
 
       click_on "Create"
 

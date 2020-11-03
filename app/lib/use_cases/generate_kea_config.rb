@@ -97,6 +97,7 @@ module UseCases
           "ip-address": reservation.ip_address,
           "hostname": reservation.hostname
         }.merge(reservation_description(reservation))
+        .merge(reservation_option_config(reservation.reservation_option))
       }
 
       result
@@ -108,6 +109,20 @@ module UseCases
         "user-context": {
           "description": reservation.description
         }
+      }
+    end
+
+    def reservation_option_config(reservation_option)
+      return {} if reservation_option.nil?
+      {
+        "option-data": [ {
+            "name": "routers",
+            "data": reservation_option.routers.join(", ")
+          }, {
+            "name": "domain-name",
+            "data": reservation_option.domain_name
+          }
+        ]
       }
     end
 

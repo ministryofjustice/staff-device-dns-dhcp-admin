@@ -11,8 +11,8 @@ class ReservationOptionsController < ApplicationController
     @reservation_option = @reservation.build_reservation_option(reservation_option_params)
     authorize! :create, @reservation_option
     if @reservation_option.save
-      # publish_kea_config
-      # deploy_dhcp_service
+      publish_kea_config
+      deploy_dhcp_service
       redirect_to reservation_path(@reservation), notice: "Successfully created reservation options"
     else
       render :new
@@ -26,8 +26,8 @@ class ReservationOptionsController < ApplicationController
   def update
     authorize! :update, @reservation_option
     if @reservation_option.update(reservation_option_params)
-      # publish_kea_config
-      # deploy_dhcp_service
+      publish_kea_config
+      deploy_dhcp_service
       redirect_to reservation_path(@reservation_option.reservation), notice: "Successfully updated reservation options"
     else
       render :edit
@@ -38,8 +38,8 @@ class ReservationOptionsController < ApplicationController
     authorize! :destroy, @reservation_option
     if confirmed?
       if @reservation_option.destroy
-        # publish_kea_config
-        # deploy_dhcp_service
+        publish_kea_config
+        deploy_dhcp_service
         redirect_to reservation_path(@reservation_option.reservation), notice: "Successfully deleted reservation options"
       else
         redirect_to reservation_path(@reservation_option.reservation), error: "Failed to delete the reservation options"

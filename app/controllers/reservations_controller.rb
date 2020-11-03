@@ -42,7 +42,7 @@ class ReservationsController < ApplicationController
     if confirmed?
       if @reservation.destroy
         publish_kea_config
-        # deploy_dhcp_service
+        deploy_dhcp_service
         redirect_to subnet_path(@reservation.subnet), notice: "Successfully deleted reservation"
       else
         redirect_to subnet_path(@reservation.subnet), error: "Failed to delete the reservation"
