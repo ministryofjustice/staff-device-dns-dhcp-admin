@@ -27,10 +27,16 @@
     <tr class="govuk-table__row">
       <td class="govuk-table__header">Routers</td>
       <td class="govuk-table__header">Domain name</td>
+      <td class="govuk-table__header"></td>
     </tr>
     <tr class="govuk-table__row">
       <td class="govuk-table__cell"><%= @reservation.reservation_option.routers.join(",") %></td>
       <td class="govuk-table__cell"><%= @reservation.reservation_option.domain_name %></td>
+      <td class="govuk-table__cell">
+            <% if can?(:manage, ReservationOption) %>
+              <%= link_to "Delete", reservation_option_path(@reservation.reservation_option), class: "govuk-link", method: :delete %>
+            <% end %>
+          </td>
     </tr>
     <% end %>
     </table>
