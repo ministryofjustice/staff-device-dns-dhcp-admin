@@ -97,6 +97,7 @@ module UseCases
           "ip-address": reservation.ip_address,
           "hostname": reservation.hostname
         }.merge(reservation_description(reservation))
+          .merge(reservation_option_config(reservation.reservation_option))
       }
 
       result
@@ -109,6 +110,30 @@ module UseCases
           "description": reservation.description
         }
       }
+    end
+
+    def reservation_option_config(reservation_option)
+      return {} unless reservation_option.present?
+
+      result = {
+        "option-data": []
+      }
+
+      if reservation_option.routers.any?
+        result[:"option-data"] << {
+          "name": "routers",
+          "data": reservation_option.routers.join(", ")
+        }
+      end
+
+      if reservation_option.domain_name.present?
+        result[:"option-data"] << {
+          "name": "domain-name",
+          "data": reservation_option.domain_name
+        }
+      end
+
+      result
     end
 
     def valid_lifetime_config

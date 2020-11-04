@@ -192,6 +192,62 @@ describe UseCases::GenerateKeaConfig do
       }))
     end
 
+    it "appends reservation option to the reservation" do
+      reservation_option = create(:reservation_option)
+      reservation = reservation_option.reservation
+
+      config = UseCases::GenerateKeaConfig.new(subnets: [reservation.subnet]).execute
+
+      expect(config.dig(:Dhcp4, :subnet4)).to include(hash_including({
+        "reservations": [
+          {
+            "hw-address": reservation.hw_address,
+            "ip-address": reservation.ip_address,
+            "hostname": reservation.hostname,
+            "option-data": [
+              {
+                "name": "routers",
+                "data": reservation_option.routers.join(", ")
+              },
+              {
+                "name": "domain-name",
+                "data": reservation_option.domain_name
+              }
+            ],
+            "user-context": {
+              "description": reservation.description
+            }
+          }
+        ]
+      }))
+    end
+
+    it "appends reservation option without a domain name to the reservation" do
+      reservation_option = create(:reservation_option, domain_name: nil)
+      reservation = reservation_option.reservation
+
+      config = UseCases::GenerateKeaConfig.new(subnets: [reservation.subnet]).execute
+
+      expect(config.dig(:Dhcp4, :subnet4)).to include(hash_including({
+        "reservations": [
+          {
+            "hw-address": reservation.hw_address,
+            "ip-address": reservation.ip_address,
+            "hostname": reservation.hostname,
+            "option-data": [
+              {
+                "name": "routers",
+                "data": reservation_option.routers.join(", ")
+              }
+            ],
+            "user-context": {
+              "description": reservation.description
+            }
+          }
+        ]
+      }))
+    end
+
     it "appends reservation without description to the subnet" do
       reservation = create(:reservation, description: nil)
 
