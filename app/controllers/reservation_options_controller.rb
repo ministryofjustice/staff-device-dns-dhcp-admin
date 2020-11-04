@@ -1,6 +1,6 @@
 class ReservationOptionsController < ApplicationController
-  before_action :set_reservation, except: [:destroy]
-  before_action :set_reservation_option, only: [:destroy]
+  before_action :set_reservation, except: [:edit, :update, :destroy]
+  before_action :set_reservation_option, only: [:edit, :update, :destroy]
 
   def new
     @reservation_option = @reservation.build_reservation_option
@@ -16,6 +16,21 @@ class ReservationOptionsController < ApplicationController
       redirect_to reservation_path(@reservation), notice: "Successfully created reservation options"
     else
       render :new
+    end
+  end
+
+  def edit
+    authorize! :update, @reservation_option
+  end
+
+  def update
+    authorize! :update, @reservation_option
+    if @reservation_option.update(reservation_option_params)
+      # publish_kea_config
+      # deploy_dhcp_service
+      redirect_to reservation_path(@reservation_option.reservation), notice: "Successfully updated reservation options"
+    else
+      render :edit
     end
   end
 

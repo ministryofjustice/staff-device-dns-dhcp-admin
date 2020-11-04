@@ -1,5 +1,5 @@
 <%= form_with model: reservation_option,
-              url: reservation_reservation_options_path(reservation_option.reservation),
+              url: reservation_option.new_record? ? reservation_reservation_options_path(reservation_option.reservation) : reservation_option_path(reservation_option),
               method: reservation_option.new_record? ? :post : :put,
               local: true do |f| %>
   <div class="govuk-form-group <%= field_error(f.object, :routers )%>">
