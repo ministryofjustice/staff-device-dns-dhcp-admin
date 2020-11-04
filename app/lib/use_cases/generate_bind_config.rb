@@ -1,5 +1,5 @@
 class UseCases::GenerateBindConfig
-  def initialize(zones: [], pdns_ips:)
+  def initialize(pdns_ips:, zones: [])
     @zones = zones
     @pdns_ips = parse_pdns_ips(pdns_ips)
   end
