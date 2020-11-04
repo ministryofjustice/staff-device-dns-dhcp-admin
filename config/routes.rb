@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     resource :reservations, only: [:new, :create]
   end
   resources :reservations, only: [:show, :edit, :update, :destroy] do
-    resource :reservation_options, only: [:new, :create]
+    resource :reservation_options, only: [:new, :create], path: "/options"
   end
   resources :reservation_options, only: [:edit, :update, :destroy]
 

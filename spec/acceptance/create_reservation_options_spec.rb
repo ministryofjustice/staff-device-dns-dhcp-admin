@@ -9,7 +9,7 @@ describe "create reservation options", type: :feature do
 
   context "when a user is not logged in" do
     it "it does not allow editing reservation options" do
-      visit "/reservations/#{reservation.to_param}/reservation_options/new"
+      visit "/reservations/#{reservation.to_param}/options/new"
 
       expect(page).to have_content("You need to sign in or sign up before continuing.")
     end
@@ -25,7 +25,7 @@ describe "create reservation options", type: :feature do
 
       expect(page).not_to have_content("Create reservation options")
 
-      visit "/reservations/#{reservation.to_param}/reservation_options/new"
+      visit "/reservations/#{reservation.to_param}/options/new"
 
       expect(page).to have_content("You are not authorized to access this page.")
     end
@@ -61,7 +61,7 @@ describe "create reservation options", type: :feature do
     end
 
     it "displays error if form cannot be submitted" do
-      visit "/reservations/#{reservation.to_param}/reservation_options/new"
+      visit "/reservations/#{reservation.to_param}/options/new"
 
       click_on "Create"
 
