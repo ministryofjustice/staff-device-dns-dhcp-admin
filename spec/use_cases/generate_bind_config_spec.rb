@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe UseCases::GenerateBindConfig do
-  let(:generated_config) { UseCases::GenerateBindConfig.new(zones: all_zones, pdns_ips: '["7.7.7.7", "5.5.5.5"]').execute }
+  let(:generated_config) { UseCases::GenerateBindConfig.new(zones: all_zones, pdns_ips: "7.7.7.7,5.5.5.5").execute }
 
   describe "#execute" do
     let(:all_zones) { [] }
