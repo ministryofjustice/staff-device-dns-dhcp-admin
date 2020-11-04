@@ -7,6 +7,8 @@ class ReservationOption < ApplicationRecord
   validates :domain_name, domain_name: true
   validate :at_least_one_option
 
+  audited
+
   def routers
     return [] unless self[:routers]
     self[:routers].split(",")
