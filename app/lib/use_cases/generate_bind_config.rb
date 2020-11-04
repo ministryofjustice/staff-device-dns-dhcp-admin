@@ -1,11 +1,10 @@
 class UseCases::GenerateBindConfig
-  def initialize(zones: [])
+  def initialize(zones: [], pdns_ips:)
     @zones = zones
+    @pdns_ips = parse_pdns_ips(pdns_ips)
   end
 
   def execute
-    pdns_ips = JSON.parse(ENV.fetch("PDNS_IPS")).join(";\n")
-
     %(
 options {
   directory "/var/bind";
@@ -15,7 +14,7 @@ options {
   };
 
   forwarders {
-#{pdns_ips};
+#{@pdns_ips};
   };
 
   forward only;
@@ -53,6 +52,12 @@ zone "127.in-addr.arpa" IN {
   private
 
   attr_reader :zones
+
+  def parse_pdns_ips(pdns_ips)
+    raise "PDNS IPs have not been set" if pdns_ips.blank?
+
+    JSON.parse(pdns_ips).join(";\n")
+  end
 
   def render_zones
     zones.map { |zone|
