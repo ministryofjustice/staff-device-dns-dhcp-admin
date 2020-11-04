@@ -113,16 +113,27 @@ module UseCases
     end
 
     def reservation_option_config(reservation_option)
-      return {} if reservation_option.nil?
-      {
-        "option-data": [{
+      return {} unless reservation_option.present?
+
+      result = {
+        "option-data": []
+      }
+
+      if reservation_option.routers.any?
+        result[:"option-data"] << {
           "name": "routers",
           "data": reservation_option.routers.join(", ")
-        }, {
+        }
+      end
+
+      if reservation_option.domain_name.present?
+        result[:"option-data"] << {
           "name": "domain-name",
           "data": reservation_option.domain_name
-        }]
-      }
+        }
+      end
+
+      result
     end
 
     def valid_lifetime_config
