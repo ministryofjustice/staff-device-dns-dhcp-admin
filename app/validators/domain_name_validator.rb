@@ -3,7 +3,7 @@ class DomainNameValidator < ActiveModel::EachValidator
 
   def validate_each(record, attribute, value)
     return if value.blank?
-    
+
     unless DOMAIN_NAME_REGEX.match?(value)
       record.errors.add(attribute, "is not valid")
     end

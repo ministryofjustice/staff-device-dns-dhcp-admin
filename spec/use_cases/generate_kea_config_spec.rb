@@ -238,7 +238,7 @@ describe UseCases::GenerateKeaConfig do
               {
                 "name": "routers",
                 "data": reservation_option.routers.join(", ")
-              },
+              }
             ],
             "user-context": {
               "description": reservation.description
