@@ -4,6 +4,8 @@ class UseCases::GenerateBindConfig
   end
 
   def execute
+    pdns_ips = JSON.parse(ENV.fetch("PDNS_IPS")).join(";\n")
+
     %(
 options {
   directory "/var/bind";
@@ -11,6 +13,12 @@ options {
   allow-recursion {
     127.0.0.1/32;
   };
+
+  forwarders {
+#{pdns_ips};
+  };
+
+  forward only;
 
   listen-on { 127.0.0.1; };
   listen-on-v6 { none; };

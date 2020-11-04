@@ -6,6 +6,10 @@ describe UseCases::GenerateBindConfig do
   describe "#execute" do
     let(:all_zones) { [] }
 
+    before do
+      ENV["PDNS_IPS"] = '["7.7.7.7", "5.5.5.5"]'
+    end
+
     it "generates a BIND template with no dynamic zones" do
       expected_config = %(
 options {
@@ -14,6 +18,13 @@ options {
   allow-recursion {
     127.0.0.1/32;
   };
+
+  forwarders {
+7.7.7.7;
+5.5.5.5;
+  };
+
+  forward only;
 
   listen-on { 127.0.0.1; };
   listen-on-v6 { none; };
@@ -68,6 +79,12 @@ zone "example2.test.com" IN {
 };
 )
       expect(generated_config).to include(expected_config)
+    end
+
+    it "raises an error when PDNS IPs have not been defined" do
+      ENV.delete('PDNS_IPS')
+
+      expect { generated_config }.to raise_error(KeyError)
     end
   end
 end
