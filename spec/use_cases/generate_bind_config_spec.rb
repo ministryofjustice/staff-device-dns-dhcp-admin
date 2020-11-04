@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe UseCases::GenerateBindConfig do
-  let(:generated_config) { UseCases::GenerateBindConfig.new(zones: all_zones).execute }
+  let(:generated_config) { UseCases::GenerateBindConfig.new(zones: all_zones, pdns_ips: '["7.7.7.7", "5.5.5.5"]').execute }
 
   describe "#execute" do
     let(:all_zones) { [] }
@@ -14,6 +14,13 @@ options {
   allow-recursion {
     127.0.0.1/32;
   };
+
+  forwarders {
+7.7.7.7;
+5.5.5.5;
+  };
+
+  forward only;
 
   listen-on { 127.0.0.1; };
   listen-on-v6 { none; };
@@ -68,6 +75,14 @@ zone "example2.test.com" IN {
 };
 )
       expect(generated_config).to include(expected_config)
+    end
+  end
+
+  describe "Unset pdns ips" do
+    let(:generated_config) { UseCases::GenerateBindConfig.new(pdns_ips: "").execute }
+
+    it "raises an error when PDNS IPs have not been defined" do
+      expect { generated_config }.to raise_error("PDNS IPs have not been set")
     end
   end
 end

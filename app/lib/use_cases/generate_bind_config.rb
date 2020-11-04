@@ -1,6 +1,7 @@
 class UseCases::GenerateBindConfig
-  def initialize(zones: [])
+  def initialize(pdns_ips:, zones: [])
     @zones = zones
+    @pdns_ips = parse_pdns_ips(pdns_ips)
   end
 
   def execute
@@ -11,6 +12,12 @@ options {
   allow-recursion {
     127.0.0.1/32;
   };
+
+  forwarders {
+#{@pdns_ips};
+  };
+
+  forward only;
 
   listen-on { 127.0.0.1; };
   listen-on-v6 { none; };
@@ -45,6 +52,12 @@ zone "127.in-addr.arpa" IN {
   private
 
   attr_reader :zones
+
+  def parse_pdns_ips(pdns_ips)
+    raise "PDNS IPs have not been set" if pdns_ips.blank?
+
+    JSON.parse(pdns_ips).join(";\n")
+  end
 
   def render_zones
     zones.map { |zone|

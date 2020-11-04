@@ -76,7 +76,7 @@ class ZonesController < ApplicationController
         aws_config: Rails.application.config.s3_aws_config,
         content_type: "application/octet-stream"
       ),
-      generate_config: UseCases::GenerateBindConfig.new(zones: Zone.all)
+      generate_config: UseCases::GenerateBindConfig.new(zones: Zone.all, pdns_ips: ENV["PDNS_IPS"])
     ).execute
   end
 end
