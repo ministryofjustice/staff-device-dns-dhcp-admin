@@ -44,11 +44,12 @@ migrate-dev: start-db
 deploy:
 	./scripts/deploy
 
-publish: build
-	echo ${REGISTRY_URL}
+push:
 	aws ecr get-login-password | docker login --username AWS --password-stdin ${REGISTRY_URL}
 	docker tag docker_admin:latest ${REGISTRY_URL}/${ENV}-admin:latest
 	docker push ${REGISTRY_URL}/${ENV}-admin:latest
+
+publish: build push
 
 lint:
 	$(DOCKER_COMPOSE) run --rm app bundle exec standardrb --fix
@@ -56,4 +57,4 @@ lint:
 implode:
 	$(DOCKER_COMPOSE) rm
 
-.PHONY: build serve stop test deploy migrate migrate-dev build-dev publish implode
+.PHONY: build serve stop test deploy migrate migrate-dev build-dev push publish implode
