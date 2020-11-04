@@ -25,7 +25,7 @@
         <% if !hide_actions %>
           <td class="govuk-table__cell">
               <%= link_to "View", reservation_path(reservation), class: "govuk-link" %>
-            <% if can?(:manage, Subnet) %>
+            <% if can?(:manage, Reservation) %>
               <%= link_to "Edit", edit_reservation_path(reservation), class: "govuk-link" %>
               <%= link_to "Delete", reservation_path(reservation), class: "govuk-link", method: :delete %>
             <% end %>
