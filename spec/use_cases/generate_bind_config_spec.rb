@@ -82,7 +82,7 @@ zone "example2.test.com" IN {
     end
 
     it "raises an error when PDNS IPs have not been defined" do
-      ENV.delete('PDNS_IPS')
+      ENV.delete("PDNS_IPS")
 
       expect { generated_config }.to raise_error(KeyError)
     end
