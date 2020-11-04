@@ -61,7 +61,7 @@ describe "update reservation options", type: :feature do
       expect(page).to have_content("10.0.1.1,10.0.1.100")
       expect(page).to have_content("testing.example.com")
 
-      # expect_audit_log_entry_for(editor.email, "update", "Option")
+      expect_audit_log_entry_for(editor.email, "update", "Reservation option")
     end
 
     it "displays error if form cannot be submitted" do

@@ -30,6 +30,6 @@ describe "delete reservation options", type: :feature do
     expect(page).not_to have_content(reservation_option.domain_name)
     expect(page).not_to have_content(reservation_option.routers)
 
-    # expect_audit_log_entry_for(editor.email, "destroy", "Option")
+    expect_audit_log_entry_for(editor.email, "destroy", "Reservation option")
   end
 end
