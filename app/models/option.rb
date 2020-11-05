@@ -7,6 +7,7 @@ class Option < ApplicationRecord
   validates :domain_name_servers, ipv4_list: {message: INVALID_IPV4_LIST_MESSAGE}
   validates :valid_lifetime, numericality: {greater_than_or_equal_to: 0, only_integer: true},
                              allow_nil: true
+  validates :domain_name, domain_name: true
 
   validate :at_least_one_option
 
