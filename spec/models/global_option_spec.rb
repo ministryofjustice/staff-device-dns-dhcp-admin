@@ -7,6 +7,14 @@ RSpec.describe GlobalOption, type: :model do
     expect(subject).to be_valid
   end
 
+  it { should allow_value("example.com").for(:domain_name) }
+  it { should allow_value("foo.example.com").for(:domain_name) }
+  it { should allow_value("foo-bar-1.abc.123.example.com").for(:domain_name) }
+  it { should allow_value("foo-BAR-1.ABC.123.example.com").for(:domain_name) }
+  it { should_not allow_value("i_contain_an_at_sign@gov.uk").for(:domain_name) }
+  it { should_not allow_value("测试.com").for(:domain_name) }
+  it { should_not allow_value("me.example/.co").for(:domain_name) }
+
   it do
     is_expected.to validate_presence_of(:routers)
       .with_message("must contain at least one IPv4 address separated using commas")
