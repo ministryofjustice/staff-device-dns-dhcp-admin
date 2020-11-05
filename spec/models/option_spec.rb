@@ -12,6 +12,14 @@ RSpec.describe Option, type: :model do
   it { is_expected.to validate_numericality_of(:valid_lifetime).is_greater_than_or_equal_to(0) }
   it { is_expected.to validate_numericality_of(:valid_lifetime).only_integer }
 
+  it { should allow_value("example.com").for(:domain_name) }
+  it { should allow_value("foo.example.com").for(:domain_name) }
+  it { should allow_value("foo-bar-1.abc.123.example.com").for(:domain_name) }
+  it { should allow_value("foo-BAR-1.ABC.123.example.com").for(:domain_name) }
+  it { should_not allow_value("i_contain_an_at_sign@gov.uk").for(:domain_name) }
+  it { should_not allow_value("测试.com").for(:domain_name) }
+  it { should_not allow_value("me.example/.co").for(:domain_name) }
+
   it "is invalid if none of the options are completed" do
     subject.routers = nil
     subject.domain_name_servers = nil
