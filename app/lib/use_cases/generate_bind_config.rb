@@ -56,7 +56,7 @@ zone "127.in-addr.arpa" IN {
   def parse_pdns_ips(pdns_ips)
     raise "PDNS IPs have not been set" if pdns_ips.blank?
 
-    JSON.parse(pdns_ips).join(";\n")
+    pdns_ips.split(",").join(";\n")
   end
 
   def render_zones
