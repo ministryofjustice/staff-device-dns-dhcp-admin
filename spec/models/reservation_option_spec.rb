@@ -15,6 +15,7 @@ RSpec.describe ReservationOption, type: :model do
   it { should allow_value("foo-BAR-1.ABC.123.example.com").for(:domain_name) }
   it { should_not allow_value("i_contain_an_at_sign@gov.uk").for(:domain_name) }
   it { should_not allow_value("测试.com").for(:domain_name) }
+  it { should_not allow_value("me.example/.co").for(:domain_name) }
 
   it "rejects an incorrect routers" do
     option = build :reservation_option, routers: "abcd,efg"
