@@ -41,7 +41,7 @@ describe "create reservation options", type: :feature do
     it "creates a new reservation option" do
       visit "/reservations/#{reservation.to_param}"
 
-      expect(page).not_to have_content("Edit reservation options")
+      expect(page).not_to have_content("Edit")
 
       click_on "Create reservation options"
 
@@ -71,7 +71,7 @@ describe "create reservation options", type: :feature do
     it "displays error if domain name invalid" do
       visit "/reservations/#{reservation.to_param}"
 
-      expect(page).not_to have_content("Edit reservation options")
+      expect(page).not_to have_content("Edit")
 
       click_on "Create reservation options"
 
