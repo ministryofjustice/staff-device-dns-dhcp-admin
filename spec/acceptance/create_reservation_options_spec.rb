@@ -68,7 +68,6 @@ describe "create reservation options", type: :feature do
       expect(page).to have_content "There is a problem"
     end
 
-
     it "displays error if domain name invalid" do
       visit "/reservations/#{reservation.to_param}"
 
