@@ -76,7 +76,7 @@ describe "create reservation options", type: :feature do
       click_on "Create reservation options"
 
       fill_in "Routers", with: "10.0.1.0,10.0.1.2"
-      fill_in "Domain name", with: "test.example"
+      fill_in "Domain name", with: "me.example/.co"
 
       click_on "Create"
 
