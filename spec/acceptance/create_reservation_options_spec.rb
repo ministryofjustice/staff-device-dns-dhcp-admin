@@ -46,7 +46,7 @@ describe "create reservation options", type: :feature do
       click_on "Create reservation options"
 
       fill_in "Routers", with: "10.0.1.0,10.0.1.2"
-      fill_in "Domain name", with: "test.example.com"
+      fill_in "Domain name", with: "sub.domain.my-example.com"
 
       expect_config_to_be_published
       expect_service_to_be_rebooted
@@ -55,7 +55,7 @@ describe "create reservation options", type: :feature do
 
       expect(page).to have_content("Successfully created reservation options")
       expect(page).to have_content("10.0.1.0,10.0.1.2")
-      expect(page).to have_content("test.example.com")
+      expect(page).to have_content("sub.domain.my-example.com")
 
       expect_audit_log_entry_for(editor.email, "create", "Reservation option")
     end
@@ -66,6 +66,22 @@ describe "create reservation options", type: :feature do
       click_on "Create"
 
       expect(page).to have_content "There is a problem"
+    end
+
+
+    it "displays error if domain name invalid" do
+      visit "/reservations/#{reservation.to_param}"
+
+      expect(page).not_to have_content("Edit reservation options")
+
+      click_on "Create reservation options"
+
+      fill_in "Routers", with: "10.0.1.0,10.0.1.2"
+      fill_in "Domain name", with: "test.example"
+
+      click_on "Create"
+
+      expect(page).to have_content("There is a problem")
     end
   end
 end
