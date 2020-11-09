@@ -17,9 +17,11 @@
   </div>
 </dl>
 
+<%= link_to "View leases", subnet_leases_path(@subnet), class: "govuk-button govuk-button--secondary" %>
+
 <h3 class="govuk-heading-m">Options</h3>
 <% if @subnet.option %>
-  
+
   <%= link_to "Edit options", edit_subnet_options_path(@subnet), class: "govuk-button" if can?(:update, @subnet.option) %>
 
   <%= link_to "Delete options", subnet_options_path(@subnet), class: "govuk-button govuk-button--secondary", method: :delete if can?(:destroy, @subnet.option) %>

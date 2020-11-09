@@ -1,0 +1,19 @@
+<table class="govuk-table">
+  <caption class="govuk-table__caption">Leases for <%= @subnet.cidr_block %></caption>
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">HW address</th>
+      <th scope="col" class="govuk-table__header">IP address</th>
+      <th scope="col" class="govuk-table__header">Hostname</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <% @leases.each do |lease| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell"><%= lease.hw_address %></td>
+        <td class="govuk-table__cell"><%= lease.ip_address %></td>
+        <td class="govuk-table__cell"><%= lease.hostname %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

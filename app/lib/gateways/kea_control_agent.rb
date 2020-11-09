@@ -3,14 +3,15 @@ require "json"
 
 module Gateways
   class KeaControlAgent
-    def fetch_leases
+    def fetch_leases(kea_subnet_id)
       req = Net::HTTP::Post.new(uri.path, "Content-Type" => "application/json")
       req.body = {
         command: "lease4-get-all",
-        service: ["dhcp4"]
+        service: ["dhcp4"],
+        arguments: {subnets: [kea_subnet_id]}
       }.to_json
 
-      http.request(req).body
+      parse_response(http.request(req).body).fetch("leases")
     end
 
     def fetch_stats
@@ -31,6 +32,10 @@ module Gateways
 
     def uri
       URI(ENV.fetch("KEA_CONTROL_AGENT_URI"))
+    end
+
+    def parse_response(response_body)
+      JSON.parse(response_body).first.fetch("arguments")
     end
   end
 end
