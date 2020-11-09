@@ -52,7 +52,7 @@ push:
 publish: build push
 
 lint:
-	$(DOCKER_COMPOSE) run --rm app bundle exec standardrb --fix
+	$(DOCKER_COMPOSE) run --rm app bundle exec rake standard:fix
 
 implode:
 	$(DOCKER_COMPOSE) rm
