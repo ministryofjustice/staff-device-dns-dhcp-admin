@@ -1,5 +1,9 @@
 class LeasesController < ApplicationController
   def index
-    render json: Gateways::KeaControlAgent.new.fetch_leases
+    @subnet = Subnet.find(params[:subnet_id])
+    @leases = UseCases::FetchLeases.new(
+      gateway: Gateways::KeaControlAgent.new,
+      subnet_kea_id: @subnet.kea_id
+    ).execute
   end
 end
