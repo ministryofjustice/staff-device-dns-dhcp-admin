@@ -28,4 +28,10 @@ RSpec.describe ReservationOption, type: :model do
     expect(option).not_to be_valid
     expect(option.errors[:base]).to eq(["At least one option must be filled out"])
   end
+
+  it "strips all whitespace from routers before saving" do
+    reservation_option = create :reservation_option, routers: " 127.0.0.1, 127.0.0.1 "
+
+    expect(reservation_option.routers).to eq(["127.0.0.1", "127.0.0.1"])
+  end
 end

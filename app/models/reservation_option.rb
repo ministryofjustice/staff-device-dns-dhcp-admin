@@ -8,6 +8,8 @@ class ReservationOption < ApplicationRecord
 
   validate :at_least_one_option
 
+  before_validation :strip_whitespace
+
   audited
 
   def routers
@@ -20,5 +22,9 @@ class ReservationOption < ApplicationRecord
   def at_least_one_option
     return if routers.any? || domain_name.present?
     errors.add(:base, "At least one option must be filled out")
+  end
+
+  def strip_whitespace
+    self[:routers] = self[:routers]&.strip&.delete(" ")
   end
 end
