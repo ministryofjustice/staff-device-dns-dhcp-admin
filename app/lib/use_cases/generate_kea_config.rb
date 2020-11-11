@@ -207,6 +207,14 @@ module UseCases
               ],
               severity: "DEBUG"
             }
+          ],
+          "hooks-libraries": [
+            {
+              "library": "/usr/lib/kea/hooks/libdhcp_lease_cmds.so"
+            },
+            {
+              "library": "/usr/lib/kea/hooks/libdhcp_stat_cmds.so"
+            }
           ]
         }.merge(global_options_config).merge(valid_lifetime_config)
       }
