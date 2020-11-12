@@ -10,9 +10,8 @@ class ReservationOptionsController < ApplicationController
   def create
     @reservation_option = @reservation.build_reservation_option(reservation_option_params)
     authorize! :create, @reservation_option
-    if @reservation_option.save
-      publish_kea_config
-      deploy_dhcp_service
+
+    if save_dhcp_record(@reservation_option)
       redirect_to reservation_path(@reservation), notice: "Successfully created reservation options"
     else
       render :new
@@ -25,9 +24,8 @@ class ReservationOptionsController < ApplicationController
 
   def update
     authorize! :update, @reservation_option
-    if @reservation_option.update(reservation_option_params)
-      publish_kea_config
-      deploy_dhcp_service
+    @reservation_option.assign_attributes(reservation_option_params)
+    if save_dhcp_record(@reservation_option)
       redirect_to reservation_path(@reservation_option.reservation), notice: "Successfully updated reservation options"
     else
       render :edit

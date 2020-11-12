@@ -13,9 +13,8 @@ class GlobalOptionsController < ApplicationController
   def create
     @global_option = GlobalOption.new(global_option_params)
     authorize! :create, @global_option
-    if @global_option.save
-      publish_kea_config
-      deploy_dhcp_service
+
+    if save_dhcp_record(@global_option)
       redirect_to global_options_path, notice: "Successfully created global options"
     else
       render :new
@@ -28,9 +27,9 @@ class GlobalOptionsController < ApplicationController
 
   def update
     authorize! :update, @global_option
-    if @global_option.update(global_option_params)
-      publish_kea_config
-      deploy_dhcp_service
+    @global_option.assign_attributes(global_option_params)
+
+    if save_dhcp_record(@global_option)
       redirect_to global_options_path, notice: "Successfully updated global options"
     else
       render :edit

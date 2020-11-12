@@ -76,11 +76,4 @@ class ReservationsController < ApplicationController
   def confirmed?
     params.fetch(:confirm, false)
   end
-
-  def save_dhcp_record(record)
-    UseCases::SaveDhcpDbRecord.new(
-      publish_kea_config: -> { publish_kea_config },
-      deploy_dhcp_service: -> { deploy_dhcp_service }
-    ).call(record)
-  end
 end
