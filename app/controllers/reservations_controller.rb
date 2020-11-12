@@ -10,9 +10,8 @@ class ReservationsController < ApplicationController
   def create
     @reservation = @subnet.reservations.build(reservation_params)
     authorize! :create, @reservation
-    if @reservation.save
-      publish_kea_config
-      deploy_dhcp_service
+
+    if save_dhcp_record(@reservation)
       redirect_to subnet_path(@reservation.subnet), notice: "Successfully created reservation"
     else
       render :new
@@ -28,9 +27,9 @@ class ReservationsController < ApplicationController
 
   def update
     authorize! :update, @reservation
-    if @reservation.update(reservation_params)
-      publish_kea_config
-      deploy_dhcp_service
+    @reservation.assign_attributes(reservation_params)
+
+    if save_dhcp_record(@reservation)
       redirect_to subnet_path(@reservation.subnet), notice: "Successfully updated reservation"
     else
       render :edit
@@ -76,5 +75,12 @@ class ReservationsController < ApplicationController
 
   def confirmed?
     params.fetch(:confirm, false)
+  end
+
+  def save_dhcp_record(record)
+    UseCases::SaveDhcpDbRecord.new(
+      publish_kea_config: -> { publish_kea_config },
+      deploy_dhcp_service: -> { deploy_dhcp_service }
+    ).call(record)
   end
 end
