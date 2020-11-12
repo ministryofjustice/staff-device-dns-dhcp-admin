@@ -6,7 +6,7 @@ class UseCases::FetchLeases
     @subnet_kea_id = subnet_kea_id
   end
 
-  def execute
+  def call
     gateway.fetch_leases(subnet_kea_id).map do |lease_data|
       Lease.new(
         hw_address: lease_data["hw-address"],

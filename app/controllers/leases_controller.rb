@@ -4,6 +4,6 @@ class LeasesController < ApplicationController
     @leases = UseCases::FetchLeases.new(
       gateway: Gateways::KeaControlAgent.new,
       subnet_kea_id: @subnet.kea_id
-    ).execute
+    ).call
   end
 end

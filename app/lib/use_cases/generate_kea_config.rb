@@ -7,7 +7,7 @@ module UseCases
       @global_option = global_option
     end
 
-    def execute
+    def call
       config = default_config
 
       config[:Dhcp4][:subnet4] += @subnets.map { |subnet| subnet_config(subnet) }

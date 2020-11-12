@@ -77,6 +77,6 @@ class ZonesController < ApplicationController
         content_type: "application/octet-stream"
       ),
       generate_config: UseCases::GenerateBindConfig.new(zones: Zone.all, pdns_ips: ENV["PDNS_IPS"])
-    ).execute
+    ).call
   end
 end

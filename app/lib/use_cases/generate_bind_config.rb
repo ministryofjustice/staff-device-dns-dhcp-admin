@@ -4,7 +4,7 @@ class UseCases::GenerateBindConfig
     @pdns_ips = parse_pdns_ips(pdns_ips)
   end
 
-  def execute
+  def call
     %(
 options {
   directory "/var/bind";
