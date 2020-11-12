@@ -4,7 +4,7 @@ module UseCases
       @ecs_gateway = ecs_gateway
     end
 
-    def execute
+    def call
       ecs_gateway.update_service
     end
 

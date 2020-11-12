@@ -1,9 +1,9 @@
 require "rails_helper"
 
 describe UseCases::GenerateBindConfig do
-  let(:generated_config) { UseCases::GenerateBindConfig.new(zones: all_zones, pdns_ips: "7.7.7.7,5.5.5.5").execute }
+  let(:generated_config) { UseCases::GenerateBindConfig.new(zones: all_zones, pdns_ips: "7.7.7.7,5.5.5.5").call }
 
-  describe "#execute" do
+  describe "#call" do
     let(:all_zones) { [] }
 
     it "generates a BIND template with no dynamic zones" do
@@ -79,7 +79,7 @@ zone "example2.test.com" IN {
   end
 
   describe "Unset pdns ips" do
-    let(:generated_config) { UseCases::GenerateBindConfig.new(pdns_ips: "").execute }
+    let(:generated_config) { UseCases::GenerateBindConfig.new(pdns_ips: "").call }
 
     it "raises an error when PDNS IPs have not been defined" do
       expect { generated_config }.to raise_error("PDNS IPs have not been set")

@@ -10,7 +10,7 @@ describe UseCases::DeployService do
   let(:ecs_gateway) { instance_spy(Gateways::Ecs) }
 
   before do
-    use_case.execute
+    use_case.call
   end
 
   it "deploys the DHCP service" do

@@ -8,7 +8,7 @@ describe UseCases::PublishBindConfig do
     )
   end
 
-  let(:generate_config) { double(execute: config) }
+  let(:generate_config) { double(call: config) }
 
   let(:s3_gateway) { instance_spy(Gateways::S3) }
   let(:config) do
@@ -22,7 +22,7 @@ describe UseCases::PublishBindConfig do
   end
 
   before do
-    use_case.execute
+    use_case.call
   end
 
   it "publishes the BIND config" do

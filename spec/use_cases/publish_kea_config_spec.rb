@@ -10,7 +10,7 @@ describe UseCases::PublishKeaConfig do
 
   let(:generate_config) do
     double(
-      execute: config
+      call: config
     )
   end
   let(:s3_gateway) { instance_spy(Gateways::S3) }
@@ -19,7 +19,7 @@ describe UseCases::PublishKeaConfig do
   end
 
   before do
-    use_case.execute
+    use_case.call
   end
 
   it "publishes the Kea config" do

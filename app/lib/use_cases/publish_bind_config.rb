@@ -4,8 +4,8 @@ class UseCases::PublishBindConfig
     @generate_config = generate_config
   end
 
-  def execute
-    payload = generate_config.execute
+  def call
+    payload = generate_config.call
     destination_gateway.write(data: payload)
   end
 

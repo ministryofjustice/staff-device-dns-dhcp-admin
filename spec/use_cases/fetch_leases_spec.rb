@@ -28,7 +28,7 @@ RSpec.describe UseCases::FetchLeases do
   end
 
   it "returns an object with the correct attributes" do
-    expect(use_case.execute).to match_array([
+    expect(use_case.call).to match_array([
       have_attributes(
         class: Lease,
         hw_address: hw_address,
@@ -44,7 +44,7 @@ RSpec.describe UseCases::FetchLeases do
     end
 
     it "returns an empty array" do
-      expect(use_case.execute).to eq []
+      expect(use_case.call).to eq []
     end
   end
 end

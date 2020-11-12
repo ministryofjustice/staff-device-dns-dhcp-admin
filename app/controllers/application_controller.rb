@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
         service_name: ENV.fetch("DHCP_SERVICE_NAME"),
         aws_config: Rails.application.config.ecs_aws_config
       )
-    ).execute
+    ).call
   end
 
   def deploy_dns_service
@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
         service_name: ENV.fetch("DNS_SERVICE_NAME"),
         aws_config: Rails.application.config.ecs_aws_config
       )
-    ).execute
+    ).call
   end
 
   def publish_kea_config
@@ -53,6 +53,6 @@ class ApplicationController < ActionController::Base
         content_type: "application/json"
       ),
       generate_config: UseCases::GenerateKeaConfig.new(subnets: Subnet.all, global_option: GlobalOption.first)
-    ).execute
+    ).call
   end
 end

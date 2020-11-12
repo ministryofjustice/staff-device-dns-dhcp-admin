@@ -1,9 +1,9 @@
 require "rails_helper"
 
 describe UseCases::GenerateKeaConfig do
-  describe "#execute" do
+  describe "#call" do
     it "returns a default subnet used for smoke testing" do
-      config = UseCases::GenerateKeaConfig.new.execute
+      config = UseCases::GenerateKeaConfig.new.call
 
       expect(config.dig(:Dhcp4, :subnet4)).to match_array([
         {
@@ -23,7 +23,7 @@ describe UseCases::GenerateKeaConfig do
       subnet1 = build_stubbed(:subnet, cidr_block: "10.0.1.0/24", start_address: "10.0.1.1", end_address: "10.0.1.255", site: site)
       subnet2 = build_stubbed(:subnet, cidr_block: "10.0.2.0/24", start_address: "10.0.2.1", end_address: "10.0.2.255", site: site)
 
-      config = UseCases::GenerateKeaConfig.new(subnets: [subnet1, subnet2]).execute
+      config = UseCases::GenerateKeaConfig.new(subnets: [subnet1, subnet2]).call
 
       expect(config.dig(:Dhcp4, :subnet4)).to match_array([
         {
@@ -65,7 +65,7 @@ describe UseCases::GenerateKeaConfig do
     end
 
     it "returns a kea config with the correct keys" do
-      config = UseCases::GenerateKeaConfig.new.execute
+      config = UseCases::GenerateKeaConfig.new.call
       expect(config).to have_key :Dhcp4
       expect(config[:Dhcp4].keys).to match_array([
         :"host-reservation-identifiers", :"hosts-database", :"interfaces-config",
@@ -78,7 +78,7 @@ describe UseCases::GenerateKeaConfig do
       subnet1 = build_stubbed(:subnet, id: 1, cidr_block: "10.0.1.0/24")
       subnet2 = build_stubbed(:subnet, id: 2, cidr_block: "10.0.2.0/24")
 
-      config = UseCases::GenerateKeaConfig.new(subnets: [subnet1, subnet2]).execute
+      config = UseCases::GenerateKeaConfig.new(subnets: [subnet1, subnet2]).call
 
       expect(config.dig(:Dhcp4, :subnet4)).to match_array([
         hash_including(subnet: "127.0.0.1/0", id: 1),
@@ -90,7 +90,7 @@ describe UseCases::GenerateKeaConfig do
     it "appends options to the subnet" do
       option = build_stubbed(:option, routers: nil, valid_lifetime: 1234)
 
-      config = UseCases::GenerateKeaConfig.new(subnets: [option.subnet]).execute
+      config = UseCases::GenerateKeaConfig.new(subnets: [option.subnet]).call
 
       expect(config.dig(:Dhcp4, :subnet4)).to include(hash_including({
         "valid-lifetime": 1234,
@@ -110,7 +110,7 @@ describe UseCases::GenerateKeaConfig do
     it "includes global options in the config" do
       global_option = build_stubbed(:global_option)
 
-      config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: global_option).execute
+      config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: global_option).call
 
       expect(config.dig(:Dhcp4, :"option-data")).to match_array([
         {
@@ -129,47 +129,47 @@ describe UseCases::GenerateKeaConfig do
     end
 
     it "does not set the global options if none are passed in" do
-      config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: nil).execute
+      config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: nil).call
       expect(config[:Dhcp4].keys).to_not include :"option-data"
     end
 
     it "sets a default valid lifetime if a global option is not passed in" do
-      config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: nil).execute
+      config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: nil).call
 
       expect(config.dig(:Dhcp4, :"valid-lifetime")).to eq 4000
     end
 
     it "sets a default valid lifetime if the global option has no valid lifetime set" do
       global_option = build_stubbed(:global_option, valid_lifetime: nil)
-      config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: global_option).execute
+      config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: global_option).call
 
       expect(config.dig(:Dhcp4, :"valid-lifetime")).to eq 4000
     end
 
     it "sets the valid-lifetime using the global option valid lifetime" do
       global_option = build_stubbed(:global_option, valid_lifetime: 600)
-      config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: global_option).execute
+      config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: global_option).call
 
       expect(config.dig(:Dhcp4, :"valid-lifetime")).to eq 600
     end
 
     it "does not set the valid lifetime for a subnet if the subnet option is not set" do
       subnet = build_stubbed(:subnet, option: nil)
-      config = UseCases::GenerateKeaConfig.new(subnets: [subnet]).execute
+      config = UseCases::GenerateKeaConfig.new(subnets: [subnet]).call
 
       expect(config.dig(:Dhcp4, :subnet4)).to_not include(hash_including(:"valid-lifetime"))
     end
 
     it "does not set the valid lifetime for a subnet if the subnet option does not set a valid lifetime" do
       option = build_stubbed(:option, valid_lifetime: nil)
-      config = UseCases::GenerateKeaConfig.new(subnets: [option.subnet]).execute
+      config = UseCases::GenerateKeaConfig.new(subnets: [option.subnet]).call
 
       expect(config.dig(:Dhcp4, :subnet4)).to_not include(hash_including(:"valid-lifetime"))
     end
 
     it "sets the valid-lifetime for a subnet using the subnet option" do
       option = build_stubbed(:option, valid_lifetime: 1800)
-      config = UseCases::GenerateKeaConfig.new(subnets: [option.subnet]).execute
+      config = UseCases::GenerateKeaConfig.new(subnets: [option.subnet]).call
 
       expect(config.dig(:Dhcp4, :subnet4)).to include(hash_including("valid-lifetime": 1800))
     end
@@ -177,7 +177,7 @@ describe UseCases::GenerateKeaConfig do
     it "appends reservation to the subnet" do
       reservation = create(:reservation)
 
-      config = UseCases::GenerateKeaConfig.new(subnets: [reservation.subnet]).execute
+      config = UseCases::GenerateKeaConfig.new(subnets: [reservation.subnet]).call
 
       expect(config.dig(:Dhcp4, :subnet4)).to include(hash_including({
         "reservations": [
@@ -197,7 +197,7 @@ describe UseCases::GenerateKeaConfig do
       reservation_option = create(:reservation_option)
       reservation = reservation_option.reservation
 
-      config = UseCases::GenerateKeaConfig.new(subnets: [reservation.subnet]).execute
+      config = UseCases::GenerateKeaConfig.new(subnets: [reservation.subnet]).call
 
       expect(config.dig(:Dhcp4, :subnet4)).to include(hash_including({
         "reservations": [
@@ -227,7 +227,7 @@ describe UseCases::GenerateKeaConfig do
       reservation_option = create(:reservation_option, domain_name: nil)
       reservation = reservation_option.reservation
 
-      config = UseCases::GenerateKeaConfig.new(subnets: [reservation.subnet]).execute
+      config = UseCases::GenerateKeaConfig.new(subnets: [reservation.subnet]).call
 
       expect(config.dig(:Dhcp4, :subnet4)).to include(hash_including({
         "reservations": [
@@ -252,7 +252,7 @@ describe UseCases::GenerateKeaConfig do
     it "appends reservation without description to the subnet" do
       reservation = create(:reservation, description: nil)
 
-      config = UseCases::GenerateKeaConfig.new(subnets: [reservation.subnet]).execute
+      config = UseCases::GenerateKeaConfig.new(subnets: [reservation.subnet]).call
 
       expect(config.dig(:Dhcp4, :subnet4)).to include(hash_including({
         "reservations": [
@@ -270,7 +270,7 @@ describe UseCases::GenerateKeaConfig do
       reservation1 = create(:reservation, subnet: subnet, ip_address: "10.7.4.2")
       reservation2 = create(:reservation, subnet: subnet, ip_address: "10.7.4.3", hostname: "reservation2.example.com", hw_address: "01:bb:cc:dd:ee:ee")
 
-      config = UseCases::GenerateKeaConfig.new(subnets: [reservation1.subnet]).execute
+      config = UseCases::GenerateKeaConfig.new(subnets: [reservation1.subnet]).call
 
       expect(config.dig(:Dhcp4, :subnet4)).to include(hash_including({
         "reservations": [
