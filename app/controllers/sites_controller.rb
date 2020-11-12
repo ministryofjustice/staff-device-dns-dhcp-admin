@@ -17,9 +17,8 @@ class SitesController < ApplicationController
   def create
     @site = Site.new(site_params)
     authorize! :create, @site
-    if @site.save
-      publish_kea_config
-      deploy_dhcp_service
+
+    if save_dhcp_record(@site)
       redirect_to dhcp_path, notice: "Successfully created site"
     else
       render :new
@@ -32,9 +31,9 @@ class SitesController < ApplicationController
 
   def update
     authorize! :update, @site
-    if @site.update(site_params)
-      publish_kea_config
-      deploy_dhcp_service
+    @site.assign_attributes(site_params)
+
+    if save_dhcp_record(@site)
       redirect_to dhcp_path, notice: "Successfully updated site"
     else
       render :edit

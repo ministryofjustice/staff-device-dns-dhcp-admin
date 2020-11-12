@@ -10,9 +10,8 @@ class SubnetsController < ApplicationController
   def create
     @subnet = @site.subnets.build(subnet_params)
     authorize! :create, @subnet
-    if @subnet.save
-      publish_kea_config
-      deploy_dhcp_service
+
+    if save_dhcp_record(@subnet)
       redirect_to @site, notice: "Successfully created subnet"
     else
       render :new
@@ -28,9 +27,9 @@ class SubnetsController < ApplicationController
 
   def update
     authorize! :update, @subnet
-    if @subnet.update(subnet_params)
-      publish_kea_config
-      deploy_dhcp_service
+    @subnet.assign_attributes(subnet_params)
+
+    if save_dhcp_record(@subnet)
       redirect_to @subnet.site, notice: "Successfully updated subnet"
     else
       render :edit

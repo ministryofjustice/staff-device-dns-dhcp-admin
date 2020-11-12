@@ -55,4 +55,11 @@ class ApplicationController < ActionController::Base
       generate_config: UseCases::GenerateKeaConfig.new(subnets: Subnet.all, global_option: GlobalOption.first)
     ).call
   end
+
+  def save_dhcp_record(record)
+    UseCases::SaveDhcpDbRecord.new(
+      publish_kea_config: -> { publish_kea_config },
+      deploy_dhcp_service: -> { deploy_dhcp_service }
+    ).call(record)
+  end
 end

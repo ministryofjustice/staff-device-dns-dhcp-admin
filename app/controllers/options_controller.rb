@@ -10,9 +10,8 @@ class OptionsController < ApplicationController
   def create
     @option = @subnet.build_option(option_params)
     authorize! :create, @option
-    if @option.save
-      publish_kea_config
-      deploy_dhcp_service
+
+    if save_dhcp_record(@option)
       redirect_to subnet_path(@option.subnet), notice: "Successfully created options"
     else
       render :new
@@ -25,9 +24,9 @@ class OptionsController < ApplicationController
 
   def update
     authorize! :update, @option
-    if @option.update(option_params)
-      publish_kea_config
-      deploy_dhcp_service
+    @option.assign_attributes(option_params)
+
+    if save_dhcp_record(@option)
       redirect_to subnet_path(@option.subnet), notice: "Successfully updated options"
     else
       render :edit
