@@ -19,13 +19,8 @@ RSpec.describe ClientClass, type: :model do
   it { should_not allow_value("abC.123-").for(:client_id) }
   it { should_not allow_value("测试.com").for(:client_id) }
 
-  it { is_expected.to validate_uniqueness_of(:client_id).case_insensitive }
-
   it { is_expected.to validate_presence_of :name }
-  it do
-    is_expected.to validate_presence_of(:client_id)
-      .with_message("may only contain letters, numbers, underscores and dashes")
-  end
+  it { is_expected.to validate_presence_of :client_id }
 
   it do
     is_expected.to validate_presence_of(:domain_name_servers)

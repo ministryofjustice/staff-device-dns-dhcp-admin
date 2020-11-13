@@ -2,7 +2,9 @@ class ClientClass < ApplicationRecord
   CLIENT_ID_REGEX = /\A([0-9a-zA-Z_\-]+)\z/
 
   validates :name, presence: true
-  validates :client_id, format: {with: CLIENT_ID_REGEX, message: "may only contain letters, numbers, underscores and dashes"}, presence: true, uniqueness: {case_sensitive: false}
+  validates :client_id,
+    format: {with: CLIENT_ID_REGEX, message: "may only contain letters, numbers, underscores and dashes"},
+    presence: true
   validates :domain_name_servers,
     presence: {message: "must contain at least one IPv4 address separated using commas"},
     ipv4_list: {message: "contains an invalid IPv4 address or is not separated using commas"}
