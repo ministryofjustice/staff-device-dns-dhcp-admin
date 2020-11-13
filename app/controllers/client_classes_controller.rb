@@ -1,6 +1,6 @@
 class ClientClassesController < ApplicationController
   before_action :set_client_class, only: [:edit, :update, :destroy]
-  
+
   def index
     @client_class = ClientClass.first
   end
@@ -60,5 +60,4 @@ class ClientClassesController < ApplicationController
   def confirmed?
     params.fetch(:confirm, false)
   end
-
 end
