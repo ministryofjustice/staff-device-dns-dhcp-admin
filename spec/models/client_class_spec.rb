@@ -23,6 +23,12 @@ RSpec.describe ClientClass, type: :model do
   it { is_expected.to validate_presence_of :client_id }
 
   it do
+    is_expected.not_to allow_value("abC.123-")
+      .for(:client_id)
+      .with_message("may only contain letters, numbers, underscores and dashes")
+  end
+
+  it do
     is_expected.to validate_presence_of(:domain_name_servers)
       .with_message("must contain at least one IPv4 address separated using commas")
   end
