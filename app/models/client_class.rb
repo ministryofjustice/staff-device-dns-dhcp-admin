@@ -3,7 +3,7 @@ class ClientClass < ApplicationRecord
 
   validates :name, presence: true
   validates :client_id,
-    format: {with: CLIENT_ID_REGEX, message: "may only contain letters, numbers, underscores and dashes"},
+    format: {with: CLIENT_ID_REGEX, message: "must contain only letters, numbers, underscores and dashes"},
     presence: true
   validates :domain_name_servers,
     presence: {message: "must contain at least one IPv4 address separated using commas"},

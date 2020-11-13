@@ -39,5 +39,7 @@ en:
         ip_address: "IP address"
       site:
         fits_id: "FITS id"
+      client_class:
+        client_id: "Client id"
       zone:
         name: "Domain name"

@@ -1,0 +1,53 @@
+<div>
+  <h2 class="govuk-heading-l">Client Class</h2>
+
+  <% if @client_class %>
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Name
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <%= @client_class.name %>
+        </dd>
+      </div>
+      
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Client id
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <%= @client_class.client_id %>
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Domain name servers
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <%= @client_class.domain_name_servers.join(",") %>
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Domain name
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <%= @client_class.domain_name %>
+        </dd>
+      </div>
+
+    </dl>
+    <% if can? :manage, ClientClass %>
+      <%= link_to "Edit client class", edit_client_class_path(@client_class.id), class:"govuk-button" %>
+      <%= link_to "Delete client class", client_class_path(@client_class), class:"govuk-button govuk-button--secondary", method: :delete %>
+    <% end %>
+  <% else %>
+    <p class="govuk-body">There is no client class configured.</p>
+    <% if can? :manage, ClientClass %>
+      <%= link_to "Create client class", new_client_class_path, class: "govuk-button" %>
+    <% end %>
+  <% end %>
+</div>
