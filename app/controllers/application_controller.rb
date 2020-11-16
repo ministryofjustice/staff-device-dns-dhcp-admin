@@ -52,7 +52,11 @@ class ApplicationController < ActionController::Base
         aws_config: Rails.application.config.s3_aws_config,
         content_type: "application/json"
       ),
-      generate_config: UseCases::GenerateKeaConfig.new(subnets: Subnet.all, global_option: GlobalOption.first)
+      generate_config: UseCases::GenerateKeaConfig.new(
+        subnets: Subnet.all,
+        global_option: GlobalOption.first,
+        client_class: ClientClass.first
+      )
     ).call
   end
 

@@ -293,5 +293,26 @@ describe UseCases::GenerateKeaConfig do
         ]
       }))
     end
+
+    it "does not set client classes if none are passed in" do
+      config = UseCases::GenerateKeaConfig.new.call
+      expect(config[:Dhcp4].keys).to_not include :"client-classes"
+    end
+
+    it "adds client class to the config when a client class is passed in" do
+      client_class = create(:client_class)
+      config = UseCases::GenerateKeaConfig.new(client_class: client_class).call
+
+      expect(config.dig(:Dhcp4, :"client-classes")).to eq([
+        {
+          name: client_class.name,
+          test: "option[61].hex == '#{client_class.client_id}'",
+          "option-data": [
+            {name: "domain-name", data: client_class.domain_name},
+            {name: "domain-name-servers", data: client_class.domain_name_servers}
+          ]
+        }
+      ])
+    end
   end
 end

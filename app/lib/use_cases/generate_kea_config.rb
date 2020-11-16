@@ -2,9 +2,10 @@ module UseCases
   class GenerateKeaConfig
     DEFAULT_VALID_LIFETIME_SECONDS = 4000
 
-    def initialize(subnets: [], global_option: nil)
+    def initialize(subnets: [], global_option: nil, client_class: nil)
       @subnets = subnets
       @global_option = global_option
+      @client_class = client_class
     end
 
     def call
@@ -151,6 +152,23 @@ module UseCases
       {"valid-lifetime": option.valid_lifetime}
     end
 
+    def client_class_config
+      return {} if @client_class.blank?
+
+      {
+        "client-classes": [
+          {
+            name: @client_class.name,
+            test: "option[61].hex == '#{@client_class.client_id}'",
+            "option-data": [
+              {name: "domain-name", data: @client_class.domain_name},
+              {name: "domain-name-servers", data: @client_class.domain_name_servers}
+            ]
+          }
+        ]
+      }
+    end
+
     def default_config
       {
         Dhcp4: {
@@ -216,7 +234,7 @@ module UseCases
               "library": "/usr/lib/kea/hooks/libdhcp_stat_cmds.so"
             }
           ]
-        }.merge(global_options_config).merge(valid_lifetime_config)
+        }.merge(global_options_config).merge(valid_lifetime_config).merge(client_class_config)
       }
     end
   end
