@@ -25,7 +25,7 @@ RSpec.describe ClientClass, type: :model do
   it do
     is_expected.not_to allow_value("abC.123-")
       .for(:client_id)
-      .with_message("may only contain letters, numbers, underscores and dashes")
+      .with_message("must contain only letters, numbers, underscores and dashes")
   end
 
   it do

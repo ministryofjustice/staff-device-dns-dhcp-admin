@@ -26,6 +26,8 @@ Rails.application.routes.draw do
 
   resources :global_options, only: [:index, :new, :create, :edit, :update, :destroy], path: "/global-options"
 
+  resources :client_classes, only: [:index, :new, :create, :edit, :update, :destroy], path: "/client-classes"
+
   resources :audits, only: [:index, :show]
 
   get "/healthcheck", to: "monitoring#healthcheck"
