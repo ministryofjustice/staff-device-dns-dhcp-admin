@@ -3,23 +3,17 @@ require "rails_helper"
 describe UseCases::PublishKeaConfig do
   subject(:use_case) do
     described_class.new(
-      destination_gateway: s3_gateway,
-      generate_config: generate_config
+      destination_gateway: s3_gateway
     )
   end
 
-  let(:generate_config) do
-    double(
-      call: config
-    )
-  end
   let(:s3_gateway) { instance_spy(Gateways::S3) }
   let(:config) do
     {some: "json"}
   end
 
   before do
-    use_case.call
+    use_case.call(config)
   end
 
   it "publishes the Kea config" do

@@ -45,7 +45,8 @@ class SitesController < ApplicationController
     @subnets = @site.subnets.sort_by(&:ip_addr)
     if confirmed?
       if @site.destroy
-        publish_kea_config
+        config = generate_kea_config
+        publish_kea_config(config)
         deploy_dhcp_service
         redirect_to dhcp_path, notice: "Successfully deleted site"
       else

@@ -40,7 +40,8 @@ class GlobalOptionsController < ApplicationController
     authorize! :destroy, @global_option
     if confirmed?
       if @global_option.destroy
-        publish_kea_config
+        config = generate_kea_config
+        publish_kea_config(config)
         deploy_dhcp_service
         redirect_to global_options_path, notice: "Successfully deleted global options"
       else

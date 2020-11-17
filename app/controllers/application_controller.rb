@@ -44,26 +44,30 @@ class ApplicationController < ActionController::Base
     ).call
   end
 
-  def publish_kea_config
+  def publish_kea_config(config)
     UseCases::PublishKeaConfig.new(
       destination_gateway: Gateways::S3.new(
         bucket: ENV.fetch("KEA_CONFIG_BUCKET"),
         key: "config.json",
         aws_config: Rails.application.config.s3_aws_config,
         content_type: "application/json"
-      ),
-      generate_config: UseCases::GenerateKeaConfig.new(
-        subnets: Subnet.all,
-        global_option: GlobalOption.first,
-        client_class: ClientClass.first
       )
-    ).call
+    ).call(config)
   end
 
   def save_dhcp_record(record)
     UseCases::SaveDhcpDbRecord.new(
-      publish_kea_config: -> { publish_kea_config },
+      generate_kea_config: -> { generate_kea_config.call },
+      publish_kea_config: ->(config) { publish_kea_config(config) },
       deploy_dhcp_service: -> { deploy_dhcp_service }
     ).call(record)
+  end
+
+  def generate_kea_config
+    UseCases::GenerateKeaConfig.new(
+      subnets: Subnet.all,
+      global_option: GlobalOption.first,
+      client_class: ClientClass.first
+    )
   end
 end

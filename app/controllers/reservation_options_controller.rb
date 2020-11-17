@@ -36,7 +36,8 @@ class ReservationOptionsController < ApplicationController
     authorize! :destroy, @reservation_option
     if confirmed?
       if @reservation_option.destroy
-        publish_kea_config
+        config = generate_kea_config
+        publish_kea_config(config)
         deploy_dhcp_service
         redirect_to reservation_path(@reservation_option.reservation), notice: "Successfully deleted reservation options"
       else

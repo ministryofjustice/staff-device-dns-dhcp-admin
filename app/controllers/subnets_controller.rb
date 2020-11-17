@@ -40,7 +40,8 @@ class SubnetsController < ApplicationController
     authorize! :destroy, @subnet
     if confirmed?
       if @subnet.destroy
-        publish_kea_config
+        config = generate_kea_config
+        publish_kea_config(config)
         deploy_dhcp_service
         redirect_to @subnet.site, notice: "Successfully deleted subnet"
       else

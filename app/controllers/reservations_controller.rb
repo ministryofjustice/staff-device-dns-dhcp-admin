@@ -40,7 +40,8 @@ class ReservationsController < ApplicationController
     authorize! :destroy, @reservation
     if confirmed?
       if @reservation.destroy
-        publish_kea_config
+        config = generate_kea_config
+        publish_kea_config(config)
         deploy_dhcp_service
         redirect_to subnet_path(@reservation.subnet), notice: "Successfully deleted reservation"
       else
