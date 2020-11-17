@@ -3,6 +3,10 @@ require "json"
 
 module Gateways
   class KeaControlAgent
+    def initialize(uri:)
+      @uri = URI(uri)
+    end
+
     def fetch_leases(subnet_kea_id)
       req = Net::HTTP::Post.new(uri.path, "Content-Type" => "application/json")
       req.body = {
@@ -26,13 +30,12 @@ module Gateways
 
     private
 
+    attr_reader :uri
+
     def http
       @http ||= Net::HTTP.new(uri.host, uri.port)
     end
 
-    def uri
-      URI(ENV.fetch("KEA_CONTROL_AGENT_URI"))
-    end
 
     def parse_response(response_body)
       JSON.parse(response_body).first.fetch("arguments")

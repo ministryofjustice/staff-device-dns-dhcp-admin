@@ -70,4 +70,10 @@ class ApplicationController < ActionController::Base
       client_class: ClientClass.first
     )
   end
+
+  def kea_control_agent_gateway
+    Gateways::KeaControlAgent.new(
+      uri: ENV.fetch("KEA_CONTROL_AGENT_URI")
+    )
+  end
 end
