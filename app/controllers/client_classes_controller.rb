@@ -40,7 +40,8 @@ class ClientClassesController < ApplicationController
     authorize! :destroy, @client_class
     if confirmed?
       if @client_class.destroy
-        publish_kea_config
+        config = generate_kea_config
+        publish_kea_config(config)
         deploy_dhcp_service
         redirect_to client_classes_path, notice: "Successfully deleted client class"
       else

@@ -37,7 +37,8 @@ class OptionsController < ApplicationController
     authorize! :destroy, @option
     if confirmed?
       if @option.destroy
-        publish_kea_config
+        config = generate_kea_config
+        publish_kea_config(config)
         deploy_dhcp_service
         redirect_to subnet_path(@option.subnet), notice: "Successfully deleted option"
       else
