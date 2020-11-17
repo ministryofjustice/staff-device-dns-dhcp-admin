@@ -35,12 +35,6 @@ RSpec.describe ClientClass, type: :model do
 
   it { is_expected.to validate_presence_of :domain_name }
 
-  it "rejects invalid domain_name_servers" do
-    option = build :option, domain_name_servers: "abcd,efg"
-    expect(option).not_to be_valid
-    expect(option.errors[:domain_name_servers]).to eq(["contains an invalid IPv4 address or is not separated using commas"])
-  end
-
   it "strips whitespace from client_id" do
     client = create :client_class, client_id: "  TEST  "
     expect(client.client_id).to eq "TEST"
@@ -89,6 +83,15 @@ RSpec.describe ClientClass, type: :model do
 
       it "stores the domain_name_servers correctly" do
         expect(subject.domain_name_servers).to eq(["192.168.0.2", "192.168.0.3"])
+      end
+    end
+
+    context "when the value is invalid" do
+      subject { build :client_class, domain_name_servers: "abcd,efg" }
+
+      it "is invalid" do
+        expect(subject).not_to be_valid
+        expect(subject.errors[:domain_name_servers]).to eq(["contains an invalid IPv4 address or is not separated using commas"])
       end
     end
   end
