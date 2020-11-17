@@ -8,18 +8,18 @@ module Gateways
     end
 
     def fetch_leases(subnet_kea_id)
-      req = Net::HTTP::Post.new(uri.path, "Content-Type" => "application/json")
+      req = Net::HTTP::Post.new(uri.path, headers)
       req.body = {
         command: "lease4-get-all",
         service: ["dhcp4"],
         arguments: {subnets: [subnet_kea_id]}
       }.to_json
 
-      parse_response(http.request(req).body).fetch("leases")
+      parse_response(http.request(req).body).fetch("arguments").fetch("leases")
     end
 
     def fetch_stats
-      req = Net::HTTP::Post.new(uri.path, "Content-Type" => "application/json")
+      req = Net::HTTP::Post.new(uri.path, headers)
       req.body = {
         command: "statistic-get-all",
         service: ["dhcp4"]
@@ -28,17 +28,33 @@ module Gateways
       http.request(req).body
     end
 
+    def verify_config(config)
+      req = Net::HTTP::Post.new(uri.path, headers)
+      req.body = {
+        command: "config-test",
+        service: ["dhcp4"],
+        arguments: config
+      }.to_json
+
+      parse_response(http.request(req).body)
+    end
+
     private
 
     attr_reader :uri
+
+    def headers
+      {
+        "Content-Type" => "application/json"
+      }
+    end
 
     def http
       @http ||= Net::HTTP.new(uri.host, uri.port)
     end
 
-
     def parse_response(response_body)
-      JSON.parse(response_body).first.fetch("arguments")
+      JSON.parse(response_body).first
     end
   end
 end
