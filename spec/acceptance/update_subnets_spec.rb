@@ -21,6 +21,10 @@ describe "update subnets", type: :feature do
     fill_in "Start address", with: "10.1.1.1"
     fill_in "End address", with: "10.1.1.255"
 
+    expect_config_to_be_verified
+    expect_config_to_be_published
+    expect_service_to_be_rebooted
+
     click_button "Update"
 
     expect(page).to have_content("Successfully updated subnet")

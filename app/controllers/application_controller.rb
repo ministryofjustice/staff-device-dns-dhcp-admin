@@ -58,6 +58,7 @@ class ApplicationController < ActionController::Base
   def save_dhcp_record(record)
     UseCases::SaveDhcpDbRecord.new(
       generate_kea_config: -> { generate_kea_config.call },
+      verify_kea_config: verify_kea_config,
       publish_kea_config: ->(config) { publish_kea_config(config) },
       deploy_dhcp_service: -> { deploy_dhcp_service }
     ).call(record)
@@ -74,6 +75,12 @@ class ApplicationController < ActionController::Base
   def kea_control_agent_gateway
     Gateways::KeaControlAgent.new(
       uri: ENV.fetch("KEA_CONTROL_AGENT_URI")
+    )
+  end
+
+  def verify_kea_config
+    UseCases::VerifyKeaConfig.new(
+      kea_control_agent_gateway: kea_control_agent_gateway
     )
   end
 end

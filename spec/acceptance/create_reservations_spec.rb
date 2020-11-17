@@ -48,6 +48,7 @@ describe "create reservations", type: :feature do
       fill_in "Hostname", with: "test.example2.com"
       fill_in "Description", with: "Test reservation"
 
+      expect_config_to_be_verified
       expect_config_to_be_published
       expect_service_to_be_rebooted
 
