@@ -41,6 +41,16 @@ RSpec.describe ClientClass, type: :model do
     expect(option.errors[:domain_name_servers]).to eq(["contains an invalid IPv4 address or is not separated using commas"])
   end
 
+  it "strips whitespace from client_id" do
+    client = create :client_class, client_id: "  TEST  "
+    expect(client.client_id).to eq "TEST"
+  end
+
+  it "strips whitespace from domain_name" do
+    client = create :client_class, domain_name: "  test.example.com  "
+    expect(client.domain_name).to eq "test.example.com"
+  end
+
   describe "#domain_name_servers" do
     context "when domain_name_servers is nil" do
       before do

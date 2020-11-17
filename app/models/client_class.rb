@@ -30,6 +30,8 @@ class ClientClass < ApplicationRecord
   end
 
   def strip_whitespace
+    self[:client_id] = self[:client_id]&.strip
+    self[:domain_name] = self[:domain_name]&.strip
     self[:domain_name_servers] = self[:domain_name_servers]&.strip&.delete(" ")
   end
 end
