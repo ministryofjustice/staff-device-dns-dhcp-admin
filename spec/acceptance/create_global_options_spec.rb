@@ -42,6 +42,10 @@ describe "create global options", type: :feature do
       fill_in "Domain name", with: "test.example.com"
       fill_in "Valid lifetime", with: 12345
 
+      expect_config_to_be_verified
+      expect_config_to_be_published
+      expect_service_to_be_rebooted
+
       click_on "Create"
 
       expect(page).to have_content("Successfully created global option")

@@ -42,9 +42,13 @@ describe "create sites", type: :feature do
       fill_in "FITS id", with: "MYFITS101"
       fill_in "Name", with: "My London Site"
 
+      expect_config_to_be_verified
+      expect_config_to_be_published
+      expect_service_to_be_rebooted
+
       click_on "Create"
 
-      expect(current_path).to eq("/dhcp")
+      expect(page).to have_content("Successfully created site")
 
       expect(page).to have_content("MYFITS101")
       expect(page).to have_content("My London Site")
