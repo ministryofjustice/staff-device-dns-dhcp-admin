@@ -11,7 +11,7 @@ class SubnetsController < ApplicationController
     @subnet = @site.subnets.build(subnet_params)
     authorize! :create, @subnet
 
-    if save_dhcp_record(@subnet)
+    if save_dhcp_record(-> { @subnet.save })
       redirect_to @site, notice: "Successfully created subnet"
     else
       render :new
@@ -29,7 +29,7 @@ class SubnetsController < ApplicationController
     authorize! :update, @subnet
     @subnet.assign_attributes(subnet_params)
 
-    if save_dhcp_record(@subnet)
+    if save_dhcp_record(-> { @subnet.save })
       redirect_to @subnet.site, notice: "Successfully updated subnet"
     else
       render :edit
@@ -39,10 +39,7 @@ class SubnetsController < ApplicationController
   def destroy
     authorize! :destroy, @subnet
     if confirmed?
-      if @subnet.destroy
-        config = generate_kea_config
-        publish_kea_config(config)
-        deploy_dhcp_service
+      if save_dhcp_record(-> { @subnet.destroy })
         redirect_to @subnet.site, notice: "Successfully deleted subnet"
       else
         redirect_to @subnet.site, error: "Failed to delete the subnet"

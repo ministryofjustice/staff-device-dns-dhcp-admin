@@ -7,9 +7,9 @@ module UseCases
       @deploy_dhcp_service = deploy_dhcp_service
     end
 
-    def call(record)
-      record.transaction do
-        if record.save
+    def call(operation)
+      ApplicationRecord.transaction do
+        if operation.call
           kea_config = generate_kea_config.call
           if verify_kea_config.call(kea_config)
             publish_kea_config.call(kea_config)
