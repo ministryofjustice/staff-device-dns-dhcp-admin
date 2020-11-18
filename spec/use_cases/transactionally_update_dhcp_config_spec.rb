@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe UseCases::SaveDhcpDbRecord do
+RSpec.describe UseCases::TransactionallyUpdateDhcpConfig do
   let(:generate_kea_config) { spy(:generate_kea_config) }
   let(:verify_kea_config) { spy(:verify_kea_config) }
   let(:publish_kea_config) { spy(:publish_kea_config) }

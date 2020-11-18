@@ -14,7 +14,7 @@ class GlobalOptionsController < ApplicationController
     @global_option = GlobalOption.new(global_option_params)
     authorize! :create, @global_option
 
-    if save_dhcp_record(-> { @global_option.save })
+    if update_dhcp_config(-> { @global_option.save })
       redirect_to global_options_path, notice: "Successfully created global options"
     else
       render :new
@@ -29,7 +29,7 @@ class GlobalOptionsController < ApplicationController
     authorize! :update, @global_option
     @global_option.assign_attributes(global_option_params)
 
-    if save_dhcp_record(-> { @global_option.save })
+    if update_dhcp_config(-> { @global_option.save })
       redirect_to global_options_path, notice: "Successfully updated global options"
     else
       render :edit
@@ -39,7 +39,7 @@ class GlobalOptionsController < ApplicationController
   def destroy
     authorize! :destroy, @global_option
     if confirmed?
-      if save_dhcp_record(-> { @global_option.destroy })
+      if update_dhcp_config(-> { @global_option.destroy })
         redirect_to global_options_path, notice: "Successfully deleted global options"
       else
         redirect_to global_options_path, error: "Failed to delete the global options"

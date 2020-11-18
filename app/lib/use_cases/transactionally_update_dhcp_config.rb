@@ -1,5 +1,5 @@
 module UseCases
-  class SaveDhcpDbRecord
+  class TransactionallyUpdateDhcpConfig
     def initialize(generate_kea_config:, verify_kea_config:, publish_kea_config:, deploy_dhcp_service:)
       @generate_kea_config = generate_kea_config
       @verify_kea_config = verify_kea_config
