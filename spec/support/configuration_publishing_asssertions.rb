@@ -9,6 +9,6 @@ module ConfigurationPublishingAssertions
 
   def expect_config_to_be_verified
     expect_any_instance_of(Gateways::KeaControlAgent).to receive(:verify_config)
-      .and_return({ "result" => 0 })
+      .and_return({"result" => 0})
   end
 end
