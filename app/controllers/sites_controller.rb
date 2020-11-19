@@ -18,7 +18,7 @@ class SitesController < ApplicationController
     @site = Site.new(site_params)
     authorize! :create, @site
 
-    if save_dhcp_record(@site)
+    if update_dhcp_config(-> { @site.save })
       redirect_to dhcp_path, notice: "Successfully created site"
     else
       render :new
@@ -33,7 +33,7 @@ class SitesController < ApplicationController
     authorize! :update, @site
     @site.assign_attributes(site_params)
 
-    if save_dhcp_record(@site)
+    if update_dhcp_config(-> { @site.save })
       redirect_to dhcp_path, notice: "Successfully updated site"
     else
       render :edit
@@ -44,10 +44,7 @@ class SitesController < ApplicationController
     authorize! :destroy, @site
     @subnets = @site.subnets.sort_by(&:ip_addr)
     if confirmed?
-      if @site.destroy
-        config = generate_kea_config
-        publish_kea_config(config)
-        deploy_dhcp_service
+      if update_dhcp_config(-> { @site.destroy })
         redirect_to dhcp_path, notice: "Successfully deleted site"
       else
         redirect_to dhcp_path, error: "Failed to delete the site"
