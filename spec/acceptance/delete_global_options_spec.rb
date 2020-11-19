@@ -15,10 +15,6 @@ describe "delete gobal options", type: :feature do
 
     expect(page).to have_content("Are you sure you want to delete the global options?")
 
-    expect_config_to_be_verified
-    expect_config_to_be_published
-    expect_service_to_be_rebooted
-
     click_on "Delete global options"
 
     expect(page).to have_content("Successfully deleted global options")

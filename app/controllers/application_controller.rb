@@ -55,8 +55,8 @@ class ApplicationController < ActionController::Base
     ).call(config)
   end
 
-  def update_dhcp_config(record)
-    UseCases::TransactionallyUpdateDhcpConfig.new(
+  def save_dhcp_record(record)
+    UseCases::SaveDhcpDbRecord.new(
       generate_kea_config: -> { generate_kea_config.call },
       verify_kea_config: verify_kea_config,
       publish_kea_config: ->(config) { publish_kea_config(config) },
