@@ -15,7 +15,12 @@ module Gateways
         arguments: {subnets: [subnet_kea_id]}
       }.to_json
 
-      parse_response(http.request(req).body).fetch("arguments").fetch("leases")
+      response = parse_response(http.request(req).body)
+      if response.fetch("result") != 0
+        raise KeaAPIError.new response.fetch("text")
+      end
+
+      response.fetch("arguments").fetch("leases")
     end
 
     def fetch_stats
@@ -56,5 +61,7 @@ module Gateways
     def parse_response(response_body)
       JSON.parse(response_body).first
     end
+
+    class KeaAPIError < StandardError; end
   end
 end
