@@ -13,16 +13,7 @@ describe UseCases::GenerateKeaConfig do
             }
           ],
           subnet: "127.0.0.1/0",
-          id: 1, # This is the subnet used for smoke testing
-          reservations: [
-            {
-              "hw-address": "00:0c:01:02:03:04",
-              "ip-address": "172.0.0.1",
-              "user-context": {
-                "description": "Smoke testing reservation"
-              }
-            }
-          ]
+          id: 1
         }
       ])
     end
@@ -42,16 +33,7 @@ describe UseCases::GenerateKeaConfig do
             }
           ],
           subnet: "127.0.0.1/0",
-          id: 1, # This is the subnet used for smoke testing
-          reservations: [
-            {
-              "hw-address": "00:0c:01:02:03:04",
-              "ip-address": "172.0.0.1",
-              "user-context": {
-                "description": "Smoke testing reservation"
-              }
-            }
-          ]
+          id: 1
         },
         {
           pools: [
