@@ -19,7 +19,8 @@ RSpec.describe "Listing leases", type: :feature do
               "hostname": hostname
             }
           ]
-        }
+        },
+        "result": 0
       }
     ].to_json
   end
