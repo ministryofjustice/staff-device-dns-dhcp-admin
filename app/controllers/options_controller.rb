@@ -11,7 +11,7 @@ class OptionsController < ApplicationController
     @option = @subnet.build_option(option_params)
     authorize! :create, @option
 
-    if save_dhcp_record(@option)
+    if update_dhcp_config(-> { @option.save })
       redirect_to subnet_path(@option.subnet), notice: "Successfully created options"
     else
       render :new
@@ -26,7 +26,7 @@ class OptionsController < ApplicationController
     authorize! :update, @option
     @option.assign_attributes(option_params)
 
-    if save_dhcp_record(@option)
+    if update_dhcp_config(-> { @option.save })
       redirect_to subnet_path(@option.subnet), notice: "Successfully updated options"
     else
       render :edit
@@ -36,10 +36,7 @@ class OptionsController < ApplicationController
   def destroy
     authorize! :destroy, @option
     if confirmed?
-      if @option.destroy
-        config = generate_kea_config
-        publish_kea_config(config)
-        deploy_dhcp_service
+      if update_dhcp_config(-> { @option.destroy })
         redirect_to subnet_path(@option.subnet), notice: "Successfully deleted option"
       else
         redirect_to subnet_path(@option.subnet), error: "Failed to delete the option"

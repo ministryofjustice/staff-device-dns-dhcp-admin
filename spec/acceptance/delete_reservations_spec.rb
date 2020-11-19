@@ -21,8 +21,9 @@ describe "delete reservations", type: :feature do
 
     expect(page).to have_content("Are you sure you want to delete this reservation?")
 
-    # expect_config_to_be_published
-    # expect_service_to_be_rebooted
+    expect_config_to_be_verified
+    expect_config_to_be_published
+    expect_service_to_be_rebooted
 
     click_on "Delete reservation"
 
