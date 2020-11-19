@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
         service_name: ENV.fetch("DHCP_SERVICE_NAME"),
         aws_config: Rails.application.config.ecs_aws_config
       )
-    ).call
+    )
   end
 
   def deploy_dns_service
@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
     ).call
   end
 
-  def publish_kea_config(config)
+  def publish_kea_config
     UseCases::PublishKeaConfig.new(
       destination_gateway: Gateways::S3.new(
         bucket: ENV.fetch("KEA_CONFIG_BUCKET"),
@@ -52,15 +52,15 @@ class ApplicationController < ActionController::Base
         aws_config: Rails.application.config.s3_aws_config,
         content_type: "application/json"
       )
-    ).call(config)
+    )
   end
 
   def update_dhcp_config(record, operation)
     UseCases::TransactionallyUpdateDhcpConfig.new(
       generate_kea_config: -> { generate_kea_config.call },
       verify_kea_config: verify_kea_config,
-      publish_kea_config: ->(config) { publish_kea_config(config) },
-      deploy_dhcp_service: -> { deploy_dhcp_service }
+      publish_kea_config: publish_kea_config,
+      deploy_dhcp_service: deploy_dhcp_service
     ).call(record, operation)
   end
 
