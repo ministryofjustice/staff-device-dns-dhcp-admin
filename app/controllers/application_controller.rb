@@ -74,7 +74,8 @@ class ApplicationController < ActionController::Base
 
   def kea_control_agent_gateway
     Gateways::KeaControlAgent.new(
-      uri: ENV.fetch("KEA_CONTROL_AGENT_URI")
+      uri: ENV.fetch("KEA_CONTROL_AGENT_URI"),
+      logger: Rails.logger
     )
   end
 

@@ -5,6 +5,7 @@ module Gateways
   class KeaControlAgent
     def initialize(uri:, logger: nil)
       @uri = URI(uri)
+      @logger = logger
     end
 
     def fetch_leases(subnet_kea_id)
@@ -41,7 +42,7 @@ module Gateways
 
     private
 
-    attr_reader :uri
+    attr_reader :uri, :logger
 
     def headers
       {
@@ -58,7 +59,8 @@ module Gateways
     end
 
     def handle_response(response_body)
-      logger.info("Kea response: #{body}")
+      logger.info("Kea response: #{body}") if logger
+q
       body = parse_response(response_body)
 
       case body.fetch("result")
