@@ -65,7 +65,7 @@ module Gateways
       when 2
         raise InvalidCommand.new("The command is not implemented by the Kea Control Agent")
       else
-        return body.fetch("arguments")
+        body.fetch("arguments")
       end
     end
 
