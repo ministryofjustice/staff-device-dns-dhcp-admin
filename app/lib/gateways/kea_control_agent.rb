@@ -3,7 +3,7 @@ require "json"
 
 module Gateways
   class KeaControlAgent
-    def initialize(uri:)
+    def initialize(uri:, logger: nil)
       @uri = URI(uri)
     end
 
@@ -58,7 +58,9 @@ module Gateways
     end
 
     def handle_response(response_body)
+      logger.info("Kea response: #{body}")
       body = parse_response(response_body)
+
       case body.fetch("result")
       when 1
         raise InternalError.new(body.fetch("text"))
