@@ -6,9 +6,9 @@ module UseCases
 
     def call(config)
       kea_control_agent_gateway.verify_config(config)
-      return true
+      true
     rescue Gateways::KeaControlAgent::InternalError
-      return false
+      false
     end
 
     private
