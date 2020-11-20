@@ -2,7 +2,7 @@ class Reservation < ApplicationRecord
   MAC_ADDRESS_REGEX = /\A([0-9a-fA-F][0-9a-fA-F]:){5}([0-9a-fA-F][0-9a-fA-F])\z/
 
   belongs_to :subnet
-  has_one :reservation_option
+  has_one :reservation_option, dependent: :destroy
 
   validates :ip_address, presence: true
   validates :hostname, domain_name: true, presence: true

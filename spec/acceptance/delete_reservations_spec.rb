@@ -3,7 +3,7 @@ require "rails_helper"
 describe "delete reservations", type: :feature do
   let(:reservation) do
     Audited.audit_class.as_user(editor) do
-      create :reservation
+      create(:reservation, :with_option)
     end
   end
 

@@ -1,6 +1,12 @@
 require "rails_helper"
 
 describe "delete subnets", type: :feature do
+  let(:subnet) do
+    Audited.audit_class.as_user(editor) do
+      create(:subnet, :with_reservation, :with_option)
+    end
+  end
+
   let(:editor) { create(:user, :editor) }
 
   before do
@@ -8,8 +14,6 @@ describe "delete subnets", type: :feature do
   end
 
   it "delete a subnet" do
-    subnet = Audited.audit_class.as_user(editor) { create(:subnet) }
-
     visit "/sites/#{subnet.site.to_param}"
 
     click_on "Delete"
