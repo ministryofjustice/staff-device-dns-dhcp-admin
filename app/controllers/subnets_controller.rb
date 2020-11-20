@@ -11,7 +11,7 @@ class SubnetsController < ApplicationController
     @subnet = @site.subnets.build(subnet_params)
     authorize! :create, @subnet
 
-    if update_dhcp_config(-> { @subnet.save })
+    if update_dhcp_config(@subnet, -> { @subnet.save })
       redirect_to @site, notice: "Successfully created subnet"
     else
       render :new
@@ -29,7 +29,7 @@ class SubnetsController < ApplicationController
     authorize! :update, @subnet
     @subnet.assign_attributes(subnet_params)
 
-    if update_dhcp_config(-> { @subnet.save })
+    if update_dhcp_config(@subnet, -> { @subnet.save })
       redirect_to @subnet.site, notice: "Successfully updated subnet"
     else
       render :edit
@@ -39,7 +39,7 @@ class SubnetsController < ApplicationController
   def destroy
     authorize! :destroy, @subnet
     if confirmed?
-      if update_dhcp_config(-> { @subnet.destroy })
+      if update_dhcp_config(@subnet, -> { @subnet.destroy })
         redirect_to @subnet.site, notice: "Successfully deleted subnet"
       else
         redirect_to @subnet.site, error: "Failed to delete the subnet"
