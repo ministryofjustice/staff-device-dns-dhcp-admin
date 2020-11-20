@@ -16,7 +16,7 @@ module Gateways
         arguments: {subnets: [subnet_kea_id]}
       }.to_json
 
-      handle_response(http.request(req).body).fetch("leases")
+      handle_response(http.request(req).body).dig("arguments").fetch("leases")
     end
 
     def fetch_stats
@@ -69,7 +69,7 @@ module Gateways
       when 2
         raise InvalidCommand.new("The command is not implemented by the Kea Control Agent")
       else
-        body.fetch("arguments")
+        body
       end
     end
 
