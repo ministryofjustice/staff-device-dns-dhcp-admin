@@ -9,5 +9,17 @@ FactoryBot.define do
     end_address { "10.#{index}.4.255" }
 
     site
+
+    trait :with_reservation do
+      after :create do |subnet|
+        create(:reservation, subnet: subnet)
+      end
+    end
+
+    trait :with_option do
+      after :create do |subnet|
+        create(:option, subnet: subnet)
+      end
+    end
   end
 end

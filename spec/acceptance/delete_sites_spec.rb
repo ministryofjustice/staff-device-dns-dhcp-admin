@@ -14,6 +14,12 @@ describe "delete sites", type: :feature do
   end
 
   context "when the user is an editor" do
+    let!(:site) do
+      Audited.audit_class.as_user(editor) do
+        create(:site, :with_subnet)
+      end
+    end
+
     let(:editor) { create(:user, :editor) }
 
     before do
@@ -21,8 +27,6 @@ describe "delete sites", type: :feature do
     end
 
     it "delete a site" do
-      site = Audited.audit_class.as_user(editor) { create(:site) }
-
       visit "/dhcp"
 
       click_on "Delete"
