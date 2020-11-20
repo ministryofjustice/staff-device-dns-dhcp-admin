@@ -59,8 +59,8 @@ module Gateways
     end
 
     def handle_response(response_body)
-      logger.info("Kea response: #{body}") if logger
-q
+      logger.info("Kea response: #{response_body}") if logger
+
       body = parse_response(response_body)
 
       case body.fetch("result")
