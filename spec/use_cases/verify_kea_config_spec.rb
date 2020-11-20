@@ -11,7 +11,7 @@ RSpec.describe UseCases::VerifyKeaConfig do
   describe "#call" do
     context "when the config is valid" do
       before do
-        allow(kea_control_agent_gateway).to receive(:verify_config).and_return({"result" => 0})
+        allow(kea_control_agent_gateway).to receive(:verify_config)
       end
 
       it "returns true" do
@@ -21,7 +21,7 @@ RSpec.describe UseCases::VerifyKeaConfig do
 
     context "when the config is invalid" do
       before do
-        allow(kea_control_agent_gateway).to receive(:verify_config).and_return({"result" => 1})
+        allow(kea_control_agent_gateway).to receive(:verify_config).and_raise(Gateways::KeaControlAgent::InternalError)
       end
 
       it "returns false" do

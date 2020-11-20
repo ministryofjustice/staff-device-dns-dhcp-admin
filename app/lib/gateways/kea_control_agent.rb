@@ -15,12 +15,7 @@ module Gateways
         arguments: {subnets: [subnet_kea_id]}
       }.to_json
 
-      response = parse_response(http.request(req).body)
-      if response.fetch("result") != 0
-        raise KeaAPIError.new response.fetch("text")
-      end
-
-      response.fetch("arguments").fetch("leases")
+      handle_response(http.request(req).body).fetch("leases")
     end
 
     def fetch_stats
@@ -30,7 +25,7 @@ module Gateways
         service: ["dhcp4"]
       }.to_json
 
-      http.request(req).body
+      handle_response(http.request(req).body)
     end
 
     def verify_config(config)
@@ -41,7 +36,7 @@ module Gateways
         arguments: config
       }.to_json
 
-      parse_response(http.request(req).body)
+      handle_response(http.request(req).body)
     end
 
     private
@@ -62,6 +57,19 @@ module Gateways
       JSON.parse(response_body).first
     end
 
-    class KeaAPIError < StandardError; end
+    def handle_response(response_body)
+      body = parse_response(response_body)
+      case body.fetch("result")
+      when 1
+        raise InternalError.new(body.fetch("text"))
+      when 2
+        raise InvalidCommand.new("The command is not implemented by the Kea Control Agent")
+      else
+        return body.fetch("arguments")
+      end
+    end
+
+    class InternalError < StandardError; end
+    class InvalidCommand < StandardError; end
   end
 end

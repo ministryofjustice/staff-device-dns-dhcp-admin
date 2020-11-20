@@ -5,7 +5,10 @@ module UseCases
     end
 
     def call(config)
-      kea_control_agent_gateway.verify_config(config).fetch("result") == 0
+      kea_control_agent_gateway.verify_config(config)
+      return true
+    rescue Gateways::KeaControlAgent::InternalError
+      return false
     end
 
     private
