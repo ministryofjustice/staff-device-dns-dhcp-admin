@@ -9,10 +9,10 @@ describe UseCases::GenerateKeaConfig do
         {
           pools: [
             {
-              pool: "172.0.0.1 - 172.0.2.0"
+              pool: "127.0.0.1 - 127.0.2.0"
             }
           ],
-          subnet: "127.0.0.1/0",
+          subnet: "127.0.0.1/24",
           id: 1
         }
       ])
@@ -29,10 +29,10 @@ describe UseCases::GenerateKeaConfig do
         {
           pools: [
             {
-              pool: "172.0.0.1 - 172.0.2.0"
+              pool: "127.0.0.1 - 127.0.2.0"
             }
           ],
-          subnet: "127.0.0.1/0",
+          subnet: "127.0.0.1/24",
           id: 1
         },
         {
@@ -81,7 +81,7 @@ describe UseCases::GenerateKeaConfig do
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1, subnet2]).call
 
       expect(config.dig(:Dhcp4, :subnet4)).to match_array([
-        hash_including(subnet: "127.0.0.1/0", id: 1),
+        hash_including(subnet: "127.0.0.1/24", id: 1),
         hash_including(subnet: "10.0.1.0/24", id: 1001),
         hash_including(subnet: "10.0.2.0/24", id: 1002)
       ])
