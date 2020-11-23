@@ -9,7 +9,7 @@ describe UseCases::GenerateKeaConfig do
         {
           pools: [
             {
-              pool: "127.0.0.1 - 127.0.2.0"
+              pool: "127.0.0.1 - 127.0.0.254"
             }
           ],
           subnet: "127.0.0.1/24",
@@ -29,7 +29,7 @@ describe UseCases::GenerateKeaConfig do
         {
           pools: [
             {
-              pool: "127.0.0.1 - 127.0.2.0"
+              pool: "127.0.0.1 - 127.0.0.254"
             }
           ],
           subnet: "127.0.0.1/24",
