@@ -208,10 +208,10 @@ module UseCases
             {
               pools: [
                 {
-                  pool: "172.0.0.1 - 172.0.2.0"
+                  pool: "127.0.0.1 - 127.0.2.0"
                 }
               ],
-              subnet: "127.0.0.1/0",
+              subnet: "127.0.0.1/24",
               id: 1 # This is the subnet used for smoke testing
             }
           ],
