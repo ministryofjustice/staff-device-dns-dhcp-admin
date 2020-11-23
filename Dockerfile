@@ -1,4 +1,5 @@
-FROM ruby:2.7.1-alpine3.12
+ARG SHARED_SERVICES_ACCOUNT_ID
+FROM ${SHARED_SERVICES_ACCOUNT_ID}.dkr.ecr.eu-west-2.amazonaws.com/admin:latest
 
 ARG RACK_ENV=development
 ARG DB_HOST=db

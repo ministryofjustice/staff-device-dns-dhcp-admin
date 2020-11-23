@@ -16,6 +16,7 @@ env:
     SECRET_KEY_BASE: "/codebuild/dhcp/admin/rails_master_key"
     ROLE_ARN: "/codebuild/pttp-ci-infrastructure-core-pipeline/${ENV}/assume_role"
     DHCP_DNS_TERRAFORM_OUTPUTS: "/terraform_dns_dhcp/$ENV/outputs"
+    SHARED_SERVICES_ACCOUNT_ID: /codebuild/staff_device_shared_services_account_id
 
 phases:
   install:
@@ -24,6 +25,7 @@ phases:
 
   build:
     commands:
+      - make authenticate-docker
       - make publish
       - TEMP_ROLE=`aws sts assume-role --role-arn $ROLE_ARN --role-session-name test-$BUILD_ID`
       - export AWS_ACCESS_KEY_ID=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.AccessKeyId')
