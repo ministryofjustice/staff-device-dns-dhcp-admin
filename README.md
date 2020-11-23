@@ -6,20 +6,34 @@ This is the web frontend for managing Staff Device DNS / DHCP servers
 
 ## Development
 
+### Authenticating Docker with AWS ECR
+
+The Docker base image is stored in ECR. Before you can build the app you need to authenticate Docker to the ECR registry. [Details can be found here](https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html#registry_auth).
+
+If you have aws-vault set up with credentials for shared services, you can do the following to authenticates:
+
+```bash
+aws-vault exec SHARED_SERVICES_VAULT_PROFILE_NAME -- aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin SHARED_SERVICES_ACCOUNT_ID.dkr.ecr.eu-west-2.amazonaws.com
+```
+
+### Starting the app
+
 1. Clone the repository
+1. Create a .env file in the root directory
+   1. Add `SHARED_SERVICES_ACCOUNT_ID=` to the .env file, entering the relevant account ID
 1. If this is the first time you have setup the project
-    1. Build the base containers.
 
-        ```sh
-        make build-dev
-        ```
+   1. Build the base containers.
 
-    2. Setup the database.
+      ```sh
+      make build-dev
+      ```
 
-        ```sh
-        make db-setup
-        ```
+   2. Setup the database.
 
+      ```sh
+      make db-setup
+      ```
 
 1. Start the application
 
@@ -30,22 +44,29 @@ $ make serve
 ### Running tests
 
 1. First setup your test database if you haven't done so already
+
 ```sh
 make db-setup
 ```
+
 1. To run the entire test suite
+
 ```sh
 make test
 ```
+
 1. If you would like to run individual tests
-  1. First shell onto a test container
-  ```sh
-  ENV=test make shell
-  ```
-  1. Run the tests you would like, for example rspec.
-  ```sh
-  bundle exec rspec path/to/spec/file
-  ```
+1. First shell onto a test container
+
+```sh
+ENV=test make shell
+```
+
+1. Run the tests you would like, for example rspec.
+
+```sh
+bundle exec rspec path/to/spec/file
+```
 
 ### Environment Variables
 

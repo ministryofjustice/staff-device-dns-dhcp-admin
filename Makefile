@@ -7,11 +7,17 @@ BUNDLE_FLAGS=
 
 DOCKER_BUILD_CMD = BUNDLE_INSTALL_FLAGS="$(BUNDLE_FLAGS)" $(DOCKER_COMPOSE) build
 
-build:
-	docker build -t docker_admin . --build-arg RACK_ENV --build-arg DB_HOST --build-arg DB_USER --build-arg DB_PASS --build-arg SECRET_KEY_BASE --build-arg DB_NAME --build-arg BUNDLE_WITHOUT --build-arg DHCP_DB_NAME --build-arg DHCP_DB_HOST --build-arg DHCP_DB_USER --build-arg DHCP_DB_PASS
+authenticate-docker: check-container-registry-account-id
+	./scripts/authenticate_docker
+
+check-container-registry-account-id:
+	./scripts/check_container_registry_account_id
+
+build: check-container-registry-account-id
+	docker build -t docker_admin . --build-arg RACK_ENV --build-arg DB_HOST --build-arg DB_USER --build-arg DB_PASS --build-arg SECRET_KEY_BASE --build-arg DB_NAME --build-arg BUNDLE_WITHOUT --build-arg DHCP_DB_NAME --build-arg DHCP_DB_HOST --build-arg DHCP_DB_USER --build-arg DHCP_DB_PASS --build-arg SHARED_SERVICES_ACCOUNT_ID
 
 build-dev:
-	$(DOCKER_COMPOSE) build
+	$(DOCKER_COMPOSE) build --build-arg SHARED_SERVICES_ACCOUNT_ID
 
 start-db:
 	$(DOCKER_COMPOSE) up -d db
@@ -57,4 +63,4 @@ lint:
 implode:
 	$(DOCKER_COMPOSE) rm
 
-.PHONY: build serve stop test deploy migrate migrate-dev build-dev push publish implode
+.PHONY: build serve stop test deploy migrate migrate-dev build-dev push publish implode authenticate-docker check-container-registry-account-id
