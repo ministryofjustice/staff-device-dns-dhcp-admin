@@ -21,10 +21,10 @@ module UseCases
         else
           return false
         end
-      rescue KeaConfigInvalidError
-        record.errors.add(:base, "These changes would result in an invalid DHCP configuration")
-        return false
       end
+    rescue KeaConfigInvalidError
+      record.errors.add(:base, "These changes would result in an invalid DHCP configuration")
+      return false
     end
 
     private

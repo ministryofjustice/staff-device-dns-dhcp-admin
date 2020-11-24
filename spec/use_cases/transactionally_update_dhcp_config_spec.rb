@@ -50,7 +50,7 @@ RSpec.describe UseCases::TransactionallyUpdateDhcpConfig do
       end
     end
 
-    context "when the operation fails to save" do
+    context "when the operation fails" do
       before do
         allow(record).to receive(:valid?).and_return(false)
       end
@@ -64,6 +64,11 @@ RSpec.describe UseCases::TransactionallyUpdateDhcpConfig do
     context "when the kea config is invalid" do
       before do
         allow(verify_kea_config).to receive(:call).and_return(false)
+      end
+
+      it "does not save the record" do
+        use_case.call(record, operation)
+        expect(record).not_to be_persisted
       end
 
       it "adds errors to the record" do
