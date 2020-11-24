@@ -162,7 +162,7 @@ module UseCases
             test: "option[61].hex == '#{@client_class.client_id}'",
             "option-data": [
               {name: "domain-name", data: @client_class.domain_name},
-              {name: "domain-name-servers", data: @client_class.domain_name_servers}
+              {name: "domain-name-servers", data: @client_class.domain_name_servers.join(", ")}
             ]
           }
         ]
