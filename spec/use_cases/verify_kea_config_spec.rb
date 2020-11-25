@@ -14,18 +14,24 @@ RSpec.describe UseCases::VerifyKeaConfig do
         allow(kea_control_agent_gateway).to receive(:verify_config)
       end
 
-      it "returns true" do
-        expect(use_case.call(config)).to eql(true)
+      it "returns a successful result" do
+        expect(use_case.call(config).success?).to eql(true)
       end
     end
 
     context "when the config is invalid" do
+      let(:error) { Gateways::KeaControlAgent::InternalError.new("oh noes!") }
+
       before do
-        allow(kea_control_agent_gateway).to receive(:verify_config).and_raise(Gateways::KeaControlAgent::InternalError)
+        allow(kea_control_agent_gateway).to receive(:verify_config).and_raise(error)
       end
 
-      it "returns false" do
-        expect(use_case.call(config)).to eql(false)
+      it "returns an unsuccessful result" do
+        expect(use_case.call(config).success?).to eql(false)
+      end
+
+      it "returns the result error" do
+        expect(use_case.call(config).error).to eql(error)
       end
     end
   end
