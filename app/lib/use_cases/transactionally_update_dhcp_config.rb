@@ -11,19 +11,20 @@ module UseCases
       ApplicationRecord.transaction do
         if operation.call
           kea_config = generate_kea_config.call
-          if verify_kea_config.call(kea_config)
+          config_verification_result = verify_kea_config.call(kea_config)
+          if config_verification_result.success?
             publish_kea_config.call(kea_config)
             deploy_dhcp_service.call
             return true
           else
-            raise KeaConfigInvalidError
+            raise KeaConfigInvalidError.new(config_verification_result.error.message)
           end
         else
           return false
         end
       end
-    rescue KeaConfigInvalidError
-      record.errors.add(:base, "These changes would result in an invalid DHCP configuration")
+    rescue KeaConfigInvalidError => error
+      record.errors.add(:base, error.message)
       false
     end
 

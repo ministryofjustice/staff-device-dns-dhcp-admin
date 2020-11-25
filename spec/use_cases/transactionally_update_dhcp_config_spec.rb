@@ -62,8 +62,10 @@ RSpec.describe UseCases::TransactionallyUpdateDhcpConfig do
     end
 
     context "when the kea config is invalid" do
+      let(:result) { double(:result, success?: false, error: StandardError.new("im borked")) }
+
       before do
-        allow(verify_kea_config).to receive(:call).and_return(false)
+        allow(verify_kea_config).to receive(:call).and_return(result)
       end
 
       it "does not save the record" do
@@ -73,7 +75,7 @@ RSpec.describe UseCases::TransactionallyUpdateDhcpConfig do
 
       it "adds errors to the record" do
         use_case.call(record, operation)
-        expect(record.errors[:base]).not_to be_empty
+        expect(record.errors[:base]).to include(result.error.message)
       end
     end
   end

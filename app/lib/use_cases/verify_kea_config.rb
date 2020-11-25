@@ -6,13 +6,25 @@ module UseCases
 
     def call(config)
       kea_control_agent_gateway.verify_config(config)
-      true
-    rescue Gateways::KeaControlAgent::InternalError
-      false
+      Result.new
+    rescue Gateways::KeaControlAgent::InternalError => error
+      Result.new(error)
     end
 
     private
 
     attr_reader :kea_control_agent_gateway
+
+    class Result
+      attr_reader :error
+
+      def initialize(error = nil)
+        @error = error
+      end
+
+      def success?
+        error.nil?
+      end
+    end
   end
 end
