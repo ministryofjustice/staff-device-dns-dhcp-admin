@@ -6,7 +6,7 @@ describe Gateways::KeaControlAgent do
 
   describe "#verify_config" do
     context "when the kea api returns an error" do
-      let(:config) { { Dhcp4: {} } }
+      let(:config) { {Dhcp4: {}} }
       let(:kea_response) do
         [{
           "result": 1,
@@ -16,14 +16,14 @@ describe Gateways::KeaControlAgent do
 
       before do
         stub_request(:post, uri)
-        .with(body: {
-          command: "config-test",
-          service: ["dhcp4"],
-          arguments: config
-        }, headers: {
-          "Content-Type": "application/json"
-        })
-        .to_return(body: kea_response)
+          .with(body: {
+            command: "config-test",
+            service: ["dhcp4"],
+            arguments: config
+          }, headers: {
+            "Content-Type": "application/json"
+          })
+          .to_return(body: kea_response)
       end
 
       it "raises a InternalError" do
