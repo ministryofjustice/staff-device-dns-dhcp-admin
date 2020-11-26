@@ -306,7 +306,7 @@ describe UseCases::GenerateKeaConfig do
       expect(config.dig(:Dhcp4, :"client-classes")).to eq([
         {
           name: client_class.name,
-          test: "option[61].hex == '#{client_class.client_id}'",
+          test: "option[77].hex == '#{client_class.client_id}'",
           "option-data": [
             {name: "domain-name", data: client_class.domain_name},
             {name: "domain-name-servers", data: client_class.domain_name_servers.join(", ")}
