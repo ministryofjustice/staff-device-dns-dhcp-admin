@@ -19,7 +19,7 @@ options {
 
   forward only;
 
-  listen-on { 127.0.0.1; };
+  listen-on { any; };
   listen-on-v6 { none; };
 
   pid-file "/var/run/named/named.pid";
