@@ -28,7 +28,7 @@ class Option < ApplicationRecord
   private
 
   def at_least_one_option
-    return if routers.any? || domain_name_servers.any? || domain_name.present?
+    return if routers.any? || domain_name_servers.any? || domain_name.present? || valid_lifetime.present?
     errors.add(:base, "At least one option must be filled out")
   end
 
