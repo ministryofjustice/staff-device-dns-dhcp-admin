@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   resources :zones, except: [:index]
 
   get "/dhcp", to: "sites#index", as: :dhcp
-  get "/dhcp/stats", to: "stats#dhcp", as: :dhcp_stats
 
   resources :sites, except: [:index] do
     resources :subnets, only: [:new, :create]

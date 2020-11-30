@@ -19,16 +19,6 @@ module Gateways
       handle_response(http.request(req).body).dig("arguments").fetch("leases")
     end
 
-    def fetch_stats
-      req = Net::HTTP::Post.new(uri.path, headers)
-      req.body = {
-        command: "statistic-get-all",
-        service: ["dhcp4"]
-      }.to_json
-
-      handle_response(http.request(req).body)
-    end
-
     def verify_config(config)
       req = Net::HTTP::Post.new(uri.path, headers)
       req.body = {
