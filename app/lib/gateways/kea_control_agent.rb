@@ -64,6 +64,7 @@ module Gateways
     end
 
     class InternalError < StandardError; end
+
     class InvalidCommand < StandardError; end
   end
 end
