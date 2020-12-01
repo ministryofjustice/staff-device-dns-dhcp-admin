@@ -27,6 +27,10 @@ options {
   allow-transfer { none; };
 };
 
+statistics-channels {
+  inet 127.0.0.1 port 8080 allow { 127.0.0.1; };
+};
+
 zone "." IN {
   type hint;
   file "named.ca";
