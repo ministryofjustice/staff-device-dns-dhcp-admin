@@ -70,7 +70,7 @@ describe UseCases::GenerateKeaConfig do
       expect(config[:Dhcp4].keys).to match_array([
         :"host-reservation-identifiers", :"hosts-database", :"interfaces-config",
         :"lease-database", :"valid-lifetime", :loggers, :subnet4,
-        :"control-socket", :"hooks-libraries"
+        :"control-socket", :"hooks-libraries", :"multi-threading"
       ])
     end
 

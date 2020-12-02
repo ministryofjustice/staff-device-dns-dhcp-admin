@@ -234,7 +234,12 @@ module UseCases
             {
               "library": "/usr/lib/kea/hooks/libdhcp_stat_cmds.so"
             }
-          ]
+          ],
+          "multi-threading": {
+            "enable-multi-threading": true,
+            "thread-pool-size": 12,
+            "packet-queue-size": 792
+          }
         }.merge(global_options_config).merge(valid_lifetime_config).merge(client_class_config)
       }
     end
