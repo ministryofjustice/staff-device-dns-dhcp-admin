@@ -15,10 +15,8 @@ RSpec.describe Zone, type: :model do
   it { should allow_value("foo.example.com").for(:name) }
   it { should allow_value("foo-bar-1.abc.123.example.com").for(:name) }
   it { should allow_value("foo-BAR-1.ABC.123.example.com").for(:name) }
-  it { should allow_value("*.test.com").for(:name) }
   it { should_not allow_value("i_contain_an_at_sign@gov.uk").for(:name) }
   it { should_not allow_value("测试.com").for(:name) }
-  it { should_not allow_value("test.*.com").for(:name) }
 
   context "forwarders validation" do
     it "must be a valid IPv4 address" do
