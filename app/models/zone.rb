@@ -1,8 +1,5 @@
 class Zone < ApplicationRecord
-  VALID_ZONE_REGEX = /\A[a-z0-9*]+([\-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/ix
-
-  validates :name, presence: true, uniqueness: {case_sensitive: false}
-  validates_format_of :name, with: VALID_ZONE_REGEX
+  validates :name, presence: true, uniqueness: {case_sensitive: false}, domain_name: true
 
   validates :forwarders,
     presence: {message: "must contain at least one IPv4 address separated using commas"},
