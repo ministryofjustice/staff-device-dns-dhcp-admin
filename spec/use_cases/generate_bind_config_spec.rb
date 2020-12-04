@@ -12,17 +12,10 @@ options {
   directory "/var/bind";
 
   allow-recursion {
-    127.0.0.1/32;
+    any;
   };
 
-  forwarders {
-7.7.7.7;
-5.5.5.5;
-  };
-
-  forward only;
-
-  listen-on { any; };
+  listen-on port 53 { any; };
   listen-on-v6 { none; };
 
   pid-file "/var/run/named/named.pid";
@@ -32,11 +25,6 @@ options {
 
 statistics-channels {
   inet 127.0.0.1 port 8080 allow { 127.0.0.1; };
-};
-
-zone "." IN {
-  type hint;
-  file "named.ca";
 };
 
 zone "localhost" IN {
@@ -53,6 +41,14 @@ zone "127.in-addr.arpa" IN {
   notify no;
 };
 
+zone "." IN {
+  type forward;
+  forward only;
+  forwarders {
+    7.7.7.7;
+5.5.5.5;
+    };
+};
 )
       expect(generated_config).to eq(expected_config)
     end
