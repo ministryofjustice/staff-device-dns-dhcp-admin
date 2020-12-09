@@ -21,6 +21,7 @@ options {
   pid-file "/var/run/named/named.pid";
 
   allow-transfer { none; };
+  allow-query { any; };
 };
 
 statistics-channels {
@@ -66,11 +67,13 @@ zone "." IN {
       expected_config = %(
 zone "example.test.com" IN {
   type forward;
+  forward only;
   forwarders {127.0.0.1;127.0.0.2;};
 };
 
 zone "example2.test.com" IN {
   type forward;
+  forward only;
   forwarders {10.0.0.1;10.0.0.255;};
 };
 )
