@@ -19,6 +19,7 @@ options {
   pid-file "/var/run/named/named.pid";
 
   allow-transfer { none; };
+  allow-query { any; };
 };
 
 statistics-channels {
@@ -64,6 +65,7 @@ zone "." IN {
       %(
 zone "#{zone.name}" IN {
   type forward;
+  forward only;
   forwarders {#{format_zone_forwarders(zone.forwarders)}};
 };
 )
