@@ -331,12 +331,12 @@ describe UseCases::GenerateKeaConfig do
            {
              "high-availability": [
                {
-                "heartbeat-delay": 10000,
-                "max-ack-delay": 5000,
-                "max-response-delay": 10000,
-                "max-unacked-clients": 5,
-                mode: "hot-standby",
-                peers:
+                 "heartbeat-delay": 10000,
+                 "max-ack-delay": 5000,
+                 "max-response-delay": 10000,
+                 "max-unacked-clients": 5,
+                 mode: "hot-standby",
+                 peers:
                   [
                     {
                       name: "primary",
@@ -349,12 +349,12 @@ describe UseCases::GenerateKeaConfig do
                       url: "<STANDBY_IP>"
                     }
                   ],
-                "this-server-name": "<SERVER_NAME>"
+                 "this-server-name": "<SERVER_NAME>"
                }
-              ]
-            }
-          }
-        )
+             ]
+           }
+        }
+      )
     end
   end
 end
