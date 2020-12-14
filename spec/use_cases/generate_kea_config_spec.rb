@@ -314,5 +314,47 @@ describe UseCases::GenerateKeaConfig do
         }
       ])
     end
+
+    it "adds the KEA hooks configuration" do
+      config = UseCases::GenerateKeaConfig.new.call
+
+      expect(config.dig(:Dhcp4, :"hooks-libraries")).to include(
+        {
+          library: "/usr/lib/kea/hooks/libdhcp_lease_cmds.so"
+        },
+        {
+          library: "/usr/lib/kea/hooks/libdhcp_stat_cmds.so"
+        },
+        {
+          library: "/usr/lib/kea/hooks/libdhcp_ha.so",
+          parameters:
+           {
+             "high-availability": [
+               {
+                "heartbeat-delay": 10000,
+                "max-ack-delay": 5000,
+                "max-response-delay": 10000,
+                "max-unacked-clients": 5,
+                mode: "hot-standby",
+                peers:
+                  [
+                    {
+                      name: "primary",
+                      role: "primary",
+                      url: "<PRIMARY_IP>"
+                    },
+                    {
+                      name: "standby",
+                      role: "standby",
+                      url: "<STANDBY_IP>"
+                    }
+                  ],
+                "this-server-name": "<SERVER_NAME>"
+               }
+              ]
+            }
+          }
+        )
+    end
   end
 end
