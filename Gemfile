@@ -18,7 +18,7 @@ gem "omniauth-rails_csrf_protection", "~> 0.1"
 gem "aws-sdk-s3", "~> 1.85"
 gem "ipaddress_2"
 gem "aws-sdk-ecs", "~> 1.72"
-gem "cancancan", "~> 3.1"
+gem "cancancan", "~> 3.2"
 gem "sentry-raven"
 gem "audited"
 
