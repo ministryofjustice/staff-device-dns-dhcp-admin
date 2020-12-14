@@ -341,12 +341,12 @@ describe UseCases::GenerateKeaConfig do
                     {
                       name: "primary",
                       role: "primary",
-                      url: "<PRIMARY_IP>"
+                      url: "http://<PRIMARY_IP>:8000"
                     },
                     {
                       name: "standby",
                       role: "standby",
-                      url: "<STANDBY_IP>"
+                      url: "http://<STANDBY_IP>:8000"
                     }
                   ],
                  "this-server-name": "<SERVER_NAME>"

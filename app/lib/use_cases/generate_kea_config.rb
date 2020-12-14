@@ -248,12 +248,12 @@ module UseCases
                     "peers": [
                       {
                         "name": "primary",
-                        "url": "<PRIMARY_IP>",
+                        "url": "http://<PRIMARY_IP>:8000",
                         "role": "primary"
                       },
                       {
                         "name": "standby",
-                        "url": "<STANDBY_IP>",
+                        "url": "http://<STANDBY_IP>:8000",
                         "role": "standby"
                       }
                     ]
