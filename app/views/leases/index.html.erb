@@ -5,6 +5,7 @@
       <th scope="col" class="govuk-table__header">HW address</th>
       <th scope="col" class="govuk-table__header">IP address</th>
       <th scope="col" class="govuk-table__header">Hostname</th>
+      <th scope="col" class="govuk-table__header">State</th>
     </tr>
   </thead>
   <tbody class="govuk-table__body">
@@ -13,6 +14,7 @@
         <td class="govuk-table__cell"><%= lease.hw_address %></td>
         <td class="govuk-table__cell"><%= lease.ip_address %></td>
         <td class="govuk-table__cell"><%= lease.hostname %></td>
+        <td class="govuk-table__cell"><%= lease.pretty_state %></td>
       </tr>
     <% end %>
   </tbody>
