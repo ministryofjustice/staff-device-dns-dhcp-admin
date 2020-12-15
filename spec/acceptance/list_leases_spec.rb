@@ -16,7 +16,8 @@ RSpec.describe "Listing leases", type: :feature do
             {
               "hw-address": hw_address,
               "ip-address": ip_address,
-              "hostname": hostname
+              "hostname": hostname,
+              "state": 0
             }
           ]
         },
@@ -46,5 +47,6 @@ RSpec.describe "Listing leases", type: :feature do
     expect(page).to have_content hw_address
     expect(page).to have_content ip_address
     expect(page).to have_content hostname
+    expect(page).to have_content "Leased"
   end
 end

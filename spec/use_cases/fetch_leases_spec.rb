@@ -18,7 +18,8 @@ RSpec.describe UseCases::FetchLeases do
       {
         "hw-address" => hw_address,
         "ip-address" => ip_address,
-        "hostname" => hostname
+        "hostname" => hostname,
+        "state" => 1
       }
     ]
   end
@@ -33,7 +34,8 @@ RSpec.describe UseCases::FetchLeases do
         class: Lease,
         hw_address: hw_address,
         ip_address: ip_address,
-        hostname: hostname
+        hostname: hostname,
+        state: 1
       )
     ])
   end

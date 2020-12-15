@@ -49,7 +49,7 @@ module Gateways
     end
 
     def handle_response(response_body)
-      logger.info("Kea response: #{response_body}") if logger
+      logger&.info("Kea response: #{response_body}")
 
       body = parse_response(response_body)
 
