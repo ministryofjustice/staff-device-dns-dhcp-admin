@@ -241,20 +241,23 @@ module UseCases
                   {
                     "this-server-name": "<SERVER_NAME>",
                     "mode": "hot-standby",
-                    "heartbeat-delay": 10000,
-                    "max-response-delay": 10000,
-                    "max-ack-delay": 5000,
-                    "max-unacked-clients": 5,
+                    "heartbeat-interval": 10,
+                    "heartbeat-delay": 20,
+                    "max-response-delay": 60,
+                    "max-ack-delay": 10,
+                    "max-unacked-clients": 10,
                     "peers": [
                       {
                         "name": "primary",
                         "url": "http://<PRIMARY_IP>:8000",
-                        "role": "primary"
+                        "role": "primary",
+                        "auto-failover": true
                       },
                       {
                         "name": "standby",
                         "url": "http://<STANDBY_IP>:8000",
-                        "role": "standby"
+                        "role": "standby",
+                        "auto-failover": true
                       }
                     ]
                   }

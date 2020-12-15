@@ -331,25 +331,28 @@ describe UseCases::GenerateKeaConfig do
            {
              "high-availability": [
                {
-                 "heartbeat-delay": 10000,
-                 "max-ack-delay": 5000,
-                 "max-response-delay": 10000,
-                 "max-unacked-clients": 5,
+                 "this-server-name": "<SERVER_NAME>",
                  mode: "hot-standby",
+                 "heartbeat-interval": 10,
+                 "heartbeat-delay": 20,
+                 "max-response-delay": 60,
+                 "max-ack-delay": 10,
+                 "max-unacked-clients": 10,
                  peers:
                   [
                     {
                       name: "primary",
                       role: "primary",
-                      url: "http://<PRIMARY_IP>:8000"
+                      url: "http://<PRIMARY_IP>:8000",
+                      "auto-failover": true
                     },
                     {
                       name: "standby",
                       role: "standby",
-                      url: "http://<STANDBY_IP>:8000"
+                      url: "http://<STANDBY_IP>:8000",
+                      "auto-failover": true
                     }
-                  ],
-                 "this-server-name": "<SERVER_NAME>"
+                  ]
                }
              ]
            }
