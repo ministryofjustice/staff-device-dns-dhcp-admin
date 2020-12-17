@@ -1,8 +1,8 @@
 #!/bin/bash
 
-set -v -e -u -o pipefail
+set -euo pipefail
 
-function get_network_config() {
+get_network_config() {
   local cluster_name="${1}"
   local service_name="${2}"
 
@@ -13,7 +13,7 @@ function get_network_config() {
         --query 'services[0].networkConfiguration'
 }
 
-function get_launch_type() {
+get_launch_type() {
   local cluster_name="${1}"
   local service_name="${2}"
 
@@ -24,7 +24,7 @@ function get_launch_type() {
         --query 'services[0].launchType'
 }
 
-function run_task_with_command() {
+run_task_with_command() {
   local cluster_name="${1}"
   local service_name="${2}"
   local task_definition="${3}"
@@ -44,13 +44,13 @@ function run_task_with_command() {
         --override "$(override_command_structure "${docker_service_name}" "${command}")"
 }
 
-function form_command_override() {
+form_command_override() {
   local override_command="${1}"
   override_command="${override_command}" python -c \
     'import os,json,shlex; print(json.dumps(shlex.split(os.environ["override_command"])))'
 }
 
-function override_command_structure() {
+override_command_structure() {
   local docker_service="${1}"
   local command="${2}"
 
