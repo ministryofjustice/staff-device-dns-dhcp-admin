@@ -48,7 +48,7 @@ migrate-dev: start-db
 	$(DOCKER_COMPOSE) run --rm app bundle exec rake db:migrate
 
 deploy:
-	./scripts/deploy
+	./scripts/deploy.sh
 
 push:
 	aws ecr get-login-password | docker login --username AWS --password-stdin ${REGISTRY_URL}
