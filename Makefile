@@ -8,10 +8,10 @@ BUNDLE_FLAGS=
 DOCKER_BUILD_CMD = BUNDLE_INSTALL_FLAGS="$(BUNDLE_FLAGS)" $(DOCKER_COMPOSE) build
 
 authenticate-docker: check-container-registry-account-id
-	./scripts/authenticate_docker
+	./scripts/authenticate_docker.sh
 
 check-container-registry-account-id:
-	./scripts/check_container_registry_account_id
+	./scripts/check_container_registry_account_id.sh
 
 build: check-container-registry-account-id
 	docker build -t docker_admin . --build-arg RACK_ENV --build-arg DB_HOST --build-arg DB_USER --build-arg DB_PASS --build-arg SECRET_KEY_BASE --build-arg DB_NAME --build-arg BUNDLE_WITHOUT --build-arg DHCP_DB_NAME --build-arg DHCP_DB_HOST --build-arg DHCP_DB_USER --build-arg DHCP_DB_PASS --build-arg SHARED_SERVICES_ACCOUNT_ID
@@ -21,7 +21,7 @@ build-dev:
 
 start-db:
 	$(DOCKER_COMPOSE) up -d db
-	ENV=${ENV} ./mysql/bin/wait_for_mysql
+	ENV=${ENV} ./scripts/wait_for_db.sh
 
 db-setup: start-db
 	$(DOCKER_COMPOSE) run --rm app ./bin/rails db:drop db:create db:schema:load
