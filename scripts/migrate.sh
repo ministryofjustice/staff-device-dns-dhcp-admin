@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -veuo pipefail
+set -euo pipefail
 
 source ./scripts/aws_helpers.sh
 

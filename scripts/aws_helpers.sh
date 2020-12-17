@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -veuo pipefail
+set -euo pipefail
 
 get_network_config() {
   local cluster_name="${1}"
