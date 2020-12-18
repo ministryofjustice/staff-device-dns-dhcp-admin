@@ -223,7 +223,7 @@ module UseCases
                   output: "stdout"
                 }
               ],
-              severity: "DEBUG",
+              severity: "INFO",
               debuglevel: 0
             }
           ],
