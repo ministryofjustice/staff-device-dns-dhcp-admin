@@ -331,13 +331,12 @@ describe UseCases::GenerateKeaConfig do
            {
              "high-availability": [
                {
-                 "this-server-name": "<SERVER_NAME>",
-                 mode: "hot-standby",
-                 "heartbeat-interval": 10,
-                 "heartbeat-delay": 20,
-                 "max-response-delay": 60,
-                 "max-ack-delay": 10,
-                 "max-unacked-clients": 10,
+                "this-server-name": "<SERVER_NAME>",
+                mode: "hot-standby",
+                "heartbeat-delay": 5000,
+                "max-response-delay": 5000,
+                "max-ack-delay": 5000,
+                "max-unacked-clients": 0,
                  peers:
                   [
                     {
