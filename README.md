@@ -4,13 +4,13 @@
 
 This is the web frontend for managing Staff Device DNS / DHCP servers
 
-## Development
+## Getting Started
 
 ### Authenticating Docker with AWS ECR
 
-The Docker base image is stored in ECR. Before you can build the app you need to authenticate Docker to the ECR registry. [Details can be found here](https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html#registry_auth).
+The Docker base image is stored in ECR. Prior to building the container you must authenticate Docker to the ECR registry. [Details can be found here](https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html#registry_auth).
 
-If you have aws-vault set up with credentials for shared services, you can do the following to authenticate:
+If you have [aws-vault](https://github.com/99designs/aws-vault#installing) configured with credentials for shared services, do the following to authenticate:
 
 ```bash
 aws-vault exec SHARED_SERVICES_VAULT_PROFILE_NAME -- aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin SHARED_SERVICES_ACCOUNT_ID.dkr.ecr.eu-west-2.amazonaws.com
@@ -21,17 +21,17 @@ Replace ```SHARED_SERVICES_VAULT_PROFILE_NAME``` and ```SHARED_SERVICES_ACCOUNT_
 ### Starting the App
 
 1. Clone the repository
-1. Create a .env file in the root directory
-   1. Add `SHARED_SERVICES_ACCOUNT_ID=` to the .env file, entering the relevant account ID
-1. If this is the first time you have setup the project
+1. Create a `.env` file in the root directory
+   1. Add `SHARED_SERVICES_ACCOUNT_ID=` to the `.env` file, entering the relevant account ID
+1. If this is the first time you have setup the project:
 
-   1. Build the base containers.
+   1. Build the base containers
 
       ```sh
       make build-dev
       ```
 
-   2. Setup the database.
+   2. Setup the database
 
       ```sh
       make db-setup
@@ -45,26 +45,27 @@ $ make serve
 
 ### Running Tests
 
-1. First setup your test database if you haven't done so already
+1. Setup the test database
 
 ```sh
 make db-setup
 ```
 
-1. To run the entire test suite
+2. Run the entire test suite
 
 ```sh
 make test
 ```
 
-1. If you would like to run individual tests
-1. First shell onto a test container
+To run individual tests:
+
+1. Shell onto a test container
 
 ```sh
 ENV=test make shell
 ```
 
-1. Run the tests you would like, for example rspec.
+2. Run the test file or folder
 
 ```sh
 bundle exec rspec path/to/spec/file
@@ -72,7 +73,7 @@ bundle exec rspec path/to/spec/file
 
 ### Environment Variables
 
-The following environment variables must be added to .env to authenticate against AWS Cognito.
+The following environment variables must be added to `.env` to authenticate against AWS Cognito.
 
 ```
 COGNITO_CLIENT_ID
@@ -83,27 +84,29 @@ COGNITO_USER_POOL_ID
 
 ## Scripts
 
-We have two utility scripts in the `./scripts` directory to:
+There are two utility scripts in the `./scripts` directory to:
 
 1. Migrate the database schema
 2. Deploy new tasks into the service
 
 ### Deployment
 
-The `deploy` command is wrapped in a Makefile, it calls `./scripts/deploy` which schedules a zero downtime phased [deployment](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/update-service.html) in ECS.
+The `deploy` command is wrapped in a Makefile. It calls `./scripts/deploy` which schedules a zero downtime phased [deployment](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/update-service.html) in ECS.
 
 It doubles the currently running tasks and briefly serves traffic from the new and existing tasks in the service.
 The older tasks are eventually decommissioned, and production traffic is gradually shifted over to only the new running tasks.
 
 On CI this command is executed from the [buildspec.yml](./buildspec.yml) file after migrations and publishing the new image to ECR has been completed.
 
-#### Targetting the ECS Cluster and Service to Deploy
+### Targetting the ECS Cluster and Service to Deploy
 
-The ECS infrastructure is managed by Terraform. The name of the cluster and service are outputs from the apply and set as environment variables on CI ($DHCP_DNS_TERRAFORM_OUTPUTS). The deploy script references these dynamic names to target the ECS Admin service and cluster. This is to avoid depending on the names of the services and clusters, which may change in the future.
+The ECS infrastructure is managed by Terraform. The name of the cluster and service are [outputs](https://www.terraform.io/docs/configuration/outputs.html) from the Terraform apply. These values are published to SSM Parameter Store, when this container is deployed it pulls those values from Parameter Store and sets them as environment variables.
+
+The deploy script references these environment variables to target the ECS Admin service and cluster. This is to avoid depending on the hardcoded strings.
 
 The build pipeline assumes a role to access the target AWS account.
 
-#### Deploying from Local Machine
+#### Publishing Image from Local Machine
 
 1. Export the following configurations as an environment variable.
 
