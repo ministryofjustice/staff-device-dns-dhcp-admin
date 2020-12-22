@@ -18,7 +18,7 @@ aws-vault exec SHARED_SERVICES_VAULT_PROFILE_NAME -- aws ecr get-login-password 
 
 Replace ```SHARED_SERVICES_VAULT_PROFILE_NAME``` and ```SHARED_SERVICES_ACCOUNT_ID``` in the command above with the profile name and ID of the shared services account configured in aws-vault.
 
-### Starting the app
+### Starting the App
 
 1. Clone the repository
 1. Create a .env file in the root directory
@@ -43,7 +43,7 @@ Replace ```SHARED_SERVICES_VAULT_PROFILE_NAME``` and ```SHARED_SERVICES_ACCOUNT_
 $ make serve
 ```
 
-### Running tests
+### Running Tests
 
 1. First setup your test database if you haven't done so already
 
@@ -97,13 +97,13 @@ The older tasks are eventually decommissioned, and production traffic is gradual
 
 On CI this command is executed from the [buildspec.yml](./buildspec.yml) file after migrations and publishing the new image to ECR has been completed.
 
-#### Targetting the ECS cluster and service to deploy
+#### Targetting the ECS Cluster and Service to Deploy
 
 The ECS infrastructure is managed by Terraform. The name of the cluster and service are outputs from the apply and set as environment variables on CI ($DHCP_DNS_TERRAFORM_OUTPUTS). The deploy script references these dynamic names to target the ECS Admin service and cluster. This is to avoid depending on the names of the services and clusters, which may change in the future.
 
 The build pipeline assumes a role to access the target AWS account.
 
-#### Deploying from local machine
+#### Deploying from Local Machine
 
 1. Export the following configurations as an environment variable.
 
@@ -130,7 +130,7 @@ When run locally, you need to target the AWS account directly with AWS Vault.
 
 ## Maintenance
 
-### AWS RDS SSL certificate
+### AWS RDS SSL Certificate
 
 The AWS RDS SSL certificate is due to expire August 22, 2024. See [the documentation](https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html) for information on updating the certificate closer to the date.
 
