@@ -13,6 +13,7 @@ ARG DHCP_DB_USER=""
 ARG DHCP_DB_PASS=""
 ARG DHCP_DB_HOST=""
 ARG DHCP_DB_NAME=""
+ARG RUN_PRECOMPILATION=true
 
 # required for certain linting tools that read files, such as erb-lint
 ENV LANG='C.UTF-8' \
@@ -30,19 +31,15 @@ WORKDIR /usr/src/app
 
 ADD https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem /usr/src/cert/
 
-RUN apk add --no-cache --virtual .build-deps build-base && \
-  apk add --no-cache nodejs yarn mysql-dev mysql-client bash make
-
-COPY Gemfile Gemfile.lock .ruby-version package.json yarn.lock ./
-RUN bundle config set no-cache 'true' && \
-  bundle install ${BUNDLE_INSTALL_FLAGS} && \
-  yarn && yarn cache clean && \
-  apk del .build-deps
-
 COPY . .
 
-ARG RUN_PRECOMPILATION=true
-RUN if [ ${RUN_PRECOMPILATION} = 'true' ]; then \
+RUN apk add --no-cache --virtual .build-deps build-base && \
+  apk add --no-cache nodejs yarn mysql-dev mysql-client bash make && \
+  bundle config set no-cache 'true' && \
+  bundle install ${BUNDLE_INSTALL_FLAGS} && \
+  yarn && yarn cache clean && \
+  apk del .build-deps && \
+  if [ ${RUN_PRECOMPILATION} = 'true' ]; then \
   ASSET_PRECOMPILATION_ONLY=true RAILS_ENV=production bundle exec rails assets:precompile; \
   fi
 
