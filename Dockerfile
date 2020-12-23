@@ -33,14 +33,11 @@ ADD https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem /usr/src/c
 RUN apk add --no-cache --virtual .build-deps build-base && \
   apk add --no-cache nodejs yarn mysql-dev mysql-client bash make
 
-COPY Gemfile Gemfile.lock .ruby-version ./
+COPY Gemfile Gemfile.lock .ruby-version package.json yarn.lock ./
 RUN bundle config set no-cache 'true' && \
-  bundle install ${BUNDLE_INSTALL_FLAGS}
-
-COPY package.json yarn.lock ./
-RUN yarn && yarn cache clean
-
-RUN apk del .build-deps
+  bundle install ${BUNDLE_INSTALL_FLAGS} && \
+  yarn && yarn cache clean && \
+  apk del .build-deps
 
 COPY . .
 
