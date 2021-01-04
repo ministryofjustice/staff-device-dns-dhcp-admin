@@ -29,7 +29,16 @@ services:
     ports:
       - "3000:3000"
     env_file: .env.${ENV}
+    networks:
+      - default
+      - dhcp
 
 volumes:
   node_modules:
   datavolume:
+
+networks:
+  dhcp:
+    external:
+      name: "staff-device-dhcp-server_default"
+

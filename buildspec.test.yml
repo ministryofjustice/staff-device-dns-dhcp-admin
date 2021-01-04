@@ -17,5 +17,6 @@ phases:
   build:
     commands:
       - make authenticate-docker
+      - docker network create staff-device-dhcp-server_default
       - ENV=test make db-setup
       - make test
