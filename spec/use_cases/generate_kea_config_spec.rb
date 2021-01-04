@@ -87,26 +87,6 @@ describe UseCases::GenerateKeaConfig do
       ])
     end
 
-    it "appends options to the subnet" do
-      option = build_stubbed(:option, routers: nil, valid_lifetime: 1234)
-
-      config = UseCases::GenerateKeaConfig.new(subnets: [option.subnet]).call
-
-      expect(config.dig(:Dhcp4, :subnet4)).to include(hash_including({
-        "valid-lifetime": 1234,
-        "option-data": [
-          {
-            "name": "domain-name-servers",
-            "data": option.domain_name_servers.join(", ")
-          },
-          {
-            "name": "domain-name",
-            "data": option.domain_name
-          }
-        ]
-      }))
-    end
-
     it "includes global options in the config" do
       global_option = build_stubbed(:global_option)
 
@@ -361,6 +341,39 @@ describe UseCases::GenerateKeaConfig do
              ]
            }
         }
+      )
+    end
+
+    it "stores subnet options as a client class" do
+      subnet = create(:subnet, :with_option)
+      config = UseCases::GenerateKeaConfig.new(subnets: [subnet]).call
+
+      expect(config.dig(:Dhcp4, :subnet4)).to include(
+        hash_including("require-client-classes": ["subnet-10.0.4.0-client"])
+      )
+
+      expect(config.dig(:Dhcp4, :"client-classes")).to eq([
+        {
+          name: "subnet-10.0.4.0-client",
+          test: "member('ALL')",
+          "only-if-required": true,
+          "option-data": [
+            {"name": "domain-name-servers", "data": subnet.domain_name_servers.join(", ")},
+            {"name": "routers", "data": subnet.routers.join(", ")},
+            {"name": "domain-name", "data": subnet.domain_name}
+          ]
+        }
+      ])
+    end
+
+    it "orders client classes correctly when subnet options are present" do
+      subnet = create(:subnet, :with_option)
+      client_class = create(:client_class, name: "DOM1 device")
+      config = UseCases::GenerateKeaConfig.new(subnets: [subnet], client_classes: [client_class]).call
+
+      client_class_names = config.dig(:Dhcp4, :"client-classes").map { |cc| cc[:name] }
+      expect(client_class_names).to eq(
+        ["DOM1 device", "subnet-10.0.4.0-client"]
       )
     end
   end
