@@ -31,11 +31,22 @@ module UseCases
           "site-id": subnet.site.fits_id,
           "site-name": subnet.site.name
         }
-      }.merge(options_config(subnet.option))
-        .merge(subnet_valid_lifetime_config(subnet.option)).merge(reservations_config(subnet.reservations))
+      }.merge(subnet_valid_lifetime_config(subnet.option))
+        .merge(reservations_config(subnet.reservations))
+        .merge(require_client_class_config(subnet))
     end
 
-    def options_config(option)
+    def include_subnet_options?(subnet)
+      subnet.option.present?
+    end
+
+    def require_client_class_config(subnet)
+      return {} unless include_subnet_options?(subnet)
+
+      {"require-client-classes": [subnet_client_class_name(subnet)]}
+    end
+
+    def subnet_options_config(option)
       return {} unless option.present?
 
       result = {
@@ -150,7 +161,7 @@ module UseCases
     end
 
     def client_class_config
-      return {} if @client_classes.blank?
+      return {} if @client_classes.blank? && subnet_option_client_classes.none?
 
       result = {
         "client-classes": []
@@ -167,7 +178,30 @@ module UseCases
         }
       }
 
+      result[:"client-classes"] += subnet_option_client_classes
+
       result
+    end
+
+    def subnet_option_client_classes
+      @subnet_option_client_classes ||= begin
+        option_client_classes = @subnets.map { |subnet|
+          next unless include_subnet_options?(subnet)
+
+          options_config = subnet_options_config(subnet.option)
+          {
+            name: subnet_client_class_name(subnet),
+            test: "member('ALL')",
+            "only-if-required": true
+          }.merge(options_config)
+        }
+
+        option_client_classes
+      end
+    end
+
+    def subnet_client_class_name(subnet)
+      "subnet-#{subnet.ip_addr}-client"
     end
 
     def default_config
