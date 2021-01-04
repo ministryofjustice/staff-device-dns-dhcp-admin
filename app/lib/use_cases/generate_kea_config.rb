@@ -75,9 +75,6 @@ module UseCases
             "name": "domain-name-servers",
             "data": @global_option.domain_name_servers.join(", ")
           }, {
-            "name": "routers",
-            "data": @global_option.routers.join(", ")
-          }, {
             "name": "domain-name",
             "data": @global_option.domain_name
           }
