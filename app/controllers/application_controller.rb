@@ -68,7 +68,7 @@ class ApplicationController < ActionController::Base
     UseCases::GenerateKeaConfig.new(
       subnets: Subnet.all,
       global_option: GlobalOption.first,
-      client_class: ClientClass.first
+      client_classes: ClientClass.all
     )
   end
 
