@@ -181,7 +181,7 @@ describe UseCases::GenerateKeaConfig do
             "hw-address": reservation.hw_address,
             "ip-address": reservation.ip_address,
             "hostname": reservation.hostname,
-            "option-data": [
+            "option-data": match_array([
               {
                 "name": "routers",
                 "data": reservation_option.routers.join(", ")
@@ -190,7 +190,7 @@ describe UseCases::GenerateKeaConfig do
                 "name": "domain-name",
                 "data": reservation_option.domain_name
               }
-            ],
+            ]),
             "user-context": {
               "description": reservation.description
             }
@@ -280,22 +280,22 @@ describe UseCases::GenerateKeaConfig do
       client_class2 = build(:client_class)
       config = UseCases::GenerateKeaConfig.new(client_classes: [client_class, client_class2]).call
 
-      expect(config.dig(:Dhcp4, :"client-classes")).to eq([
+      expect(config.dig(:Dhcp4, :"client-classes")).to match_array([
         {
           name: client_class.name,
           test: "option[77].hex == '#{client_class.client_id}'",
-          "option-data": [
+          "option-data": match_array([
             {name: "domain-name", data: client_class.domain_name},
             {name: "domain-name-servers", data: client_class.domain_name_servers.join(", ")}
-          ]
+          ])
         },
         {
           name: client_class2.name,
           test: "option[77].hex == '#{client_class2.client_id}'",
-          "option-data": [
+          "option-data": match_array([
             {name: "domain-name", data: client_class2.domain_name},
             {name: "domain-name-servers", data: client_class2.domain_name_servers.join(", ")}
-          ]
+          ])
         }
       ])
     end
@@ -352,16 +352,16 @@ describe UseCases::GenerateKeaConfig do
         hash_including("require-client-classes": ["subnet-10.0.4.0-client"])
       )
 
-      expect(config.dig(:Dhcp4, :"client-classes")).to eq([
+      expect(config.dig(:Dhcp4, :"client-classes")).to match([
         {
           name: "subnet-10.0.4.0-client",
           test: "member('ALL')",
           "only-if-required": true,
-          "option-data": [
+          "option-data": match_array([
             {"name": "domain-name-servers", "data": subnet.domain_name_servers.join(", ")},
             {"name": "routers", "data": subnet.routers.join(", ")},
             {"name": "domain-name", "data": subnet.domain_name}
-          ]
+          ])
         }
       ])
     end

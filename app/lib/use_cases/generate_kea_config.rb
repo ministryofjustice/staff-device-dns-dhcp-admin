@@ -46,53 +46,6 @@ module UseCases
       {"require-client-classes": [subnet_client_class_name(subnet)]}
     end
 
-    def subnet_options_config(option)
-      return {} unless option.present?
-
-      result = {
-        "option-data": []
-      }
-
-      if option.domain_name_servers.any?
-        result[:"option-data"] << {
-          "name": "domain-name-servers",
-          "data": option.domain_name_servers.join(", ")
-        }
-      end
-
-      if option.routers.any?
-        result[:"option-data"] << {
-          "name": "routers",
-          "data": option.routers.join(", ")
-        }
-      end
-
-      if option.domain_name.present?
-        result[:"option-data"] << {
-          "name": "domain-name",
-          "data": option.domain_name
-        }
-      end
-
-      result
-    end
-
-    def global_options_config
-      return {} if @global_option.blank?
-
-      {
-        "option-data": [
-          {
-            "name": "domain-name-servers",
-            "data": @global_option.domain_name_servers.join(", ")
-          }, {
-            "name": "domain-name",
-            "data": @global_option.domain_name
-          }
-        ]
-      }
-    end
-
     def reservations_config(reservations)
       return {} unless reservations.present?
 
@@ -106,7 +59,7 @@ module UseCases
           "ip-address": reservation.ip_address,
           "hostname": reservation.hostname
         }.merge(reservation_description(reservation))
-          .merge(reservation_option_config(reservation.reservation_option))
+          .merge(UseCases::KeaConfig::GenerateOptionDataConfig.new.call(reservation.reservation_option))
       }
 
       result
@@ -119,30 +72,6 @@ module UseCases
           "description": reservation.description
         }
       }
-    end
-
-    def reservation_option_config(reservation_option)
-      return {} unless reservation_option.present?
-
-      result = {
-        "option-data": []
-      }
-
-      if reservation_option.routers.any?
-        result[:"option-data"] << {
-          "name": "routers",
-          "data": reservation_option.routers.join(", ")
-        }
-      end
-
-      if reservation_option.domain_name.present?
-        result[:"option-data"] << {
-          "name": "domain-name",
-          "data": reservation_option.domain_name
-        }
-      end
-
-      result
     end
 
     def valid_lifetime_config
@@ -170,12 +99,8 @@ module UseCases
       result[:"client-classes"] += @client_classes.map { |client_class|
         {
           name: client_class.name,
-          test: "option[77].hex == '#{client_class.client_id}'",
-          "option-data": [
-            {name: "domain-name", data: client_class.domain_name},
-            {name: "domain-name-servers", data: client_class.domain_name_servers.join(", ")}
-          ]
-        }
+          test: "option[77].hex == '#{client_class.client_id}'"
+        }.merge(UseCases::KeaConfig::GenerateOptionDataConfig.new.call(client_class))
       }
 
       result[:"client-classes"] += subnet_option_client_classes
@@ -188,7 +113,7 @@ module UseCases
         option_client_classes = @subnets.map { |subnet|
           next unless include_subnet_options?(subnet)
 
-          options_config = subnet_options_config(subnet.option)
+          options_config = UseCases::KeaConfig::GenerateOptionDataConfig.new.call(subnet.option)
           {
             name: subnet_client_class_name(subnet),
             test: "member('ALL')",
@@ -304,7 +229,9 @@ module UseCases
             "thread-pool-size": 12,
             "packet-queue-size": 792
           }
-        }.merge(global_options_config).merge(valid_lifetime_config).merge(client_class_config)
+        }.merge(UseCases::KeaConfig::GenerateOptionDataConfig.new.call(@global_option))
+          .merge(valid_lifetime_config)
+          .merge(client_class_config)
       }
     end
   end
