@@ -296,8 +296,9 @@ describe UseCases::GenerateKeaConfig do
     end
 
     it "adds client class to the config when a client class is passed in" do
-      client_class = create(:client_class)
-      config = UseCases::GenerateKeaConfig.new(client_class: client_class).call
+      client_class = build(:client_class)
+      client_class2 = build(:client_class)
+      config = UseCases::GenerateKeaConfig.new(client_classes: [client_class, client_class2]).call
 
       expect(config.dig(:Dhcp4, :"client-classes")).to eq([
         {
@@ -306,6 +307,14 @@ describe UseCases::GenerateKeaConfig do
           "option-data": [
             {name: "domain-name", data: client_class.domain_name},
             {name: "domain-name-servers", data: client_class.domain_name_servers.join(", ")}
+          ]
+        },
+        {
+          name: client_class2.name,
+          test: "option[77].hex == '#{client_class2.client_id}'",
+          "option-data": [
+            {name: "domain-name", data: client_class2.domain_name},
+            {name: "domain-name-servers", data: client_class2.domain_name_servers.join(", ")}
           ]
         }
       ])

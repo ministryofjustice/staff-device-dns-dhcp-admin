@@ -2,10 +2,10 @@ module UseCases
   class GenerateKeaConfig
     DEFAULT_VALID_LIFETIME_SECONDS = 4000
 
-    def initialize(subnets: [], global_option: nil, client_class: nil)
+    def initialize(subnets: [], global_option: nil, client_classes: [])
       @subnets = subnets
       @global_option = global_option
-      @client_class = client_class
+      @client_classes = client_classes
     end
 
     def call
@@ -150,20 +150,24 @@ module UseCases
     end
 
     def client_class_config
-      return {} if @client_class.blank?
+      return {} if @client_classes.blank?
 
-      {
-        "client-classes": [
-          {
-            name: @client_class.name,
-            test: "option[77].hex == '#{@client_class.client_id}'",
-            "option-data": [
-              {name: "domain-name", data: @client_class.domain_name},
-              {name: "domain-name-servers", data: @client_class.domain_name_servers.join(", ")}
-            ]
-          }
-        ]
+      result = {
+        "client-classes": []
       }
+
+      result[:"client-classes"] += @client_classes.map { |client_class|
+        {
+          name: client_class.name,
+          test: "option[77].hex == '#{client_class.client_id}'",
+          "option-data": [
+            {name: "domain-name", data: client_class.domain_name},
+            {name: "domain-name-servers", data: client_class.domain_name_servers.join(", ")}
+          ]
+        }
+      }
+
+      result
     end
 
     def default_config
