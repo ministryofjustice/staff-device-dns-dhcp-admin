@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_06_151356) do
+ActiveRecord::Schema.define(version: 2021_01_06_162456) do
   create_table "audits", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
@@ -53,7 +53,6 @@ ActiveRecord::Schema.define(version: 2021_01_06_151356) do
   end
 
   create_table "options", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
-    t.string "routers"
     t.string "domain_name_servers"
     t.string "domain_name"
     t.datetime "created_at", precision: 6, null: false
@@ -97,6 +96,7 @@ ActiveRecord::Schema.define(version: 2021_01_06_151356) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "site_id", null: false
+    t.string "routers", default: "127.0.0.1", null: false
     t.index ["site_id"], name: "index_subnets_on_site_id"
   end
 

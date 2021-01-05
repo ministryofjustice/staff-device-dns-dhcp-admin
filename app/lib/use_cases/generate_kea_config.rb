@@ -113,7 +113,7 @@ module UseCases
         option_client_classes = @subnets.filter_map { |subnet|
           next unless include_subnet_options?(subnet)
 
-          options_config = UseCases::KeaConfig::GenerateOptionDataConfig.new.call(subnet.option)
+          options_config = UseCases::KeaConfig::GenerateOptionDataConfig.new.call(subnet)
           {
             name: subnet.client_class_name,
             test: "member('ALL')",

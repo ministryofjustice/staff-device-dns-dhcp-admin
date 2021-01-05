@@ -15,7 +15,7 @@ module UseCases
           }
         end
 
-        if option.respond_to?(:domain_name_servers) && option.domain_name_servers.any?
+        if option.respond_to?(:domain_name_servers) && option.domain_name_servers.present?
           result[:"option-data"] << {
             "name": "domain-name-servers",
             "data": option.domain_name_servers.join(", ")

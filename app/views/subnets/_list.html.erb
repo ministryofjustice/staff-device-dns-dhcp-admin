@@ -7,6 +7,7 @@
       <th scope="col" class="govuk-table__header">CIDR block</th>
       <th scope="col" class="govuk-table__header">Start address</th>
       <th scope="col" class="govuk-table__header">End address</th>
+      <th scope="col" class="govuk-table__header">Routers</th>
       <% if !hide_actions %>
         <th scope="col" class="govuk-table__header">
           <span class="govuk-visually-hidden">Actions</span>
@@ -20,6 +21,7 @@
         <td class="govuk-table__cell"><%= subnet.cidr_block %></td>
         <td class="govuk-table__cell"><%= subnet.start_address %></td>
         <td class="govuk-table__cell"><%= subnet.end_address %></td>
+        <td class="govuk-table__cell"><%= subnet.routers.join(",") %></td>
         <% if !hide_actions %>
           <td class="govuk-table__cell">
             <%= link_to "View", subnet_path(subnet), class: "govuk-link" %>
