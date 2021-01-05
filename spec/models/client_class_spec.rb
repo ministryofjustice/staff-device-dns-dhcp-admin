@@ -103,4 +103,10 @@ RSpec.describe ClientClass, type: :model do
     expect(new_client_class).to_not be_valid
     expect(new_client_class.errors[:base]).to include "A client class already exists"
   end
+
+  it "name cannot be prefixed with the word 'subnet'" do
+    client_class = build(:client_class, name: "subnet-1234")
+    expect(client_class).to_not be_valid
+    expect(client_class.errors[:name]).to include("cannot begin with the word 'subnet'")
+  end
 end

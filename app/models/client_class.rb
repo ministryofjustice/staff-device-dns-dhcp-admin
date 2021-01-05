@@ -11,6 +11,7 @@ class ClientClass < ApplicationRecord
   validates :domain_name, domain_name: true
 
   validate :only_one_record
+  validate :name_cannot_start_with_subnet
 
   before_validation :strip_whitespace
 
@@ -26,6 +27,15 @@ class ClientClass < ApplicationRecord
   def only_one_record
     if ClientClass.where.not(id: id).exists?
       errors.add(:base, "A client class already exists")
+    end
+  end
+
+  def name_cannot_start_with_subnet
+    return if name.blank?
+
+    if name.start_with?(Subnet::CLIENT_CLASS_NAME_PREFIX)
+      # subnet prefix is preserved for Subnet#client_class_name
+      errors.add(:name, "cannot begin with the word '#{Subnet::CLIENT_CLASS_NAME_PREFIX}'")
     end
   end
 
