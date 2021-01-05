@@ -1,7 +1,4 @@
 class GlobalOption < ApplicationRecord
-  validates :routers,
-    presence: {message: "must contain at least one IPv4 address separated using commas"},
-    ipv4_list: {message: "contains an invalid IPv4 address or is not separated using commas"}
   validates :domain_name_servers,
     presence: {message: "must contain at least one IPv4 address separated using commas"},
     ipv4_list: {message: "contains an invalid IPv4 address or is not separated using commas"}
@@ -14,11 +11,6 @@ class GlobalOption < ApplicationRecord
   before_validation :strip_whitespace
 
   audited
-
-  def routers
-    return [] unless self[:routers]
-    self[:routers].split(",")
-  end
 
   def domain_name_servers
     return [] unless self[:domain_name_servers]
@@ -34,7 +26,6 @@ class GlobalOption < ApplicationRecord
   end
 
   def strip_whitespace
-    self[:routers] = self[:routers]&.strip&.delete(" ")
     self[:domain_name_servers] = self[:domain_name_servers]&.strip&.delete(" ")
   end
 end

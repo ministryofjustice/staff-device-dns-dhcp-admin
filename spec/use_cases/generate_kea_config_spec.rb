@@ -120,10 +120,6 @@ describe UseCases::GenerateKeaConfig do
         {
           "name": "domain-name",
           "data": global_option.domain_name
-        },
-        {
-          "name": "routers",
-          "data": global_option.routers.join(", ")
         }
       ])
     end

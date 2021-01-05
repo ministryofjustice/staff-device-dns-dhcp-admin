@@ -16,11 +16,6 @@ RSpec.describe GlobalOption, type: :model do
   it { should_not allow_value("me.example/.co").for(:domain_name) }
 
   it do
-    is_expected.to validate_presence_of(:routers)
-      .with_message("must contain at least one IPv4 address separated using commas")
-  end
-
-  it do
     is_expected.to validate_presence_of(:domain_name_servers)
       .with_message("must contain at least one IPv4 address separated using commas")
   end
@@ -29,58 +24,10 @@ RSpec.describe GlobalOption, type: :model do
   it { is_expected.to validate_numericality_of(:valid_lifetime).is_greater_than_or_equal_to(0) }
   it { is_expected.to validate_numericality_of(:valid_lifetime).only_integer }
 
-  it "rejects invalid routers" do
-    option = build :option, routers: "abcd,efg"
-    expect(option).not_to be_valid
-    expect(option.errors[:routers]).to eq(["contains an invalid IPv4 address or is not separated using commas"])
-  end
-
   it "rejects invalid domain_name_servers" do
     option = build :option, domain_name_servers: "abcd,efg"
     expect(option).not_to be_valid
     expect(option.errors[:domain_name_servers]).to eq(["contains an invalid IPv4 address or is not separated using commas"])
-  end
-
-  describe "#routers" do
-    context "when routers is nil" do
-      before do
-        subject.routers = nil
-      end
-
-      it "returns an empty array" do
-        expect(subject.routers).to eq([])
-      end
-    end
-
-    context "when routers is not empty" do
-      before do
-        subject.routers = "192.168.0.2,192.168.0.3"
-      end
-
-      it "stores the routers correctly" do
-        expect(subject.routers).to eq(["192.168.0.2", "192.168.0.3"])
-      end
-    end
-  end
-
-  describe "#routers=" do
-    context "when the value is a string" do
-      before do
-        subject.routers = "192.168.0.2,192.168.0.3"
-      end
-
-      it "stores the routers correctly" do
-        expect(subject.routers).to eq(["192.168.0.2", "192.168.0.3"])
-      end
-    end
-
-    context "when the value is an string with whitespace" do
-      subject { create :global_option, routers: " 192.168.0.2, 192.168.0.3  " }
-
-      it "stores the routers correctly" do
-        expect(subject.routers).to eq(["192.168.0.2", "192.168.0.3"])
-      end
-    end
   end
 
   describe "#domain_name_servers" do
