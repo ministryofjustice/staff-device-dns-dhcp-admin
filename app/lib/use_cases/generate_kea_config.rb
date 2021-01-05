@@ -43,7 +43,7 @@ module UseCases
     def require_client_class_config(subnet)
       return {} unless include_subnet_options?(subnet)
 
-      {"require-client-classes": [subnet_client_class_name(subnet)]}
+      {"require-client-classes": [subnet.client_class_name]}
     end
 
     def reservations_config(reservations)
@@ -115,7 +115,7 @@ module UseCases
 
           options_config = UseCases::KeaConfig::GenerateOptionDataConfig.new.call(subnet.option)
           {
-            name: subnet_client_class_name(subnet),
+            name: subnet.client_class_name,
             test: "member('ALL')",
             "only-if-required": true
           }.merge(options_config)
@@ -123,10 +123,6 @@ module UseCases
 
         option_client_classes
       end
-    end
-
-    def subnet_client_class_name(subnet)
-      "subnet-#{subnet.ip_addr}-client"
     end
 
     def default_config

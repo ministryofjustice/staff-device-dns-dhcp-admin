@@ -49,6 +49,10 @@ class Subnet < ApplicationRecord
     self[:end_address] = val.try(:strip)
   end
 
+  def client_class_name
+    "subnet-#{ip_addr}-client"
+  end
+
   private
 
   def cidr_block_is_a_valid_ipv4_subnet
