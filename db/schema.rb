@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_06_135223) do
+ActiveRecord::Schema.define(version: 2021_01_06_151356) do
 
   create_table "audits", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "auditable_id"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 2021_01_06_135223) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["client_id"], name: "index_client_classes_on_client_id", unique: true
+    t.index ["name"], name: "index_client_classes_on_name", unique: true
   end
 
   create_table "global_options", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
