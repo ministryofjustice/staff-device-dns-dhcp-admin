@@ -96,14 +96,6 @@ RSpec.describe ClientClass, type: :model do
     end
   end
 
-  it "can only have 1 record in the database" do
-    create(:client_class)
-
-    new_client_class = build(:client_class)
-    expect(new_client_class).to_not be_valid
-    expect(new_client_class.errors[:base]).to include "A client class already exists"
-  end
-
   it "name cannot be prefixed with the word 'subnet'" do
     client_class = build(:client_class, name: "subnet-1234")
     expect(client_class).to_not be_valid
