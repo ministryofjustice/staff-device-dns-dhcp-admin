@@ -110,7 +110,7 @@ module UseCases
 
     def subnet_option_client_classes
       @subnet_option_client_classes ||= begin
-        option_client_classes = @subnets.map { |subnet|
+        option_client_classes = @subnets.filter_map { |subnet|
           next unless include_subnet_options?(subnet)
 
           options_config = UseCases::KeaConfig::GenerateOptionDataConfig.new.call(subnet.option)

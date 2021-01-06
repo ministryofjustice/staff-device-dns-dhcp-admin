@@ -376,5 +376,13 @@ describe UseCases::GenerateKeaConfig do
         ["DOM1 device", "subnet-10.0.4.0-client"]
       )
     end
+
+    it "filters out nils from the client class array when subnets have no options" do
+      subnet = create(:subnet, index: 0)
+      subnet2 = create(:subnet, :with_option, index: 1)
+
+      config = UseCases::GenerateKeaConfig.new(subnets: [subnet, subnet2]).call
+      expect(config.dig(:Dhcp4, :"client-classes")).to_not include nil
+    end
   end
 end
