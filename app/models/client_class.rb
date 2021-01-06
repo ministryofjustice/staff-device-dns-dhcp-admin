@@ -9,10 +9,7 @@ class ClientClass < ApplicationRecord
     presence: {message: "must contain at least one IPv4 address separated using commas"},
     ipv4_list: {message: "contains an invalid IPv4 address or is not separated using commas"}
   validates :domain_name, domain_name: true
-
-  validate :only_one_record
   validate :name_cannot_start_with_subnet
-
   before_validation :strip_whitespace
 
   audited
@@ -23,12 +20,6 @@ class ClientClass < ApplicationRecord
   end
 
   private
-
-  def only_one_record
-    if ClientClass.where.not(id: id).exists?
-      errors.add(:base, "A client class already exists")
-    end
-  end
 
   def name_cannot_start_with_subnet
     return if name.blank?
