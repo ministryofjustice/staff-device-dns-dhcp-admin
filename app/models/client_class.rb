@@ -3,6 +3,7 @@ class ClientClass < ApplicationRecord
 
   validates :name, :client_id, :domain_name, presence: true
   validates :client_id,
+    uniqueness: { case_sensitive: false },
     format: {with: CLIENT_ID_REGEX, message: "must contain only letters, numbers, underscores and dashes"},
     allow_blank: true
   validates :domain_name_servers,

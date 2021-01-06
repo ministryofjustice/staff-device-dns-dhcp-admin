@@ -21,6 +21,7 @@ RSpec.describe ClientClass, type: :model do
 
   it { is_expected.to validate_presence_of :name }
   it { is_expected.to validate_presence_of :client_id }
+  it { is_expected.to validate_uniqueness_of(:client_id).case_insensitive }
 
   it do
     is_expected.not_to allow_value("abC.123-")
