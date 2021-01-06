@@ -34,7 +34,7 @@ class ClientClass < ApplicationRecord
     return if name.blank?
 
     if name.start_with?(Subnet::CLIENT_CLASS_NAME_PREFIX)
-      # subnet prefix is preserved for Subnet#client_class_name
+      # subnet prefix is reserved for Subnet#client_class_name
       errors.add(:name, "cannot begin with the word '#{Subnet::CLIENT_CLASS_NAME_PREFIX}'")
     end
   end
