@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
   private
 
   def set_expect_ct_header
-    response.headers['Expect-CT'] = "max-age=86400, enforce"
+    response.headers["Expect-CT"] = "max-age=86400, enforce"
   end
 
   # Overwriting the sign_out redirect path method
