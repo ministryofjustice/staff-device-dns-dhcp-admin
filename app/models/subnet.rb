@@ -1,5 +1,6 @@
 class Subnet < ApplicationRecord
   KEA_SUBNET_ID_OFFSET = 1000
+  CLIENT_CLASS_NAME_PREFIX = "subnet"
 
   belongs_to :site
   has_one :option, dependent: :destroy
@@ -50,7 +51,7 @@ class Subnet < ApplicationRecord
   end
 
   def client_class_name
-    "subnet-#{ip_addr}-client"
+    "#{CLIENT_CLASS_NAME_PREFIX}-#{ip_addr}-client"
   end
 
   private
