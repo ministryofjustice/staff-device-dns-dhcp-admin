@@ -20,6 +20,7 @@ RSpec.describe ClientClass, type: :model do
   it { should_not allow_value("测试.com").for(:client_id) }
 
   it { is_expected.to validate_presence_of :name }
+  it { is_expected.to validate_uniqueness_of(:name).case_insensitive }
   it { is_expected.to validate_presence_of :client_id }
   it { is_expected.to validate_uniqueness_of(:client_id).case_insensitive }
 
