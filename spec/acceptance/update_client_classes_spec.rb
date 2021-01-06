@@ -42,7 +42,6 @@ describe "update client class", type: :feature do
     it "edits an existing client class" do
       visit "/client-classes"
 
-      expect(page).not_to have_content("Create client class")
       click_on "Edit client class"
 
       expect(page).to have_field("Name", with: client_class.name)
