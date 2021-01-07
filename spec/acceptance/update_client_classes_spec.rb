@@ -23,7 +23,7 @@ describe "update client class", type: :feature do
     it "does not allow editing client class" do
       visit "/client-classes"
 
-      expect(page).not_to have_content("Edit client class")
+      expect(page).not_to have_content("Edit")
 
       visit "/client-classes/#{client_class.id}/edit"
 
@@ -42,7 +42,7 @@ describe "update client class", type: :feature do
     it "edits an existing client class" do
       visit "/client-classes"
 
-      click_on "Edit client class"
+      click_on "Edit"
 
       expect(page).to have_field("Name", with: client_class.name)
       expect(page).to have_field("Client id", with: client_class.client_id)
