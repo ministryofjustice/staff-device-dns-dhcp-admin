@@ -1,18 +1,18 @@
 # ETL of DHCP Data
 
-This folder contains ad-hoc scripts to extract the required info from the data extract files provided by the MoJ suppliers.
+This folder contains ad-hoc scripts to extract the required DHCP info from extract files supplied by MoJ suppliers.
 
 ## Data Sources
 
 | :warning: WARNING          |
 |:---------------------------|
-| **The source files contain potentially sensitive information and should never be committed to the repo**. The `/etl/data` directory has been configured for this purpose.|
+| **The source files contain potentially sensitive information and should never be committed to the repo**. The `/etl/data` directory has been configured with `.gitignore` for this purpose.|
 
-The original data files are stored in MoJ Teams > TEAM - DNS-DHCP - Sec Logging > Files > DXC DNS-DHCP Info. You will need an invite.
+The original data files are stored in MoJ Teams > TEAM - DNS-DHCP - Sec Logging > Files > DXC DNS-DHCP Info. You will need an invite to Teams.
 
 ### `Quantum DHCP DNS discovery Updated.xlsx` 
 
-This file contains all of the sites data as of August 2020.
+This file contains all of the sites and high level scope data as of August 2020.
 
 ### Reservations Directory
 
@@ -35,7 +35,9 @@ Several hundred, per scope extracts containing static reservations.
 
 ## Generating Inserts
 
-The ruby scripts write SQL inserts to stdout. The SQL can then be run against the admin db. Saving the scripts to sql files can be done with redirection. Make sure they are created in the `data` dir to be ignored by git.
+The ruby scripts write SQL inserts to stdout. The SQL can then be run against the admin db.
+
+Saving the scripts to sql files can be done with redirection. Make sure they are created in the `data` dir to be ignored by git.
 
 E.G. from the `etl` directory:
 ```bash
