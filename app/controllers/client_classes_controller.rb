@@ -1,8 +1,11 @@
 class ClientClassesController < ApplicationController
-  before_action :set_client_class, only: [:edit, :update, :destroy]
+  before_action :set_client_class, only: [:edit, :show, :update, :destroy]
 
   def index
     @client_classes = ClientClass.order(:name).all
+  end
+
+  def show
   end
 
   def new

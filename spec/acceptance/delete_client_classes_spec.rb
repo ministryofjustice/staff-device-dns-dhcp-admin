@@ -11,7 +11,7 @@ describe "delete client class", type: :feature do
     client_class = Audited.audit_class.as_user(editor) { create :client_class }
     visit "/client-classes"
 
-    click_on "Delete client class"
+    click_on "Delete"
 
     expect(page).to have_content("Are you sure you want to delete the client class?")
 
