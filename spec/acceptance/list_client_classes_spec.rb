@@ -21,7 +21,7 @@ RSpec.describe "Listing Client Classes", type: :feature do
       visit "/dhcp"
 
       click_on "Client classes"
-  
+
       expect(page).to have_content client_class.name
       expect(page).to have_content client_class2.name
     end
