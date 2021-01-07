@@ -96,7 +96,7 @@ ActiveRecord::Schema.define(version: 2021_01_06_162456) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "site_id", null: false
-    t.string "routers", default: "127.0.0.1", null: false
+    t.string "routers"
     t.index ["site_id"], name: "index_subnets_on_site_id"
   end
 

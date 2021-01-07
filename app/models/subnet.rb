@@ -1,6 +1,7 @@
 class Subnet < ApplicationRecord
   KEA_SUBNET_ID_OFFSET = 1000
   CLIENT_CLASS_NAME_PREFIX = "subnet"
+  INVALID_IPV4_LIST_MESSAGE = "contains an invalid IPv4 address or is not separated using commas"
 
   belongs_to :site
   has_one :option, dependent: :destroy
@@ -10,7 +11,6 @@ class Subnet < ApplicationRecord
   validates :start_address, presence: true
   validates :end_address, presence: true
   validates :routers, presence: true
-  INVALID_IPV4_LIST_MESSAGE = "contains an invalid IPv4 address or is not separated using commas"
   validates :routers, ipv4_list: {message: INVALID_IPV4_LIST_MESSAGE}
 
   validate :cidr_block_is_a_valid_ipv4_subnet, :start_address_is_a_valid_ipv4_address,

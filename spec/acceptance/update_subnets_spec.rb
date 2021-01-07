@@ -38,16 +38,4 @@ describe "update subnets", type: :feature do
 
     expect_audit_log_entry_for(editor.email, "update", "Subnet")
   end
-
-  # it "displays error if form cannot be submitted" do
-  #   visit "/subnets/#{subnet.to_param}/options/edit"
-
-  #   fill_in "Routers", with: ""
-  #   fill_in "Domain name servers", with: ""
-  #   fill_in "Domain name", with: ""
-
-  #   click_on "Update"
-
-  #   expect(page).to have_content "There is a problem"
-  # end
 end

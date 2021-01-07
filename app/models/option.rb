@@ -1,8 +1,9 @@
 class Option < ApplicationRecord
+  INVALID_IPV4_LIST_MESSAGE = "contains an invalid IPv4 address or is not separated using commas"
+  
   belongs_to :subnet
 
   validates :subnet, presence: true
-  INVALID_IPV4_LIST_MESSAGE = "contains an invalid IPv4 address or is not separated using commas"
   validates :domain_name_servers, ipv4_list: {message: INVALID_IPV4_LIST_MESSAGE}
   validates :valid_lifetime, numericality: {greater_than_or_equal_to: 0, only_integer: true},
                              allow_nil: true
