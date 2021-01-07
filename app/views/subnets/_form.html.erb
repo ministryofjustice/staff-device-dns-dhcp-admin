@@ -13,6 +13,14 @@
     <%= f.label :end_address, class: "govuk-label" %>
     <%= f.text_field :end_address, class: "govuk-input" %>
   </div>
+  
+  <div class="govuk-form-group <%= field_error(f.object, :routers )%>">
+    <%= f.label :routers, class: "govuk-label" %>
+    <div id="options_routers-hint" class="govuk-hint">
+      Must be in the form: 127.0.0.1,127.0.0.2
+    </div>
+    <%= f.text_area :routers, value: f.object.routers.join(","), class: "govuk-input" %>
+  </div>
 
   <%= f.submit f.object.new_record? ? "Create" : "Update", {
     class: "govuk-button",

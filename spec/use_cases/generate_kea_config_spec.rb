@@ -20,8 +20,8 @@ describe UseCases::GenerateKeaConfig do
 
     it "appends subnets to the subnet4 list" do
       site = build_stubbed(:site, fits_id: "FITSID01", name: "SITENAME01")
-      subnet1 = build_stubbed(:subnet, cidr_block: "10.0.1.0/24", start_address: "10.0.1.1", end_address: "10.0.1.255", site: site)
-      subnet2 = build_stubbed(:subnet, cidr_block: "10.0.2.0/24", start_address: "10.0.2.1", end_address: "10.0.2.255", site: site)
+      subnet1 = build_stubbed(:subnet, cidr_block: "10.0.1.0/24", start_address: "10.0.1.1", end_address: "10.0.1.255", routers: "10.0.1.2,10.0.1.3", site: site)
+      subnet2 = build_stubbed(:subnet, cidr_block: "10.0.2.0/24", start_address: "10.0.2.1", end_address: "10.0.2.255", routers: "10.0.2.2,10.0.2.3", site: site)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1, subnet2]).call
 
@@ -46,7 +46,10 @@ describe UseCases::GenerateKeaConfig do
           "user-context": {
             "site-id": subnet1.site.fits_id,
             "site-name": subnet1.site.name
-          }
+          },
+          "require-client-classes": [
+            "subnet-10.0.1.0-client"
+          ]
         },
         {
           pools: [
@@ -59,7 +62,10 @@ describe UseCases::GenerateKeaConfig do
           "user-context": {
             "site-id": subnet1.site.fits_id,
             "site-name": subnet1.site.name
-          }
+          },
+          "require-client-classes": [
+            "subnet-10.0.2.0-client"
+          ]
         }
       ])
     end

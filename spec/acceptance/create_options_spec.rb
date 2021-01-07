@@ -44,7 +44,6 @@ describe "create options", type: :feature do
       expect(page).not_to have_content("Edit options")
       click_on "Create options"
 
-      fill_in "Routers", with: "10.0.1.0,10.0.1.2"
       fill_in "Domain name servers", with: "10.0.2.1,10.0.2.2"
       fill_in "Domain name", with: "test.example.com"
       fill_in "Valid lifetime", with: "12345"
@@ -56,7 +55,6 @@ describe "create options", type: :feature do
       click_on "Create"
 
       expect(page).to have_content("Successfully created option")
-      expect(page).to have_content("10.0.1.0,10.0.1.2")
       expect(page).to have_content("10.0.2.1,10.0.2.2")
       expect(page).to have_content("test.example.com")
       expect(page).to have_content("12345")

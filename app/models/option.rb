@@ -1,9 +1,9 @@
 class Option < ApplicationRecord
+  INVALID_IPV4_LIST_MESSAGE = "contains an invalid IPv4 address or is not separated using commas"
+
   belongs_to :subnet
 
   validates :subnet, presence: true
-  INVALID_IPV4_LIST_MESSAGE = "contains an invalid IPv4 address or is not separated using commas"
-  validates :routers, ipv4_list: {message: INVALID_IPV4_LIST_MESSAGE}
   validates :domain_name_servers, ipv4_list: {message: INVALID_IPV4_LIST_MESSAGE}
   validates :valid_lifetime, numericality: {greater_than_or_equal_to: 0, only_integer: true},
                              allow_nil: true
@@ -15,11 +15,6 @@ class Option < ApplicationRecord
 
   audited
 
-  def routers
-    return [] unless self[:routers]
-    self[:routers].split(",")
-  end
-
   def domain_name_servers
     return [] unless self[:domain_name_servers]
     self[:domain_name_servers].split(",")
@@ -28,12 +23,11 @@ class Option < ApplicationRecord
   private
 
   def at_least_one_option
-    return if routers.any? || domain_name_servers.any? || domain_name.present? || valid_lifetime.present?
+    return if domain_name_servers.any? || domain_name.present? || valid_lifetime.present?
     errors.add(:base, "At least one option must be filled out")
   end
 
   def strip_whitespace
-    self[:routers] = self[:routers]&.strip&.delete(" ")
     self[:domain_name_servers] = self[:domain_name_servers]&.strip&.delete(" ")
   end
 end

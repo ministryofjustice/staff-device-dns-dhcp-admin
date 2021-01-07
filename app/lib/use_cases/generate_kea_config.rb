@@ -33,17 +33,7 @@ module UseCases
         }
       }.merge(subnet_valid_lifetime_config(subnet.option))
         .merge(reservations_config(subnet.reservations))
-        .merge(require_client_class_config(subnet))
-    end
-
-    def include_subnet_options?(subnet)
-      subnet.option.present?
-    end
-
-    def require_client_class_config(subnet)
-      return {} unless include_subnet_options?(subnet)
-
-      {"require-client-classes": [subnet.client_class_name]}
+        .merge({"require-client-classes": [subnet.client_class_name]})
     end
 
     def reservations_config(reservations)
@@ -111,9 +101,7 @@ module UseCases
     def subnet_option_client_classes
       @subnet_option_client_classes ||= begin
         option_client_classes = @subnets.filter_map { |subnet|
-          next unless include_subnet_options?(subnet)
-
-          options_config = UseCases::KeaConfig::GenerateOptionDataConfig.new.call(subnet.option)
+          options_config = UseCases::KeaConfig::GenerateOptionDataConfig.new.call(subnet)
           {
             name: subnet.client_class_name,
             test: "member('ALL')",

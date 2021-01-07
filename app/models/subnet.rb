@@ -1,6 +1,7 @@
 class Subnet < ApplicationRecord
   KEA_SUBNET_ID_OFFSET = 1000
   CLIENT_CLASS_NAME_PREFIX = "subnet"
+  INVALID_IPV4_LIST_MESSAGE = "contains an invalid IPv4 address or is not separated using commas"
 
   belongs_to :site
   has_one :option, dependent: :destroy
@@ -9,18 +10,27 @@ class Subnet < ApplicationRecord
   validates :cidr_block, presence: true, uniqueness: {case_sensitive: false}
   validates :start_address, presence: true
   validates :end_address, presence: true
+  validates :routers, presence: true
+  validates :routers, ipv4_list: {message: INVALID_IPV4_LIST_MESSAGE}
 
   validate :cidr_block_is_a_valid_ipv4_subnet, :start_address_is_a_valid_ipv4_address,
     :end_address_is_a_valid_ipv4_address, :cidr_block_address_is_unique,
     :start_address_is_within_subnet_range, :end_address_is_within_subnet_range
 
+  before_validation :strip_whitespace
+
   audited
 
-  delegate :routers,
-    :domain_name_servers,
+  delegate :domain_name_servers,
     :domain_name,
     :valid_lifetime,
-    to: :option
+    to: :option,
+    allow_nil: true
+
+  def routers
+    return [] unless self[:routers]
+    self[:routers].split(",")
+  end
 
   def ip_addr
     IPAddr.new(cidr_block)
@@ -108,5 +118,9 @@ class Subnet < ApplicationRecord
     unless ip_addr.include?(end_address)
       errors.add(:end_address, "is not within the subnet range")
     end
+  end
+
+  def strip_whitespace
+    self[:routers] = self[:routers]&.strip&.delete(" ")
   end
 end

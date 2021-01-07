@@ -11,6 +11,7 @@ RSpec.describe Subnet, type: :model do
   it { is_expected.to validate_uniqueness_of(:cidr_block).case_insensitive }
   it { is_expected.to validate_presence_of :start_address }
   it { is_expected.to validate_presence_of :end_address }
+  it { is_expected.to validate_presence_of :routers }
 
   it "validates a correct CIDR block" do
     subnet = build :subnet, cidr_block: "10.0.4.0/24"
@@ -43,6 +44,12 @@ RSpec.describe Subnet, type: :model do
     subnet = build :subnet, end_address: "10.0.4"
     expect(subnet).not_to be_valid
     expect(subnet.errors[:end_address]).to eq(["is not a valid IPv4 address"])
+  end
+
+  it "rejects an incorrect routers" do
+    subnet = build :subnet, routers: "abcd,efg"
+    expect(subnet).not_to be_valid
+    expect(subnet.errors[:routers]).to eq(["contains an invalid IPv4 address or is not separated using commas"])
   end
 
   it "validates cidr_block is unique by the address" do
@@ -98,5 +105,47 @@ RSpec.describe Subnet, type: :model do
   it "removes trailing whitespace in end address" do
     subnet = build :subnet, cidr_block: "10.0.4.0/24", start_address: "10.0.4.1", end_address: " 10.0.5.100 "
     expect(subnet.end_address).to eq("10.0.5.100")
+  end
+
+  describe "#routers" do
+    context "when routers is nil" do
+      before do
+        subject.routers = nil
+      end
+
+      it "returns an empty array" do
+        expect(subject.routers).to eq([])
+      end
+    end
+
+    context "when routers is not empty" do
+      before do
+        subject.routers = "192.168.0.2,192.168.0.3"
+      end
+
+      it "returns an empty array" do
+        expect(subject.routers).to eq(["192.168.0.2", "192.168.0.3"])
+      end
+    end
+  end
+
+  describe "#routers=" do
+    context "when the value is a string" do
+      before do
+        subject.routers = "192.168.0.2,192.168.0.3"
+      end
+
+      it "returns an empty array" do
+        expect(subject.routers).to eq(["192.168.0.2", "192.168.0.3"])
+      end
+    end
+
+    context "when the value is an string with whitespace" do
+      subject { create :subnet, routers: " 192.168.0.2, 192.168.0.3  " }
+
+      it "stores the routers correctly" do
+        expect(subject.routers).to eq(["192.168.0.2", "192.168.0.3"])
+      end
+    end
   end
 end

@@ -72,6 +72,6 @@ class SubnetsController < ApplicationController
   end
 
   def subnet_params
-    params.require(:subnet).permit(:cidr_block, :start_address, :end_address)
+    params.require(:subnet).permit(:cidr_block, :start_address, :end_address, :routers)
   end
 end
