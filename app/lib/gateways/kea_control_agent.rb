@@ -30,6 +30,16 @@ module Gateways
       handle_response(http.request(req).body)
     end
 
+    def fetch_lease_stats
+      req = Net::HTTP::Post.new(uri.path, headers)
+      req.body = {
+        command: "stat-lease4-get",
+        service: ["dhcp4"]
+      }.to_json
+
+      handle_response(http.request(req).body).dig("arguments")
+    end
+
     private
 
     attr_reader :uri, :logger

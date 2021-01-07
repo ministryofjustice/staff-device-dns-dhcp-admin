@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   resources :audits, only: [:index, :show]
 
   get "/healthcheck", to: "monitoring#healthcheck"
+  get "/lease_stats", to: "monitoring#lease_stats"
 
   root "home#index"
 end
