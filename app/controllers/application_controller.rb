@@ -29,16 +29,6 @@ class ApplicationController < ActionController::Base
     new_user_session_path
   end
 
-  def deploy_dhcp_service
-    UseCases::DeployService.new(
-      ecs_gateway: Gateways::Ecs.new(
-        cluster_name: ENV.fetch("DHCP_CLUSTER_NAME"),
-        service_name: ENV.fetch("DHCP_SERVICE_NAME"),
-        aws_config: Rails.application.config.ecs_aws_config
-      )
-    )
-  end
-
   def deploy_dns_service
     UseCases::DeployService.new(
       ecs_gateway: Gateways::Ecs.new(
@@ -65,7 +55,6 @@ class ApplicationController < ActionController::Base
       generate_kea_config: -> { generate_kea_config.call },
       verify_kea_config: verify_kea_config,
       publish_kea_config: publish_kea_config,
-      deploy_dhcp_service: deploy_dhcp_service
     )
   end
 

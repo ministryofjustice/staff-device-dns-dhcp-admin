@@ -1,10 +1,9 @@
 module UseCases
   class TransactionallyUpdateDhcpConfig
-    def initialize(generate_kea_config:, verify_kea_config:, publish_kea_config:, deploy_dhcp_service:)
+    def initialize(generate_kea_config:, verify_kea_config:, publish_kea_config:)
       @generate_kea_config = generate_kea_config
       @verify_kea_config = verify_kea_config
       @publish_kea_config = publish_kea_config
-      @deploy_dhcp_service = deploy_dhcp_service
     end
 
     def call(record, operation)
@@ -14,7 +13,6 @@ module UseCases
           config_verification_result = verify_kea_config.call(kea_config)
           if config_verification_result.success?
             publish_kea_config.call(kea_config)
-            deploy_dhcp_service.call
             return true
           else
             raise KeaConfigInvalidError.new(config_verification_result.error.message)
@@ -32,8 +30,7 @@ module UseCases
 
     attr_reader :generate_kea_config,
       :verify_kea_config,
-      :publish_kea_config,
-      :deploy_dhcp_service
+      :publish_kea_config
 
     class KeaConfigInvalidError < StandardError; end
   end
