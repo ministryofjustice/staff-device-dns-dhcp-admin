@@ -11,7 +11,7 @@ RSpec.describe UseCases::TransactionallyUpdateDhcpConfig do
     described_class.new(
       generate_kea_config: generate_kea_config,
       verify_kea_config: verify_kea_config,
-      publish_kea_config: publish_kea_config,
+      publish_kea_config: publish_kea_config
     )
   end
 
