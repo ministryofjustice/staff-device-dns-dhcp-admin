@@ -31,15 +31,21 @@ WORKDIR /usr/src/app
 
 ADD https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem /usr/src/cert/
 
+RUN apk add --no-cache --virtual .build-deps build-base && \
+  apk add --no-cache nodejs yarn mysql-dev mysql-client bash make
+
+COPY Gemfile Gemfile.lock .ruby-version ./
+RUN bundle config set no-cache 'true' && \
+  bundle install ${BUNDLE_INSTALL_FLAGS}
+
+COPY package.json yarn.lock ./
+RUN yarn && yarn cache clean
+
+RUN apk del .build-deps
+
 COPY . .
 
-RUN apk add --no-cache --virtual .build-deps build-base && \
-  apk add --no-cache nodejs yarn mysql-dev mysql-client bash make && \
-  bundle config set no-cache 'true' && \
-  bundle install ${BUNDLE_INSTALL_FLAGS} && \
-  yarn && yarn cache clean && \
-  apk del .build-deps && \
-  if [ ${RUN_PRECOMPILATION} = 'true' ]; then \
+RUN if [ ${RUN_PRECOMPILATION} = 'true' ]; then \
   ASSET_PRECOMPILATION_ONLY=true RAILS_ENV=production bundle exec rails assets:precompile; \
   fi
 
