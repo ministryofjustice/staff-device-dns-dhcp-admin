@@ -23,7 +23,6 @@ describe "delete options", type: :feature do
 
     expect_config_to_be_verified
     expect_config_to_be_published
-    expect_service_to_be_rebooted
 
     click_on "Delete option"
 

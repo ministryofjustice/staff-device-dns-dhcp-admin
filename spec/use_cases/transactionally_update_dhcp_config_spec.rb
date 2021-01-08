@@ -4,7 +4,6 @@ RSpec.describe UseCases::TransactionallyUpdateDhcpConfig do
   let(:generate_kea_config) { spy(:generate_kea_config) }
   let(:verify_kea_config) { spy(:verify_kea_config) }
   let(:publish_kea_config) { spy(:publish_kea_config) }
-  let(:deploy_dhcp_service) { spy(:deploy_dhcp_service) }
   let(:record) { build(:reservation) }
   let(:operation) { -> { record.save } }
 
@@ -13,7 +12,6 @@ RSpec.describe UseCases::TransactionallyUpdateDhcpConfig do
       generate_kea_config: generate_kea_config,
       verify_kea_config: verify_kea_config,
       publish_kea_config: publish_kea_config,
-      deploy_dhcp_service: deploy_dhcp_service
     )
   end
 
@@ -37,11 +35,6 @@ RSpec.describe UseCases::TransactionallyUpdateDhcpConfig do
       it "publishes the kea config" do
         use_case.call(record, operation)
         expect(publish_kea_config).to have_received(:call)
-      end
-
-      it "deploys the dhcp service" do
-        use_case.call(record, operation)
-        expect(deploy_dhcp_service).to have_received(:call)
       end
 
       it "returns true" do
