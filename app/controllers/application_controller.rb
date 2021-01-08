@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
     UseCases::TransactionallyUpdateDhcpConfig.new(
       generate_kea_config: -> { generate_kea_config.call },
       verify_kea_config: verify_kea_config,
-      publish_kea_config: publish_kea_config,
+      publish_kea_config: publish_kea_config
     )
   end
 
