@@ -71,7 +71,11 @@ class ApplicationController < ActionController::Base
 
   def generate_kea_config
     UseCases::GenerateKeaConfig.new(
-      subnets: Subnet.all,
+      subnets: Subnet.includes(
+        :site,
+        :option,
+        reservations: [:reservation_option]
+      ).all,
       global_option: GlobalOption.first,
       client_classes: ClientClass.all
     )
