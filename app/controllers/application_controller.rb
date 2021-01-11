@@ -46,8 +46,7 @@ class ApplicationController < ActionController::Base
         key: "config.json",
         aws_config: Rails.application.config.s3_aws_config,
         content_type: "application/json"
-      ),
-      logger: Rails.logger
+      )
     )
   end
 
@@ -55,8 +54,7 @@ class ApplicationController < ActionController::Base
     UseCases::TransactionallyUpdateDhcpConfig.new(
       generate_kea_config: -> { generate_kea_config.call },
       verify_kea_config: verify_kea_config,
-      publish_kea_config: publish_kea_config,
-      logger: Rails.logger
+      publish_kea_config: publish_kea_config
     )
   end
 
@@ -68,8 +66,7 @@ class ApplicationController < ActionController::Base
         reservations: [:reservation_option]
       ).all,
       global_option: GlobalOption.first,
-      client_classes: ClientClass.all,
-      logger: Rails.logger
+      client_classes: ClientClass.all
     )
   end
 
@@ -82,8 +79,7 @@ class ApplicationController < ActionController::Base
 
   def verify_kea_config
     UseCases::VerifyKeaConfig.new(
-      kea_control_agent_gateway: kea_control_agent_gateway,
-      logger: Rails.logger
+      kea_control_agent_gateway: kea_control_agent_gateway
     )
   end
 end
