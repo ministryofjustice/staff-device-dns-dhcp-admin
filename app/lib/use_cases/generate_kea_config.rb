@@ -1,22 +1,29 @@
 module UseCases
   class GenerateKeaConfig
+    include ActiveSupport::Benchmarkable
+
     DEFAULT_VALID_LIFETIME_SECONDS = 4000
 
-    def initialize(subnets: [], global_option: nil, client_classes: [])
+    def initialize(subnets: [], global_option: nil, client_classes: [], logger: nil)
       @subnets = subnets
       @global_option = global_option
       @client_classes = client_classes
+      @logger = logger
     end
 
     def call
-      config = default_config
+      benchmark "Benchmark: UseCases::GenerateKeaConfig", level: :debug do
+        config = default_config
 
-      config[:Dhcp4][:subnet4] += @subnets.map { |subnet| subnet_config(subnet) }
+        config[:Dhcp4][:subnet4] += @subnets.map { |subnet| subnet_config(subnet) }
 
-      config
+        config
+      end
     end
 
     private
+
+    attr_reader :logger
 
     def subnet_config(subnet)
       {

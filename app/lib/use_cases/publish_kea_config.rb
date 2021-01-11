@@ -1,13 +1,19 @@
 class UseCases::PublishKeaConfig
-  def initialize(destination_gateway:)
+  include ActiveSupport::Benchmarkable
+
+  def initialize(destination_gateway:, logger: nil)
     @destination_gateway = destination_gateway
+    @logger = logger
   end
 
   def call(payload)
-    destination_gateway.write(data: JSON.generate(payload))
+    benchmark "Benchmark: UseCases::PublishKeaConfig", level: :debug do
+      destination_gateway.write(data: JSON.generate(payload))
+    end
   end
 
   private
 
-  attr_reader :destination_gateway
+  attr_reader :destination_gateway,
+    :logger
 end
