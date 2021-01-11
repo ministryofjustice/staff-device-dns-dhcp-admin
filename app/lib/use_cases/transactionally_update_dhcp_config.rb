@@ -1,36 +1,42 @@
 module UseCases
   class TransactionallyUpdateDhcpConfig
-    def initialize(generate_kea_config:, verify_kea_config:, publish_kea_config:)
+    include ActiveSupport::Benchmarkable
+
+    def initialize(generate_kea_config:, verify_kea_config:, publish_kea_config:, logger: nil)
       @generate_kea_config = generate_kea_config
       @verify_kea_config = verify_kea_config
       @publish_kea_config = publish_kea_config
+      @logger = logger
     end
 
     def call(record, operation)
-      ApplicationRecord.transaction do
-        if operation.call
-          kea_config = generate_kea_config.call
-          config_verification_result = verify_kea_config.call(kea_config)
-          if config_verification_result.success?
-            publish_kea_config.call(kea_config)
-            return true
+      benchmark "Benchmark: UseCases::TransactionallyUpdateDhcpConfig", level: :debug do
+        ApplicationRecord.transaction do
+          if operation.call
+            kea_config = generate_kea_config.call
+            config_verification_result = verify_kea_config.call(kea_config)
+            if config_verification_result.success?
+              publish_kea_config.call(kea_config)
+              return true
+            else
+              raise KeaConfigInvalidError.new(config_verification_result.error.message)
+            end
           else
-            raise KeaConfigInvalidError.new(config_verification_result.error.message)
+            return false
           end
-        else
-          return false
         end
+      rescue KeaConfigInvalidError => error
+        record.errors.add(:base, error.message)
+        false
       end
-    rescue KeaConfigInvalidError => error
-      record.errors.add(:base, error.message)
-      false
     end
 
     private
 
     attr_reader :generate_kea_config,
       :verify_kea_config,
-      :publish_kea_config
+      :publish_kea_config,
+      :logger
 
     class KeaConfigInvalidError < StandardError; end
   end

@@ -1,19 +1,25 @@
 module UseCases
   class VerifyKeaConfig
-    def initialize(kea_control_agent_gateway:)
+    include ActiveSupport::Benchmarkable
+
+    def initialize(kea_control_agent_gateway:, logger: nil)
       @kea_control_agent_gateway = kea_control_agent_gateway
+      @logger = logger
     end
 
     def call(config)
-      kea_control_agent_gateway.verify_config(config)
-      Result.new
-    rescue Gateways::KeaControlAgent::InternalError => error
-      Result.new(error)
+      benchmark "Benchmark: UseCases::VerifyKeaConfig", level: :debug do
+        kea_control_agent_gateway.verify_config(config)
+        Result.new
+      rescue Gateways::KeaControlAgent::InternalError => error
+        Result.new(error)
+      end
     end
 
     private
 
-    attr_reader :kea_control_agent_gateway
+    attr_reader :kea_control_agent_gateway,
+      :logger
 
     class Result
       attr_reader :error
