@@ -84,5 +84,4 @@ class ApplicationController < ActionController::Base
   end
 
   CONFIG_UPDATE_DELAY_NOTICE = "This could take up to 10 minutes to apply."
-
 end

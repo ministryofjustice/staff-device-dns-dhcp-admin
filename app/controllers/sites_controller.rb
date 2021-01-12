@@ -34,7 +34,7 @@ class SitesController < ApplicationController
     @site.assign_attributes(site_params)
 
     if update_dhcp_config.call(@site, -> { @site.save })
-      redirect_to dhcp_path, notice: "Successfully updated site. "  + CONFIG_UPDATE_DELAY_NOTICE
+      redirect_to dhcp_path, notice: "Successfully updated site. " + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :edit
     end
