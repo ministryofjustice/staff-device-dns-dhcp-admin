@@ -6,7 +6,7 @@ describe "delete sites", type: :feature do
       login_as create(:user, :reader)
     end
 
-    it "does not allow creating sites" do
+    it "does not allow deleting sites" do
       visit "/dhcp"
 
       expect(page).not_to have_content "Delete"
@@ -39,7 +39,8 @@ describe "delete sites", type: :feature do
       click_on "Delete site"
 
       expect(current_path).to eq("/dhcp")
-      expect(page).to have_content("Successfully deleted site")
+      expect(page).to have_content("Successfully deleted site.")
+      expect(page).to have_content("This could take up to 10 minutes to apply.")
       expect(page).not_to have_content(site.name)
 
       expect_audit_log_entry_for(editor.email, "destroy", "Site")

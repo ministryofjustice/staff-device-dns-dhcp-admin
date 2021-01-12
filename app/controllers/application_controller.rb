@@ -82,4 +82,7 @@ class ApplicationController < ActionController::Base
       kea_control_agent_gateway: kea_control_agent_gateway
     )
   end
+
+  CONFIG_UPDATE_DELAY_NOTICE = "This could take up to 10 minutes to apply."
+
 end

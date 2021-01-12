@@ -60,6 +60,7 @@ describe "update client class", type: :feature do
       click_on "Update"
 
       expect(page).to have_content("Successfully updated client class")
+      expect(page).to have_content("This could take up to 10 minutes to apply.")
       expect(page).to have_content("usr15_device")
       expect(page).to have_content("A20YYQ-123")
       expect(page).to have_content("10.0.2.3,10.0.2.4")

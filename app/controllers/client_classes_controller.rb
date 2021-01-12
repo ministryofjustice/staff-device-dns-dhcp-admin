@@ -18,7 +18,7 @@ class ClientClassesController < ApplicationController
     authorize! :create, @client_class
 
     if update_dhcp_config.call(@client_class, -> { @client_class.save })
-      redirect_to client_classes_path, notice: "Successfully created client class"
+      redirect_to client_classes_path, notice: "Successfully created client class." + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :new
     end
@@ -33,7 +33,7 @@ class ClientClassesController < ApplicationController
     @client_class.assign_attributes(client_class_params)
 
     if update_dhcp_config.call(@client_class, -> { @client_class.save })
-      redirect_to client_classes_path, notice: "Successfully updated client class"
+      redirect_to client_classes_path, notice: "Successfully updated client class." + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :edit
     end
@@ -43,7 +43,7 @@ class ClientClassesController < ApplicationController
     authorize! :destroy, @client_class
     if confirmed?
       if update_dhcp_config.call(@client_class, -> { @client_class.destroy })
-        redirect_to client_classes_path, notice: "Successfully deleted client class"
+        redirect_to client_classes_path, notice: "Successfully deleted client class." + CONFIG_UPDATE_DELAY_NOTICE
       else
         redirect_to client_classes_path, error: "Failed to delete the client class"
       end

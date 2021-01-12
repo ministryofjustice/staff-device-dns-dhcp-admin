@@ -12,7 +12,7 @@ class ReservationOptionsController < ApplicationController
     authorize! :create, @reservation_option
 
     if update_dhcp_config.call(@reservation_option, -> { @reservation_option.save })
-      redirect_to reservation_path(@reservation), notice: "Successfully created reservation options"
+      redirect_to reservation_path(@reservation), notice: "Successfully created reservation options." + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :new
     end
@@ -27,7 +27,7 @@ class ReservationOptionsController < ApplicationController
     @reservation_option.assign_attributes(reservation_option_params)
 
     if update_dhcp_config.call(@reservation_option, -> { @reservation_option.save })
-      redirect_to reservation_path(@reservation_option.reservation), notice: "Successfully updated reservation options"
+      redirect_to reservation_path(@reservation_option.reservation), notice: "Successfully updated reservation options." + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :edit
     end
@@ -37,7 +37,7 @@ class ReservationOptionsController < ApplicationController
     authorize! :destroy, @reservation_option
     if confirmed?
       if update_dhcp_config.call(@reservation_options, -> { @reservation_option.destroy })
-        redirect_to reservation_path(@reservation_option.reservation), notice: "Successfully deleted reservation options"
+        redirect_to reservation_path(@reservation_option.reservation), notice: "Successfully deleted reservation options." + CONFIG_UPDATE_DELAY_NOTICE
       else
         redirect_to reservation_path(@reservation_option.reservation), error: "Failed to delete the reservation options"
       end

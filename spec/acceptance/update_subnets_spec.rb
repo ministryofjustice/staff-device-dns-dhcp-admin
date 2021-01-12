@@ -29,7 +29,7 @@ describe "update subnets", type: :feature do
     click_button "Update"
 
     expect(page).to have_content("Successfully updated subnet")
-
+    expect(page).to have_content("This could take up to 10 minutes to apply.")
     expect(page).to have_content("10.1.1.0/24")
     expect(page).to have_content("10.1.1.1")
     expect(page).to have_content("10.1.1.255")

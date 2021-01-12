@@ -54,6 +54,7 @@ describe "create reservation options", type: :feature do
       click_on "Create"
 
       expect(page).to have_content("Successfully created reservation options")
+      expect(page).to have_content("This could take up to 10 minutes to apply.")
       expect(page).to have_content("10.0.1.0,10.0.1.2")
       expect(page).to have_content("sub.domain.my-example.com")
 
