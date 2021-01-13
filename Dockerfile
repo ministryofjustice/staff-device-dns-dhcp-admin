@@ -1,11 +1,6 @@
 ARG SHARED_SERVICES_ACCOUNT_ID
 FROM ${SHARED_SERVICES_ACCOUNT_ID}.dkr.ecr.eu-west-2.amazonaws.com/admin:ruby-2-7-1-alpine3-12
 
-ARG GROUP=app
-ARG USER=app
-ARG HOME=/home/$USER
-ARG APPDIR=$HOME/staff-device-dns-dhcp-admin
-
 ARG RACK_ENV=development
 ARG DB_HOST=db
 ARG DB_USER=root
@@ -32,18 +27,12 @@ ENV LANG='C.UTF-8' \
   AWS_DEFAULT_REGION='eu-west-2' \
   DB_NAME=${DB_NAME}
 
+WORKDIR /usr/src/app
+
 ADD https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem /usr/src/cert/
 
 RUN apk add --no-cache --virtual .build-deps build-base && \
   apk add --no-cache nodejs yarn mysql-dev mysql-client bash make
-
-RUN addgroup $GROUP && \
-  adduser --home $HOME --ingroup $GROUP --disabled-password $USER && \
-  mkdir -p $APPDIR && \
-  chown -R $USER:$GROUP $HOME
-
-USER $USER
-WORKDIR $APPDIR
 
 COPY Gemfile Gemfile.lock .ruby-version ./
 RUN bundle config set no-cache 'true' && \
@@ -52,11 +41,9 @@ RUN bundle config set no-cache 'true' && \
 COPY package.json yarn.lock ./
 RUN yarn && yarn cache clean
 
-COPY --chown=$USER:$GROUP . $APPDIR
-
-USER root
 RUN apk del .build-deps
-USER $USER
+
+COPY . .
 
 RUN if [ ${RUN_PRECOMPILATION} = 'true' ]; then \
   ASSET_PRECOMPILATION_ONLY=true RAILS_ENV=production bundle exec rails assets:precompile; \
