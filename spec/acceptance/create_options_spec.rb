@@ -54,6 +54,7 @@ describe "create options", type: :feature do
       click_on "Create"
 
       expect(page).to have_content("Successfully created option")
+      expect(page).to have_content("This could take up to 10 minutes to apply.")
       expect(page).to have_content("10.0.2.1,10.0.2.2")
       expect(page).to have_content("test.example.com")
       expect(page).to have_content("12345")

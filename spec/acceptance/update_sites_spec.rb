@@ -59,6 +59,8 @@ describe "update sites", type: :feature do
 
       expect(page).to have_content("MYFITS202")
       expect(page).to have_content("My Manchester Site")
+      expect(page).to have_content("Successfully updated site.")
+      expect(page).to have_content("This could take up to 10 minutes to apply.")
 
       expect_audit_log_entry_for(editor.email, "update", "Site")
     end

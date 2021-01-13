@@ -27,6 +27,7 @@ describe "delete reservation options", type: :feature do
     click_on "Delete reservation options"
 
     expect(page).to have_content("Successfully deleted reservation options")
+    expect(page).to have_content("This could take up to 10 minutes to apply.")
     expect(page).not_to have_content(reservation_option.domain_name)
     expect(page).not_to have_content(reservation_option.routers)
 

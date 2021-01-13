@@ -12,7 +12,7 @@ class OptionsController < ApplicationController
     authorize! :create, @option
 
     if update_dhcp_config.call(@option, -> { @option.save })
-      redirect_to subnet_path(@option.subnet), notice: "Successfully created options"
+      redirect_to subnet_path(@option.subnet), notice: "Successfully created options." + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :new
     end
@@ -27,7 +27,7 @@ class OptionsController < ApplicationController
     @option.assign_attributes(option_params)
 
     if update_dhcp_config.call(@option, -> { @option.save })
-      redirect_to subnet_path(@option.subnet), notice: "Successfully updated options"
+      redirect_to subnet_path(@option.subnet), notice: "Successfully updated options." + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :edit
     end
@@ -37,7 +37,7 @@ class OptionsController < ApplicationController
     authorize! :destroy, @option
     if confirmed?
       if update_dhcp_config.call(@option, -> { @option.destroy })
-        redirect_to subnet_path(@option.subnet), notice: "Successfully deleted option"
+        redirect_to subnet_path(@option.subnet), notice: "Successfully deleted option." + CONFIG_UPDATE_DELAY_NOTICE
       else
         redirect_to subnet_path(@option.subnet), error: "Failed to delete the option"
       end

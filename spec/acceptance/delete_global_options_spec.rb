@@ -21,6 +21,7 @@ describe "delete gobal options", type: :feature do
     click_on "Delete global options"
 
     expect(page).to have_content("Successfully deleted global options")
+    expect(page).to have_content("This could take up to 10 minutes to apply.")
     expect(page).not_to have_content(global_option.domain_name)
 
     expect_audit_log_entry_for(editor.email, "destroy", "Global option")

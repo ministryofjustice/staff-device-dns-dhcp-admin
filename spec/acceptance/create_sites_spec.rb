@@ -47,8 +47,8 @@ describe "create sites", type: :feature do
 
       click_on "Create"
 
-      expect(page).to have_content("Successfully created site")
-
+      expect(page).to have_content("Successfully created site.")
+      expect(page).to have_content("This could take up to 10 minutes to apply.")
       expect(page).to have_content("MYFITS101")
       expect(page).to have_content("My London Site")
 

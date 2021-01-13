@@ -61,6 +61,7 @@ describe "update reservations", type: :feature do
       click_on "Update"
 
       expect(page).to have_content("Successfully updated reservation")
+      expect(page).to have_content("This could take up to 10 minutes to apply.")
       expect(page).to have_content("1a:1b:1c:1d:1e:1f")
       expect(page).to have_content("192.0.2.3")
       expect(page).to have_content("testier.example.com")

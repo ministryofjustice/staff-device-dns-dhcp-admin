@@ -47,7 +47,8 @@ describe "create client class", type: :feature do
 
       click_on "Create"
 
-      expect(page).to have_content("Successfully created client class")
+      expect(page).to have_content("Successfully created client class.")
+      expect(page).to have_content("This could take up to 10 minutes to apply.")
       expect(page).to have_content("usr1_device")
       expect(page).to have_content("A20YYQ")
       expect(page).to have_content("10.0.2.1,10.0.2.2")
