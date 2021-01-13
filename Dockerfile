@@ -1,5 +1,5 @@
 ARG SHARED_SERVICES_ACCOUNT_ID
-FROM ${SHARED_SERVICES_ACCOUNT_ID}.dkr.ecr.eu-west-2.amazonaws.com/admin:latest
+FROM ${SHARED_SERVICES_ACCOUNT_ID}.dkr.ecr.eu-west-2.amazonaws.com/admin:ruby-2-7-1-alpine3-12
 
 ARG GROUP=app
 ARG USER=app

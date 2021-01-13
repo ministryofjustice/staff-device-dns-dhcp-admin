@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   db:
-    image: "${SHARED_SERVICES_ACCOUNT_ID}.dkr.ecr.eu-west-2.amazonaws.com/admin-mysql:latest"
+    image: "${SHARED_SERVICES_ACCOUNT_ID}.dkr.ecr.eu-west-2.amazonaws.com/admin-mysql:mysql-5-7"
     env_file: .env.${ENV}
     expose:
       - "3306"
