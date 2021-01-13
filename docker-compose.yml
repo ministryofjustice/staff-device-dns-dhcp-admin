@@ -21,7 +21,6 @@ services:
     volumes:
       - .:/home/app/staff-device-dns-dhcp-admin
       - node_modules:/home/app/staff-device-dns-dhcp-admin/node_modules
-      - /home/app/staff-device-dns-dhcp-admin/tmp
     links:
       - db
     expose:

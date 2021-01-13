@@ -52,9 +52,10 @@ RUN bundle config set no-cache 'true' && \
 COPY package.json yarn.lock ./
 RUN yarn && yarn cache clean
 
-COPY --chown=$USER:$GROUP . $APPDIR
+COPY . $APPDIR
 
 USER root
+RUN chown -R $USER:$GROUP $APPDIR
 RUN apk del .build-deps
 USER $USER
 
