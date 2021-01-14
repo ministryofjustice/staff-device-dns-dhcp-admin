@@ -2,7 +2,7 @@
 
 set -v -e -u -o pipefail
 
-source ./scripts/aws-helpers.sh
+source ./scripts/aws_helpers.sh
 
 function require_ssl() {
   local require_ssl_command="mysql -u ${DB_USER} -p${DB_PASS} -n ${DB_NAME} -h ${DB_HOST} --ssl-ca=/usr/src/cert/rds-combined-ca-bundle.pem -e \"ALTER USER '${DB_USER}'@'%' REQUIRE SSL;\""
