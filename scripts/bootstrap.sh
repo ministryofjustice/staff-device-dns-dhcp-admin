@@ -4,9 +4,8 @@ set -v -e -u -o pipefail
 
 source ./scripts/aws_helpers.sh
 
-function require_ssl() {
-  echo "$(pwd)"
-  local require_ssl_command="mysql -u ${DB_USER} -p${DB_PASS} -n ${DB_NAME} -h ${DB_HOST} --ssl-ca=../../cert/rds-combined-ca-bundle.pem -e \"ALTER USER '${DB_USER}'@'%' REQUIRE SSL;\""
+require_ssl() {
+  local require_ssl_command="mysql -u ${DB_USER} -p${DB_PASS} -n ${DB_NAME} -h ${DB_HOST} --ssl-ca=../cert/rds-combined-ca-bundle.pem -e \"ALTER USER '${DB_USER}'@'%' REQUIRE SSL;\""
   local docker_service_name="admin"
   local cluster_name service_name task_definition docker_service_name
 
@@ -27,4 +26,9 @@ function require_ssl() {
     "${require_ssl_command}"
 }
 
-require_ssl
+main() {
+  assume_deploy_role
+  require_ssl
+}
+
+main

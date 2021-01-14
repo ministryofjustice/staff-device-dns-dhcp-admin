@@ -65,3 +65,10 @@ override_command_structure() {
   }
 EOF
 }
+
+assume_deploy_role() {
+  TEMP_ROLE=`aws sts assume-role --role-arn $ROLE_ARN --role-session-name ci-dhcp-deploy-$CODEBUILD_BUILD_NUMBER`
+  export AWS_ACCESS_KEY_ID=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.AccessKeyId')
+  export AWS_SECRET_ACCESS_KEY=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SecretAccessKey')
+  export AWS_SESSION_TOKEN=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SessionToken')
+}
