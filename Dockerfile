@@ -6,7 +6,7 @@ ARG GROUP=app
 ARG USER=app
 ARG HOME=/home/$USER
 ARG APPDIR=$HOME/staff-device-dns-dhcp-admin
-ARG CERTDIR=$HOME/cert/
+ARG CERTDIR=$HOME/cert
 
 ARG RACK_ENV=development
 ARG DB_HOST=db
@@ -46,8 +46,6 @@ RUN groupadd -g $UID -o $GROUP && \
 USER $USER
 WORKDIR $APPDIR
 
-ADD --chown=$USER:$GROUP https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem $HOME/cert/
-
 COPY --chown=$USER:$GROUP Gemfile Gemfile.lock .ruby-version ./
 RUN bundle config set no-cache 'true' && \
   bundle install ${BUNDLE_INSTALL_FLAGS}
@@ -57,7 +55,10 @@ RUN yarn && yarn cache clean
 
 COPY --chown=$USER:$GROUP . $APPDIR
 
+ADD https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem $CERTDIR/
+
 USER root
+RUN chown -R $USER:$GROUP $CERTDIR
 RUN apk del .build-deps
 USER $USER
 
