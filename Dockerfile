@@ -35,7 +35,7 @@ ENV LANG='C.UTF-8' \
   DB_NAME=${DB_NAME}
 
 RUN apk add --no-cache --virtual .build-deps build-base && \
-  apk add --no-cache nodejs yarn mysql-dev mysql-client bash make shadow
+  apk add --no-cache nodejs yarn mysql-dev mysql-client bash make bind shadow
 
 RUN groupadd -g $UID -o $GROUP && \
   useradd -m -u $UID -g $UID -o -s /bin/false $USER && \
