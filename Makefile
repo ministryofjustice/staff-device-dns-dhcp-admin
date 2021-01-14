@@ -49,6 +49,9 @@ migrate:
 migrate-dev: start-db
 	$(DOCKER_COMPOSE) run --rm app bundle exec rake db:migrate
 
+bootstrap:
+	./scripts/bootstrap.sh
+
 deploy:
 	./scripts/deploy.sh
 
@@ -65,4 +68,4 @@ lint:
 implode:
 	$(DOCKER_COMPOSE) rm
 
-.PHONY: build serve stop test deploy migrate migrate-dev build-dev push publish implode authenticate-docker check-container-registry-account-id start-db db-setup run shell lint
+.PHONY: build serve stop test deploy migrate migrate-dev build-dev push publish implode authenticate-docker check-container-registry-account-id start-db db-setup run shell lint bootstrap
