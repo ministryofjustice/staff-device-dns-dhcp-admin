@@ -25,7 +25,12 @@ start-db:
 	ENV=${ENV} ./scripts/wait_for_db.sh
 
 db-setup: start-db
-	$(DOCKER_COMPOSE) run --rm app ls -l
+	@echo "Pipeline user"
+	whoami
+	id -u
+	@echo "Docker user"
+	$(DOCKER_COMPOSE) run --rm app whoami
+	$(DOCKER_COMPOSE) run --rm app id -u
 	$(DOCKER_COMPOSE) run --rm app ./bin/rails db:drop db:create db:schema:load
 
 serve: stop start-db

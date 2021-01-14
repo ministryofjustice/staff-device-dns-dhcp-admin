@@ -38,8 +38,8 @@ ADD https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem /usr/src/c
 RUN apk add --no-cache --virtual .build-deps build-base && \
   apk add --no-cache nodejs yarn mysql-dev mysql-client bash make
 
-RUN addgroup --gid $UID --system $GROUP && \
-  adduser --uid $UID -G $GROUP --home $HOME --disabled-password $USER && \
+RUN addgroup -g $UID -S $GROUP && \
+  adduser -u $UID -G $GROUP -h $HOME -S $USER && \
   mkdir -p $APPDIR && \
   chown -R $USER:$GROUP $HOME
 
