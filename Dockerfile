@@ -6,6 +6,7 @@ ARG GROUP=app
 ARG USER=app
 ARG HOME=/home/$USER
 ARG APPDIR=$HOME/staff-device-dns-dhcp-admin
+ARG CERTDIR=$HOME/cert/
 
 ARG RACK_ENV=development
 ARG DB_HOST=db
@@ -33,18 +34,19 @@ ENV LANG='C.UTF-8' \
   AWS_DEFAULT_REGION='eu-west-2' \
   DB_NAME=${DB_NAME}
 
-ADD https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem /usr/src/cert/
-
 RUN apk add --no-cache --virtual .build-deps build-base && \
   apk add --no-cache nodejs yarn mysql-dev mysql-client bash make shadow
 
 RUN groupadd -g $UID -o $GROUP && \
   useradd -m -u $UID -g $UID -o -s /bin/false $USER && \
   mkdir -p $APPDIR && \
+  mkdir -p $CERTDIR && \
   chown -R $USER:$GROUP $HOME
 
 USER $USER
 WORKDIR $APPDIR
+
+ADD --chown=$USER:$GROUP https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem $HOME/cert/
 
 COPY --chown=$USER:$GROUP Gemfile Gemfile.lock .ruby-version ./
 RUN bundle config set no-cache 'true' && \
