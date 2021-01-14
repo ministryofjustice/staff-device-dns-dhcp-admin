@@ -36,10 +36,10 @@ ENV LANG='C.UTF-8' \
 ADD https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem /usr/src/cert/
 
 RUN apk add --no-cache --virtual .build-deps build-base && \
-  apk add --no-cache nodejs yarn mysql-dev mysql-client bash make
+  apk add --no-cache nodejs yarn mysql-dev mysql-client bash make shadow
 
-RUN addgroup -g $UID -S $GROUP && \
-  adduser -u $UID -G $GROUP -h $HOME -S $USER && \
+RUN groupadd -g $UID -o $GROUP && \
+  useradd -m -u $UID -g $UID -o -s /bin/false $USER && \
   mkdir -p $APPDIR && \
   chown -R $USER:$GROUP $HOME
 
