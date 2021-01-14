@@ -3,7 +3,7 @@ ENV=development
 endif
 
 UID=$(shell id -u)
-DOCKER_COMPOSE = ENV=${ENV} docker-compose -f docker-compose.yml
+DOCKER_COMPOSE = env ENV=${ENV} UID=$(UID) docker-compose -f docker-compose.yml
 BUNDLE_FLAGS=
 
 DOCKER_BUILD_CMD = BUNDLE_INSTALL_FLAGS="$(BUNDLE_FLAGS)" $(DOCKER_COMPOSE) build
@@ -18,19 +18,14 @@ build: check-container-registry-account-id
 	docker build -t docker_admin . --build-arg RACK_ENV --build-arg DB_HOST --build-arg DB_USER --build-arg DB_PASS --build-arg SECRET_KEY_BASE --build-arg DB_NAME --build-arg BUNDLE_WITHOUT --build-arg DHCP_DB_NAME --build-arg DHCP_DB_HOST --build-arg DHCP_DB_USER --build-arg DHCP_DB_PASS --build-arg SHARED_SERVICES_ACCOUNT_ID
 
 build-dev:
-	$(DOCKER_COMPOSE) build --build-arg UID=$(UID)
+	$(DOCKER_COMPOSE) build
 
 start-db:
 	$(DOCKER_COMPOSE) up -d db
 	ENV=${ENV} ./scripts/wait_for_db.sh
 
 db-setup: start-db
-	@echo "Pipeline user"
-	whoami
-	id -u
-	@echo "Docker user"
-	$(DOCKER_COMPOSE) run --rm app whoami
-	$(DOCKER_COMPOSE) run --rm app id -u
+	$(DOCKER_COMPOSE) run --rm app ls -l
 	$(DOCKER_COMPOSE) run --rm app ./bin/rails db:drop db:create db:schema:load
 
 serve: stop start-db
