@@ -1,6 +1,7 @@
 ARG SHARED_SERVICES_ACCOUNT_ID
 FROM ${SHARED_SERVICES_ACCOUNT_ID}.dkr.ecr.eu-west-2.amazonaws.com/admin:ruby-2-7-1-alpine3-12
 
+ARG UID=1001
 ARG GROUP=app
 ARG USER=app
 ARG HOME=/home/$USER
@@ -37,25 +38,24 @@ ADD https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem /usr/src/c
 RUN apk add --no-cache --virtual .build-deps build-base && \
   apk add --no-cache nodejs yarn mysql-dev mysql-client bash make
 
-RUN addgroup $GROUP && \
-  adduser --home $HOME --ingroup $GROUP --disabled-password $USER && \
+RUN addgroup --gid $UID --system $GROUP && \
+  adduser --uid $UID -G $GROUP --home $HOME --disabled-password $USER && \
   mkdir -p $APPDIR && \
   chown -R $USER:$GROUP $HOME
 
 USER $USER
 WORKDIR $APPDIR
 
-COPY Gemfile Gemfile.lock .ruby-version ./
+COPY --chown=$USER:$GROUP Gemfile Gemfile.lock .ruby-version ./
 RUN bundle config set no-cache 'true' && \
   bundle install ${BUNDLE_INSTALL_FLAGS}
 
-COPY package.json yarn.lock ./
+COPY --chown=$USER:$GROUP  package.json yarn.lock ./
 RUN yarn && yarn cache clean
 
-COPY . $APPDIR
+COPY --chown=$USER:$GROUP . $APPDIR
 
 USER root
-RUN chown -R $USER:$GROUP $APPDIR
 RUN apk del .build-deps
 USER $USER
 

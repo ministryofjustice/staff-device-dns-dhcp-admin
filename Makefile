@@ -2,6 +2,7 @@ ifndef ENV
 ENV=development
 endif
 
+UID=$(shell id -u)
 DOCKER_COMPOSE = ENV=${ENV} docker-compose -f docker-compose.yml
 BUNDLE_FLAGS=
 
@@ -17,7 +18,7 @@ build: check-container-registry-account-id
 	docker build -t docker_admin . --build-arg RACK_ENV --build-arg DB_HOST --build-arg DB_USER --build-arg DB_PASS --build-arg SECRET_KEY_BASE --build-arg DB_NAME --build-arg BUNDLE_WITHOUT --build-arg DHCP_DB_NAME --build-arg DHCP_DB_HOST --build-arg DHCP_DB_USER --build-arg DHCP_DB_PASS --build-arg SHARED_SERVICES_ACCOUNT_ID
 
 build-dev:
-	$(DOCKER_COMPOSE) build
+	$(DOCKER_COMPOSE) build --build-arg UID=$(UID)
 
 start-db:
 	$(DOCKER_COMPOSE) up -d db
