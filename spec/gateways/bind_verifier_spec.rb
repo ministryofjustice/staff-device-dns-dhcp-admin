@@ -8,7 +8,7 @@ describe Gateways::BindVerifier do
       let(:generated_config) { UseCases::GenerateBindConfig.new(zones: [], pdns_ips: "7.7.7.7,5.5.5.5").call }
       
       it "returns successfully" do
-        expect { subject.verify_config(generated_config) }.to eq("success")
+        expect(subject.verify_config(generated_config)).to eq(true)
       end
 
       context "when the verify bind config returns an error" do

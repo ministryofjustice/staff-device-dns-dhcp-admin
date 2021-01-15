@@ -1,4 +1,5 @@
 require 'tempfile'
+require 'fileutils'
 
 module Gateways
   class BindVerifier
@@ -7,24 +8,41 @@ module Gateways
     end
 
     def verify_config(config)
-      file = Tempfile.new("named.conf")
-      begin
-        file.write(config)
-        file.rewind
-        handle_result(`named-checkconf #{file.path}`)
-      ensure
-        file.close
-        file.unlink
-      end
+      file.write(config)
+      # file.rewind
+      byebug
+      handle_result(execute_checkconf(file.path))
+    ensure
+      file.close
+      file.unlink
+    end
+
+    private
+
+    attr_reader :logger
+
+    def file
+      ensure_tmp_dir
+      @file ||= Tempfile.new("named.conf", tmp_config_dir_path)
     end
 
     def handle_result(result)
-      unless result.empty?
-        logger&.info("BIND result: #{result}")
-        raise InternalError.new(result)
-      else
-        "success"
-      end
+      return true if result.empty?
+
+      logger&.info("BIND result: #{result}")
+      raise InternalError.new(result)
+    end
+
+    def tmp_config_dir_path
+      File.join(Rails.root, 'tmp/bind_configs')
+    end
+
+    def ensure_tmp_dir
+      FileUtils.mkdir_p(tmp_config_dir_path)
+    end
+
+    def execute_checkconf(filepath)
+      `named-checkconf #{filepath}`
     end
 
     class InternalError < StandardError; end
