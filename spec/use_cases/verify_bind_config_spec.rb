@@ -20,7 +20,7 @@ RSpec.describe UseCases::VerifyBindConfig do
     end
 
     context "when the config is invalid" do
-      let(:error) { Gateways::BindVerifier::InternalError.new("oh noes!") }
+      let(:error) { Gateways::BindVerifier::ConfigurationError.new("oh noes!") }
 
       before do
         allow(bind_verifier_gateway).to receive(:verify_config).and_raise(error)

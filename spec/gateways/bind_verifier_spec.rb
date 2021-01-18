@@ -11,12 +11,21 @@ describe Gateways::BindVerifier do
         expect(subject.verify_config(generated_config)).to eq(true)
       end
 
+      context "when the config is an empty string" do
+        let(:config) { "" }
+
+        it "raises a EmptyConfigError" do
+          expect { subject.verify_config(config) }
+            .to raise_error(described_class::EmptyConfigError, "Some configuration options must be specified")
+        end
+      end
+
       context "when the verify bind config returns an error" do
         let(:config) { "This can be anything" }
 
-        it "raises a InternalError" do
+        it "raises a ConfigurationError" do
           expect { subject.verify_config(config) }
-            .to raise_error(described_class::InternalError, "thats invalid")
+            .to raise_error(described_class::ConfigurationError)
         end
       end
     end

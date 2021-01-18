@@ -58,8 +58,11 @@ COPY --chown=$USER:$GROUP . $APPDIR
 ADD https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem $CERTDIR/
 
 USER root
-RUN chown -R $USER:$GROUP $CERTDIR
-RUN apk del .build-deps
+RUN chown -R $USER:$GROUP $CERTDIR &&\
+  # named-checkconf needs access to /var/bind write configs 
+  # before checking :(
+  chown -R $USER:$GROUP /var/bind &&\
+  apk del .build-deps
 USER $USER
 
 RUN if [ ${RUN_PRECOMPILATION} = 'true' ]; then \

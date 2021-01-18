@@ -8,12 +8,11 @@ module Gateways
     end
 
     def verify_config(config)
-      file.write(config)
-      # file.rewind
-      byebug
+      raise EmptyConfigError.new("Some configuration options must be specified") if config.empty?
+
+      write_config_file(config)
       handle_result(execute_checkconf(file.path))
     ensure
-      file.close
       file.unlink
     end
 
@@ -26,11 +25,18 @@ module Gateways
       @file ||= Tempfile.new("named.conf", tmp_config_dir_path)
     end
 
+    def write_config_file(config)
+      file.write(config)
+      file.rewind
+    ensure 
+      file.close
+    end
+
     def handle_result(result)
       return true if result.empty?
 
       logger&.info("BIND result: #{result}")
-      raise InternalError.new(result)
+      raise ConfigurationError.new(result)
     end
 
     def tmp_config_dir_path
@@ -45,6 +51,7 @@ module Gateways
       `named-checkconf #{filepath}`
     end
 
-    class InternalError < StandardError; end
+    class ConfigurationError < StandardError; end
+    class EmptyConfigError < ConfigurationError; end
   end
 end
