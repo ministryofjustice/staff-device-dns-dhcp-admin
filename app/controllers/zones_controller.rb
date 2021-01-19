@@ -13,7 +13,8 @@ class ZonesController < ApplicationController
   def create
     @zone = Zone.new(zone_params)
     authorize! :create, @zone
-    if @zone.save
+
+    if update_dns_config.call(@zone, -> { @zone.save })
       publish_bind_config
       deploy_dns_service
       redirect_to dns_path, notice: "Successfully created zone"
@@ -28,10 +29,11 @@ class ZonesController < ApplicationController
 
   def update
     authorize! :update, @zone
-    if @zone.update(zone_params)
-      publish_bind_config
+    @zone.assign_attributes(zone_params)
+
+    if update_dns_config.call(@zone, -> { @zone.save })
       deploy_dns_service
-      redirect_to dns_path, notice: "Successfully updated DNS zone"
+      redirect_to dns_path, notice: "Successfully updated zone"
     else
       render :edit
     end
@@ -40,8 +42,7 @@ class ZonesController < ApplicationController
   def destroy
     authorize! :destroy, @zone
     if confirmed?
-      if @zone.destroy
-        publish_bind_config
+      if update_dns_config.call(@zone, -> { @zone.destroy })
         deploy_dns_service
         redirect_to dns_path, notice: "Successfully deleted zone"
       else
@@ -75,8 +76,34 @@ class ZonesController < ApplicationController
         key: "named.conf",
         aws_config: Rails.application.config.s3_aws_config,
         content_type: "application/octet-stream"
-      ),
-      generate_config: UseCases::GenerateBindConfig.new(zones: Zone.all, pdns_ips: ENV["PDNS_IPS"])
-    ).call
+      )
+    )
+  end
+
+  def generate_bind_config
+    UseCases::GenerateBindConfig.new(
+      zones: Zone.all, 
+      pdns_ips: ENV["PDNS_IPS"]
+    )
+  end
+
+  def bind_verifier_gateway
+    Gateways::BindVerifier.new(
+      logger: Rails.logger
+    )
+  end
+
+  def verify_bind_config
+    UseCases::VerifyBindConfig.new(
+      bind_verifier_gateway: bind_verifier_gateway
+    )
+  end
+
+  def update_dns_config
+    UseCases::TransactionallyUpdateDnsConfig.new(
+      generate_bind_config: -> { generate_bind_config.call },
+      verify_bind_config: verify_bind_config,
+      publish_bind_config: publish_bind_config
+    )
   end
 end

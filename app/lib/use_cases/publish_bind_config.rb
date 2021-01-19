@@ -1,15 +1,13 @@
 class UseCases::PublishBindConfig
-  def initialize(destination_gateway:, generate_config:)
+  def initialize(destination_gateway:)
     @destination_gateway = destination_gateway
-    @generate_config = generate_config
   end
 
-  def call
-    payload = generate_config.call
-    destination_gateway.write(data: payload)
+  def call(config)
+    destination_gateway.write(data: config)
   end
 
   private
 
-  attr_reader :generate_config, :destination_gateway
+  attr_reader :destination_gateway
 end

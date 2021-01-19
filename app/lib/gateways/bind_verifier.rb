@@ -21,6 +21,8 @@ module Gateways
     attr_reader :logger
 
     def file
+      return @file if defined? @file
+
       ensure_tmp_dir
       @file ||= Tempfile.new("named.conf", tmp_config_dir_path)
     end
@@ -36,9 +38,14 @@ module Gateways
       return true if result.empty?
 
       logger&.info("BIND result: #{result}")
-      raise ConfigurationError.new(result)
+      raise ConfigurationError.new(user_friendly_validation_error(result))
     end
 
+    def user_friendly_validation_error(error_string)
+      # TODO: REGEX :o
+      error_string.gsub("#{file.path}:", "")
+    end
+    
     def tmp_config_dir_path
       File.join(Rails.root, 'tmp/bind_configs')
     end
