@@ -1,5 +1,5 @@
-require 'tempfile'
-require 'fileutils'
+require "tempfile"
+require "fileutils"
 
 module Gateways
   class BindVerifier
@@ -30,7 +30,7 @@ module Gateways
     def write_config_file(config)
       file.write(config)
       file.rewind
-    ensure 
+    ensure
       file.close
     end
 
@@ -42,11 +42,11 @@ module Gateways
     end
 
     def user_friendly_validation_error(error_string)
-      error_string.gsub("#{file.path}", "").gsub(/(:[1-9]+:)/," ")
+      error_string.gsub(file.path.to_s, "").gsub(/(:[1-9]+:)/, " ")
     end
-    
+
     def tmp_config_dir_path
-      File.join(Rails.root, 'tmp/bind_configs')
+      File.join(Rails.root, "tmp/bind_configs")
     end
 
     def ensure_tmp_dir
@@ -58,6 +58,7 @@ module Gateways
     end
 
     class ConfigurationError < StandardError; end
+
     class EmptyConfigError < ConfigurationError; end
   end
 end
