@@ -15,8 +15,6 @@ class ZonesController < ApplicationController
     authorize! :create, @zone
 
     if update_dns_config.call(@zone, -> { @zone.save })
-      publish_bind_config
-      deploy_dns_service
       redirect_to dns_path, notice: "Successfully created zone"
     else
       render :new
@@ -32,7 +30,6 @@ class ZonesController < ApplicationController
     @zone.assign_attributes(zone_params)
 
     if update_dns_config.call(@zone, -> { @zone.save })
-      deploy_dns_service
       redirect_to dns_path, notice: "Successfully updated zone"
     else
       render :edit
@@ -43,7 +40,6 @@ class ZonesController < ApplicationController
     authorize! :destroy, @zone
     if confirmed?
       if update_dns_config.call(@zone, -> { @zone.destroy })
-        deploy_dns_service
         redirect_to dns_path, notice: "Successfully deleted zone"
       else
         redirect_to dns_path, error: "Failed to delete the zone"
@@ -82,7 +78,7 @@ class ZonesController < ApplicationController
 
   def generate_bind_config
     UseCases::GenerateBindConfig.new(
-      zones: Zone.all, 
+      zones: Zone.all,
       pdns_ips: ENV["PDNS_IPS"]
     )
   end
@@ -99,11 +95,22 @@ class ZonesController < ApplicationController
     )
   end
 
+  def deploy_dns_service
+    UseCases::DeployService.new(
+      ecs_gateway: Gateways::Ecs.new(
+        cluster_name: ENV.fetch("DNS_CLUSTER_NAME"),
+        service_name: ENV.fetch("DNS_SERVICE_NAME"),
+        aws_config: Rails.application.config.ecs_aws_config
+      )
+    )
+  end
+
   def update_dns_config
     UseCases::TransactionallyUpdateDnsConfig.new(
       generate_bind_config: -> { generate_bind_config.call },
       verify_bind_config: verify_bind_config,
-      publish_bind_config: publish_bind_config
+      publish_bind_config: publish_bind_config,
+      deploy_dns_service: deploy_dns_service
     )
   end
 end

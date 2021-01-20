@@ -29,16 +29,6 @@ class ApplicationController < ActionController::Base
     new_user_session_path
   end
 
-  def deploy_dns_service
-    UseCases::DeployService.new(
-      ecs_gateway: Gateways::Ecs.new(
-        cluster_name: ENV.fetch("DNS_CLUSTER_NAME"),
-        service_name: ENV.fetch("DNS_SERVICE_NAME"),
-        aws_config: Rails.application.config.ecs_aws_config
-      )
-    ).call
-  end
-
   def publish_kea_config
     UseCases::PublishKeaConfig.new(
       destination_gateway: Gateways::S3.new(
