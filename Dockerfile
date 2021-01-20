@@ -16,10 +16,6 @@ ARG SECRET_KEY_BASE="fakekeybase"
 ARG DB_NAME=root
 ARG BUNDLE_WITHOUT=""
 ARG BUNDLE_INSTALL_FLAGS=""
-ARG DHCP_DB_USER=""
-ARG DHCP_DB_PASS=""
-ARG DHCP_DB_HOST=""
-ARG DHCP_DB_NAME=""
 ARG RUN_PRECOMPILATION=true
 
 # required for certain linting tools that read files, such as erb-lint
