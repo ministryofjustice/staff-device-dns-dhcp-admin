@@ -4,7 +4,7 @@ class UseCases::PublishKeaConfig
   end
 
   def call(payload)
-    destination_gateway.write(data: JSON.generate(payload))
+    destination_gateway.write(data: payload)
   end
 
   private

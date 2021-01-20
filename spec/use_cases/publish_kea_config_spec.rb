@@ -18,6 +18,6 @@ describe UseCases::PublishKeaConfig do
 
   it "publishes the Kea config" do
     expect(s3_gateway).to have_received(:write)
-      .with(data: config.to_json)
+      .with(data: config)
   end
 end
