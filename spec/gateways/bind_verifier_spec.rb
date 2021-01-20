@@ -4,7 +4,7 @@ describe Gateways::BindVerifier do
   subject { described_class.new }
   
   describe "#verify_config" do
-    context "when the calling bind verify" do
+    context "when the config is valid" do
       let(:generated_config) { UseCases::GenerateBindConfig.new(zones: [], pdns_ips: "7.7.7.7,5.5.5.5").call }
       
       it "returns successfully" do
@@ -20,7 +20,7 @@ describe Gateways::BindVerifier do
         end
       end
 
-      context "when the verify bind config returns an error" do
+      context "when the config is invalid" do
         let(:config) { "This can be anything" }
 
         it "raises a ConfigurationError" do

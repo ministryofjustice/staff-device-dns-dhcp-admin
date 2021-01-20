@@ -42,8 +42,7 @@ module Gateways
     end
 
     def user_friendly_validation_error(error_string)
-      # TODO: REGEX :o
-      error_string.gsub("#{file.path}:", "")
+      error_string.gsub("#{file.path}", "").gsub(/(:[1-9]+:)/," ")
     end
     
     def tmp_config_dir_path
