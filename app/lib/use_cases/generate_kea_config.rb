@@ -13,7 +13,7 @@ module UseCases
 
       config[:Dhcp4][:subnet4] += @subnets.map { |subnet| subnet_config(subnet) }
 
-      config
+      JSON.generate(config)
     end
 
     private
