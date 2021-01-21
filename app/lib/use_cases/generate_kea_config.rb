@@ -211,7 +211,7 @@ module UseCases
           "multi-threading": {
             "enable-multi-threading": true,
             "thread-pool-size": 12,
-            "packet-queue-size": 792
+            "packet-queue-size": 65
           }
         }.merge(UseCases::KeaConfig::GenerateOptionDataConfig.new.call(@global_option))
           .merge(valid_lifetime_config)
