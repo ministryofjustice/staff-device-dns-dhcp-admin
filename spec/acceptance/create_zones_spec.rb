@@ -12,15 +12,13 @@ describe "create zones", type: :feature do
 
     click_on "Create a new zone"
 
-    expect(current_path).to eql("/zones/new")
-
     fill_in "Domain name", with: "test.example.com"
     fill_in "Forwarders", with: "10.1.1.25,10.1.1.28"
     fill_in "Purpose", with: "Frontend Driven Test"
 
     click_button "Create"
 
-    expect(current_path).to eq("/dns")
+    expect(page).to have_content("Successfully created zone")
 
     zone = Zone.last
     expect(zone.name).to eq "test.example.com"

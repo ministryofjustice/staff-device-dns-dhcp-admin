@@ -31,7 +31,7 @@ ENV LANG='C.UTF-8' \
   DB_NAME=${DB_NAME}
 
 RUN apk add --no-cache --virtual .build-deps build-base && \
-  apk add --no-cache nodejs yarn mysql-dev mysql-client bash make shadow
+  apk add --no-cache nodejs yarn mysql-dev mysql-client bash make bind shadow
 
 RUN groupadd -g $UID -o $GROUP && \
   useradd -m -u $UID -g $UID -o -s /bin/false $USER && \
@@ -54,8 +54,9 @@ COPY --chown=$USER:$GROUP . $APPDIR
 ADD https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem $CERTDIR/
 
 USER root
-RUN chown -R $USER:$GROUP $CERTDIR
-RUN apk del .build-deps
+RUN chown -R $USER:$GROUP $CERTDIR &&\
+  chown -R $USER:$GROUP /var/bind &&\
+  apk del .build-deps
 USER $USER
 
 RUN if [ ${RUN_PRECOMPILATION} = 'true' ]; then \

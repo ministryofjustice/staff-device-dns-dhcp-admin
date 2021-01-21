@@ -13,9 +13,8 @@ class ZonesController < ApplicationController
   def create
     @zone = Zone.new(zone_params)
     authorize! :create, @zone
-    if @zone.save
-      publish_bind_config
-      deploy_dns_service
+
+    if update_dns_config.call(@zone, -> { @zone.save })
       redirect_to dns_path, notice: "Successfully created zone"
     else
       render :new
@@ -28,10 +27,10 @@ class ZonesController < ApplicationController
 
   def update
     authorize! :update, @zone
-    if @zone.update(zone_params)
-      publish_bind_config
-      deploy_dns_service
-      redirect_to dns_path, notice: "Successfully updated DNS zone"
+    @zone.assign_attributes(zone_params)
+
+    if update_dns_config.call(@zone, -> { @zone.save })
+      redirect_to dns_path, notice: "Successfully updated zone"
     else
       render :edit
     end
@@ -40,9 +39,7 @@ class ZonesController < ApplicationController
   def destroy
     authorize! :destroy, @zone
     if confirmed?
-      if @zone.destroy
-        publish_bind_config
-        deploy_dns_service
+      if update_dns_config.call(@zone, -> { @zone.destroy })
         redirect_to dns_path, notice: "Successfully deleted zone"
       else
         redirect_to dns_path, error: "Failed to delete the zone"
@@ -75,8 +72,45 @@ class ZonesController < ApplicationController
         key: "named.conf",
         aws_config: Rails.application.config.s3_aws_config,
         content_type: "application/octet-stream"
-      ),
-      generate_config: UseCases::GenerateBindConfig.new(zones: Zone.all, pdns_ips: ENV["PDNS_IPS"])
-    ).call
+      )
+    )
+  end
+
+  def generate_bind_config
+    UseCases::GenerateBindConfig.new(
+      zones: Zone.all,
+      pdns_ips: ENV["PDNS_IPS"]
+    )
+  end
+
+  def bind_verifier_gateway
+    Gateways::BindVerifier.new(
+      logger: Rails.logger
+    )
+  end
+
+  def verify_bind_config
+    UseCases::VerifyBindConfig.new(
+      bind_verifier_gateway: bind_verifier_gateway
+    )
+  end
+
+  def deploy_dns_service
+    UseCases::DeployService.new(
+      ecs_gateway: Gateways::Ecs.new(
+        cluster_name: ENV.fetch("DNS_CLUSTER_NAME"),
+        service_name: ENV.fetch("DNS_SERVICE_NAME"),
+        aws_config: Rails.application.config.ecs_aws_config
+      )
+    )
+  end
+
+  def update_dns_config
+    UseCases::TransactionallyUpdateDnsConfig.new(
+      generate_bind_config: -> { generate_bind_config.call },
+      verify_bind_config: verify_bind_config,
+      publish_bind_config: publish_bind_config,
+      deploy_dns_service: deploy_dns_service
+    )
   end
 end

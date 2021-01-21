@@ -14,17 +14,5 @@ module UseCases
     private
 
     attr_reader :kea_control_agent_gateway
-
-    class Result
-      attr_reader :error
-
-      def initialize(error = nil)
-        @error = error
-      end
-
-      def success?
-        error.nil?
-      end
-    end
   end
 end

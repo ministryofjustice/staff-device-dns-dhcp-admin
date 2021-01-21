@@ -28,7 +28,7 @@ describe "update zones", type: :feature do
 
     click_button "Update"
 
-    expect(current_path).to eq("/dns")
+    expect(page).to have_content("Successfully updated zone")
 
     expect(page).to have_content("test.example.com")
     expect(page).to have_content("127.0.0.2,127.0.0.1")
