@@ -326,7 +326,7 @@ describe UseCases::GenerateKeaConfig do
                  mode: "hot-standby",
                  "heartbeat-delay": 10000,
                  "max-response-delay": 60000,
-                 "max-ack-delay": 5000,
+                 "max-ack-delay": 10000,
                  "max-unacked-clients": 0,
                  peers:
                   [
