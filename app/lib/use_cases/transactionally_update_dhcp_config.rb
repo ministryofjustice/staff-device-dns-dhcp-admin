@@ -13,16 +13,19 @@ module UseCases
           config_verification_result = verify_kea_config.call(kea_config)
           if config_verification_result.success?
             publish_kea_config.call(kea_config)
-            return true
           else
             raise KeaConfigInvalidError.new(config_verification_result.error.message)
           end
         else
-          return false
+          raise OperationFailedError.new
         end
       end
+
+      return true
     rescue KeaConfigInvalidError => error
       record.errors.add(:base, error.message)
+      false
+    rescue OperationFailedError
       false
     end
 
@@ -33,5 +36,6 @@ module UseCases
       :publish_kea_config
 
     class KeaConfigInvalidError < StandardError; end
+    class OperationFailedError < StandardError; end
   end
 end

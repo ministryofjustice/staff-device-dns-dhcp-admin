@@ -15,16 +15,19 @@ module UseCases
           if config_verification_result.success?
             publish_bind_config.call(bind_config)
             deploy_dns_service.call
-            return true
           else
             raise BindConfigInvalidError.new(config_verification_result.error.message)
           end
         else
-          return false
+          raise OperationFailedError.new
         end
       end
+
+      return true
     rescue BindConfigInvalidError => error
       record.errors.add(:base, error.message)
+      false
+    rescue OperationFailedError
       false
     end
 
@@ -36,5 +39,6 @@ module UseCases
       :deploy_dns_service
 
     class BindConfigInvalidError < StandardError; end
+    class OperationFailedError < StandardError; end
   end
 end
