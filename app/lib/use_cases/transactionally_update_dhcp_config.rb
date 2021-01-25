@@ -21,7 +21,7 @@ module UseCases
         end
       end
 
-      return true
+      true
     rescue KeaConfigInvalidError => error
       record.errors.add(:base, error.message)
       false
@@ -36,6 +36,7 @@ module UseCases
       :publish_kea_config
 
     class KeaConfigInvalidError < StandardError; end
+
     class OperationFailedError < StandardError; end
   end
 end
