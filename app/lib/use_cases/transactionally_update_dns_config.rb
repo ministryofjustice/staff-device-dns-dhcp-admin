@@ -23,7 +23,7 @@ module UseCases
         end
       end
 
-      return true
+      true
     rescue BindConfigInvalidError => error
       record.errors.add(:base, error.message)
       false
@@ -39,6 +39,7 @@ module UseCases
       :deploy_dns_service
 
     class BindConfigInvalidError < StandardError; end
+
     class OperationFailedError < StandardError; end
   end
 end
