@@ -8,7 +8,7 @@ gem "mysql2", "~> 0.5.3"
 gem "puma", "~> 5.1"
 gem "sassc-rails"
 gem "sprockets", "~> 4.0.2"
-gem "jbuilder", "~> 2.10"
+gem "jbuilder", "~> 2.11"
 gem "bootsnap", ">= 1.4.2", require: false
 gem "tzinfo-data"
 gem "devise"
