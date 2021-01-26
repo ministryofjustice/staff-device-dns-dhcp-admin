@@ -28,7 +28,7 @@
           <td class="govuk-table__cell"><%= zone.purpose %></td>
           <% if can? :manage, Subnet %>
             <td class="govuk-table__cell">
-              <%= link_to "Edit", edit_zone_path(zone), class: "govuk-link" %>
+              <%= link_to "Manage", edit_zone_path(zone), class: "govuk-link" %>
               <%= link_to "Delete", zone_path(zone), class:"govuk-link", method: :delete %>
             </td>
           <% end %>

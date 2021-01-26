@@ -16,7 +16,7 @@ describe "update zones", type: :feature do
   it "update an existing zone" do
     visit "/dns"
 
-    click_on "Edit"
+    click_on "Manage"
 
     expect(page).to have_field("Domain name", with: zone.name)
     expect(page).to have_field("Forwarders", with: zone.forwarders.join(","))
