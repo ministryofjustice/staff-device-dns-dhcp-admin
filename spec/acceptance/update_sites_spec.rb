@@ -40,9 +40,9 @@ describe "update sites", type: :feature do
     end
 
     it "update an existing site" do
-      visit "/dhcp"
+      visit "/sites/#{site.id}"
 
-      click_on "Edit"
+      first(:link, "Change").click
 
       expect(page).to have_field("FITS id", with: site.fits_id)
       expect(page).to have_field("Name", with: site.name)
@@ -55,7 +55,7 @@ describe "update sites", type: :feature do
 
       click_on "Update"
 
-      expect(current_path).to eq("/dhcp")
+      expect(current_path).to eq("/sites/#{site.id}")
 
       expect(page).to have_content("MYFITS202")
       expect(page).to have_content("My Manchester Site")
