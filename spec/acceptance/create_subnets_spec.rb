@@ -25,12 +25,12 @@ describe "create subnets", type: :feature do
 
     click_button "Create"
 
-    expect(current_path).to eq("/sites/#{site.to_param}")
+    expect(current_path).to eq("/subnets/#{site.subnets.first.to_param}")
 
     expect(page).to have_content("10.0.1.0/24")
     expect(page).to have_content("10.0.1.1")
     expect(page).to have_content("10.0.1.255")
-    expect(page).to have_content("10.0.1.0,10.0.1.2")
+    expect(page).to have_content("10.0.1.0, 10.0.1.2")
 
     expect_audit_log_entry_for(editor.email, "create", "Subnet")
   end

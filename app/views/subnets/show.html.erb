@@ -4,21 +4,41 @@
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">CIDR block</dt>
     <dd class="govuk-summary-list__value"><%= @subnet.cidr_block %></dd>
+    <dd class="govuk-summary-list__actions">
+      <%= link_to edit_subnet_path(@subnet), class: "govuk-link" do %>
+        Change<span class="govuk-visually-hidden"> CIDR block</span>
+      <% end %>
+    </dd>
   </div>
 
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">Start address</dt>
     <dd class="govuk-summary-list__value"><%= @subnet.start_address %></dd>
+    <dd class="govuk-summary-list__actions">
+      <%= link_to edit_subnet_path(@subnet), class: "govuk-link" do %>
+        Change<span class="govuk-visually-hidden"> start address</span>
+      <% end %>
+    </dd>
   </div>
 
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">End address</dt>
     <dd class="govuk-summary-list__value"><%= @subnet.end_address %></dd>
+    <dd class="govuk-summary-list__actions">
+      <%= link_to edit_subnet_path(@subnet), class: "govuk-link" do %>
+        Change<span class="govuk-visually-hidden"> end address</span>
+      <% end %>
+    </dd>
   </div>
 
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">Routers</dt>
     <dd class="govuk-summary-list__value"><%= @subnet.routers.join(", ") %></dd>
+    <dd class="govuk-summary-list__actions">
+      <%= link_to edit_subnet_path(@subnet), class: "govuk-link" do %>
+        Change<span class="govuk-visually-hidden"> routers</span>
+      <% end %>
+    </dd>
   </div>
 </dl>
 
