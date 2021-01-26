@@ -1,6 +1,9 @@
 module UseCases
   class GenerateKeaConfig
     DEFAULT_VALID_LIFETIME_SECONDS = 4000
+    SECONDS_IN_A_DAY = 86400
+    SECONDS_IN_AN_HOUR = 3600
+    SECONDS_IN_A_MINUTE = 60
 
     def initialize(subnets: [], global_option: nil, client_classes: [])
       @subnets = subnets
@@ -69,14 +72,27 @@ module UseCases
       return {} if @global_option.valid_lifetime.blank?
 
       {
-        "valid-lifetime": @global_option.valid_lifetime
+        "valid-lifetime": calculate_valid_lifetime(@global_option.valid_lifetime,@global_option.valid_lifetime_unit)
       }
     end
 
     def subnet_valid_lifetime_config(option)
       return {} if option&.valid_lifetime.blank?
 
-      {"valid-lifetime": option.valid_lifetime}
+      {"valid-lifetime": calculate_valid_lifetime(option.valid_lifetime,option.valid_lifetime_unit)}
+    end
+
+    def calculate_valid_lifetime(valid_lifetime,unit)
+      case unit
+      when "Days"
+        valid_lifetime * SECONDS_IN_A_DAY
+      when "Hours"
+        valid_lifetime * SECONDS_IN_AN_HOUR
+      when "Minutes"
+        valid_lifetime * SECONDS_IN_A_MINUTE
+      else
+        valid_lifetime
+      end
     end
 
     def client_class_config

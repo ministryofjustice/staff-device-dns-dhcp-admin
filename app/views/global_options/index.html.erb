@@ -28,6 +28,9 @@
         </dt>
         <dd class="govuk-summary-list__value">
           <%= @global_option.valid_lifetime %>
+          <% if @global_option.valid_lifetime.present? %>
+          <%= @global_option.valid_lifetime > 1 ? @global_option.valid_lifetime_unit.downcase : @global_option.valid_lifetime_unit&.downcase.delete_suffix('s') %>
+          <% end %>
         </dd>
       </div>
     </dl>

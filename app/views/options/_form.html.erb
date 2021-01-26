@@ -21,9 +21,10 @@
   <div class="govuk-form-group <%= field_error(f.object, :valid_lifetime) %>">
     <%= f.label :valid_lifetime, class: "govuk-label" %>
     <div id="options_valid_lifetime-hint" class="govuk-hint">
-      How long the addresses (leases) given out by the server for this subnet are valid for in seconds
+      How long the addresses (leases) given out by the server for this subnet are valid for
     </div>
-    <%= f.text_field :valid_lifetime, class: "govuk-input" %>
+    <%= f.text_field :valid_lifetime, class: "govuk-input govuk-!-width-one-half" %>
+    <%= f.select( :valid_lifetime_unit, option.valid_lifetime_unit_options, {}, {class: "govuk-select govuk-!-width-one-third"}) %>
   </div>
 
   <%= f.submit f.object.new_record? ? "Create" : "Update", {

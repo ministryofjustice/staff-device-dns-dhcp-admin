@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "delete gobal options", type: :feature do
+describe "delete global options", type: :feature do
   let(:editor) { create(:user, :editor) }
 
   before do

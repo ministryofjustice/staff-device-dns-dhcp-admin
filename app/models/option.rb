@@ -1,5 +1,6 @@
 class Option < ApplicationRecord
   INVALID_IPV4_LIST_MESSAGE = "contains an invalid IPv4 address or is not separated using commas"
+  VALID_LIFETIME_UNIT_OPTIONS = ['Seconds','Minutes','Hours','Days']
 
   belongs_to :subnet
 
@@ -8,6 +9,7 @@ class Option < ApplicationRecord
   validates :valid_lifetime, numericality: {greater_than_or_equal_to: 0, only_integer: true},
                              allow_nil: true
   validates :domain_name, domain_name: true
+  validates :valid_lifetime_unit, inclusion: { in: VALID_LIFETIME_UNIT_OPTIONS, message: "%{value} is not valid", allow_blank: true }
 
   validate :at_least_one_option
 
@@ -18,6 +20,10 @@ class Option < ApplicationRecord
   def domain_name_servers
     return [] unless self[:domain_name_servers]
     self[:domain_name_servers].split(",")
+  end
+
+  def valid_lifetime_unit_options
+    return VALID_LIFETIME_UNIT_OPTIONS
   end
 
   private

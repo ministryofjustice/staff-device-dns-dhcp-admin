@@ -1,10 +1,12 @@
 class GlobalOption < ApplicationRecord
+  VALID_LIFETIME_UNIT_OPTIONS = ['Seconds','Minutes','Hours','Days']
   validates :domain_name_servers,
     presence: {message: "must contain at least one IPv4 address separated using commas"},
     ipv4_list: {message: "contains an invalid IPv4 address or is not separated using commas"}
   validates :domain_name, presence: true, domain_name: true
   validates :valid_lifetime, numericality: {greater_than_or_equal_to: 0, only_integer: true},
                              allow_nil: true
+  validates :valid_lifetime_unit, inclusion: { in: VALID_LIFETIME_UNIT_OPTIONS, message: "%{value} is not valid", allow_blank: true }
 
   validate :only_one_record
 
@@ -15,6 +17,10 @@ class GlobalOption < ApplicationRecord
   def domain_name_servers
     return [] unless self[:domain_name_servers]
     self[:domain_name_servers].split(",")
+  end
+
+  def valid_lifetime_unit_options
+    return VALID_LIFETIME_UNIT_OPTIONS
   end
 
   private
