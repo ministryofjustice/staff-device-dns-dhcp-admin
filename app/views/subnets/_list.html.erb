@@ -24,10 +24,11 @@
         <td class="govuk-table__cell"><%= subnet.routers.join(",") %></td>
         <% if !hide_actions %>
           <td class="govuk-table__cell">
-            <%= link_to "View", subnet_path(subnet), class: "govuk-link" %>
             <% if can?(:manage, Subnet) %>
-              <%= link_to "Edit", edit_subnet_path(subnet), class: "govuk-link" %>
+              <%= link_to "Manage", subnet_path(subnet), class: "govuk-link" %>
               <%= link_to "Delete", subnet_path(subnet), class: "govuk-link", method: :delete %>
+            <% else %>
+              <%= link_to "View", subnet_path(subnet), class: "govuk-link" %>
             <% end %>
           </td>
         <% end %>

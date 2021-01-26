@@ -12,7 +12,7 @@ class SubnetsController < ApplicationController
     authorize! :create, @subnet
 
     if update_dhcp_config.call(@subnet, -> { @subnet.save })
-      redirect_to @site, notice: "Successfully created subnet." + CONFIG_UPDATE_DELAY_NOTICE
+      redirect_to @subnet, notice: "Successfully created subnet." + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :new
     end
@@ -30,7 +30,7 @@ class SubnetsController < ApplicationController
     @subnet.assign_attributes(subnet_params)
 
     if update_dhcp_config.call(@subnet, -> { @subnet.save })
-      redirect_to @subnet.site, notice: "Successfully updated subnet." + CONFIG_UPDATE_DELAY_NOTICE
+      redirect_to @subnet, notice: "Successfully updated subnet." + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :edit
     end
