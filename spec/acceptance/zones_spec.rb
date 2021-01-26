@@ -37,7 +37,7 @@ describe "GET /zones", type: :feature do
       visit "/dns"
 
       expect(page).to have_content "Create a new zone"
-      expect(page).to have_content "Edit"
+      expect(page).to have_content "Manage"
       expect(page).to have_content "Delete"
     end
   end
