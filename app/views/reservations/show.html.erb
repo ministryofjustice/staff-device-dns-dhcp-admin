@@ -4,16 +4,31 @@
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">HW address</dt>
     <dd class="govuk-summary-list__value"><%= @reservation.hw_address %></dd>
+    <dd class="govuk-summary-list__actions">
+      <%= link_to edit_reservation_path(@reservation), class: "govuk-link" do %>
+        Change<span class="govuk-visually-hidden"> hardware address</span>
+      <% end %>
+    </dd>
   </div>
 
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">IP address</dt>
     <dd class="govuk-summary-list__value"><%= @reservation.ip_address %></dd>
+    <dd class="govuk-summary-list__actions">
+      <%= link_to edit_reservation_path(@reservation), class: "govuk-link" do %>
+        Change<span class="govuk-visually-hidden"> IP address</span>
+      <% end %>
+    </dd>
   </div>
 
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">Hostname</dt>
     <dd class="govuk-summary-list__value"><%= @reservation.hostname %></dd>
+    <dd class="govuk-summary-list__actions">
+      <%= link_to edit_reservation_path(@reservation), class: "govuk-link" do %>
+        Change<span class="govuk-visually-hidden"> hostname</span>
+      <% end %>
+    </dd>
   </div>
 </dl>
     <h3 class="govuk-heading-m">Options</h3>
@@ -33,12 +48,11 @@
       <td class="govuk-table__cell"><%= @reservation.reservation_option.routers.join(",") %></td>
       <td class="govuk-table__cell"><%= @reservation.reservation_option.domain_name %></td>
       <td class="govuk-table__cell">
-            <% if can?(:manage, ReservationOption) %>
-              <%= link_to "Edit", edit_reservation_option_path(@reservation.reservation_option), class: "govuk-link" %>
-              <%= link_to "Delete", reservation_option_path(@reservation.reservation_option), class: "govuk-link", method: :delete %>
-            <% end %>
-          </td>
+        <% if can?(:manage, ReservationOption) %>
+          <%= link_to "Manage", edit_reservation_option_path(@reservation.reservation_option), class: "govuk-link" %>
+          <%= link_to "Delete", reservation_option_path(@reservation.reservation_option), class: "govuk-link", method: :delete %>
+        <% end %>
+      </td>
     </tr>
     <% end %>
     </table>
-

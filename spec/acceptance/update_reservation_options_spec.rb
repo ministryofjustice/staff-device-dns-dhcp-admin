@@ -44,7 +44,7 @@ describe "update reservation options", type: :feature do
       visit "/reservations/#{reservation.to_param}"
 
       expect(page).not_to have_content("Create reservation options")
-      click_on "Edit"
+      click_on "Manage"
 
       expect(page).to have_field("Routers", with: reservation_option.routers.join(","))
       expect(page).to have_field("Domain name", with: reservation_option.domain_name)
