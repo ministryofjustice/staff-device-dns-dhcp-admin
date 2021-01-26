@@ -41,9 +41,8 @@ describe "update reservations", type: :feature do
     end
 
     it "edits an existing reservation" do
-      visit "/subnets/#{subnet.to_param}"
-
-      click_on "Edit"
+      visit "/reservations/#{reservation.id}"
+      first(:link, "Change").click
 
       expect(page).to have_field("HW address", with: reservation.hw_address)
       expect(page).to have_field("IP address", with: reservation.ip_address)
