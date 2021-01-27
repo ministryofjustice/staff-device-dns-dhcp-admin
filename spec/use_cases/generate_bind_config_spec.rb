@@ -20,6 +20,9 @@ options {
 
   pid-file "/var/run/named/named.pid";
 
+  dnssec-enable no;
+  dnssec-validation no;
+
   allow-transfer { none; };
   allow-query { any; };
 };
