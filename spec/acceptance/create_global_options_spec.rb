@@ -41,7 +41,7 @@ describe "create global options", type: :feature do
       fill_in "Domain name", with: "test.example.com"
       fill_in "Valid lifetime", with: 12345
       select "Minutes", from: "global_option[valid_lifetime_unit]"
-      
+
       expect_config_to_be_verified
       expect_config_to_be_published
 

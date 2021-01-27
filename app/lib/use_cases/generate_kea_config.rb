@@ -72,17 +72,17 @@ module UseCases
       return {} if @global_option.valid_lifetime.blank?
 
       {
-        "valid-lifetime": calculate_valid_lifetime(@global_option.valid_lifetime,@global_option.valid_lifetime_unit)
+        "valid-lifetime": calculate_valid_lifetime(@global_option.valid_lifetime, @global_option.valid_lifetime_unit)
       }
     end
 
     def subnet_valid_lifetime_config(option)
       return {} if option&.valid_lifetime.blank?
 
-      {"valid-lifetime": calculate_valid_lifetime(option.valid_lifetime,option.valid_lifetime_unit)}
+      {"valid-lifetime": calculate_valid_lifetime(option.valid_lifetime, option.valid_lifetime_unit)}
     end
 
-    def calculate_valid_lifetime(valid_lifetime,unit)
+    def calculate_valid_lifetime(valid_lifetime, unit)
       case unit
       when "Days"
         valid_lifetime * SECONDS_IN_A_DAY
