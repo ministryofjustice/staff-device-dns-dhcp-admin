@@ -26,10 +26,11 @@
           <td class="govuk-table__cell"><%= client_class.domain_name_servers.join(",") %></td>
           <td class="govuk-table__cell"><%= client_class.domain_name %></td>
           <td class="govuk-table__cell">
-            <%= link_to "View", client_class_path(client_class), class: "govuk-link" %>
             <% if can?(:manage, client_class) %>
-              <%= link_to "Edit", edit_client_class_path(client_class), class: "govuk-link" %>
+              <%= link_to "Manage", edit_client_class_path(client_class), class: "govuk-link" %>
               <%= link_to "Delete", client_class_path(client_class), class: "govuk-link", method: :delete %>
+            <% else %>
+              <%= link_to "View", client_class_path(client_class), class: "govuk-link" %>
             <% end %>
           </td>
         </tr>

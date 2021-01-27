@@ -42,7 +42,7 @@ describe "update client class", type: :feature do
     it "edits an existing client class" do
       visit "/client-classes"
 
-      click_on "Edit"
+      click_on "Manage"
 
       expect(page).to have_field("Name", with: client_class.name)
       expect(page).to have_field("Client id", with: client_class.client_id)
