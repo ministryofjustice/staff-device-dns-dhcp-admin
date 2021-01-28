@@ -1,3 +1,5 @@
+<%= render "layouts/breadcrumbs", crumbs: [["Home", root_path], ["DHCP", dhcp_path], ["Site", @reservation.subnet.site], ["Subnet", @reservation.subnet]] %>
+
 <h2 class="govuk-heading-l">Reservation</h2>
 
 <dl class="govuk-summary-list">
