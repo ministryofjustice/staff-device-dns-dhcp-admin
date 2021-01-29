@@ -2,6 +2,8 @@
   <h2 class="govuk-heading-l">Global Options</h2>
 
   <% if @global_option %>
+    <% presenter = present(@global_option) %>
+
     <dl class="govuk-summary-list">
 
       <div class="govuk-summary-list__row">
@@ -28,9 +30,7 @@
         </dt>
         <dd class="govuk-summary-list__value">
           <%= @global_option.valid_lifetime %>
-          <% if @global_option.valid_lifetime.present? %>
-          <%= @global_option.valid_lifetime > 1 ? @global_option.valid_lifetime_unit.downcase : @global_option.valid_lifetime_unit&.downcase.delete_suffix('s') %>
-          <% end %>
+          <%= presenter.display_valid_lifetime %>
         </dd>
       </div>
     </dl>

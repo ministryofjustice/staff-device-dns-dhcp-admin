@@ -3,5 +3,6 @@ FactoryBot.define do
     subnet
     domain_name_servers { "12.0.4.1,12.0.4.5" }
     domain_name { "www.examgitple.com" }
+    valid_lifetime_unit { "Seconds" }
   end
 end

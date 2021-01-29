@@ -1,3 +1,5 @@
+<% presenter = present(@subnet) %>
+
 <dl class="govuk-summary-list">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">
@@ -23,9 +25,7 @@
     </dt>
     <dd class="govuk-summary-list__value">
       <%= @subnet.valid_lifetime %>
-      <% if @subnet.valid_lifetime.present? %>
-      <%= @subnet.valid_lifetime > 1 ? @subnet.valid_lifetime_unit.downcase : @subnet.valid_lifetime_unit&.downcase.delete_suffix('s') %>
-      <% end %>
+      <%= presenter.display_valid_lifetime %>
     </dd>
   </div>
 </dl>

@@ -156,6 +156,13 @@ describe UseCases::GenerateKeaConfig do
       expect(config.dig(:Dhcp4, :"valid-lifetime")).to eq 300
     end
 
+    it "sets the valid-lifetime of 250 seconds using the global option valid lifetime" do
+      global_option = build_stubbed(:global_option, valid_lifetime: 250, valid_lifetime_unit: "Seconds")
+      config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: global_option).call
+
+      expect(config.dig(:Dhcp4, :"valid-lifetime")).to eq 250
+    end
+
     it "does not set the valid lifetime for a subnet if the subnet option is not set" do
       subnet = build_stubbed(:subnet, option: nil)
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet]).call
