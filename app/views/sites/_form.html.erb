@@ -17,7 +17,7 @@
     "data-module" => "govuk-button"
   } %>
 
-  <%= link_to "Cancel", dhcp_path,
+  <%= link_to "Cancel", f.object.new_record? ? dhcp_path : @site,
   class: "govuk-button govuk-button--secondary",
   data: {
     module: "govuk-button"
