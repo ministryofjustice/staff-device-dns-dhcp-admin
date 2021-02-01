@@ -6,6 +6,10 @@ class GlobalOptionPresenter < BasePresenter
   def display_valid_lifetime
     return if record.valid_lifetime.blank?
 
-    record.valid_lifetime > 1 ? record.valid_lifetime_unit&.downcase : record.valid_lifetime_unit&.downcase&.delete_suffix("s")
+    if record.valid_lifetime > 1
+      "#{record.valid_lifetime} #{record.valid_lifetime_unit&.downcase}"
+    else
+      "#{record.valid_lifetime} #{record.valid_lifetime_unit&.downcase&.delete_suffix("s")}"
+    end
   end
 end
