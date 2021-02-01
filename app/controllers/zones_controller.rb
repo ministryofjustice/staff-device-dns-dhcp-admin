@@ -3,6 +3,7 @@ class ZonesController < ApplicationController
 
   def index
     @zones = Zone.select(:id, :name, :forwarders, :purpose).all
+    @navigation_crumbs = [["Home", root_path]]
   end
 
   def new

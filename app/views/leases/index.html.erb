@@ -1,5 +1,3 @@
-<%= render "layouts/breadcrumbs", crumbs: [["Home", root_path], ["DHCP", dhcp_path], ["Site", @subnet.site], ["Subnet", @subnet]] %>
-
 <table class="govuk-table">
   <caption class="govuk-table__caption">Leases for <%= @subnet.cidr_block %></caption>
   <thead class="govuk-table__head">

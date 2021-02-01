@@ -5,5 +5,6 @@ class LeasesController < ApplicationController
       gateway: kea_control_agent_gateway,
       subnet_kea_id: @subnet.kea_id
     ).call
+    @navigation_crumbs = [["Home", root_path], ["DHCP", dhcp_path], ["Site", @subnet.site], ["Subnet", @subnet]]
   end
 end

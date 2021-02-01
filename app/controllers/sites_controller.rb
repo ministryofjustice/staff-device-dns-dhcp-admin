@@ -3,10 +3,12 @@ class SitesController < ApplicationController
 
   def index
     @sites = Site.order(:fits_id).all
+    @navigation_crumbs = [["Home", root_path]]
   end
 
   def show
     @subnets = @site.subnets.sort_by(&:ip_addr)
+    @navigation_crumbs = [["Home", root_path], ["DHCP", dhcp_path]]
   end
 
   def new
