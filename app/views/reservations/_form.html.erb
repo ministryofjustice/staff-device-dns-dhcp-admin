@@ -36,7 +36,7 @@
     "data-module" => "govuk-button"
   } %>
 
-  <%= link_to "Cancel", subnet_path(reservation.subnet),
+  <%= link_to "Cancel", f.object.new_record? ? subnet_path(reservation.subnet) : reservation,
   class: "govuk-button govuk-button--secondary",
   data: {
     module: "govuk-button"
