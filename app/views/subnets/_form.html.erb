@@ -22,7 +22,7 @@
     </div>
     <%= f.text_field :end_address, class: "govuk-input" %>
   </div>
-  
+
   <div class="govuk-form-group <%= field_error(f.object, :routers )%>">
     <%= f.label :routers, class: "govuk-label" %>
     <div id="options_routers-hint" class="govuk-hint">
@@ -36,7 +36,7 @@
     "data-module" => "govuk-button"
   } %>
 
-  <%= link_to "Cancel", site_path(subnet.site),
+  <%= link_to "Cancel", f.object.new_record? ? site_path(subnet.site) : subnet,
   class: "govuk-button govuk-button--secondary",
   data: {
     module: "govuk-button"
