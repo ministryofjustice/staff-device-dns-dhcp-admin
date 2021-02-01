@@ -54,7 +54,7 @@ class GlobalOptionsController < ApplicationController
   end
 
   def global_option_params
-    params.require(:global_option).permit(:domain_name_servers, :domain_name, :valid_lifetime)
+    params.require(:global_option).permit(:domain_name_servers, :domain_name, :valid_lifetime, :valid_lifetime_unit)
   end
 
   def confirmed?

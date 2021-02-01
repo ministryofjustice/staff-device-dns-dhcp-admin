@@ -61,7 +61,7 @@ class OptionsController < ApplicationController
   end
 
   def option_params
-    params.require(:option).permit(:domain_name_servers, :domain_name, :valid_lifetime)
+    params.require(:option).permit(:domain_name_servers, :domain_name, :valid_lifetime, :valid_lifetime_unit)
   end
 
   def confirmed?

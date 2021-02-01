@@ -40,6 +40,7 @@ describe "create global options", type: :feature do
       fill_in "Domain name servers", with: "10.0.2.1,10.0.2.2"
       fill_in "Domain name", with: "test.example.com"
       fill_in "Valid lifetime", with: 12345
+      select "Minutes", from: "global_option[valid_lifetime_unit]"
 
       expect_config_to_be_verified
       expect_config_to_be_published
@@ -50,7 +51,27 @@ describe "create global options", type: :feature do
       expect(page).to have_content("This could take up to 10 minutes to apply.")
       expect(page).to have_content("10.0.2.1,10.0.2.2")
       expect(page).to have_content("test.example.com")
-      expect(page).to have_content("12345")
+      expect(page).to have_content("12345 minutes")
+
+      expect_audit_log_entry_for(editor.email, "create", "Global option")
+    end
+
+    it "Edit global options to have a valid lifetime of 1 hour" do
+      visit "/global-options"
+
+      click_on "Create global options"
+
+      fill_in "Domain name servers", with: "10.0.2.10,10.0.2.20"
+      fill_in "Domain name", with: "test2.example.com"
+      fill_in "Valid lifetime", with: 1
+      select "Hours", from: "global_option[valid_lifetime_unit]"
+
+      expect_config_to_be_verified
+      expect_config_to_be_published
+
+      click_on "Create"
+
+      expect(page).to have_content("1 hour")
 
       expect_audit_log_entry_for(editor.email, "create", "Global option")
     end

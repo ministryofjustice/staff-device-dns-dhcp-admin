@@ -24,6 +24,7 @@ class Subnet < ApplicationRecord
   delegate :domain_name_servers,
     :domain_name,
     :valid_lifetime,
+    :valid_lifetime_unit,
     to: :option,
     allow_nil: true
 

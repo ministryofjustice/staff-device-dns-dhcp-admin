@@ -128,11 +128,39 @@ describe UseCases::GenerateKeaConfig do
       expect(config.dig(:Dhcp4, :"valid-lifetime")).to eq 4000
     end
 
-    it "sets the valid-lifetime using the global option valid lifetime" do
+    it "sets the valid-lifetime using the global option valid lifetime and valid lifetime unit defaults to seconds" do
       global_option = build_stubbed(:global_option, valid_lifetime: 600)
       config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: global_option).call
 
       expect(config.dig(:Dhcp4, :"valid-lifetime")).to eq 600
+    end
+
+    it "sets the valid-lifetime of 1 day using the global option valid lifetime" do
+      global_option = build_stubbed(:global_option, valid_lifetime: 1, valid_lifetime_unit: "Days")
+      config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: global_option).call
+
+      expect(config.dig(:Dhcp4, :"valid-lifetime")).to eq 86400
+    end
+
+    it "sets the valid-lifetime of 3 hours using the global option valid lifetime" do
+      global_option = build_stubbed(:global_option, valid_lifetime: 3, valid_lifetime_unit: "Hours")
+      config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: global_option).call
+
+      expect(config.dig(:Dhcp4, :"valid-lifetime")).to eq 10800
+    end
+
+    it "sets the valid-lifetime of 5 minutes using the global option valid lifetime" do
+      global_option = build_stubbed(:global_option, valid_lifetime: 5, valid_lifetime_unit: "Minutes")
+      config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: global_option).call
+
+      expect(config.dig(:Dhcp4, :"valid-lifetime")).to eq 300
+    end
+
+    it "sets the valid-lifetime of 250 seconds using the global option valid lifetime" do
+      global_option = build_stubbed(:global_option, valid_lifetime: 250, valid_lifetime_unit: "Seconds")
+      config = UseCases::GenerateKeaConfig.new(subnets: [], global_option: global_option).call
+
+      expect(config.dig(:Dhcp4, :"valid-lifetime")).to eq 250
     end
 
     it "does not set the valid lifetime for a subnet if the subnet option is not set" do

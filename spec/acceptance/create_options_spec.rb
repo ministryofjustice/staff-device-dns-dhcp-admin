@@ -47,6 +47,7 @@ describe "create options", type: :feature do
       fill_in "Domain name servers", with: "10.0.2.1,10.0.2.2"
       fill_in "Domain name", with: "test.example.com"
       fill_in "Valid lifetime", with: "12345"
+      select "Seconds", from: "option[valid_lifetime_unit]"
 
       expect_config_to_be_verified
       expect_config_to_be_published
@@ -57,7 +58,28 @@ describe "create options", type: :feature do
       expect(page).to have_content("This could take up to 10 minutes to apply.")
       expect(page).to have_content("10.0.2.1,10.0.2.2")
       expect(page).to have_content("test.example.com")
-      expect(page).to have_content("12345")
+      expect(page).to have_content("12345 seconds")
+
+      expect_audit_log_entry_for(editor.email, "create", "Option")
+    end
+
+    it "edit subnet option to have a valid lifetime of 1 day" do
+      visit "/subnets/#{subnet.to_param}"
+
+      expect(page).not_to have_content("Edit options")
+      click_on "Create options"
+
+      fill_in "Domain name servers", with: "10.0.2.1,10.0.2.2"
+      fill_in "Domain name", with: "test.example.com"
+      fill_in "Valid lifetime", with: "1"
+      select "Days", from: "option[valid_lifetime_unit]"
+
+      expect_config_to_be_verified
+      expect_config_to_be_published
+
+      click_on "Create"
+
+      expect(page).to have_content("1 day")
 
       expect_audit_log_entry_for(editor.email, "create", "Option")
     end
