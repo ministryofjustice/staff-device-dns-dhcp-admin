@@ -13,4 +13,8 @@ module ApplicationHelper
     presenter = "#{model.class}Presenter".constantize
     presenter.new(model)
   end
+
+  def navigation_crumbs
+    @navigation_crumbs ||= []
+  end
 end

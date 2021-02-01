@@ -19,6 +19,7 @@ class ReservationsController < ApplicationController
   end
 
   def show
+    @navigation_crumbs = [["Home", root_path], ["DHCP", dhcp_path], ["Site", @reservation.subnet.site], ["Subnet", @reservation.subnet]]
   end
 
   def edit

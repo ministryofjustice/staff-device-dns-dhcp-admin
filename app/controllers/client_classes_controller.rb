@@ -3,6 +3,7 @@ class ClientClassesController < ApplicationController
 
   def index
     @client_classes = ClientClass.order(:name).all
+    @navigation_crumbs = [["Home", root_path], ["DHCP", dhcp_path]]
   end
 
   def show

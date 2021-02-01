@@ -19,6 +19,7 @@ class SubnetsController < ApplicationController
   end
 
   def show
+    @navigation_crumbs = [["Home", root_path], ["DHCP", dhcp_path], ["Site", @subnet.site]]
   end
 
   def edit

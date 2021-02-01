@@ -3,6 +3,7 @@ class GlobalOptionsController < ApplicationController
 
   def index
     @global_option = GlobalOption.first
+    @navigation_crumbs = [["Home", root_path], ["DHCP", dhcp_path]]
   end
 
   def new
