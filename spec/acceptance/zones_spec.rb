@@ -12,7 +12,7 @@ describe "GET /zones", type: :feature do
 
       visit "/dns"
       expect(page).to have_content zone.name
-      expect(page).to have_content zone.forwarders.join(",")
+      expect(page).to have_content zone.forwarders.join(" ")
       expect(page).to have_content zone.purpose
 
       expect(page).to have_content zone2.name

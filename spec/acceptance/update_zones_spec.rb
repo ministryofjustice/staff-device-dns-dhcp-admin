@@ -31,7 +31,7 @@ describe "update zones", type: :feature do
     expect(page).to have_content("Successfully updated zone")
 
     expect(page).to have_content("test.example.com")
-    expect(page).to have_content("127.0.0.2,127.0.0.1")
+    expect(page).to have_content("127.0.0.2 127.0.0.1")
     expect(page).to have_content("UI Testing for Updating")
 
     expect_audit_log_entry_for(editor.email, "update", "Zone")
