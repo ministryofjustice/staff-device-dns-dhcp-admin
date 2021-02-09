@@ -78,17 +78,6 @@ ENV=test make shell
 bundle exec rspec path/to/spec/file
 ```
 
-### Environment Variables
-
-The following environment variables must be added to `.env` to authenticate against AWS Cognito.
-
-```
-COGNITO_CLIENT_ID
-COGNITO_CLIENT_SECRET
-COGNITO_USER_POOL_SITE
-COGNITO_USER_POOL_ID
-```
-
 ## Scripts
 
 There are two utility scripts in the `./scripts` directory to:
