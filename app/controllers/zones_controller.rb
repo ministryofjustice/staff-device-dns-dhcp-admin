@@ -1,6 +1,8 @@
 class ZonesController < ApplicationController
   before_action :set_zone, only: [:edit, :update, :destroy]
 
+  add_breadcrumb "Home", :root_path
+  
   def index
     @zones = Zone.select(:id, :name, :forwarders, :purpose).all
     @navigation_crumbs = [["Home", root_path]]
@@ -9,6 +11,7 @@ class ZonesController < ApplicationController
   def new
     @zone = Zone.new
     authorize! :create, @zone
+    add_breadcrumb "DNS", dns_path
   end
 
   def create
@@ -24,6 +27,7 @@ class ZonesController < ApplicationController
 
   def edit
     authorize! :update, @zone
+    add_breadcrumb "DNS", dns_path
   end
 
   def update
@@ -46,6 +50,7 @@ class ZonesController < ApplicationController
         redirect_to dns_path, error: "Failed to delete the zone"
       end
     end
+    add_breadcrumb "DNS", dns_path
   end
 
   private

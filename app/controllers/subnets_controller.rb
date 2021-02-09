@@ -2,9 +2,13 @@ class SubnetsController < ApplicationController
   before_action :set_site, only: [:new, :create]
   before_action :set_subnet, only: [:show, :edit, :update, :destroy]
 
+  add_breadcrumb "Home", :root_path
+  add_breadcrumb "DHCP", :dhcp_path
+
   def new
     @subnet = @site.subnets.build
     authorize! :create, @subnet
+    add_breadcrumb "Site #{@site.name}", @site
   end
 
   def create
@@ -19,11 +23,12 @@ class SubnetsController < ApplicationController
   end
 
   def show
-    @navigation_crumbs = [["Home", root_path], ["DHCP", dhcp_path], ["Site", @subnet.site]]
+    add_breadcrumb "Site #{@subnet.site.name}", @subnet.site
   end
 
   def edit
     authorize! :update, @subnet
+    add_breadcrumb "Site #{@subnet.site.name}", @subnet.site
   end
 
   def update
@@ -39,6 +44,7 @@ class SubnetsController < ApplicationController
 
   def destroy
     authorize! :destroy, @subnet
+    add_breadcrumb "Site #{@subnet.site.name}", @subnet.site
     if confirmed?
       if update_dhcp_config.call(@subnet, -> { @subnet.destroy })
         redirect_to @subnet.site, notice: "Successfully deleted subnet." + CONFIG_UPDATE_DELAY_NOTICE

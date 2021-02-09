@@ -7,16 +7,18 @@
 
 set -euo pipefail
 
-assume_deploy_role() {
-  TEMP_ROLE=`aws sts assume-role --role-arn $ROLE_ARN --role-session-name ci-dhcp-deploy-$CODEBUILD_BUILD_NUMBER`
-  export AWS_ACCESS_KEY_ID=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.AccessKeyId')
-  export AWS_SECRET_ACCESS_KEY=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SecretAccessKey')
-  export AWS_SESSION_TOKEN=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SessionToken')
-}
+# assume_deploy_role() {
+#   TEMP_ROLE=`aws sts assume-role --role-arn $ROLE_ARN --role-session-name ci-dhcp-deploy-$CODEBUILD_BUILD_NUMBER`
+#   export AWS_ACCESS_KEY_ID=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.AccessKeyId')
+#   export AWS_SECRET_ACCESS_KEY=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SecretAccessKey')
+#   export AWS_SESSION_TOKEN=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SessionToken')
+# }
 
 deploy() {
   cluster_name=$( jq -r '.admin.ecs.cluster_name' <<< "${DHCP_DNS_TERRAFORM_OUTPUTS}" )
   service_name=$( jq -r '.admin.ecs.service_name' <<< "${DHCP_DNS_TERRAFORM_OUTPUTS}" )
+  cluster_name="staff-device-ti-dhcp-admin-cluster"
+  service_name="staff-device-ti-dhcp-admin"
 
   aws ecs update-service \
     --cluster $cluster_name \
@@ -25,7 +27,7 @@ deploy() {
 }
 
 main() {
-  assume_deploy_role
+  # assume_deploy_role
   deploy
 }
 

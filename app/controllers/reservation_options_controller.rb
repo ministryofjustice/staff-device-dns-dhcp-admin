@@ -2,9 +2,15 @@ class ReservationOptionsController < ApplicationController
   before_action :set_reservation, except: [:edit, :update, :destroy]
   before_action :set_reservation_option, only: [:edit, :update, :destroy]
 
+  add_breadcrumb "Home", :root_path
+  add_breadcrumb "DHCP", :dhcp_path
+
   def new
     @reservation_option = @reservation.build_reservation_option
     authorize! :create, @reservation_option
+    add_breadcrumb "Site #{@reservation.subnet.site.name}", @reservation.subnet.site
+    add_breadcrumb "Subnet #{@reservation.subnet.cidr_block}", @reservation.subnet
+    add_breadcrumb "Reservation #{@reservation.ip_address}", @reservation
   end
 
   def create
@@ -20,6 +26,9 @@ class ReservationOptionsController < ApplicationController
 
   def edit
     authorize! :update, @reservation_option
+    add_breadcrumb "Site #{@reservation_option.reservation.subnet.site.name}", @reservation_option.reservation.subnet.site
+    add_breadcrumb "Subnet #{@reservation_option.reservation.subnet.cidr_block}", @reservation_option.reservation.subnet
+    add_breadcrumb "Reservation #{@reservation_option.reservation.ip_address}", @reservation_option.reservation
   end
 
   def update
@@ -35,6 +44,9 @@ class ReservationOptionsController < ApplicationController
 
   def destroy
     authorize! :destroy, @reservation_option
+    add_breadcrumb "Site #{@reservation_option.reservation.subnet.site.name}", @reservation_option.reservation.subnet.site
+    add_breadcrumb "Subnet #{@reservation_option.reservation.subnet.cidr_block}", @reservation_option.reservation.subnet
+    add_breadcrumb "Reservation #{@reservation_option.reservation.ip_address}", @reservation_option.reservation
     if confirmed?
       if update_dhcp_config.call(@reservation_options, -> { @reservation_option.destroy })
         redirect_to reservation_path(@reservation_option.reservation), notice: "Successfully deleted reservation options." + CONFIG_UPDATE_DELAY_NOTICE

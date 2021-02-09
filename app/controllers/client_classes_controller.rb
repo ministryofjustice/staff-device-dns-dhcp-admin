@@ -1,9 +1,11 @@
 class ClientClassesController < ApplicationController
   before_action :set_client_class, only: [:edit, :show, :update, :destroy]
 
+  add_breadcrumb "Home", :root_path
+  add_breadcrumb "DHCP", :dhcp_path
+
   def index
     @client_classes = ClientClass.order(:name).all
-    @navigation_crumbs = [["Home", root_path], ["DHCP", dhcp_path]]
   end
 
   def show
@@ -12,6 +14,7 @@ class ClientClassesController < ApplicationController
   def new
     @client_class = ClientClass.new
     authorize! :create, @client_class
+    add_breadcrumb "Client Classes", :client_classes_path
   end
 
   def create
@@ -27,6 +30,7 @@ class ClientClassesController < ApplicationController
 
   def edit
     authorize! :update, @client_class
+    add_breadcrumb "Client Classes", :client_classes_path
   end
 
   def update
@@ -41,6 +45,7 @@ class ClientClassesController < ApplicationController
   end
 
   def destroy
+    add_breadcrumb "Client Classes", :client_classes_path
     authorize! :destroy, @client_class
     if confirmed?
       if update_dhcp_config.call(@client_class, -> { @client_class.destroy })

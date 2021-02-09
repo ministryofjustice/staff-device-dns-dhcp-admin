@@ -1,14 +1,17 @@
 class GlobalOptionsController < ApplicationController
   before_action :set_global_option, only: [:edit, :update, :destroy]
 
+  add_breadcrumb "Home", :root_path
+  add_breadcrumb "DHCP", :dhcp_path
+
   def index
     @global_option = GlobalOption.first
-    @navigation_crumbs = [["Home", root_path], ["DHCP", dhcp_path]]
   end
 
   def new
     @global_option = GlobalOption.new
     authorize! :create, @global_option
+    add_breadcrumb "Global Options", global_options_path
   end
 
   def create
@@ -24,6 +27,7 @@ class GlobalOptionsController < ApplicationController
 
   def edit
     authorize! :update, @global_option
+    add_breadcrumb "Global Options", global_options_path
   end
 
   def update

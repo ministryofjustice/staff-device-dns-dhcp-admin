@@ -2,9 +2,14 @@ class OptionsController < ApplicationController
   before_action :set_subnet
   before_action :set_option, only: [:edit, :update, :destroy]
 
+  add_breadcrumb "Home", :root_path
+  add_breadcrumb "DHCP", :dhcp_path
+
   def new
     @option = @subnet.build_option
     authorize! :create, @option
+    add_breadcrumb "Site #{@subnet.site.name}", @subnet.site
+    add_breadcrumb "Subnet #{@subnet.cidr_block}", @subnet
   end
 
   def create
@@ -20,6 +25,8 @@ class OptionsController < ApplicationController
 
   def edit
     authorize! :update, @option
+    add_breadcrumb "Site #{@subnet.site.name}", @subnet.site
+    add_breadcrumb "Subnet #{@subnet.cidr_block}", @subnet
   end
 
   def update
@@ -35,6 +42,8 @@ class OptionsController < ApplicationController
 
   def destroy
     authorize! :destroy, @option
+    add_breadcrumb "Site #{@subnet.site.name}", @subnet.site
+    add_breadcrumb "Subnet #{@subnet.cidr_block}", @subnet
     if confirmed?
       if update_dhcp_config.call(@option, -> { @option.destroy })
         redirect_to subnet_path(@option.subnet), notice: "Successfully deleted option." + CONFIG_UPDATE_DELAY_NOTICE

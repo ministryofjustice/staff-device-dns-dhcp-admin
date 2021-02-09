@@ -2,9 +2,14 @@ class ReservationsController < ApplicationController
   before_action :set_subnet, except: [:show, :edit, :update, :destroy]
   before_action :set_reservation, only: [:show, :edit, :update, :destroy]
 
+  add_breadcrumb "Home", :root_path
+  add_breadcrumb "DHCP", :dhcp_path
+
   def new
     @reservation = @subnet.reservations.build
     authorize! :create, @reservation
+    add_breadcrumb "Site #{@subnet.site.name}", @subnet.site
+    add_breadcrumb "Subnet #{@subnet.cidr_block}", @subnet
   end
 
   def create
@@ -19,7 +24,8 @@ class ReservationsController < ApplicationController
   end
 
   def show
-    @navigation_crumbs = [["Home", root_path], ["DHCP", dhcp_path], ["Site", @reservation.subnet.site], ["Subnet", @reservation.subnet]]
+    add_breadcrumb "Site #{@reservation.subnet.site.name}", @reservation.subnet.site
+    add_breadcrumb "Subnet #{@reservation.subnet.cidr_block}", @reservation.subnet
   end
 
   def edit

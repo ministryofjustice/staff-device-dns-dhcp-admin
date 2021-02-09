@@ -1,6 +1,8 @@
 class SitesController < ApplicationController
   before_action :set_site, only: [:show, :edit, :update, :destroy]
 
+  add_breadcrumb "Home", :root_path
+
   def index
     @sites = Site.order(:fits_id).all
     @navigation_crumbs = [["Home", root_path]]
@@ -8,12 +10,13 @@ class SitesController < ApplicationController
 
   def show
     @subnets = @site.subnets.sort_by(&:ip_addr)
-    @navigation_crumbs = [["Home", root_path], ["DHCP", dhcp_path]]
+    add_breadcrumb "DHCP", :dhcp_path
   end
 
   def new
     @site = Site.new
     authorize! :create, @site
+    add_breadcrumb "DHCP", :dhcp_path
   end
 
   def create
@@ -29,6 +32,7 @@ class SitesController < ApplicationController
 
   def edit
     authorize! :update, @site
+    add_breadcrumb "DHCP", :dhcp_path
   end
 
   def update
@@ -44,6 +48,7 @@ class SitesController < ApplicationController
 
   def destroy
     authorize! :destroy, @site
+    add_breadcrumb "DHCP", :dhcp_path
     @subnets = @site.subnets.sort_by(&:ip_addr)
     if confirmed?
       if update_dhcp_config.call(@site, -> { @site.destroy })

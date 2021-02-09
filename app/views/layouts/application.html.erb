@@ -59,10 +59,9 @@
 
       <% if user_signed_in? %>
         <hr class="govuk-section-break govuk-section-break--xs govuk-section-break--visible">
-        <%= render "layouts/breadcrumbs", crumbs: navigation_crumbs %>
-
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-three-quarters">
+            <%= render "layouts/breadcrumbs" unless controller_name == "home" %>
             <main class="govuk-main-wrapper govuk-!-padding-top-3" id="main-content" role="main">
               <%= render "layouts/flash_notices" %>
               <%= yield %>
