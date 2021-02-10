@@ -15,7 +15,7 @@ check-container-registry-account-id:
 	./scripts/check_container_registry_account_id.sh
 
 build: check-container-registry-account-id
-	docker build -t docker_admin . --build-arg RACK_ENV --build-arg DB_HOST --build-arg DB_USER --build-arg DB_PASS --build-arg SECRET_KEY_BASE --build-arg DB_NAME --build-arg BUNDLE_WITHOUT --build-arg SHARED_SERVICES_ACCOUNT_ID
+	docker build -t admin . --build-arg RACK_ENV --build-arg DB_HOST --build-arg DB_USER --build-arg DB_PASS --build-arg SECRET_KEY_BASE --build-arg DB_NAME --build-arg BUNDLE_WITHOUT --build-arg SHARED_SERVICES_ACCOUNT_ID
 
 build-dev:
 	$(DOCKER_COMPOSE) build
@@ -57,8 +57,8 @@ deploy:
 
 push:
 	aws ecr get-login-password | docker login --username AWS --password-stdin ${REGISTRY_URL}
-	docker tag docker_admin:latest ${REGISTRY_URL}/staff-device-${ENV}-admin:latest
-	docker push ${REGISTRY_URL}/staff-device-${ENV}-admin:latest
+	docker tag admin:latest ${REGISTRY_URL}/staff-device-${ENV}-dhcp-admin:latest
+	docker push ${REGISTRY_URL}/staff-device-${ENV}-dhcp-admin:latest
 
 publish: build push
 
