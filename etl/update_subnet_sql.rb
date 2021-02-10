@@ -18,12 +18,11 @@ CSV.foreach("./data/Quantum.csv") do |row|
   next if collected_cidrs.include?(cidr)
   collected_cidrs << cidr
 
-
   sql_rows << "UPDATE `subnets` SET routers='" +
     routers +
     "' WHERE cidr_block='" +
     "#{cidr}/24';"
-  end
+end
 
 #  sql_rows << "INSERT INTO `subnets` (site_id, cidr_block, start_address, end_address, created_at, updated_at) SELECT id, '" +
 #    "#{cidr}/24'" +
@@ -37,6 +36,6 @@ CSV.foreach("./data/Quantum.csv") do |row|
 #    "' AND fits_id = '" +
 #    fits_id +
 #    "';"
-#end
+# end
 
 puts sql_rows.uniq.join("\n")
