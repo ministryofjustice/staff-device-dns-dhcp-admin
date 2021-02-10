@@ -57,8 +57,8 @@ deploy:
 
 push:
 	aws ecr get-login-password | docker login --username AWS --password-stdin ${REGISTRY_URL}
-	docker tag docker_admin:latest ${REGISTRY_URL}/${ENV}-admin:latest
-	docker push ${REGISTRY_URL}/${ENV}-admin:latest
+	docker tag docker_admin:latest ${REGISTRY_URL}/staff-device-${ENV}-admin:latest
+	docker push ${REGISTRY_URL}/staff-device-${ENV}-admin:latest
 
 publish: build push
 
