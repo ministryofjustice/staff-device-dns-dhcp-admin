@@ -1,7 +1,11 @@
 <h2 class="govuk-heading-l">Are you sure you want to delete the below reservation?</h2>
 
-<p class="govuk-body">Hostname: <%= @reservation.hostname %></p>
-<p class="govuk-body">IP Address: <%= @reservation.ip_address %></p>
+<div class="govuk-inset-text">
+  <h4 class="govuk-heading-s">Hostname:</h4>
+  <p class="govuk-body"><%= @reservation.hostname %></p>
+  <h4 class="govuk-heading-s">IP Address:</h4>
+  <p class="govuk-body"><%= @reservation.ip_address %></p>
+</div>
 
 <div class="govuk-warning-text">
   <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
