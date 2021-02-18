@@ -4,6 +4,6 @@
 
 <h3 class="govuk-heading-m">Subnet CIDR block: <%= @reservation.subnet.cidr_block %></h3>
 
-<h3 class="govuk-heading-s">Address pool: <%= @reservation.subnet.start_address %> to <%= @reservation.subnet.end_address %></h3> %>
+<h3 class="govuk-heading-s">Address pool: <%= @reservation.subnet.start_address %> to <%= @reservation.subnet.end_address %></h3>
 
 <%= render "reservations/form", reservation: @reservation %>
