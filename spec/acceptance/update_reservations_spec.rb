@@ -44,12 +44,11 @@ describe "update reservations", type: :feature do
       visit "/reservations/#{reservation.id}"
       first(:link, "Change").click
 
-expect(page).to have_content(reservation.subnet.start_address + " to " + reservation.subnet.end_address)
+      expect(page).to have_content(reservation.subnet.start_address + " to " + reservation.subnet.end_address)
       expect(page).to have_field("HW address", with: reservation.hw_address)
       expect(page).to have_field("IP address", with: reservation.ip_address)
       expect(page).to have_field("Hostname", with: reservation.hostname)
       expect(page).to have_field("Description", with: reservation.description)
-
 
       fill_in "HW address", with: "1a:1b:1c:1d:1e:1f"
       fill_in "IP address", with: "192.0.2.3"
