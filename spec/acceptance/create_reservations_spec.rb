@@ -43,6 +43,8 @@ describe "create reservations", type: :feature do
 
       click_on "Create a new reservation"
 
+      expect(page).to have_content(reservation.subnet.start_address + " to " + reservation.subnet.end_address)
+
       fill_in "HW address", with: "01:bb:cc:dd:ee:fe"
       fill_in "IP address", with: "192.0.2.2"
       fill_in "Hostname", with: "test.example2.com"
