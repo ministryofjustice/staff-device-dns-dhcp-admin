@@ -14,6 +14,8 @@ describe "delete client class", type: :feature do
     click_on "Delete"
 
     expect(page).to have_content("Are you sure you want to delete the client class?")
+    expect(page).to have_content(client_class.domain_name)
+    expect(page).to have_content(client_class.name)
 
     expect_config_to_be_verified
     expect_config_to_be_published
