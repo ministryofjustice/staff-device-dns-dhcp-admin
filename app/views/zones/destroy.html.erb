@@ -1,6 +1,19 @@
 <h2 class="govuk-heading-l">Are you sure you want to delete this zone?</h2>
 
-<p class="govuk-body">Deleting a zone cannot be undone</p>
+<div class="govuk-inset-text">
+  <h4 class="govuk-heading-s">Zone name:</h4>
+  <p class="govuk-body"><%= @zone.name %></p>
+  <h4 class="govuk-heading-s">Forwarders:</h4>
+  <p class="govuk-body"><%= @zone.forwarders.join(', ') %></p>
+</div>
+
+<div class="govuk-warning-text">
+  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+  <strong class="govuk-warning-text__text">
+    <span class="govuk-warning-text__assistive">Warning</span>
+      Deleting a zone cannot be undone.
+  </strong>
+</div>
 
 <%= button_to "Delete zone", zone_path(@zone),
   method: :delete,
