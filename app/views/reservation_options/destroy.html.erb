@@ -2,7 +2,7 @@
 
 <div class="govuk-inset-text">
   <h4 class="govuk-heading-s">Routers:</h4>
-  <p class="govuk-body"><%= @reservation_option.routers %></p>
+  <p class="govuk-body"><%= @reservation_option.routers.join(", ") %></p>
   <h4 class="govuk-heading-s">Domain Name:</h4>
   <p class="govuk-body"><%= @reservation_option.domain_name %></p>
 </div>

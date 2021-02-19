@@ -20,7 +20,7 @@ describe "delete reservation options", type: :feature do
     click_on "Delete"
 
     expect(page).to have_content("Are you sure you want to delete these options?")
-    expect(page).to have_content(reservation_option.routers)
+    expect(page).to have_content(reservation_option.routers.join(", "))
     expect(page).to have_content(reservation_option.domain_name)
 
     expect_config_to_be_verified
