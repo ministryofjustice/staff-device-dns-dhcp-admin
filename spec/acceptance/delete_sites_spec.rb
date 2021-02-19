@@ -32,6 +32,8 @@ describe "delete sites", type: :feature do
       click_on "Delete"
 
       expect(page).to have_content("Are you sure you want to delete this site?")
+      expect(page).to have_content(site.name)
+      expect(page).to have_content(site.fits_id)
 
       expect_config_to_be_verified
       expect_config_to_be_published
