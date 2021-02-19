@@ -15,7 +15,7 @@ describe "delete global options", type: :feature do
 
     expect(page).to have_content("Are you sure you want to delete the global options?")
     expect(page).to have_content(global_option.domain_name)
-    expect(page).to have_content(global_option.domain_name_servers.join(', '))
+    expect(page).to have_content(global_option.domain_name_servers.join(", "))
 
     expect_config_to_be_verified
     expect_config_to_be_published
