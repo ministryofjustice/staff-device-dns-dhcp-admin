@@ -19,6 +19,7 @@ describe "delete subnets", type: :feature do
     click_on "Delete"
 
     expect(page).to have_content("Are you sure you want to delete this subnet?")
+    expect(page).to have_content(subnet.cidr_block)
 
     expect_config_to_be_verified
     expect_config_to_be_published
