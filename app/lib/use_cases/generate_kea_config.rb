@@ -173,15 +173,6 @@ module UseCases
               ],
               subnet: "127.0.0.1/24",
               id: 1 # This is the subnet used for smoke testing
-            },
-            {
-              pools: [
-                {
-                  pool: "10.180.82.5 - 10.180.82.254"
-                }
-              ],
-              subnet: "10.180.82.0/24",
-              id: 2 # This is the heartbeat subnet
             }
           ],
           loggers: [
