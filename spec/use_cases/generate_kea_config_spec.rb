@@ -2,9 +2,9 @@ require "rails_helper"
 
 describe UseCases::GenerateKeaConfig do
   describe "#call" do
-    let(:config) { UseCases::GenerateKeaConfig.new.call }
+    it "returns a default subnet used for smoke testing" do
+      config = UseCases::GenerateKeaConfig.new.call
 
-    it "generates a subnet for local testing" do
       expect(config.dig(:Dhcp4, :subnet4)).to match_array([
         {
           pools: [
@@ -14,15 +14,6 @@ describe UseCases::GenerateKeaConfig do
           ],
           subnet: "127.0.0.1/24",
           id: 1
-        },
-        {
-          pools: [
-            {
-              pool: "10.180.82.5 - 10.180.82.254"
-            }
-          ],
-          subnet: "10.180.82.0/24",
-          id: 2
         }
       ])
     end
@@ -43,15 +34,6 @@ describe UseCases::GenerateKeaConfig do
           ],
           subnet: "127.0.0.1/24",
           id: 1
-        },
-        {
-          pools: [
-            {
-              pool: "10.180.82.5 - 10.180.82.254"
-            }
-          ],
-          subnet: "10.180.82.0/24",
-          id: 2
         },
         {
           pools: [
@@ -106,7 +88,6 @@ describe UseCases::GenerateKeaConfig do
 
       expect(config.dig(:Dhcp4, :subnet4)).to match_array([
         hash_including(subnet: "127.0.0.1/24", id: 1),
-        hash_including(subnet: "10.180.82.0/24", id: 2),
         hash_including(subnet: "10.0.1.0/24", id: 1001),
         hash_including(subnet: "10.0.2.0/24", id: 1002)
       ])
