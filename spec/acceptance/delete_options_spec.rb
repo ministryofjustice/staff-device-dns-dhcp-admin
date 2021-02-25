@@ -20,6 +20,8 @@ describe "delete options", type: :feature do
     click_on "Delete options"
 
     expect(page).to have_content("Are you sure you want to delete these options?")
+    expect(page).to have_content(option.domain_name)
+    expect(page).to have_content(option.domain_name_servers.join(", "))
 
     expect_config_to_be_verified
     expect_config_to_be_published

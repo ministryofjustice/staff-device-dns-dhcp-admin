@@ -15,6 +15,8 @@ describe "delete zones", type: :feature do
     click_on "Delete"
 
     expect(page).to have_content("Are you sure you want to delete this zone?")
+    expect(page).to have_content(zone.name)
+    expect(page).to have_content(zone.forwarders.join(", "))
 
     click_on "Delete zone"
 
