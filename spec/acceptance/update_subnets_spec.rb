@@ -15,7 +15,7 @@ describe "update subnets", type: :feature do
 
     first(:link, "Change").click
 
-    expect(page).to_not have_content("View Global Options")
+    expect(page).to_not have_content("Global Options")
     expect(page).to have_field("CIDR block", with: subnet.cidr_block)
     expect(page).to have_field("Start address", with: subnet.start_address)
     expect(page).to have_field("End address", with: subnet.end_address)
@@ -49,7 +49,7 @@ describe "update subnets", type: :feature do
 
     first(:link, "Change").click
 
-    expect(page).to have_content("View Global Options")
+    expect(page).to have_content("Global Options")
     expect(page).to have_content(global_option.domain_name_servers.join(","))
     expect(page).to have_content(global_option.domain_name)
   end

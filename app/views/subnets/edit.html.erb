@@ -2,5 +2,12 @@
 
 <h2 class="govuk-heading-l">Editing a subnet</h2>
 
-<%= render "subnets/global_option", global_option: @global_option if @global_option %>
-<%= render "subnets/form", subnet: @subnet %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "subnets/form", subnet: @subnet %> 
+  </div>
+
+  <div class="govuk-grid-column-one-third">
+    <%= render "subnets/global_option", global_option: @global_option if @global_option %>
+  </div>
+</div>

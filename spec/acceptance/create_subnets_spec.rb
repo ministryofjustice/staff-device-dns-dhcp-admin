@@ -44,7 +44,7 @@ describe "create subnets", type: :feature do
 
     click_on "Create a new subnet"
 
-    expect(page).to have_content("View Global Options")
+    expect(page).to have_content("Global Options")
     expect(page).to have_content(global_option.domain_name_servers.join(","))
     expect(page).to have_content(global_option.domain_name)
   end
