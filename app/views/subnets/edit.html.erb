@@ -2,16 +2,5 @@
 
 <h2 class="govuk-heading-l">Editing a subnet</h2>
 
-<% if @global_option %>
-  <details class="govuk-details" data-module="govuk-details">
-    <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text">
-        View Global Options
-      </span>
-    </summary>
-    <div class="govuk-details__text">
-    <%= render "global_options/details", global_option: @global_option %>
-    </div>
-  </details>
-<% end %>
+<%= render "subnets/global_option", global_option: @global_option if @global_option %>
 <%= render "subnets/form", subnet: @subnet %>

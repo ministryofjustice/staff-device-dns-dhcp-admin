@@ -14,6 +14,7 @@ describe "create subnets", type: :feature do
     click_on "Create a new subnet"
 
     expect(current_path).to eql("/sites/#{site.to_param}/subnets/new")
+    expect(page).to_not have_content("View Global Options")
 
     fill_in "CIDR block", with: "10.0.1.0/24"
     fill_in "Start address", with: "10.0.1.1"
@@ -33,6 +34,19 @@ describe "create subnets", type: :feature do
     expect(page).to have_content("10.0.1.0, 10.0.1.2")
 
     expect_audit_log_entry_for(editor.email, "create", "Subnet")
+  end
+
+  it "shows the user any defined global options" do
+    site = create :site
+    global_option = create :global_option
+
+    visit "/sites/#{site.to_param}"
+
+    click_on "Create a new subnet"
+
+    expect(page).to have_content("View Global Options")
+    expect(page).to have_content(global_option.domain_name_servers.join(","))
+    expect(page).to have_content(global_option.domain_name)
   end
 
   it "displays error if form cannot be submitted" do
