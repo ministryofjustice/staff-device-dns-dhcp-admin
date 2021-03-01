@@ -1,4 +1,4 @@
-<%= form_with(model: (subnet.new_record? ? [subnet.site, subnet] : subnet), local: true) do |f| %>
+ <%= form_with(model: (subnet.new_record? ? [subnet.site, subnet] : subnet), local: true) do |f| %>
   <div class="govuk-form-group <%= field_error(f.object, :cidr_block )%>">
     <%= f.label :cidr_block, class: "govuk-label" %>
     <div id="cidr_block-hint" class="govuk-hint">
