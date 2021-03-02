@@ -4,35 +4,8 @@
   <% if @global_option %>
     <% presenter = present(@global_option) %>
 
-    <dl class="govuk-summary-list">
+    <%= render "global_options/details", global_option: @global_option %>
 
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Domain name servers
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <%= @global_option.domain_name_servers.join(",") %>
-        </dd>
-      </div>
-
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Domain name
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <%= @global_option.domain_name %>
-        </dd>
-      </div>
-
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Valid lifetime
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <%= presenter.display_valid_lifetime %>
-        </dd>
-      </div>
-    </dl>
     <% if can? :manage, GlobalOption %>
       <%= link_to "Edit global options", edit_global_option_path(@global_option.id), class:"govuk-button" %>
       <%= link_to "Delete global options", global_option_path(@global_option), class:"govuk-button govuk-button--secondary", method: :delete %>

@@ -5,6 +5,7 @@ class SubnetsController < ApplicationController
   def new
     @subnet = @site.subnets.build
     authorize! :create, @subnet
+    @global_option = GlobalOption.first
   end
 
   def create
@@ -14,6 +15,7 @@ class SubnetsController < ApplicationController
     if update_dhcp_config.call(@subnet, -> { @subnet.save })
       redirect_to @subnet, notice: "Successfully created subnet." + CONFIG_UPDATE_DELAY_NOTICE
     else
+      @global_option = GlobalOption.first
       render :new
     end
   end
@@ -24,6 +26,7 @@ class SubnetsController < ApplicationController
 
   def edit
     authorize! :update, @subnet
+    @global_option = GlobalOption.first
   end
 
   def update

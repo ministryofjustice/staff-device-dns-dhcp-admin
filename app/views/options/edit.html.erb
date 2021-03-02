@@ -2,4 +2,21 @@
 
 <h2 class="govuk-heading-l">Editing options</h2>
 
-<%= render "form", option: @option %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <% if @global_option %>
+      <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+        <span class="govuk-warning-text__assistive">Warning</span>
+          Subnet specific options will override the global options.
+        </strong>
+      </div>
+    <% end %>
+    <%= render "form", option: @option %>
+  </div>
+
+  <div class="govuk-grid-column-one-third">
+    <%= render "shared/global_option", global_option: @global_option if @global_option %>
+  </div>
+</div>

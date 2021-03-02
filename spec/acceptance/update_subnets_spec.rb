@@ -15,6 +15,7 @@ describe "update subnets", type: :feature do
 
     first(:link, "Change").click
 
+    expect(page).to_not have_content("Global Options")
     expect(page).to have_field("CIDR block", with: subnet.cidr_block)
     expect(page).to have_field("Start address", with: subnet.start_address)
     expect(page).to have_field("End address", with: subnet.end_address)
@@ -38,5 +39,18 @@ describe "update subnets", type: :feature do
     expect(page).to have_content("10.0.1.1, 10.0.1.3")
 
     expect_audit_log_entry_for(editor.email, "update", "Subnet")
+  end
+
+  it "shows the user any defined global options" do
+    subnet = create(:subnet)
+    global_option = create :global_option
+
+    visit "/subnets/#{subnet.id}"
+
+    first(:link, "Change").click
+
+    expect(page).to have_content("Global Options")
+    expect(page).to have_content(global_option.domain_name_servers.join(","))
+    expect(page).to have_content(global_option.domain_name)
   end
 end

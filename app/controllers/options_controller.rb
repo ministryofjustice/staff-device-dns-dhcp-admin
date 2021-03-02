@@ -5,6 +5,7 @@ class OptionsController < ApplicationController
   def new
     @option = @subnet.build_option
     authorize! :create, @option
+    @global_option = GlobalOption.first
   end
 
   def create
@@ -14,12 +15,14 @@ class OptionsController < ApplicationController
     if update_dhcp_config.call(@option, -> { @option.save })
       redirect_to subnet_path(@option.subnet), notice: "Successfully created options." + CONFIG_UPDATE_DELAY_NOTICE
     else
+      @global_option = GlobalOption.first
       render :new
     end
   end
 
   def edit
     authorize! :update, @option
+    @global_option = GlobalOption.first
   end
 
   def update
