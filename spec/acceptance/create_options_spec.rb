@@ -44,6 +44,9 @@ describe "create options", type: :feature do
       expect(page).not_to have_content("Edit options")
       click_on "Create options"
 
+      expect(page).to_not have_content("Global Options")
+      expect(page).to_not have_content("Subnet specific options will override the global options.")
+
       fill_in "Domain name servers", with: "10.0.2.1,10.0.2.2"
       fill_in "Domain name", with: "test.example.com"
       fill_in "Valid lifetime", with: "12345"
@@ -61,6 +64,20 @@ describe "create options", type: :feature do
       expect(page).to have_content("12345 seconds")
 
       expect_audit_log_entry_for(editor.email, "create", "Option")
+    end
+
+    it "shows the user any defined global options" do
+      subnet = create :subnet
+      global_option = create :global_option
+
+      visit "/subnets/#{subnet.to_param}"
+
+      click_on "Create options"
+
+      expect(page).to have_content("Global Options")
+      expect(page).to have_content("Subnet specific options will override the global options.")
+      expect(page).to have_content(global_option.domain_name_servers.join(","))
+      expect(page).to have_content(global_option.domain_name)
     end
 
     it "edit subnet option to have a valid lifetime of 1 day" do

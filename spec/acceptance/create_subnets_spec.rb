@@ -14,7 +14,7 @@ describe "create subnets", type: :feature do
     click_on "Create a new subnet"
 
     expect(current_path).to eql("/sites/#{site.to_param}/subnets/new")
-    expect(page).to_not have_content("View Global Options")
+    expect(page).to_not have_content("Global Options")
 
     fill_in "CIDR block", with: "10.0.1.0/24"
     fill_in "Start address", with: "10.0.1.1"
