@@ -5,7 +5,7 @@ set -euo pipefail
 source ./scripts/aws_helpers.sh
 
 migrate() {
-  local migration_command="./bin/rails db:migrate"
+  local migration_command="mysqladmin -h$DB_HOST -u$DB_USER -p$DB_PASS flush-hosts && ./bin/rails db:migrate"
   local docker_service_name="admin"
   local cluster_name service_name task_definition docker_service_name
 
