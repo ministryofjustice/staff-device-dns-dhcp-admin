@@ -41,6 +41,12 @@ zone "127.in-addr.arpa" IN {
   allow-update { none; };
   notify no;
 };
+
+zone "09.74.216.in-addr.arpa" IN {
+  type master;
+  file "/var/named/zones/09.74.216.in-addr.arpa.zone"
+};
+
 #{render_zones}
 zone "." IN {
   type forward;
