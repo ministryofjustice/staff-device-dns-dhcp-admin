@@ -5,7 +5,7 @@ describe Gateways::BindVerifier do
 
   describe "#verify_config" do
     context "when the config is valid" do
-      let(:generated_config) { UseCases::GenerateBindConfig.new(zones: [], pdns_ips: "7.7.7.7,5.5.5.5").call }
+      let(:generated_config) { UseCases::GenerateBindConfig.new(zones: [], pdns_ips: "7.7.7.7,5.5.5.5", private_zone: "some.zone").call }
 
       it "returns successfully" do
         expect(subject.verify_config(generated_config)).to eq(true)
