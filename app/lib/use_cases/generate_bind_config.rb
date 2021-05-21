@@ -1,8 +1,7 @@
 class UseCases::GenerateBindConfig
-  def initialize(pdns_ips:, zones: [], private_zone:)
+  def initialize(pdns_ips:, zones: [])
     @zones = zones
     @pdns_ips = parse_pdns_ips(pdns_ips)
-    @private_zone = private_zone
   end
 
   def call
@@ -42,7 +41,6 @@ zone "127.in-addr.arpa" IN {
   allow-update { none; };
   notify no;
 };
-#{render_reverse_lookup_zone}
 #{render_zones}
 zone "." IN {
   type forward;
@@ -56,8 +54,7 @@ zone "." IN {
 
   private
 
-  attr_reader :zones,
-              :private_zone
+  attr_reader :zones
 
   def parse_pdns_ips(pdns_ips)
     raise "PDNS IPs have not been set" if pdns_ips.blank?
@@ -79,17 +76,5 @@ zone "#{zone.name}" IN {
 
   def format_zone_forwarders(forwarders)
     forwarders.join(";") + ";"
-  end
-
-  def render_reverse_lookup_zone
-    raise "No Private Zone has been set" if private_zone.blank?
-
-    %(
-zone "0.0.100.in-addr.arpa" IN {
-  type master;
-  file "/etc/bind/zones/reverse.#{private_zone}";
-  allow-update { none; };
-  notify no;
-};)
   end
 end

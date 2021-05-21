@@ -80,8 +80,7 @@ class ZonesController < ApplicationController
   def generate_bind_config
     UseCases::GenerateBindConfig.new(
       zones: Zone.all,
-      pdns_ips: ENV["PDNS_IPS"],
-      private_zone: ENV["PRIVATE_ZONE"]
+      pdns_ips: ENV["PDNS_IPS"]
     )
   end
 
