@@ -1,5 +1,5 @@
 class UseCases::GenerateBindConfig
-  def initialize(pdns_ips:, zones: [], private_zone:)
+  def initialize(pdns_ips:, private_zone:, zones: [])
     @zones = zones
     @pdns_ips = parse_pdns_ips(pdns_ips)
     @private_zone = private_zone
@@ -57,7 +57,7 @@ zone "." IN {
   private
 
   attr_reader :zones,
-              :private_zone
+    :private_zone
 
   def parse_pdns_ips(pdns_ips)
     raise "PDNS IPs have not been set" if pdns_ips.blank?

@@ -105,7 +105,7 @@ zone "example2.test.com" IN {
 
     it "contains a path to a reverse lookup dns zone file" do
       expect(generated_config).to include(
-%(zone "0.0.100.in-addr.arpa" IN {
+        %(zone "0.0.100.in-addr.arpa" IN {
   type master;
   file "/etc/bind/zones/reverse.#{private_zone}";
   allow-update { none; };
