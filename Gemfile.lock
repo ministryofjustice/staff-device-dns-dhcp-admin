@@ -79,7 +79,7 @@ GEM
     aws-sdk-kms (1.43.0)
       aws-sdk-core (~> 3, >= 3.112.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.95.1)
+    aws-sdk-s3 (1.96.0)
       aws-sdk-core (~> 3, >= 3.112.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.1)
@@ -359,7 +359,7 @@ PLATFORMS
 DEPENDENCIES
   audited
   aws-sdk-ecs (~> 1.80)
-  aws-sdk-s3 (~> 1.95)
+  aws-sdk-s3 (~> 1.96)
   bootsnap (>= 1.4.2)
   byebug
   cancancan (~> 3.2)
