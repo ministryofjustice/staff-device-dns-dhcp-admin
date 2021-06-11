@@ -70,6 +70,46 @@ describe UseCases::GenerateKeaConfig do
       ])
     end
 
+    it "appends subnets to the subnet4 list with an exclusion" do
+      site = build_stubbed(:site, fits_id: "FITSID01", name: "SITENAME01")
+      exclusion = build_stubbed(:exclusion, start_address: "10.0.1.90", end_address: "10.0.1.100")
+      subnet1 = build_stubbed(:subnet, cidr_block: "10.0.1.0/24", start_address: "10.0.1.1", 
+        end_address: "10.0.1.255", exclusions: [exclusion],  routers: "10.0.1.2,10.0.1.3", site: site)
+
+      config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
+
+      expect(config.dig(:Dhcp4, :subnet4)).to match_array([
+        {
+          pools: [
+            {
+              pool: "127.0.0.1 - 127.0.0.254"
+            }
+          ],
+          subnet: "127.0.0.1/24",
+          id: 1
+        },
+        {
+          pools: [
+            {
+              pool: "10.0.1.1 - 10.0.1.89"
+            },
+            {
+              pool: "10.0.1.101 - 10.0.1.255"
+            }
+          ],
+          subnet: "10.0.1.0/24",
+          id: subnet1.kea_id,
+          "user-context": {
+            "site-id": subnet1.site.fits_id,
+            "site-name": subnet1.site.name
+          },
+          "require-client-classes": [
+            "subnet-10.0.1.0-client"
+          ]
+        }
+      ])
+    end
+
     it "returns a kea config with the correct keys" do
       config = UseCases::GenerateKeaConfig.new.call
       expect(config).to have_key :Dhcp4

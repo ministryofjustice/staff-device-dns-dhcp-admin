@@ -6,6 +6,7 @@ class Subnet < ApplicationRecord
   belongs_to :site
   has_one :option, dependent: :destroy
   has_many :reservations, dependent: :destroy
+  has_many :exclusions, dependent: :destroy
 
   validates :cidr_block, presence: true, uniqueness: {case_sensitive: false}
   validates :start_address, presence: true
