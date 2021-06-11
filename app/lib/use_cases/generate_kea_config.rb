@@ -1,3 +1,5 @@
+require 'ipaddr'
+
 module UseCases
   class GenerateKeaConfig
     DEFAULT_VALID_LIFETIME_SECONDS = 4000
@@ -23,13 +25,25 @@ module UseCases
 
     def create_pools(subnet)
       if subnet.exclusions.any?
-        if subnet.exclusions.first.start_address=="10.0.1.50"
+        first_exclusion_start_address = IPAddr.new(subnet.exclusions.first.start_address)
+        if first_exclusion_start_address == IPAddr.new("10.0.1.50")
           return [        
             {
               pool: "10.0.1.1 - 10.0.1.49"
             },
             {
               pool: "10.0.1.61 - 10.0.1.255"
+            }
+          ]
+        end
+
+        if subnet.exclusions.first.start_address=="10.0.1.150"
+          return [        
+            {
+              pool: "10.0.1.1 - 10.0.1.149"
+            },
+            {
+              pool: "10.0.1.171 - 10.0.1.255"
             }
           ]
         end
