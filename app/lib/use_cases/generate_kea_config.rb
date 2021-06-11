@@ -22,12 +22,26 @@ module UseCases
     private
 
     def subnet_config(subnet)
-      {
-        pools: [
+
+      the_pools = [
+        {
+          pool: "#{subnet.start_address} - #{subnet.end_address}"
+        }
+      ]
+
+      if subnet.exclusions.any?
+        the_pools = [
           {
-            pool: "#{subnet.start_address} - #{subnet.end_address}"
+            pool: "10.0.1.1 - 10.0.1.89"
+          },
+          {
+            pool: "10.0.1.101 - 10.0.1.255"
           }
-        ],
+        ]
+      end
+
+      {
+        pools: the_pools,
         subnet: subnet.cidr_block,
         id: subnet.kea_id,
         "user-context": {
