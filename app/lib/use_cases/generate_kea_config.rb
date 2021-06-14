@@ -40,6 +40,14 @@ module UseCases
           ]
         end
 
+        if subnet.exclusions.first.end_address==subnet.end_address
+          return [
+            {
+              pool: "#{subnet.start_address} - #{ip_string(first_exclusion_start_address-1)}"
+            }
+          ]
+        end
+
         return [        
           {
             pool: "#{subnet.start_address} - #{ip_string(first_exclusion_start_address-1)}"
