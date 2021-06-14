@@ -31,12 +31,21 @@ module UseCases
       if subnet.exclusions.any?
         first_exclusion_start_address = IPAddr.new(subnet.exclusions.first.start_address).to_i
         first_exclusion_end_address = IPAddr.new(subnet.exclusions.first.end_address).to_i
+
+        if subnet.exclusions.first.start_address==subnet.start_address
+          return [
+            {
+              pool: "#{ip_string(first_exclusion_end_address+1)} - #{subnet.end_address}"
+            }
+          ]
+        end
+
         return [        
           {
-            pool: "10.0.1.1 - #{ip_string(first_exclusion_start_address-1)}"
+            pool: "#{subnet.start_address} - #{ip_string(first_exclusion_start_address-1)}"
           },
           {
-            pool: "#{ip_string(first_exclusion_end_address+1)} - 10.0.1.255"
+            pool: "#{ip_string(first_exclusion_end_address+1)} - #{subnet.end_address}"
           }
         ]
       end
