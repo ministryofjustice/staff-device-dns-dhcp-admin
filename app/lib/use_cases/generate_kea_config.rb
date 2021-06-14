@@ -23,48 +23,30 @@ module UseCases
 
     private
 
+    def ip_string(ip)
+      IPAddr.new(ip, Socket::AF_INET).to_s
+    end
+
     def create_pools(subnet)
       if subnet.exclusions.any?
-        first_exclusion_start_address = IPAddr.new(subnet.exclusions.first.start_address)
-        if first_exclusion_start_address == IPAddr.new("10.0.1.50")
-          return [        
-            {
-              pool: "10.0.1.1 - 10.0.1.49"
-            },
-            {
-              pool: "10.0.1.61 - 10.0.1.255"
-            }
-          ]
-        end
-
-        if subnet.exclusions.first.start_address=="10.0.1.150"
-          return [        
-            {
-              pool: "10.0.1.1 - 10.0.1.149"
-            },
-            {
-              pool: "10.0.1.171 - 10.0.1.255"
-            }
-          ]
-        end
-
-        return [
+        first_exclusion_start_address = IPAddr.new(subnet.exclusions.first.start_address).to_i
+        first_exclusion_end_address = IPAddr.new(subnet.exclusions.first.end_address).to_i
+        return [        
           {
-            pool: "10.0.1.1 - 10.0.1.89"
+            pool: "10.0.1.1 - #{ip_string(first_exclusion_start_address-1)}"
           },
           {
-            pool: "10.0.1.101 - 10.0.1.255"
+            pool: "#{ip_string(first_exclusion_end_address+1)} - 10.0.1.255"
           }
         ]
       end
+
       return [
         {
           pool: "#{subnet.start_address} - #{subnet.end_address}"
         }
       ]
-
-    end  
-
+    end
 
     def subnet_config(subnet)
   
