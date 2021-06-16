@@ -1,4 +1,4 @@
-require 'ipaddr'
+require "ipaddr"
 
 module UseCases
   class GenerateKeaConfig
@@ -32,37 +32,37 @@ module UseCases
         first_exclusion_start_address = IPAddr.new(subnet.exclusions.first.start_address).to_i
         first_exclusion_end_address = IPAddr.new(subnet.exclusions.first.end_address).to_i
 
-        if subnet.exclusions.first.start_address==subnet.start_address && subnet.exclusions.first.end_address==subnet.end_address
+        if subnet.exclusions.first.start_address == subnet.start_address && subnet.exclusions.first.end_address == subnet.end_address
           return []
         end
 
-        if subnet.exclusions.first.start_address==subnet.start_address
+        if subnet.exclusions.first.start_address == subnet.start_address
           return [
             {
-              pool: "#{ip_string(first_exclusion_end_address+1)} - #{subnet.end_address}"
+              pool: "#{ip_string(first_exclusion_end_address + 1)} - #{subnet.end_address}"
             }
           ]
         end
 
-        if subnet.exclusions.first.end_address==subnet.end_address
+        if subnet.exclusions.first.end_address == subnet.end_address
           return [
             {
-              pool: "#{subnet.start_address} - #{ip_string(first_exclusion_start_address-1)}"
+              pool: "#{subnet.start_address} - #{ip_string(first_exclusion_start_address - 1)}"
             }
           ]
         end
 
-        return [        
+        return [
           {
-            pool: "#{subnet.start_address} - #{ip_string(first_exclusion_start_address-1)}"
+            pool: "#{subnet.start_address} - #{ip_string(first_exclusion_start_address - 1)}"
           },
           {
-            pool: "#{ip_string(first_exclusion_end_address+1)} - #{subnet.end_address}"
+            pool: "#{ip_string(first_exclusion_end_address + 1)} - #{subnet.end_address}"
           }
         ]
       end
 
-      return [
+      [
         {
           pool: "#{subnet.start_address} - #{subnet.end_address}"
         }
@@ -70,7 +70,6 @@ module UseCases
     end
 
     def subnet_config(subnet)
-  
       {
         pools: create_pools(subnet),
         subnet: subnet.cidr_block,
@@ -88,14 +87,14 @@ module UseCases
       return {} unless reservations.present?
 
       result = {
-        "reservations": []
+        reservations: []
       }
 
       result[:reservations] += reservations.map { |reservation|
         {
           "hw-address": reservation.hw_address,
           "ip-address": reservation.ip_address,
-          "hostname": reservation.hostname
+          hostname: reservation.hostname
         }.merge(reservation_description(reservation))
           .merge(UseCases::KeaConfig::GenerateOptionDataConfig.new.call(reservation.reservation_option))
       }
@@ -107,7 +106,7 @@ module UseCases
       return {} if reservation.description.blank?
       {
         "user-context": {
-          "description": reservation.description
+          description: reservation.description
         }
       }
     end
@@ -178,7 +177,7 @@ module UseCases
       {
         Dhcp4: {
           "interfaces-config": {
-            "interfaces": ["*"],
+            interfaces: ["*"],
             "dhcp-socket-type": "udp",
             "outbound-interface": "use-routing"
           },
@@ -223,7 +222,7 @@ module UseCases
           loggers: [
             {
               name: "kea-dhcp4",
-              "output_options": [
+              output_options: [
                 {
                   output: "stdout"
                 }
@@ -234,33 +233,33 @@ module UseCases
           ],
           "hooks-libraries": [
             {
-              "library": "/usr/lib/kea/hooks/libdhcp_lease_cmds.so"
+              library: "/usr/lib/kea/hooks/libdhcp_lease_cmds.so"
             },
             {
-              "library": "/usr/lib/kea/hooks/libdhcp_stat_cmds.so"
+              library: "/usr/lib/kea/hooks/libdhcp_stat_cmds.so"
             },
             {
-              "library": "/usr/lib/kea/hooks/libdhcp_ha.so",
-              "parameters": {
+              library: "/usr/lib/kea/hooks/libdhcp_ha.so",
+              parameters: {
                 "high-availability": [
                   {
                     "this-server-name": "<SERVER_NAME>",
-                    "mode": "hot-standby",
+                    mode: "hot-standby",
                     "heartbeat-delay": 10000,
                     "max-response-delay": 60000,
                     "max-ack-delay": 10000,
                     "max-unacked-clients": 0,
-                    "peers": [
+                    peers: [
                       {
-                        "name": "primary",
-                        "url": "http://<PRIMARY_IP>:8000",
-                        "role": "primary",
+                        name: "primary",
+                        url: "http://<PRIMARY_IP>:8000",
+                        role: "primary",
                         "auto-failover": true
                       },
                       {
-                        "name": "standby",
-                        "url": "http://<STANDBY_IP>:8000",
-                        "role": "standby",
+                        name: "standby",
+                        url: "http://<STANDBY_IP>:8000",
+                        role: "standby",
                         "auto-failover": true
                       }
                     ]
