@@ -46,10 +46,14 @@
 
 <h3 class="govuk-heading-m">Exclusion</h3>
 
-<%= link_to "Create exclusion", new_subnet_exclusion_path(@subnet), class: "govuk-button" if can?(:create, Exclusion) %>
+<% if @subnet.exclusions.any? %>
+  <%= link_to "Delete exclusion", exclusion_path(@subnet.exclusions.first), class: "govuk-button govuk-button--secondary", method: :delete if can?(:destroy, @subnet.exclusions.first) %>
+<% else %>
+  <%= link_to "Create exclusion", new_subnet_exclusion_path(@subnet), class: "govuk-button" if can?(:create, Exclusion) %>
+<% end %>
 
 <% if @subnet.exclusions.any? %>
-  <%= render "exclusions/list", exclusions: @subnet.exclusions %>
+  <%= render "exclusions/details", exclusion: @subnet.exclusions.first %>
 <% end %>
 
 <h3 class="govuk-heading-m">Options</h3>

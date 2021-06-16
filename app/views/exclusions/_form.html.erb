@@ -1,5 +1,5 @@
  <%= form_with model: exclusion,
-              url: subnet_exclusion_path(exclusion.subnet),
+              url: subnet_exclusions_path(exclusion.subnet),
               method: exclusion.new_record? ? :post : :put,
               local: true do |f| %>
     <div class="govuk-form-group <%= field_error(f.object, :start_address) %>">

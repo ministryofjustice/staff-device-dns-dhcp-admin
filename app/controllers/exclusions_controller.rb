@@ -1,6 +1,6 @@
 class ExclusionsController < ApplicationController
-  before_action :set_subnet
-  before_action :set_exclusion, only: [:edit, :update, :destroy]
+  before_action :set_subnet, except: [:show, :destroy]
+  before_action :set_exclusion, only: [:destroy]
 
   def new
     @exclusion = @subnet.exclusions.build
@@ -18,29 +18,13 @@ class ExclusionsController < ApplicationController
     end
   end
 
-  def edit
-    authorize! :update, @option
-    @global_option = GlobalOption.first
-  end
-
-  def update
-    authorize! :update, @option
-    @option.assign_attributes(option_params)
-
-    if update_dhcp_config.call(@option, -> { @option.save })
-      redirect_to subnet_path(@option.subnet), notice: "Successfully updated options." + CONFIG_UPDATE_DELAY_NOTICE
-    else
-      render :edit
-    end
-  end
-
   def destroy
-    authorize! :destroy, @option
+    authorize! :destroy, @exclusion
     if confirmed?
-      if update_dhcp_config.call(@option, -> { @option.destroy })
-        redirect_to subnet_path(@option.subnet), notice: "Successfully deleted option." + CONFIG_UPDATE_DELAY_NOTICE
+      if update_dhcp_config.call(@exclusion, -> { @exclusion.destroy })
+        redirect_to subnet_path(@exclusion.subnet), notice: "Successfully deleted exclusion." + CONFIG_UPDATE_DELAY_NOTICE
       else
-        redirect_to subnet_path(@option.subnet), error: "Failed to delete the option"
+        redirect_to subnet_path(@exclusion.subnet), error: "Failed to delete the exclusion"
       end
     else
       render "destroy"
@@ -58,7 +42,11 @@ class ExclusionsController < ApplicationController
   end
 
   def set_exclusion
-    exclusion = @subnet.exclusion
+    @exclusion = Exclusion.find(exclusion_id)
+  end
+
+  def exclusion_id
+    params.fetch(:id)
   end
 
   def exclusion_params

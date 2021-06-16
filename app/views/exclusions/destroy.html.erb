@@ -1,0 +1,37 @@
+<h2 class="govuk-heading-l">Are you sure you want to delete this exclusion?</h2>
+
+<div class="govuk-inset-text">
+  <h4 class="govuk-heading-s">Start Address:</h4>
+  <p class="govuk-body"><%= @exclusion.start_address %></p>
+  <h4 class="govuk-heading-s">End Address:</h4>
+  <p class="govuk-body"><%= @exclusion.end_address %></p>
+</div>
+
+<div class="govuk-warning-text">
+  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+  <strong class="govuk-warning-text__text">
+    <span class="govuk-warning-text__assistive">Warning</span>
+      Deleting exclusion cannot be undone.
+  </strong>
+</div>
+
+<%= button_to "Delete exclusion", exclusion_path(@exclusion),
+  method: :delete,
+  class: "govuk-button govuk-button--warning govuk-!-margin-right-1",
+  data: {
+    "module" => "govuk-button"
+  },
+  params: {
+    confirm: true
+  },
+  form: {
+    class: 'govuk-!-display-inline-block'
+  }
+%>
+<%= link_to "Cancel", subnet_path(@exclusion.subnet),
+  class: "govuk-button govuk-button--secondary",
+  data: {
+    module: "govuk-button"
+  }
+%>
+
