@@ -3,6 +3,7 @@ class ReservationsController < ApplicationController
   before_action :set_reservation, only: [:show, :edit, :update, :destroy]
 
   def new
+    byebug
     @reservation = @subnet.reservations.build
     authorize! :create, @reservation
   end
