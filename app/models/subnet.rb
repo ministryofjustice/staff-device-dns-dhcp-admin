@@ -3,7 +3,7 @@ class Subnet < ApplicationRecord
   CLIENT_CLASS_NAME_PREFIX = "subnet"
   INVALID_IPV4_LIST_MESSAGE = "contains an invalid IPv4 address or is not separated using commas"
 
-  belongs_to :site
+  belongs_to :shared_network
   has_one :option, dependent: :destroy
   has_many :reservations, dependent: :destroy
   has_many :exclusions, dependent: :destroy
@@ -27,6 +27,10 @@ class Subnet < ApplicationRecord
     :valid_lifetime,
     :valid_lifetime_unit,
     to: :option,
+    allow_nil: true
+
+  delegate :site,
+    to: :shared_network,
     allow_nil: true
 
   def routers

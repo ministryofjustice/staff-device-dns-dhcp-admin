@@ -44,6 +44,7 @@
 
 <%= link_to "View leases", subnet_leases_path(@subnet), class: "govuk-button govuk-button--secondary" %>
 
+<!--
 <h3 class="govuk-heading-m">Exclusion</h3>
 
 <% if @subnet.exclusions.any? %>
@@ -55,6 +56,9 @@
 <% if @subnet.exclusions.any? %>
   <%= render "exclusions/details", exclusion: @subnet.exclusions.first %>
 <% end %>
+-->
+
+<%= link_to "Extend this network with another subnet", new_subnet_extension_path(@subnet), class: "govuk-button" if can?(:update, @subnet) %>
 
 <h3 class="govuk-heading-m">Options</h3>
 <% if @subnet.option %>
