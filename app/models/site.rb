@@ -1,5 +1,4 @@
 class Site < ApplicationRecord
-
   has_many :shared_networks, dependent: :destroy
   has_many :subnets, through: :shared_networks
 
