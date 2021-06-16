@@ -5,7 +5,8 @@ FactoryBot.define do
 
     trait :with_subnet do
       after :create do |site|
-        create(:subnet, site: site)
+        shared_network = create(:shared_network, site: site)
+        create(:subnet, shared_network: shared_network)
       end
     end
   end

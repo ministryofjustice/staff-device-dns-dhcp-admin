@@ -9,7 +9,7 @@ FactoryBot.define do
     end_address { "10.#{index}.4.255" }
     routers { "10.#{index}.4.0,10.#{index}.4.2" }
 
-    site
+    shared_network
 
     trait :with_reservation do
       after :create do |subnet|

@@ -13,11 +13,14 @@ Rails.application.routes.draw do
   resources :sites, except: [:index] do
     resources :subnets, only: [:new, :create]
   end
+
   resources :subnets, only: [:show, :edit, :update, :destroy] do
     resources :exclusions, only: [:new, :create]
     resource :options, only: [:new, :create, :edit, :update, :destroy]
     resource :reservations, only: [:new, :create]
     resources :leases, only: [:index]
+
+    resources :extensions, only: [:new, :create], controller: :subnet_extensions
   end
   resources :reservations, only: [:show, :edit, :update, :destroy] do
     resource :reservation_options, only: [:new, :create], path: "/options"

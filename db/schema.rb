@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_11_141023) do
+ActiveRecord::Schema.define(version: 2021_06_15_125149) do
+
   create_table "audits", charset: "latin1", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
@@ -93,6 +94,13 @@ ActiveRecord::Schema.define(version: 2021_06_11_141023) do
     t.index ["subnet_id"], name: "index_reservations_on_subnet_id"
   end
 
+  create_table "shared_networks", charset: "latin1", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "site_id"
+    t.index ["site_id"], name: "index_shared_networks_on_site_id"
+  end
+
   create_table "sites", charset: "latin1", force: :cascade do |t|
     t.string "name", null: false
     t.string "fits_id", null: false
@@ -106,9 +114,9 @@ ActiveRecord::Schema.define(version: 2021_06_11_141023) do
     t.string "end_address", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "site_id", null: false
     t.string "routers", null: false
-    t.index ["site_id"], name: "index_subnets_on_site_id"
+    t.bigint "shared_network_id"
+    t.index ["shared_network_id"], name: "index_subnets_on_shared_network_id"
   end
 
   create_table "users", charset: "latin1", force: :cascade do |t|
@@ -132,5 +140,6 @@ ActiveRecord::Schema.define(version: 2021_06_11_141023) do
   add_foreign_key "options", "subnets"
   add_foreign_key "reservation_options", "reservations"
   add_foreign_key "reservations", "subnets"
-  add_foreign_key "subnets", "sites"
+  add_foreign_key "shared_networks", "sites"
+  add_foreign_key "subnets", "shared_networks"
 end

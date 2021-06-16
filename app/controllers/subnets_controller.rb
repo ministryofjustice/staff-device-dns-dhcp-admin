@@ -1,6 +1,6 @@
 class SubnetsController < ApplicationController
   before_action :set_site, only: [:new, :create]
-  before_action :set_subnet, only: [:show, :edit, :update, :destroy]
+  before_action :set_subnet, only: [:show, :edit, :update, :destroy, :extend]
 
   def new
     @subnet = @site.subnets.build
@@ -9,7 +9,9 @@ class SubnetsController < ApplicationController
   end
 
   def create
-    @subnet = @site.subnets.build(subnet_params)
+    @subnet = Subnet.new(subnet_params)
+    @subnet.shared_network = SharedNetwork.new(site: @site)
+
     authorize! :create, @subnet
 
     if update_dhcp_config.call(@subnet, -> { @subnet.save })

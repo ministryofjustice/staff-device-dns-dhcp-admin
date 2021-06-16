@@ -20,8 +20,9 @@ describe UseCases::GenerateKeaConfig do
 
     it "appends subnets to the subnet4 list" do
       site = build_stubbed(:site, fits_id: "FITSID01", name: "SITENAME01")
-      subnet1 = build_stubbed(:subnet, cidr_block: "10.0.1.0/24", start_address: "10.0.1.1", end_address: "10.0.1.255", routers: "10.0.1.2,10.0.1.3", site: site)
-      subnet2 = build_stubbed(:subnet, cidr_block: "10.0.2.0/24", start_address: "10.0.2.1", end_address: "10.0.2.255", routers: "10.0.2.2,10.0.2.3", site: site)
+      shared_network = build_stubbed(:shared_network, site: site)
+      subnet1 = build_stubbed(:subnet, cidr_block: "10.0.1.0/24", start_address: "10.0.1.1", end_address: "10.0.1.255", routers: "10.0.1.2,10.0.1.3", shared_network: shared_network)
+      subnet2 = build_stubbed(:subnet, cidr_block: "10.0.2.0/24", start_address: "10.0.2.1", end_address: "10.0.2.255", routers: "10.0.2.2,10.0.2.3", shared_network: shared_network)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1, subnet2]).call
 
@@ -72,9 +73,10 @@ describe UseCases::GenerateKeaConfig do
 
     it "appends subnets to the subnet4 list with an exclusion" do
       site = build_stubbed(:site, fits_id: "FITSID01", name: "SITENAME01")
+      shared_network = build_stubbed(:shared_network, site: site)
       exclusion = build_stubbed(:exclusion, start_address: "10.0.1.90", end_address: "10.0.1.100")
       subnet1 = build_stubbed(:subnet, cidr_block: "10.0.1.0/24", start_address: "10.0.1.1",
-                                       end_address: "10.0.1.255", exclusions: [exclusion], routers: "10.0.1.2,10.0.1.3", site: site)
+                                       end_address: "10.0.1.255", exclusions: [exclusion], routers: "10.0.1.2,10.0.1.3", shared_network: shared_network)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
@@ -112,9 +114,10 @@ describe UseCases::GenerateKeaConfig do
 
     it "appends subnets to the subnet4 list with another exclusion" do
       site = build_stubbed(:site, fits_id: "FITSID01", name: "SITENAME01")
+      shared_network = build_stubbed(:shared_network, site: site)
       exclusion = build_stubbed(:exclusion, start_address: "10.0.1.50", end_address: "10.0.1.60")
       subnet1 = build_stubbed(:subnet, cidr_block: "10.0.1.0/24", start_address: "10.0.1.1",
-                                       end_address: "10.0.1.255", exclusions: [exclusion], routers: "10.0.1.2,10.0.1.3", site: site)
+                                       end_address: "10.0.1.255", exclusions: [exclusion], routers: "10.0.1.2,10.0.1.3", shared_network: shared_network)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
@@ -152,9 +155,10 @@ describe UseCases::GenerateKeaConfig do
 
     it "appends subnets to the subnet4 list with yet another exclusion" do
       site = build_stubbed(:site, fits_id: "FITSID01", name: "SITENAME01")
+      shared_network = build_stubbed(:shared_network, site: site)
       exclusion = build_stubbed(:exclusion, start_address: "10.0.1.150", end_address: "10.0.1.170")
       subnet1 = build_stubbed(:subnet, cidr_block: "10.0.1.0/24", start_address: "10.0.1.1",
-                                       end_address: "10.0.1.255", exclusions: [exclusion], routers: "10.0.1.2,10.0.1.3", site: site)
+                                       end_address: "10.0.1.255", exclusions: [exclusion], routers: "10.0.1.2,10.0.1.3", shared_network: shared_network)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
@@ -192,9 +196,10 @@ describe UseCases::GenerateKeaConfig do
 
     it "appends another subnet to the subnet4 list with an exclusion" do
       site = build_stubbed(:site, fits_id: "FITSID01", name: "SITENAME01")
+      shared_network = build_stubbed(:shared_network, site: site)
       exclusion = build_stubbed(:exclusion, start_address: "10.0.2.150", end_address: "10.0.2.170")
       subnet1 = build_stubbed(:subnet, cidr_block: "10.0.2.0/24", start_address: "10.0.2.1",
-                                       end_address: "10.0.2.255", exclusions: [exclusion], routers: "10.0.2.2,10.0.2.3", site: site)
+                                       end_address: "10.0.2.255", exclusions: [exclusion], routers: "10.0.2.2,10.0.2.3", shared_network: shared_network)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
@@ -232,9 +237,10 @@ describe UseCases::GenerateKeaConfig do
 
     it "appends a subnet to the subnet4 list with an exclusion at the start" do
       site = build_stubbed(:site, fits_id: "FITSID01", name: "SITENAME01")
+      shared_network = build_stubbed(:shared_network, site: site)
       exclusion = build_stubbed(:exclusion, start_address: "10.0.2.1", end_address: "10.0.2.170")
       subnet1 = build_stubbed(:subnet, cidr_block: "10.0.2.0/24", start_address: "10.0.2.1",
-                                       end_address: "10.0.2.255", exclusions: [exclusion], routers: "10.0.2.2,10.0.2.3", site: site)
+                                       end_address: "10.0.2.255", exclusions: [exclusion], routers: "10.0.2.2,10.0.2.3", shared_network: shared_network)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
@@ -269,9 +275,10 @@ describe UseCases::GenerateKeaConfig do
 
     it "appends a subnet to the subnet4 list with a different exclusion at the start" do
       site = build_stubbed(:site, fits_id: "FITSID01", name: "SITENAME01")
+      shared_network = build_stubbed(:shared_network, site: site)
       exclusion = build_stubbed(:exclusion, start_address: "10.0.2.1", end_address: "10.0.2.70")
       subnet1 = build_stubbed(:subnet, cidr_block: "10.0.2.0/24", start_address: "10.0.2.1",
-                                       end_address: "10.0.2.255", exclusions: [exclusion], routers: "10.0.2.2,10.0.2.3", site: site)
+                                       end_address: "10.0.2.255", exclusions: [exclusion], routers: "10.0.2.2,10.0.2.3", shared_network: shared_network)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
@@ -306,9 +313,10 @@ describe UseCases::GenerateKeaConfig do
 
     it "appends another subnet to the subnet4 list with an exclusion at the start" do
       site = build_stubbed(:site, fits_id: "FITSID01", name: "SITENAME01")
+      shared_network = build_stubbed(:shared_network, site: site)
       exclusion = build_stubbed(:exclusion, start_address: "10.0.1.1", end_address: "10.0.1.70")
       subnet1 = build_stubbed(:subnet, cidr_block: "10.0.1.0/24", start_address: "10.0.1.1",
-                                       end_address: "10.0.1.255", exclusions: [exclusion], routers: "10.0.1.2,10.0.1.3", site: site)
+                                       end_address: "10.0.1.255", exclusions: [exclusion], routers: "10.0.1.2,10.0.1.3", shared_network: shared_network)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
@@ -343,9 +351,10 @@ describe UseCases::GenerateKeaConfig do
 
     it "appends a subnet to the subnet4 list with an exclusion at the end" do
       site = build_stubbed(:site, fits_id: "FITSID01", name: "SITENAME01")
+      shared_network = build_stubbed(:shared_network, site: site)
       exclusion = build_stubbed(:exclusion, start_address: "10.0.2.200", end_address: "10.0.2.255")
       subnet1 = build_stubbed(:subnet, cidr_block: "10.0.2.0/24", start_address: "10.0.2.1",
-                                       end_address: "10.0.2.255", exclusions: [exclusion], routers: "10.0.2.2,10.0.2.3", site: site)
+                                       end_address: "10.0.2.255", exclusions: [exclusion], routers: "10.0.2.2,10.0.2.3", shared_network: shared_network)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
@@ -380,9 +389,10 @@ describe UseCases::GenerateKeaConfig do
 
     it "appends a subnet to the subnet4 list with another exclusion at the end" do
       site = build_stubbed(:site, fits_id: "FITSID01", name: "SITENAME01")
+      shared_network = build_stubbed(:shared_network, site: site)
       exclusion = build_stubbed(:exclusion, start_address: "10.0.2.230", end_address: "10.0.2.255")
       subnet1 = build_stubbed(:subnet, cidr_block: "10.0.2.0/24", start_address: "10.0.2.1",
-                                       end_address: "10.0.2.255", exclusions: [exclusion], routers: "10.0.2.2,10.0.2.3", site: site)
+                                       end_address: "10.0.2.255", exclusions: [exclusion], routers: "10.0.2.2,10.0.2.3", shared_network: shared_network)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
@@ -417,9 +427,10 @@ describe UseCases::GenerateKeaConfig do
 
     it "appends a different subnet to the subnet4 list with an exclusion at the end" do
       site = build_stubbed(:site, fits_id: "FITSID01", name: "SITENAME01")
+      shared_network = build_stubbed(:shared_network, site: site)
       exclusion = build_stubbed(:exclusion, start_address: "10.0.1.230", end_address: "10.0.1.255")
       subnet1 = build_stubbed(:subnet, cidr_block: "10.0.1.0/24", start_address: "10.0.1.1",
-                                       end_address: "10.0.1.255", exclusions: [exclusion], routers: "10.0.1.2,10.0.1.3", site: site)
+                                       end_address: "10.0.1.255", exclusions: [exclusion], routers: "10.0.1.2,10.0.1.3", shared_network: shared_network)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
@@ -454,9 +465,10 @@ describe UseCases::GenerateKeaConfig do
 
     it "creates an exclusion to cover the whole subnet" do
       site = build_stubbed(:site, fits_id: "FITSID01", name: "SITENAME01")
+      shared_network = build_stubbed(:shared_network, site: site)
       exclusion = build_stubbed(:exclusion, start_address: "10.0.1.1", end_address: "10.0.1.255")
       subnet1 = build_stubbed(:subnet, cidr_block: "10.0.1.0/24", start_address: "10.0.1.1",
-                                       end_address: "10.0.1.255", exclusions: [exclusion], routers: "10.0.1.2,10.0.1.3", site: site)
+                                       end_address: "10.0.1.255", exclusions: [exclusion], routers: "10.0.1.2,10.0.1.3", shared_network: shared_network)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 

@@ -160,14 +160,14 @@ module UseCases
 
     def subnet_option_client_classes
       @subnet_option_client_classes ||= begin
-        option_client_classes = @subnets.filter_map { |subnet|
+        option_client_classes = @subnets.filter_map do |subnet|
           options_config = UseCases::KeaConfig::GenerateOptionDataConfig.new.call(subnet)
           {
             name: subnet.client_class_name,
             test: "member('ALL')",
             "only-if-required": true
           }.merge(options_config)
-        }
+        end
 
         option_client_classes
       end

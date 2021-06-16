@@ -16,8 +16,9 @@ describe "showing a site", type: :feature do
 
     context "when the site exists" do
       let!(:site) { create :site }
-      let!(:subnet) { create :subnet, index: 1, site: site }
-      let!(:subnet2) { create :subnet, index: 2, site: site }
+      let!(:shared_network) { create :shared_network, site: site }
+      let!(:subnet) { create :subnet, index: 1, shared_network: shared_network }
+      let!(:subnet2) { create :subnet, index: 2, shared_network: shared_network }
       let!(:subnet3) { create :subnet, index: 3 }
 
       it "allows viewing sites and its subnets" do

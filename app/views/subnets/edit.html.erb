@@ -4,7 +4,16 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render "subnets/form", subnet: @subnet %>
+    <%= form_with(model: @subnet, url: subnet_path(@subnet), local: true) do |form| %>
+      <%= render "subnets/form", f: form %>
+
+      <%= link_to "Cancel", subnet_path(@subnet),
+        class: "govuk-button govuk-button--secondary",
+        data: {
+          module: "govuk-button"
+        }
+      %>
+    <% end %>
   </div>
 
   <div class="govuk-grid-column-one-third">

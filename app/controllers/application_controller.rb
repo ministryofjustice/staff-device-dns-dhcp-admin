@@ -51,8 +51,8 @@ class ApplicationController < ActionController::Base
   def generate_kea_config
     UseCases::GenerateKeaConfig.new(
       subnets: Subnet.includes(
-        :site,
         :option,
+        shared_network: [:site],
         reservations: [:reservation_option]
       ).all,
       global_option: GlobalOption.first,
