@@ -1,0 +1,33 @@
+ <%= form_with model: exclusion,
+              url: subnet_exclusion_path(exclusion.subnet),
+              method: exclusion.new_record? ? :post : :put,
+              local: true do |f| %>
+    <div class="govuk-form-group <%= field_error(f.object, :start_address) %>">
+    <%= f.label :start_address, class: "govuk-label" %>
+    <div id="start_address-hint" class="govuk-hint">
+      Must be in the form: 127.0.0.1
+    </div>
+    <%= f.text_field :start_address, class: "govuk-input" %>
+  </div>
+
+  <div class="govuk-form-group <%= field_error(f.object, :end_address) %>">
+    <%= f.label :end_address, class: "govuk-label" %>
+    <div id="end_address-hint" class="govuk-hint">
+      Must be in the form: 127.0.0.1
+    </div>
+    <%= f.text_field :end_address, class: "govuk-input" %>
+  </div>
+
+  <%= f.submit f.object.new_record? ? "Create" : "Update", {
+    class: "govuk-button",
+    "data-module" => "govuk-button"
+  } %>
+
+  <%= link_to "Cancel", f.object.new_record? ? subnet_path(exclusion.subnet) : subnet,
+  class: "govuk-button govuk-button--secondary",
+  data: {
+    module: "govuk-button"
+  }
+%>
+
+<% end %>

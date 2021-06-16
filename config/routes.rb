@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     resources :subnets, only: [:new, :create]
   end
   resources :subnets, only: [:show, :edit, :update, :destroy] do
+    resource :exclusion, only: [:new, :create, :edit, :update, :destroy]
     resource :options, only: [:new, :create, :edit, :update, :destroy]
     resource :reservations, only: [:new, :create]
     resources :leases, only: [:index]

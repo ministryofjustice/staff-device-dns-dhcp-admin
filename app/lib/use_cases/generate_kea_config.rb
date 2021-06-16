@@ -32,6 +32,10 @@ module UseCases
         first_exclusion_start_address = IPAddr.new(subnet.exclusions.first.start_address).to_i
         first_exclusion_end_address = IPAddr.new(subnet.exclusions.first.end_address).to_i
 
+        if subnet.exclusions.first.start_address==subnet.start_address && subnet.exclusions.first.end_address==subnet.end_address
+          return []
+        end
+
         if subnet.exclusions.first.start_address==subnet.start_address
           return [
             {
