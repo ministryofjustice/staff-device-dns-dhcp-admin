@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :exclusion do
     subnet
-    start_address { "192.168.1.10" }
-    end_address { "192.168.1.20" }
+    start_address { "10.0.4.50" }
+    end_address { "10.0.4.100" }
   end
 end
