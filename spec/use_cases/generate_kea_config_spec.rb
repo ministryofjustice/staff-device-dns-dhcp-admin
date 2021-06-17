@@ -26,47 +26,34 @@ describe UseCases::GenerateKeaConfig do
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1, subnet2]).call
 
-      expect(config.dig(:Dhcp4, :subnet4)).to match_array([
+      expect(config.dig(:Dhcp4, :"shared-networks")).to match_array([
         {
-          pools: [
-            {
-              pool: "127.0.0.1 - 127.0.0.254"
-            }
-          ],
-          subnet: "127.0.0.1/24",
-          id: 1
-        },
-        {
-          pools: [
-            {
-              pool: "10.0.1.1 - 10.0.1.255"
-            }
-          ],
-          subnet: "10.0.1.0/24",
-          id: subnet1.kea_id,
-          "user-context": {
-            "site-id": subnet1.site.fits_id,
-            "site-name": subnet1.site.name
+          name: shared_network.name,
+
+          subnet4: [{
+            subnet: "10.0.1.0/24",
+            pools: [ { pool:  "10.0.1.1 - 10.0.1.255" } ],
+            id: subnet1.kea_id,
+            "user-context": {
+              "site-id": site.fits_id,
+              "site-name": site.name
+            },
+            "require-client-classes": [
+              "subnet-10.0.1.0-client"
+            ]
           },
-          "require-client-classes": [
-            "subnet-10.0.1.0-client"
-          ]
-        },
-        {
-          pools: [
-            {
-              pool: "10.0.2.1 - 10.0.2.255"
-            }
-          ],
-          subnet: "10.0.2.0/24",
-          id: subnet2.kea_id,
-          "user-context": {
-            "site-id": subnet1.site.fits_id,
-            "site-name": subnet1.site.name
-          },
-          "require-client-classes": [
-            "subnet-10.0.2.0-client"
-          ]
+          {
+            subnet: "10.0.2.0/24",
+            pools: [ { pool:  "10.0.2.1 - 10.0.2.255" } ],
+            id: subnet2.kea_id,
+            "user-context": {
+              "site-id": site.fits_id,
+              "site-name": site.name
+            },
+            "require-client-classes": [
+              "subnet-10.0.2.0-client"
+            ]
+          }]
         }
       ])
     end
