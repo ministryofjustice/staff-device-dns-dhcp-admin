@@ -30,7 +30,7 @@ describe "create exclusion", type: :feature do
 
       expect(page).to have_content("Successfully created exclusion")
       expect(page).to have_content("This could take up to 10 minutes to apply.")
-      expect(page).to have_content("Start Address 10.0.4.1") 
+      expect(page).to have_content("Start Address 10.0.4.1")
       expect(page).to have_content("End Address 10.0.4.50")
 
       expect_audit_log_entry_for(editor.email, "create", "Exclusion")

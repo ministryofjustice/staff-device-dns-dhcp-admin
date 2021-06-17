@@ -45,7 +45,7 @@ class Exclusion < ApplicationRecord
     return if start_address.blank? || end_address.blank?
     return unless IPAddress.valid_ipv4?(start_address)
 
-    unless IPAddr.new(start_address) >= IPAddr.new(subnet.start_address) && IPAddr.new(start_address) <= IPAddr.new(subnet.end_address) 
+    unless IPAddr.new(start_address) >= IPAddr.new(subnet.start_address) && IPAddr.new(start_address) <= IPAddr.new(subnet.end_address)
       errors.add(:start_address, "is outside subnet range")
     end
   end
@@ -55,9 +55,8 @@ class Exclusion < ApplicationRecord
     return if start_address.blank? || end_address.blank?
     return unless IPAddress.valid_ipv4?(end_address)
 
-    unless IPAddr.new(end_address) >= IPAddr.new(subnet.start_address) && IPAddr.new(end_address) <= IPAddr.new(subnet.end_address) 
+    unless IPAddr.new(end_address) >= IPAddr.new(subnet.start_address) && IPAddr.new(end_address) <= IPAddr.new(subnet.end_address)
       errors.add(:end_address, "is outside subnet range")
     end
   end
-
 end
