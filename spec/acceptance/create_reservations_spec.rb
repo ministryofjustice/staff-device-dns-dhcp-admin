@@ -46,7 +46,7 @@ describe "create reservations", type: :feature do
       expect(page).to have_content(reservation.subnet.start_address + " to " + reservation.subnet.end_address)
 
       fill_in "HW address", with: "01:bb:cc:dd:ee:fe"
-      fill_in "IP address", with: "192.0.2.2"
+      fill_in "IP address", with: reservation.subnet.end_address
       fill_in "Hostname", with: "test.example2.com"
       fill_in "Description", with: "Test reservation"
 
@@ -58,7 +58,7 @@ describe "create reservations", type: :feature do
       expect(page).to have_content("Successfully created reservation")
       expect(page).to have_content("This could take up to 10 minutes to apply.")
       expect(page).to have_content("01:bb:cc:dd:ee:fe")
-      expect(page).to have_content("192.0.2.2")
+      expect(page).to have_content(reservation.subnet.end_address)
       expect(page).to have_content("test.example2.com")
       expect(page).to have_content("Test reservation")
 

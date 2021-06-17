@@ -810,12 +810,12 @@ describe UseCases::GenerateKeaConfig do
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet]).call
 
       expect(config.dig(:Dhcp4, :subnet4)).to include(
-        hash_including("require-client-classes": ["subnet-10.0.4.0-client"])
+        hash_including("require-client-classes": ["subnet-#{subnet.ip_addr}-client"])
       )
 
       expect(config.dig(:Dhcp4, :"client-classes")).to match([
         {
-          name: "subnet-10.0.4.0-client",
+          name: "subnet-#{subnet.ip_addr}-client",
           test: "member('ALL')",
           "only-if-required": true,
           "option-data": match_array([
@@ -834,7 +834,7 @@ describe UseCases::GenerateKeaConfig do
 
       client_class_names = config.dig(:Dhcp4, :"client-classes").map { |cc| cc[:name] }
       expect(client_class_names).to eq(
-        ["DOM1 device", "subnet-10.0.4.0-client"]
+        ["DOM1 device", "subnet-#{subnet.ip_addr}-client"]
       )
     end
 

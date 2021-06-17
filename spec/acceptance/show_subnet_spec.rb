@@ -18,7 +18,7 @@ describe "showing a subnet", type: :feature do
       let(:subnet) { create :subnet }
       let(:site) { subnet.site }
 
-      it "allows viewing subnets and its subnets" do
+      it "allows viewing subnets" do
         visit "/sites/#{site.to_param}"
 
         click_on "View"
@@ -26,6 +26,15 @@ describe "showing a subnet", type: :feature do
         expect(page).to have_content subnet.cidr_block
         expect(page).to have_content subnet.start_address
         expect(page).to have_content subnet.end_address
+      end
+
+      it "allows viewing other subnets in the same shared network" do
+        other_subnet = create(:subnet, shared_network: subnet.shared_network)
+        visit "/subnets/#{subnet.to_param}"
+
+        expect(page).to have_content other_subnet.cidr_block
+        expect(page).to have_content other_subnet.start_address
+        expect(page).to have_content other_subnet.end_address
       end
     end
   end

@@ -51,7 +51,7 @@ describe "update reservations", type: :feature do
       expect(page).to have_field("Description", with: reservation.description)
 
       fill_in "HW address", with: "1a:1b:1c:1d:1e:1f"
-      fill_in "IP address", with: "192.0.2.3"
+      fill_in "IP address", with: reservation.subnet.end_address
       fill_in "Hostname", with: "testier.example.com"
       fill_in "Description", with: "Changed test reservation"
 
@@ -63,7 +63,7 @@ describe "update reservations", type: :feature do
       expect(page).to have_content("Successfully updated reservation")
       expect(page).to have_content("This could take up to 10 minutes to apply.")
       expect(page).to have_content("1a:1b:1c:1d:1e:1f")
-      expect(page).to have_content("192.0.2.3")
+      expect(page).to have_content(reservation.subnet.end_address)
       expect(page).to have_content("testier.example.com")
       expect(page).to have_content("Changed test reservation")
 

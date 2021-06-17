@@ -25,11 +25,6 @@ RSpec.describe Reservation, type: :model do
     it { should_not allow_value("01:BB:cc:DD:EE:ff:XX:XX").for(:hw_address) }
   end
 
-  it "validates a correct ip address" do
-    reservation = build :reservation, ip_address: "10.0.4.1", subnet: build(:subnet, cidr_block: "10.0.4.0/24")
-    expect(reservation).to be_valid
-  end
-
   it "validates an incorrect ip address" do
     reservation = build :reservation, ip_address: "10.0.4"
     expect(reservation).not_to be_valid
@@ -37,14 +32,14 @@ RSpec.describe Reservation, type: :model do
   end
 
   it "is valid if the ip_address is within the subnet CIDR block" do
-    subnet = create(:subnet, cidr_block: "10.0.4.0/24")
-    reservation = build :reservation, subnet: subnet, ip_address: "10.0.4.20"
+    subnet = build(:subnet)
+    reservation = build :reservation, ip_address: subnet.start_address, subnet: subnet
     expect(reservation).to be_valid
   end
 
   it "is invalid if the ip_address is not within the subnet CIDR block" do
-    subnet = create(:subnet, cidr_block: "10.0.4.0/24")
-    reservation = build :reservation, subnet: subnet, ip_address: "10.0.10.20"
+    subnet = build(:subnet)
+    reservation = build :reservation, subnet: subnet, ip_address: "192.0.10.20"
     expect(reservation).to_not be_valid
     expect(reservation.errors[:ip_address]).to eq(["is not within the subnet range"])
   end
