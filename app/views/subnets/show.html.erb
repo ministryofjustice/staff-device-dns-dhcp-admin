@@ -44,9 +44,7 @@
 
 <%= link_to "View leases", subnet_leases_path(@subnet), class: "govuk-button govuk-button--secondary" %>
 
-<!--
 <h3 class="govuk-heading-m">Exclusion</h3>
-
 
 <% if @subnet.exclusions.any? %>
   <%= link_to "Delete exclusion", exclusion_path(@subnet.exclusions.first), class: "govuk-button govuk-button--secondary", method: :delete if can?(:destroy, @subnet.exclusions.first) %>
@@ -57,7 +55,7 @@
 <% if @subnet.exclusions.any? %>
   <%= render "exclusions/details", exclusion: @subnet.exclusions.first %>
 <% end %>
--->
+
 <h3 class="govuk-heading-m">Options</h3>
 <% if @subnet.option %>
 

@@ -14,7 +14,7 @@ describe "delete exclusion", type: :feature do
     login_as editor
   end
 
-  xit "delete an exclusion" do
+  it "delete an exclusion" do
     visit "/subnets/#{subnet.to_param}"
 
     click_on "Delete"
