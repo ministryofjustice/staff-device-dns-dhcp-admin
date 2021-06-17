@@ -40,5 +40,4 @@ RSpec.describe Exclusion, type: :model do
     exclusion = build :exclusion, subnet: subnet, start_address: "10.0.4.20", end_address: "10.0.4.150"
     expect(exclusion).not_to be_valid
   end
-  
 end
