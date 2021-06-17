@@ -70,6 +70,10 @@ class Subnet < ApplicationRecord
     "#{CLIENT_CLASS_NAME_PREFIX}-#{ip_addr}-client"
   end
 
+  def subnets_in_same_shared_network
+    shared_network.subnets - [self]
+  end
+
   private
 
   def cidr_block_is_a_valid_ipv4_subnet

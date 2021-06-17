@@ -13,8 +13,8 @@ RSpec.describe Subnet, type: :model do
   it { is_expected.to validate_presence_of :end_address }
   it { is_expected.to validate_presence_of :routers }
 
-  it "validates a correct CIDR block" do
-    subnet = build :subnet, cidr_block: "10.0.4.0/24"
+  it "is valid by default" do
+    subnet = build :subnet
     expect(subnet).to be_valid
   end
 
@@ -24,20 +24,10 @@ RSpec.describe Subnet, type: :model do
     expect(subnet.errors[:cidr_block]).to eq(["is not a valid IPv4 subnet"])
   end
 
-  it "validates a correct start address" do
-    subnet = build :subnet, start_address: "10.0.4.1"
-    expect(subnet).to be_valid
-  end
-
   it "validates an incorrect start address" do
     subnet = build :subnet, start_address: "10.0.4"
     expect(subnet).not_to be_valid
     expect(subnet.errors[:start_address]).to eq(["is not a valid IPv4 address"])
-  end
-
-  it "validates a correct end address" do
-    subnet = build :subnet, end_address: "10.0.4.1"
-    expect(subnet).to be_valid
   end
 
   it "validates an incorrect end address" do
@@ -53,16 +43,16 @@ RSpec.describe Subnet, type: :model do
   end
 
   it "validates cidr_block is unique by the address" do
-    create :subnet, cidr_block: "10.0.4.0/24"
-    subnet = build :subnet, cidr_block: "10.0.4.0/20"
+    existing_subnet = create :subnet
+    subnet = build :subnet, cidr_block: existing_subnet.cidr_block.gsub('/24', '/20')
 
     expect(subnet).not_to be_valid
     expect(subnet.errors[:cidr_block]).to eq(["matches a subnet with the same address"])
   end
 
   it "does not append the subnet address validation when the cidr_block matches exactly" do
-    create :subnet, cidr_block: "10.0.4.0/24"
-    subnet = build :subnet, cidr_block: "10.0.4.0/24"
+    existing_subnet = create :subnet
+    subnet = build :subnet, cidr_block: existing_subnet.cidr_block
 
     expect(subnet).not_to be_valid
     expect(subnet.errors[:cidr_block]).to_not include "matches a subnet with the same address"

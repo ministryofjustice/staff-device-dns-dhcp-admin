@@ -58,7 +58,12 @@
 <% end %>
 -->
 
+<h3 class="govuk-heading-m">Other subnets in the same shared network</h3>
+<%= render "subnets/list", subnets: @subnet.subnets_in_same_shared_network %>
 <%= link_to "Extend this network with another subnet", new_subnet_extension_path(@subnet), class: "govuk-button" if can?(:update, @subnet) %>
+
+<h3 class="govuk-heading-m">Leases</h3>
+<%= link_to "View leases", subnet_leases_path(@subnet), class: "govuk-button govuk-button--secondary" %>
 
 <h3 class="govuk-heading-m">Options</h3>
 <% if @subnet.option %>

@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :subnet do
     transient do
-      index { 0 }
+      sequence(:index) { |n| n }
     end
 
     cidr_block { "10.#{index}.4.0/24" }
