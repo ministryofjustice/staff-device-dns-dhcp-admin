@@ -44,20 +44,20 @@ describe UseCases::GenerateKeaConfig do
               "subnet-10.0.1.0-client"
             ]
           },
-          {
-            subnet: "10.0.2.0/24",
-            pools: [{
-              pool: "10.0.2.1 - 10.0.2.255"
-            }],
-            id: subnet2.kea_id,
-            "user-context": {
-              "site-id": site.fits_id,
-              "site-name": site.name
-            },
-            "require-client-classes": [
-              "subnet-10.0.2.0-client"
-            ]
-          }]
+            {
+              subnet: "10.0.2.0/24",
+              pools: [{
+                pool: "10.0.2.1 - 10.0.2.255"
+              }],
+              id: subnet2.kea_id,
+              "user-context": {
+                "site-id": site.fits_id,
+                "site-name": site.name
+              },
+              "require-client-classes": [
+                "subnet-10.0.2.0-client"
+              ]
+            }]
         }
       ])
     end
