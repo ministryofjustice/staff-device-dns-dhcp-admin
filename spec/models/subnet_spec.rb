@@ -44,7 +44,7 @@ RSpec.describe Subnet, type: :model do
 
   it "validates cidr_block is unique by the address" do
     existing_subnet = create :subnet
-    subnet = build :subnet, cidr_block: existing_subnet.cidr_block.gsub('/24', '/20')
+    subnet = build :subnet, cidr_block: existing_subnet.cidr_block.gsub("/24", "/20")
 
     expect(subnet).not_to be_valid
     expect(subnet.errors[:cidr_block]).to eq(["matches a subnet with the same address"])
