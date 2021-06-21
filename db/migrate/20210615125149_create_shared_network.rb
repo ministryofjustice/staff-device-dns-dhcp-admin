@@ -1,11 +1,11 @@
 class CreateSharedNetwork < ActiveRecord::Migration[6.1]
   def change
-    # create_table :shared_networks do |t|
-    #   t.timestamps
-    # end
+    create_table :shared_networks do |t|
+      t.timestamps
+    end
 
-    # add_reference :shared_networks, :site, index: true, foreign_key: true
-    # add_reference :subnets, :shared_network, index: true, foreign_key: true
+    add_reference :shared_networks, :site, index: true, foreign_key: true
+    add_reference :subnets, :shared_network, index: true, foreign_key: true
 
     Subnet.find_each do |subnet|
       shared_network = SharedNetwork.create!(site_id: subnet.site_id)
