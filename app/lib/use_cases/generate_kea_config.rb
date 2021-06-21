@@ -16,7 +16,7 @@ module UseCases
     def call
       config = default_config
 
-      config[:Dhcp4][:subnet4] += @subnets.map { |subnet| subnet_config(subnet) }
+      config[:Dhcp4][:"shared-networks"] += shared_networks_config
 
       config
     end
@@ -81,6 +81,26 @@ module UseCases
       }.merge(subnet_valid_lifetime_config(subnet.option))
         .merge(reservations_config(subnet.reservations))
         .merge({"require-client-classes": [subnet.client_class_name]})
+    end
+
+    def subnets_config(subnets)
+      subnets.map do |subnet|
+        subnet_config(subnet)
+      end
+    end
+
+    def shared_network_config(subnets)
+      shared_network = subnets.first.shared_network
+      {
+        name: shared_network.name,
+        subnet4: subnets_config(subnets)
+      }
+    end
+
+    def shared_networks_config
+      @subnets.group_by(&:shared_network_id).map do |_, subnets|
+        shared_network_config(subnets)
+      end
     end
 
     def reservations_config(reservations)
@@ -208,6 +228,7 @@ module UseCases
             "socket-type": "unix",
             "socket-name": "/tmp/dhcp4-socket"
           },
+          "shared-networks": [],
           subnet4: [
             {
               pools: [

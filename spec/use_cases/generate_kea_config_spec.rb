@@ -18,7 +18,7 @@ describe UseCases::GenerateKeaConfig do
       ])
     end
 
-    it "appends subnets to the subnet4 list" do
+    it "appends subnets to the shared network subnet4 list" do
       site = build_stubbed(:site, fits_id: "FITSID01", name: "SITENAME01")
       shared_network = build_stubbed(:shared_network, site: site)
       subnet1 = build_stubbed(:subnet, cidr_block: "10.0.1.0/24", start_address: "10.0.1.1", end_address: "10.0.1.255", routers: "10.0.1.2,10.0.1.3", shared_network: shared_network)
@@ -32,7 +32,9 @@ describe UseCases::GenerateKeaConfig do
 
           subnet4: [{
             subnet: "10.0.1.0/24",
-            pools: [ { pool:  "10.0.1.1 - 10.0.1.255" } ],
+            pools: [{
+              pool: "10.0.1.1 - 10.0.1.255"
+            }],
             id: subnet1.kea_id,
             "user-context": {
               "site-id": site.fits_id,
@@ -44,7 +46,9 @@ describe UseCases::GenerateKeaConfig do
           },
           {
             subnet: "10.0.2.0/24",
-            pools: [ { pool:  "10.0.2.1 - 10.0.2.255" } ],
+            pools: [{
+              pool: "10.0.2.1 - 10.0.2.255"
+            }],
             id: subnet2.kea_id,
             "user-context": {
               "site-id": site.fits_id,
@@ -67,33 +71,29 @@ describe UseCases::GenerateKeaConfig do
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
-      expect(config.dig(:Dhcp4, :subnet4)).to match_array([
+      expect(config.dig(:Dhcp4, :"shared-networks")).to match_array([
         {
-          pools: [
+          name: shared_network.name,
+          subnet4: [
             {
-              pool: "127.0.0.1 - 127.0.0.254"
+              pools: [
+                {
+                  pool: "10.0.1.1 - 10.0.1.89"
+                },
+                {
+                  pool: "10.0.1.101 - 10.0.1.255"
+                }
+              ],
+              subnet: "10.0.1.0/24",
+              id: subnet1.kea_id,
+              "user-context": {
+                "site-id": subnet1.site.fits_id,
+                "site-name": subnet1.site.name
+              },
+              "require-client-classes": [
+                "subnet-10.0.1.0-client"
+              ]
             }
-          ],
-          subnet: "127.0.0.1/24",
-          id: 1
-        },
-        {
-          pools: [
-            {
-              pool: "10.0.1.1 - 10.0.1.89"
-            },
-            {
-              pool: "10.0.1.101 - 10.0.1.255"
-            }
-          ],
-          subnet: "10.0.1.0/24",
-          id: subnet1.kea_id,
-          "user-context": {
-            "site-id": subnet1.site.fits_id,
-            "site-name": subnet1.site.name
-          },
-          "require-client-classes": [
-            "subnet-10.0.1.0-client"
           ]
         }
       ])
@@ -108,33 +108,29 @@ describe UseCases::GenerateKeaConfig do
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
-      expect(config.dig(:Dhcp4, :subnet4)).to match_array([
+      expect(config.dig(:Dhcp4, :"shared-networks")).to match_array([
         {
-          pools: [
+          name: shared_network.name,
+          subnet4: [
             {
-              pool: "127.0.0.1 - 127.0.0.254"
+              pools: [
+                {
+                  pool: "10.0.1.1 - 10.0.1.49"
+                },
+                {
+                  pool: "10.0.1.61 - 10.0.1.255"
+                }
+              ],
+              subnet: "10.0.1.0/24",
+              id: subnet1.kea_id,
+              "user-context": {
+                "site-id": subnet1.site.fits_id,
+                "site-name": subnet1.site.name
+              },
+              "require-client-classes": [
+                "subnet-10.0.1.0-client"
+              ]
             }
-          ],
-          subnet: "127.0.0.1/24",
-          id: 1
-        },
-        {
-          pools: [
-            {
-              pool: "10.0.1.1 - 10.0.1.49"
-            },
-            {
-              pool: "10.0.1.61 - 10.0.1.255"
-            }
-          ],
-          subnet: "10.0.1.0/24",
-          id: subnet1.kea_id,
-          "user-context": {
-            "site-id": subnet1.site.fits_id,
-            "site-name": subnet1.site.name
-          },
-          "require-client-classes": [
-            "subnet-10.0.1.0-client"
           ]
         }
       ])
@@ -149,33 +145,29 @@ describe UseCases::GenerateKeaConfig do
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
-      expect(config.dig(:Dhcp4, :subnet4)).to match_array([
+      expect(config.dig(:Dhcp4, :"shared-networks")).to match_array([
         {
-          pools: [
+          name: shared_network.name,
+          subnet4: [
             {
-              pool: "127.0.0.1 - 127.0.0.254"
+              pools: [
+                {
+                  pool: "10.0.1.1 - 10.0.1.149"
+                },
+                {
+                  pool: "10.0.1.171 - 10.0.1.255"
+                }
+              ],
+              subnet: "10.0.1.0/24",
+              id: subnet1.kea_id,
+              "user-context": {
+                "site-id": subnet1.site.fits_id,
+                "site-name": subnet1.site.name
+              },
+              "require-client-classes": [
+                "subnet-10.0.1.0-client"
+              ]
             }
-          ],
-          subnet: "127.0.0.1/24",
-          id: 1
-        },
-        {
-          pools: [
-            {
-              pool: "10.0.1.1 - 10.0.1.149"
-            },
-            {
-              pool: "10.0.1.171 - 10.0.1.255"
-            }
-          ],
-          subnet: "10.0.1.0/24",
-          id: subnet1.kea_id,
-          "user-context": {
-            "site-id": subnet1.site.fits_id,
-            "site-name": subnet1.site.name
-          },
-          "require-client-classes": [
-            "subnet-10.0.1.0-client"
           ]
         }
       ])
@@ -190,33 +182,29 @@ describe UseCases::GenerateKeaConfig do
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
-      expect(config.dig(:Dhcp4, :subnet4)).to match_array([
+      expect(config.dig(:Dhcp4, :"shared-networks")).to match_array([
         {
-          pools: [
+          name: shared_network.name,
+          subnet4: [
             {
-              pool: "127.0.0.1 - 127.0.0.254"
+              pools: [
+                {
+                  pool: "10.0.2.1 - 10.0.2.149"
+                },
+                {
+                  pool: "10.0.2.171 - 10.0.2.255"
+                }
+              ],
+              subnet: "10.0.2.0/24",
+              id: subnet1.kea_id,
+              "user-context": {
+                "site-id": subnet1.site.fits_id,
+                "site-name": subnet1.site.name
+              },
+              "require-client-classes": [
+                "subnet-10.0.2.0-client"
+              ]
             }
-          ],
-          subnet: "127.0.0.1/24",
-          id: 1
-        },
-        {
-          pools: [
-            {
-              pool: "10.0.2.1 - 10.0.2.149"
-            },
-            {
-              pool: "10.0.2.171 - 10.0.2.255"
-            }
-          ],
-          subnet: "10.0.2.0/24",
-          id: subnet1.kea_id,
-          "user-context": {
-            "site-id": subnet1.site.fits_id,
-            "site-name": subnet1.site.name
-          },
-          "require-client-classes": [
-            "subnet-10.0.2.0-client"
           ]
         }
       ])
@@ -231,30 +219,26 @@ describe UseCases::GenerateKeaConfig do
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
-      expect(config.dig(:Dhcp4, :subnet4)).to match_array([
+      expect(config.dig(:Dhcp4, :"shared-networks")).to match_array([
         {
-          pools: [
+          name: shared_network.name,
+          subnet4: [
             {
-              pool: "127.0.0.1 - 127.0.0.254"
+              pools: [
+                {
+                  pool: "10.0.2.171 - 10.0.2.255"
+                }
+              ],
+              subnet: "10.0.2.0/24",
+              id: subnet1.kea_id,
+              "user-context": {
+                "site-id": subnet1.site.fits_id,
+                "site-name": subnet1.site.name
+              },
+              "require-client-classes": [
+                "subnet-10.0.2.0-client"
+              ]
             }
-          ],
-          subnet: "127.0.0.1/24",
-          id: 1
-        },
-        {
-          pools: [
-            {
-              pool: "10.0.2.171 - 10.0.2.255"
-            }
-          ],
-          subnet: "10.0.2.0/24",
-          id: subnet1.kea_id,
-          "user-context": {
-            "site-id": subnet1.site.fits_id,
-            "site-name": subnet1.site.name
-          },
-          "require-client-classes": [
-            "subnet-10.0.2.0-client"
           ]
         }
       ])
@@ -269,30 +253,26 @@ describe UseCases::GenerateKeaConfig do
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
-      expect(config.dig(:Dhcp4, :subnet4)).to match_array([
+      expect(config.dig(:Dhcp4, :"shared-networks")).to match_array([
         {
-          pools: [
+          name: shared_network.name,
+          subnet4: [
             {
-              pool: "127.0.0.1 - 127.0.0.254"
+              pools: [
+                {
+                  pool: "10.0.2.71 - 10.0.2.255"
+                }
+              ],
+              subnet: "10.0.2.0/24",
+              id: subnet1.kea_id,
+              "user-context": {
+                "site-id": subnet1.site.fits_id,
+                "site-name": subnet1.site.name
+              },
+              "require-client-classes": [
+                "subnet-10.0.2.0-client"
+              ]
             }
-          ],
-          subnet: "127.0.0.1/24",
-          id: 1
-        },
-        {
-          pools: [
-            {
-              pool: "10.0.2.71 - 10.0.2.255"
-            }
-          ],
-          subnet: "10.0.2.0/24",
-          id: subnet1.kea_id,
-          "user-context": {
-            "site-id": subnet1.site.fits_id,
-            "site-name": subnet1.site.name
-          },
-          "require-client-classes": [
-            "subnet-10.0.2.0-client"
           ]
         }
       ])
@@ -307,30 +287,26 @@ describe UseCases::GenerateKeaConfig do
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
-      expect(config.dig(:Dhcp4, :subnet4)).to match_array([
+      expect(config.dig(:Dhcp4, :"shared-networks")).to match_array([
         {
-          pools: [
+          name: shared_network.name,
+          subnet4: [
             {
-              pool: "127.0.0.1 - 127.0.0.254"
+              pools: [
+                {
+                  pool: "10.0.1.71 - 10.0.1.255"
+                }
+              ],
+              subnet: "10.0.1.0/24",
+              id: subnet1.kea_id,
+              "user-context": {
+                "site-id": subnet1.site.fits_id,
+                "site-name": subnet1.site.name
+              },
+              "require-client-classes": [
+                "subnet-10.0.1.0-client"
+              ]
             }
-          ],
-          subnet: "127.0.0.1/24",
-          id: 1
-        },
-        {
-          pools: [
-            {
-              pool: "10.0.1.71 - 10.0.1.255"
-            }
-          ],
-          subnet: "10.0.1.0/24",
-          id: subnet1.kea_id,
-          "user-context": {
-            "site-id": subnet1.site.fits_id,
-            "site-name": subnet1.site.name
-          },
-          "require-client-classes": [
-            "subnet-10.0.1.0-client"
           ]
         }
       ])
@@ -345,30 +321,26 @@ describe UseCases::GenerateKeaConfig do
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
-      expect(config.dig(:Dhcp4, :subnet4)).to match_array([
+      expect(config.dig(:Dhcp4, :"shared-networks")).to match_array([
         {
-          pools: [
+          name: shared_network.name,
+          subnet4: [
             {
-              pool: "127.0.0.1 - 127.0.0.254"
+              pools: [
+                {
+                  pool: "10.0.2.1 - 10.0.2.199"
+                }
+              ],
+              subnet: "10.0.2.0/24",
+              id: subnet1.kea_id,
+              "user-context": {
+                "site-id": subnet1.site.fits_id,
+                "site-name": subnet1.site.name
+              },
+              "require-client-classes": [
+                "subnet-10.0.2.0-client"
+              ]
             }
-          ],
-          subnet: "127.0.0.1/24",
-          id: 1
-        },
-        {
-          pools: [
-            {
-              pool: "10.0.2.1 - 10.0.2.199"
-            }
-          ],
-          subnet: "10.0.2.0/24",
-          id: subnet1.kea_id,
-          "user-context": {
-            "site-id": subnet1.site.fits_id,
-            "site-name": subnet1.site.name
-          },
-          "require-client-classes": [
-            "subnet-10.0.2.0-client"
           ]
         }
       ])
@@ -383,30 +355,26 @@ describe UseCases::GenerateKeaConfig do
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
-      expect(config.dig(:Dhcp4, :subnet4)).to match_array([
+      expect(config.dig(:Dhcp4, :"shared-networks")).to match_array([
         {
-          pools: [
+          name: shared_network.name,
+          subnet4: [
             {
-              pool: "127.0.0.1 - 127.0.0.254"
+              pools: [
+                {
+                  pool: "10.0.2.1 - 10.0.2.229"
+                }
+              ],
+              subnet: "10.0.2.0/24",
+              id: subnet1.kea_id,
+              "user-context": {
+                "site-id": subnet1.site.fits_id,
+                "site-name": subnet1.site.name
+              },
+              "require-client-classes": [
+                "subnet-10.0.2.0-client"
+              ]
             }
-          ],
-          subnet: "127.0.0.1/24",
-          id: 1
-        },
-        {
-          pools: [
-            {
-              pool: "10.0.2.1 - 10.0.2.229"
-            }
-          ],
-          subnet: "10.0.2.0/24",
-          id: subnet1.kea_id,
-          "user-context": {
-            "site-id": subnet1.site.fits_id,
-            "site-name": subnet1.site.name
-          },
-          "require-client-classes": [
-            "subnet-10.0.2.0-client"
           ]
         }
       ])
@@ -421,30 +389,26 @@ describe UseCases::GenerateKeaConfig do
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
-      expect(config.dig(:Dhcp4, :subnet4)).to match_array([
+      expect(config.dig(:Dhcp4, :"shared-networks")).to match_array([
         {
-          pools: [
+          name: shared_network.name,
+          subnet4: [
             {
-              pool: "127.0.0.1 - 127.0.0.254"
+              pools: [
+                {
+                  pool: "10.0.1.1 - 10.0.1.229"
+                }
+              ],
+              subnet: "10.0.1.0/24",
+              id: subnet1.kea_id,
+              "user-context": {
+                "site-id": subnet1.site.fits_id,
+                "site-name": subnet1.site.name
+              },
+              "require-client-classes": [
+                "subnet-10.0.1.0-client"
+              ]
             }
-          ],
-          subnet: "127.0.0.1/24",
-          id: 1
-        },
-        {
-          pools: [
-            {
-              pool: "10.0.1.1 - 10.0.1.229"
-            }
-          ],
-          subnet: "10.0.1.0/24",
-          id: subnet1.kea_id,
-          "user-context": {
-            "site-id": subnet1.site.fits_id,
-            "site-name": subnet1.site.name
-          },
-          "require-client-classes": [
-            "subnet-10.0.1.0-client"
           ]
         }
       ])
@@ -459,26 +423,22 @@ describe UseCases::GenerateKeaConfig do
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
-      expect(config.dig(:Dhcp4, :subnet4)).to match_array([
+      expect(config.dig(:Dhcp4, :"shared-networks")).to match_array([
         {
-          pools: [
+          name: shared_network.name,
+          subnet4: [
             {
-              pool: "127.0.0.1 - 127.0.0.254"
+              pools: [],
+              subnet: "10.0.1.0/24",
+              id: subnet1.kea_id,
+              "user-context": {
+                "site-id": subnet1.site.fits_id,
+                "site-name": subnet1.site.name
+              },
+              "require-client-classes": [
+                "subnet-10.0.1.0-client"
+              ]
             }
-          ],
-          subnet: "127.0.0.1/24",
-          id: 1
-        },
-        {
-          pools: [],
-          subnet: "10.0.1.0/24",
-          id: subnet1.kea_id,
-          "user-context": {
-            "site-id": subnet1.site.fits_id,
-            "site-name": subnet1.site.name
-          },
-          "require-client-classes": [
-            "subnet-10.0.1.0-client"
           ]
         }
       ])
@@ -490,18 +450,19 @@ describe UseCases::GenerateKeaConfig do
       expect(config[:Dhcp4].keys).to match_array([
         :"host-reservation-identifiers", :"hosts-database", :"interfaces-config",
         :"lease-database", :"valid-lifetime", :loggers, :subnet4,
-        :"control-socket", :"hooks-libraries", :"multi-threading"
+        :"control-socket", :"hooks-libraries", :"multi-threading",
+        :"shared-networks"
       ])
     end
 
     it "offsets the id to avoid collision with the reserved smoke testing subnet" do
-      subnet1 = build_stubbed(:subnet, id: 1, cidr_block: "10.0.1.0/24")
-      subnet2 = build_stubbed(:subnet, id: 2, cidr_block: "10.0.2.0/24")
+      shared_network = build_stubbed(:shared_network)
+      subnet1 = build_stubbed(:subnet, id: 1, cidr_block: "10.0.1.0/24", shared_network: shared_network)
+      subnet2 = build_stubbed(:subnet, id: 2, cidr_block: "10.0.2.0/24", shared_network: shared_network)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1, subnet2]).call
 
-      expect(config.dig(:Dhcp4, :subnet4)).to match_array([
-        hash_including(subnet: "127.0.0.1/24", id: 1),
+      expect(config.dig(:Dhcp4, :"shared-networks")&.first&.dig(:subnet4)).to match_array([
         hash_including(subnet: "10.0.1.0/24", id: 1001),
         hash_including(subnet: "10.0.2.0/24", id: 1002)
       ])
@@ -581,21 +542,21 @@ describe UseCases::GenerateKeaConfig do
       subnet = build_stubbed(:subnet, option: nil)
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet]).call
 
-      expect(config.dig(:Dhcp4, :subnet4)).to_not include(hash_including(:"valid-lifetime"))
+      expect(config.dig(:Dhcp4, :"shared-networks")&.first&.dig(:subnet4)).to_not include(hash_including(:"valid-lifetime"))
     end
 
     it "does not set the valid lifetime for a subnet if the subnet option does not set a valid lifetime" do
       option = build_stubbed(:option, valid_lifetime: nil)
       config = UseCases::GenerateKeaConfig.new(subnets: [option.subnet]).call
 
-      expect(config.dig(:Dhcp4, :subnet4)).to_not include(hash_including(:"valid-lifetime"))
+      expect(config.dig(:Dhcp4, :"shared-networks")&.first&.dig(:subnet4)).to_not include(hash_including(:"valid-lifetime"))
     end
 
     it "sets the valid-lifetime for a subnet using the subnet option" do
       option = build_stubbed(:option, valid_lifetime: 1800)
       config = UseCases::GenerateKeaConfig.new(subnets: [option.subnet]).call
 
-      expect(config.dig(:Dhcp4, :subnet4)).to include(hash_including("valid-lifetime": 1800))
+      expect(config.dig(:Dhcp4, :"shared-networks")&.first&.dig(:subnet4)).to include(hash_including("valid-lifetime": 1800))
     end
 
     it "appends reservation to the subnet" do
@@ -603,7 +564,7 @@ describe UseCases::GenerateKeaConfig do
 
       config = UseCases::GenerateKeaConfig.new(subnets: [reservation.subnet]).call
 
-      expect(config.dig(:Dhcp4, :subnet4)).to include(hash_including({
+      expect(config.dig(:Dhcp4, :"shared-networks")&.first&.dig(:subnet4)).to include(hash_including({
         reservations: [
           {
             "hw-address": reservation.hw_address,
@@ -623,7 +584,7 @@ describe UseCases::GenerateKeaConfig do
 
       config = UseCases::GenerateKeaConfig.new(subnets: [reservation.subnet]).call
 
-      expect(config.dig(:Dhcp4, :subnet4)).to include(hash_including({
+      expect(config.dig(:Dhcp4, :"shared-networks")&.first&.dig(:subnet4)).to include(hash_including({
         reservations: [
           {
             "hw-address": reservation.hw_address,
@@ -653,7 +614,7 @@ describe UseCases::GenerateKeaConfig do
 
       config = UseCases::GenerateKeaConfig.new(subnets: [reservation.subnet]).call
 
-      expect(config.dig(:Dhcp4, :subnet4)).to include(hash_including({
+      expect(config.dig(:Dhcp4, :"shared-networks")&.first&.dig(:subnet4)).to include(hash_including({
         reservations: [
           {
             "hw-address": reservation.hw_address,
@@ -678,7 +639,7 @@ describe UseCases::GenerateKeaConfig do
 
       config = UseCases::GenerateKeaConfig.new(subnets: [reservation.subnet]).call
 
-      expect(config.dig(:Dhcp4, :subnet4)).to include(hash_including({
+      expect(config.dig(:Dhcp4, :"shared-networks")&.first&.dig(:subnet4)).to include(hash_including({
         reservations: [
           {
             "hw-address": reservation.hw_address,
@@ -696,7 +657,7 @@ describe UseCases::GenerateKeaConfig do
 
       config = UseCases::GenerateKeaConfig.new(subnets: [reservation1.subnet]).call
 
-      expect(config.dig(:Dhcp4, :subnet4)).to include(hash_including({
+      expect(config.dig(:Dhcp4, :"shared-networks")&.first&.dig(:subnet4)).to include(hash_including({
         reservations: [
           {
             "hw-address": reservation1.hw_address,
@@ -796,7 +757,7 @@ describe UseCases::GenerateKeaConfig do
       subnet = create(:subnet, :with_option)
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet]).call
 
-      expect(config.dig(:Dhcp4, :subnet4)).to include(
+      expect(config.dig(:Dhcp4, :"shared-networks")&.first&.dig(:subnet4)).to include(
         hash_including("require-client-classes": ["subnet-#{subnet.ip_addr}-client"])
       )
 
