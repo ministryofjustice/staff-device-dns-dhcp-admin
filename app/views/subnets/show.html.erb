@@ -42,7 +42,6 @@
   </div>
 </dl>
 
-<!--
 <h3 class="govuk-heading-m">Exclusion</h3>
 
 <% if @subnet.exclusions.any? %>
@@ -54,7 +53,6 @@
 <% if @subnet.exclusions.any? %>
   <%= render "exclusions/details", exclusion: @subnet.exclusions.first %>
 <% end %>
--->
 
 <h3 class="govuk-heading-m">Other subnets in the same shared network</h3>
 <%= render "subnets/list", subnets: @subnet.subnets_in_same_shared_network %>

@@ -20,8 +20,8 @@ describe "create exclusion", type: :feature do
       expect(page).not_to have_content("Edit exclusion")
       click_on "Create exclusion"
 
-      fill_in "Start address", with: "10.0.4.1"
-      fill_in "End address", with: "10.0.4.50"
+      fill_in "Start address", with: subnet.start_address.gsub(/([1-9]{1,3})$/, "50")
+      fill_in "End address", with: subnet.end_address.gsub(/([1-9]{1,3})$/, "100")
 
       expect_config_to_be_verified
       expect_config_to_be_published
@@ -30,8 +30,8 @@ describe "create exclusion", type: :feature do
 
       expect(page).to have_content("Successfully created exclusion")
       expect(page).to have_content("This could take up to 10 minutes to apply.")
-      expect(page).to have_content("Start Address 10.0.4.1")
-      expect(page).to have_content("End Address 10.0.4.50")
+      expect(page).to have_content("Start Address #{subnet.start_address.gsub(/([1-9]{1,3})$/, "50")}")
+      expect(page).to have_content("End Address #{subnet.start_address.gsub(/([1-9]{1,3})$/, "100")}")
 
       expect_audit_log_entry_for(editor.email, "create", "Exclusion")
     end
