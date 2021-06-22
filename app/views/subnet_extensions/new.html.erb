@@ -4,6 +4,28 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    <h3 class="govuk-heading-m">Extend the network with an existing subnet</h3>
+
+
+    <%= form_tag(subnet_update_extensions_path(@subnet), method: :put, local: true) do %>
+      <%= label_tag :extension_id, "Subnet", class: "govuk-label" %>
+      <%= select_tag :extension_id,
+        options_for_select(
+          @subnet.subnets_in_same_site_not_network.collect { |s| [s.cidr_block, s.id] }
+        ),
+        prompt: "Select a subnet",
+        class: "govuk-input"
+      %>
+
+      <%= submit_tag "Add to shared network", {
+        class: "govuk-button",
+        "data-module" => "govuk-button"
+      } %>
+    <% end %>
+  </div>
+
+  <div class="govuk-grid-column-two-thirds">
+    <h3 class="govuk-heading-m">Extend the network with a new subnet</h3>
     <%= form_with(model: @extension, url: subnet_extensions_path(@subnet), local: true) do |form| %>
       <%= render "subnets/form", f: form %>
 
