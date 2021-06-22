@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     resources :leases, only: [:index]
 
     resources :extensions, only: [:new, :create], controller: :subnet_extensions
-    put "/extensions/update", controller: :subnet_extensions, :action => :update, as: :update_extensions
+    put "/extensions/update", controller: :subnet_extensions, action: :update, as: :update_extensions
   end
   resources :reservations, only: [:show, :edit, :update, :destroy] do
     resource :reservation_options, only: [:new, :create], path: "/options"
