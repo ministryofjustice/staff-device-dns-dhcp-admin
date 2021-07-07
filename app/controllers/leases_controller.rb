@@ -7,4 +7,9 @@ class LeasesController < ApplicationController
     ).call
     @navigation_crumbs = [["Home", root_path], ["DHCP", dhcp_path], ["Site", @subnet.site], ["Subnet", @subnet]]
   end
+
+  def destroy
+    render :destroy
+  end
+  
 end

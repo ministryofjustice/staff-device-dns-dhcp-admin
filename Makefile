@@ -40,6 +40,10 @@ test:
 shell:
 	$(DOCKER_COMPOSE) run --rm app sh
 
+shell-test: export ENV=test
+shell-test:
+	$(DOCKER_COMPOSE) run --rm app sh
+
 stop:
 	$(DOCKER_COMPOSE) down
 
