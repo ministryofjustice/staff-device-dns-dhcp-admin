@@ -1,13 +1,15 @@
 require "rails_helper"
 
 RSpec.describe "delete leases", type: :feature do
+  let(:subnet) { create(:subnet) }
+
   context "when the user is a viewer" do
     before do
       login_as create(:user, :reader)
     end
 
     it "does not allow deleting leases" do
-      visit "/leases"
+      visit "/subnets/#{subnet.to_param}/leases"
 
       expect(page).not_to have_content "Delete"
     end
@@ -21,7 +23,6 @@ RSpec.describe "delete leases", type: :feature do
     end
 
     let(:editor) { create(:user, :editor) }
-    let(:subnet) { create(:subnet) }
 
     let(:hw_address) { "00:0c:01:02:03:05" }
     let(:ip_address) { "172.0.0.2" }
