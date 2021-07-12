@@ -23,6 +23,22 @@ RSpec.describe "delete leases", type: :feature do
         "result": 0
       }
     ].to_json
+  
+  end
+
+    let(:kea_response_lease) do
+      [
+        {
+          "arguments": {
+            "hostname": hostname,
+            "hw-address": hw_address,
+            "ip-address": ip_address,
+            "state": 0
+            },
+          "result": 0
+        }
+      ].to_json
+    
   end
 
   before do
@@ -54,6 +70,18 @@ RSpec.describe "delete leases", type: :feature do
 
     before do
       login_as editor
+
+      stub_request(:post, ENV.fetch("KEA_CONTROL_AGENT_URI"))
+      .with(body: {
+        command: "lease4-get",
+        service: ["dhcp4"],
+        arguments:{
+          "ip-address" => ip_address
+        }},
+        headers: {
+       'Content-Type'=>'application/json'
+        })
+        .to_return(body: kea_response_lease)
     end
 
     it "delete a lease" do
