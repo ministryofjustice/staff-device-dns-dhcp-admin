@@ -18,4 +18,10 @@ class Lease
 
     "Unknown"
   end
+
+  
+
+  def to_param
+    ip_address.gsub(".", "-")
+  end
 end

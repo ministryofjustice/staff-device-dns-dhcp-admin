@@ -9,7 +9,16 @@ class LeasesController < ApplicationController
   end
 
   def destroy
+    @lease = UseCases::FetchLease.new(
+      lease_ip_address: lease_ip_address,
+      gateway: kea_control_agent_gateway
+    ).call
     render :destroy
   end
   
+  private
+
+  def lease_ip_address
+    params.fetch(:id).gsub("-",".")
+  end
 end
