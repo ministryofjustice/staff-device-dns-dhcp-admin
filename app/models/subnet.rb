@@ -33,6 +33,10 @@ class Subnet < ApplicationRecord
     to: :shared_network,
     allow_nil: true
 
+  def self.find_by_kea_id(kea_id)
+    find_by(id: kea_id - KEA_SUBNET_ID_OFFSET)
+  end
+
   def routers
     return [] unless self[:routers]
     self[:routers].split(",")
