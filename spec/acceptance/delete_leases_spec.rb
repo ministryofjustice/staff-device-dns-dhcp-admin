@@ -5,7 +5,7 @@ RSpec.describe "delete leases", type: :feature do
 
   let(:hw_address) { "00:0c:01:02:03:05" }
   let(:ip_address) { "172.0.0.2" }
-  let(:hostname) { "test.example.com" }
+  let(:hostname)   { "test.example.com" }
 
   let(:kea_response) do
     [
@@ -26,18 +26,28 @@ RSpec.describe "delete leases", type: :feature do
   
   end
 
-    let(:kea_response_lease) do
-      [
-        {
-          "arguments": {
-            "hostname": hostname,
-            "hw-address": hw_address,
-            "ip-address": ip_address,
-            "state": 0
-            },
-          "result": 0
-        }
-      ].to_json
+  let(:kea_response_lease) do
+    [
+      {
+        "arguments": {
+          "hostname": hostname,
+          "hw-address": hw_address,
+          "ip-address": ip_address,
+          "state": 0,
+          "subnet-id": subnet.kea_id
+        },
+        "result": 0
+      }
+    ].to_json
+    
+  end
+
+  let(:kea_response_destroy_lease) do
+    [
+      {
+        "result": 0,
+      }
+    ].to_json
     
   end
 
@@ -82,6 +92,19 @@ RSpec.describe "delete leases", type: :feature do
        'Content-Type'=>'application/json'
         })
         .to_return(body: kea_response_lease)
+
+        stub_request(:post, ENV.fetch("KEA_CONTROL_AGENT_URI"))
+        .with(body: {
+          command: "lease4-del",
+          service: ["dhcp4"],
+          arguments:{
+            "ip-address" => ip_address
+          }},
+          headers: {
+         'Content-Type'=>'application/json'
+          })
+          .to_return(body: kea_response_destroy_lease)
+
     end
 
     it "delete a lease" do
@@ -90,8 +113,8 @@ RSpec.describe "delete leases", type: :feature do
       click_on "Delete"
 
       expect(page).to have_content("Are you sure you want to delete this lease?")
-      expect(page).to have_content(lease.ip_address)
-      expect(page).to have_content(lease.hostname)
+      expect(page).to have_content(ip_address)
+      expect(page).to have_content(hostname)
 
       expect_config_to_be_verified
       expect_config_to_be_published
@@ -99,7 +122,7 @@ RSpec.describe "delete leases", type: :feature do
       click_on "Delete lease"
 
       expect(page).to have_content("Successfully deleted lease.")
-      expect(page).not_to have_content(lease.ip_address)
+      expect(page).not_to have_content(ip_address)
 
       # expect_audit_log_entry_for(editor.email, "destroy", "lease")
     end

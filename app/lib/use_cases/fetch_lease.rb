@@ -11,7 +11,8 @@ module UseCases
         hw_address: lease_data["hw-address"],
         ip_address: lease_data["ip-address"],
         hostname: lease_data["hostname"],
-        state: lease_data["state"]
+        state: lease_data["state"],
+        kea_subnet_id: lease_data["subnet-id"]
       )
     end
 

@@ -10,15 +10,17 @@ RSpec.describe UseCases::FetchLease do
 
   let(:hw_address) { double(:hw_address) }
   let(:ip_address) { double(:ip_address) }
-  let(:hostname) { double(:hostname) }
-  let(:state) { double(:state) }
+  let(:hostname)   { double(:hostname) }
+  let(:state)      { double(:state) }
+  let(:subnet_id)  { double(:subnet_id) }
 
   let(:response) do
     {
       "hw-address" => hw_address,
       "ip-address" => ip_address,
       "hostname" => hostname,
-      "state" => state
+      "state" => state,
+      "subnet-id" => subnet_id
     }
   end
 
@@ -32,7 +34,8 @@ RSpec.describe UseCases::FetchLease do
       hw_address: hw_address,
       ip_address: ip_address,
       hostname: hostname,
-      state: state
+      state: state,
+      subnet_id: subnet_id
     )
   end
 end
