@@ -43,6 +43,8 @@ module Gateways
       }.to_json
 
       handle_response(http.request(req).body)
+
+      true
     end
 
     def verify_config(config)
