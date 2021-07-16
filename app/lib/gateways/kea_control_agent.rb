@@ -26,7 +26,7 @@ module Gateways
         service: ["dhcp4"],
         arguments: {
           "ip-address" => lease_ip_address
-      }
+        }
       }.to_json
 
       handle_response(http.request(req).body).dig("arguments")
@@ -39,7 +39,7 @@ module Gateways
         service: ["dhcp4"],
         arguments: {
           "ip-address" => lease_ip_address
-      }
+        }
       }.to_json
 
       handle_response(http.request(req).body)

@@ -21,4 +21,3 @@ module UseCases
     attr_reader :gateway, :lease_ip_address
   end
 end
-

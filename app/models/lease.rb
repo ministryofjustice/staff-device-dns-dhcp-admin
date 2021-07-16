@@ -26,6 +26,6 @@ class Lease
   end
 
   def to_param
-    ip_address.gsub(".", "-")
+    ip_address.tr(".", "-")
   end
 end

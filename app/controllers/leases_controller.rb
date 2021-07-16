@@ -14,7 +14,7 @@ class LeasesController < ApplicationController
       gateway: kea_control_agent_gateway
     ).call
 
-    if confirmed? 
+    if confirmed?
       UseCases::DestroyLease.new(
         lease_ip_address: lease_ip_address,
         gateway: kea_control_agent_gateway
@@ -24,11 +24,11 @@ class LeasesController < ApplicationController
       render :destroy
     end
   end
-  
+
   private
 
   def lease_ip_address
-    params.fetch(:id).gsub("-",".")
+    params.fetch(:id).tr("-", ".")
   end
 
   def confirmed?

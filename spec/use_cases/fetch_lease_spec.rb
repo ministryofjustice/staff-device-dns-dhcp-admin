@@ -8,11 +8,11 @@ RSpec.describe UseCases::FetchLease do
     )
   end
 
-  let(:hw_address)     { double(:hw_address) }
-  let(:ip_address)     { double(:ip_address) }
-  let(:hostname)       { double(:hostname) }
-  let(:state)          { double(:state) }
-  let(:kea_subnet_id)  { double(:kea_subnet_id) }
+  let(:hw_address) { double(:hw_address) }
+  let(:ip_address) { double(:ip_address) }
+  let(:hostname) { double(:hostname) }
+  let(:state) { double(:state) }
+  let(:kea_subnet_id) { double(:kea_subnet_id) }
 
   let(:response) do
     {
