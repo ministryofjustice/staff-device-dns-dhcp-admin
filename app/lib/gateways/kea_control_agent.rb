@@ -19,6 +19,34 @@ module Gateways
       handle_response(http.request(req).body).dig("arguments").fetch("leases")
     end
 
+    def fetch_lease(lease_ip_address)
+      req = Net::HTTP::Post.new(uri.path, headers)
+      req.body = {
+        command: "lease4-get",
+        service: ["dhcp4"],
+        arguments: {
+          "ip-address" => lease_ip_address
+        }
+      }.to_json
+
+      handle_response(http.request(req).body).dig("arguments")
+    end
+
+    def destroy_lease(lease_ip_address)
+      req = Net::HTTP::Post.new(uri.path, headers)
+      req.body = {
+        command: "lease4-del",
+        service: ["dhcp4"],
+        arguments: {
+          "ip-address" => lease_ip_address
+        }
+      }.to_json
+
+      handle_response(http.request(req).body)
+
+      true
+    end
+
     def verify_config(config)
       req = Net::HTTP::Post.new(uri.path, headers)
       req.body = {
