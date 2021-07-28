@@ -54,9 +54,9 @@
   <%= render "exclusions/details", exclusion: @subnet.exclusions.first %>
 <% end %>
 
-<h3 class="govuk-heading-m">Other subnets in the same shared network</h3>
+<h3 class="govuk-heading-m">Subnets in the same shared network</h3>
 <%= render "subnets/list", subnets: @subnet.subnets_in_same_shared_network %>
-<%= link_to "Extend this network with another subnet", new_subnet_extension_path(@subnet), class: "govuk-button" if can?(:update, @subnet) %>
+<%= link_to "Add a subnet to this shared network", new_subnet_extension_path(@subnet), class: "govuk-button" if can?(:update, @subnet) %>
 
 <h3 class="govuk-heading-m">Leases</h3>
 <%= link_to "View leases", subnet_leases_path(@subnet), class: "govuk-button govuk-button--secondary" %>

@@ -11,7 +11,9 @@ describe "creating a subnet extension", type: :feature do
     subnet = Audited.audit_class.as_user(editor) { create :subnet }
     visit "/subnets/#{subnet.to_param}"
 
-    click_on "Extend this network with another subnet"
+    expect(page).to have_content("Subnets in the same shared network")
+
+    click_on "Add a subnet to this shared network"
 
     fill_in "CIDR block", with: "10.0.1.0/24"
     fill_in "Start address", with: "10.0.1.1"
@@ -35,7 +37,7 @@ describe "creating a subnet extension", type: :feature do
     subnet = create :subnet
     visit "/subnets/#{subnet.to_param}"
 
-    click_on "Extend this network with another subnet"
+    click_on "Add a subnet to this shared network"
 
     fill_in "CIDR block", with: "a"
     fill_in "Start address", with: "b"
