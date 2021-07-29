@@ -28,6 +28,12 @@ describe "showing a subnet", type: :feature do
         expect(page).to have_content subnet.end_address
       end
 
+      it "should only show shared network table if sharing one with another subnet" do
+        visit "/subnets/#{subnet.to_param}"
+    
+        expect(page).to have_no_content("List of subnets")
+      end
+
       it "allows viewing other subnets in the same shared network" do
         other_subnet = create(:subnet, shared_network: subnet.shared_network)
         visit "/subnets/#{subnet.to_param}"

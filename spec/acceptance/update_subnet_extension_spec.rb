@@ -15,7 +15,7 @@ describe "updating a subnet extension", type: :feature do
 
     visit "/subnets/#{subnet.to_param}"
 
-    click_on "Extend this network with another subnet"
+    click_on "Add a subnet to this shared network"
 
     select other_subnet.cidr_block, from: "Subnet"
 
@@ -40,23 +40,22 @@ describe "updating a subnet extension", type: :feature do
 
     visit "/subnets/#{subnet.to_param}"
 
-    click_on "Extend this network with another subnet"
+    click_on "Add a subnet to this shared network"
 
     select other_subnet.cidr_block, from: "Subnet"
 
     expect_config_to_be_verified
     expect_config_to_be_published
 
-    
+
     expect(subnet.shared_network).not_to eq(other_subnet.shared_network)
 
     click_button "Add to shared network"
-    
+
     expect(SharedNetwork.find_by(id: other_subnet.shared_network.id)).to eq(nil)
 
     other_subnet.reload
     subnet.reload
     expect(subnet.shared_network).to eq(other_subnet.shared_network)
   end
-  
 end

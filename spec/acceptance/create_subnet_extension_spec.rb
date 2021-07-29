@@ -15,6 +15,10 @@ describe "creating a subnet extension", type: :feature do
 
     click_on "Add a subnet to this shared network"
 
+    expect(page).to have_content("Extending a shared network")
+    expect(page).to have_content("Extend with an existing subnet")
+    expect(page).to have_content("Extend with a new subnet")
+
     fill_in "CIDR block", with: "10.0.1.0/24"
     fill_in "Start address", with: "10.0.1.1"
     fill_in "End address", with: "10.0.1.255"
