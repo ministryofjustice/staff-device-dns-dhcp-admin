@@ -25,15 +25,26 @@ class SubnetExtensionsController < ApplicationController
     @extension.shared_network = @subnet.shared_network
     authorize! :update, @extension
 
-    if update_dhcp_config.call(@extension, -> { old_shared_network.destroy if @extension.save })
-      redirect_to @extension, notice: "Successfully extended subnet." + CONFIG_UPDATE_DELAY_NOTICE
+    if confirmed?
+      puts "confirmed"
+      if update_dhcp_config.call(@extension, -> { old_shared_network.destroy if @extension.save })
+      puts "redirecting to #{@extension.cidr_block}"
+        redirect_to @extension, notice: "Successfully extended subnet." + CONFIG_UPDATE_DELAY_NOTICE
+      else
+        @global_option = GlobalOption.first
+        render :new
+      end
     else
-      @global_option = GlobalOption.first
-      render :new
+      puts "going to update page"
+      render :confirm_update
     end
   end
 
   private
+
+  def confirmed?
+    params.fetch(:confirm, false)
+  end
 
   def set_subnet
     @subnet = Subnet.find(subnet_id)
