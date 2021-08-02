@@ -26,16 +26,13 @@ class SubnetExtensionsController < ApplicationController
     authorize! :update, @extension
 
     if confirmed?
-      puts "confirmed"
-      if update_dhcp_config.call(@extension, -> { old_shared_network.destroy if @extension.save })
-      puts "redirecting to #{@extension.cidr_block}"
-        redirect_to @extension, notice: "Successfully extended subnet." + CONFIG_UPDATE_DELAY_NOTICE
+      if update_dhcp_config.call(@extension, -> { save_subnet_and_destroy_shared_network(@extension, old_shared_network) })
+        redirect_to @subnet, notice: "Successfully extended subnet." + CONFIG_UPDATE_DELAY_NOTICE
       else
         @global_option = GlobalOption.first
         render :new
       end
     else
-      puts "going to update page"
       render :confirm_update
     end
   end
@@ -60,5 +57,14 @@ class SubnetExtensionsController < ApplicationController
 
   def extension_params
     params.require(:subnet).permit(:cidr_block, :start_address, :end_address, :routers)
+  end
+
+  def save_subnet_and_destroy_shared_network(subnet, shared_network)
+    if subnet.save
+      shared_network.destroy if shared_network.subnets.empty?
+      true
+    else
+      false
+    end
   end
 end
