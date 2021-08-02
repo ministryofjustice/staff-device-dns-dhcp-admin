@@ -20,7 +20,7 @@
   <%= render "subnets/list", subnets: @extension.subnets_in_same_shared_network, hide_actions: true %>
 <% end %>
 
-<%= button_to "Add to shared network", subnet_update_extensions_path(@extension),
+<%= button_to "Add to shared network", subnet_update_extensions_path(@subnet),
   method: :put,
   class: "govuk-button govuk-button--warning govuk-!-margin-right-1",
   data: {
