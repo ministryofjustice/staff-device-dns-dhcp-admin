@@ -30,7 +30,7 @@ describe "showing a subnet", type: :feature do
 
       it "should only show shared network table if sharing one with another subnet" do
         visit "/subnets/#{subnet.to_param}"
-    
+
         expect(page).to have_no_content("List of subnets")
       end
 
