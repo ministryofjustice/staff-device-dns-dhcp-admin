@@ -21,12 +21,10 @@ class SubnetExtensionsController < ApplicationController
 
   def update
     @extension = Subnet.find(extension_id)
-    old_shared_network = @extension.shared_network
-    @extension.shared_network = @subnet.shared_network
     authorize! :update, @extension
 
     if confirmed?
-      if update_dhcp_config.call(@extension, -> { save_subnet_and_destroy_shared_network(@extension, old_shared_network) })
+      if update_dhcp_config.call(@extension, -> { UseCases::MoveSubnetToSharedNetwork.new.call(@extension, @subnet.shared_network) })
         redirect_to @subnet, notice: "Successfully extended subnet." + CONFIG_UPDATE_DELAY_NOTICE
       else
         @global_option = GlobalOption.first
@@ -57,14 +55,5 @@ class SubnetExtensionsController < ApplicationController
 
   def extension_params
     params.require(:subnet).permit(:cidr_block, :start_address, :end_address, :routers)
-  end
-
-  def save_subnet_and_destroy_shared_network(subnet, shared_network)
-    if subnet.save
-      shared_network.destroy if shared_network.subnets.empty?
-      true
-    else
-      false
-    end
   end
 end
