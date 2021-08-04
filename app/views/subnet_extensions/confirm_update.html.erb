@@ -1,0 +1,42 @@
+<h2 class="govuk-heading-l">Are you sure?</h2>
+
+<div class="govuk-inset-text">
+  <h4 class="govuk-heading-s">Subnet to be added to shared network:</h4>
+  <p class="govuk-body"><%= @extension.cidr_block %></p>
+
+
+</div>
+
+<div class="govuk-warning-text">
+  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+  <strong class="govuk-warning-text__text">
+    <span class="govuk-warning-text__assistive">Warning</span>
+      Are you sure you want to add the above subnet to a shared network?
+  </strong>
+</div>
+
+<% if @extension.subnets_in_same_shared_network.any? %>
+  <p class="govuk-body">The following subnets exist in this shared network</p>
+  <%= render "subnets/list", subnets: @extension.subnets_in_same_shared_network, hide_actions: true %>
+<% end %>
+
+<%= button_to "Add to shared network", subnet_update_extensions_path(@subnet),
+  method: :put,
+  class: "govuk-button govuk-!-margin-right-1",
+  data: {
+    "module" => "govuk-button"
+  },
+  params: {
+    confirm: true,
+    extension_id: @extension.id
+  },
+  form: {
+    class: 'govuk-!-display-inline-block'
+  }
+%>
+<%= link_to "Cancel", subnet_path(@subnet),
+  class: "govuk-button govuk-button--secondary",
+  data: {
+    module: "govuk-button"
+  }
+%>

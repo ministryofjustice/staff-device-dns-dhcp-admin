@@ -25,7 +25,6 @@ start-db:
 	ENV=${ENV} ./scripts/wait_for_db.sh
 
 db-setup: start-db
-	$(DOCKER_COMPOSE) run --rm app ls -l
 	$(DOCKER_COMPOSE) run --rm app ./bin/rails db:drop db:create db:schema:load
 
 serve: stop start-db

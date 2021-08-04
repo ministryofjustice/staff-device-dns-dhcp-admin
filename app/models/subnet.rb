@@ -78,6 +78,14 @@ class Subnet < ApplicationRecord
     shared_network.subnets - [self]
   end
 
+  def subnets_in_same_site
+    site.subnets - [self]
+  end
+
+  def subnets_in_same_site_not_network
+    subnets_in_same_site - subnets_in_same_shared_network
+  end
+
   private
 
   def cidr_block_is_a_valid_ipv4_subnet
