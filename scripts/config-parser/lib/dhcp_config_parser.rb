@@ -47,7 +47,7 @@ class DhcpConfigParser
     subnet_list.each do |subnet|
       export.scan(/#{subnet.chop}\d{1,3}.(?:[a-fA-F0-9]{12})."[^"]*"."[^"]*"/)
         .each do |reservation|
-        reservations = reservation.tr('"', '').split(" ")
+        reservations = reservation.tr('"', "").split(" ")
         legacy_reservations.push(reservations)
       end
     end
