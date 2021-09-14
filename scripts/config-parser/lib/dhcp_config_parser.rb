@@ -113,5 +113,3 @@ class DhcpConfigParser
   end
 end
 
-# 1. brittle / not flexible
-# 2. Duplication
