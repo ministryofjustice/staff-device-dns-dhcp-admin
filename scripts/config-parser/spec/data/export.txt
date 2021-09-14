@@ -1,0 +1,130 @@
+
+Changed the current scope context to 192.168.1.0 scope.
+
+Dhcp Server \\DHCPSERVER.test.net.local add scope 192.168.1.0 255.255.255.0 "Test site 1" "Test site 1"
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.1.0 set state 1
+
+   # ======================================================================
+   #  Start Add Ipranges to the Scope 192.168.1.0, Server DHCPSERVER.test.net.local                  
+   # ======================================================================
+
+
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.1.0 Add iprange 192.168.1.1 192.168.1.254 
+Dhcp Server \\DHCPSERVER.test.net.local scope 192.168.1.0 set napstate Off
+
+   # ======================================================================
+   #  End   Add Ipranges to the Scope 192.168.1.0, Server DHCPSERVER.test.net.local                  
+   # ======================================================================
+
+
+   # ======================================================================
+   #  Start Add Excluderanges to the Scope : 192.168.1.0, Server : DHCPSERVER.test.net.local         
+   # ======================================================================
+
+
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.1.0 add excluderange 192.168.1.1 192.168.1.39
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.1.0 add excluderange 192.168.1.40 192.168.1.120
+
+   # ======================================================================
+   #  End   Add Excluderanges to the Scope : 192.168.1.0, Server : DHCPSERVER.test.net.local         
+   # ======================================================================
+
+
+   # ======================================================================
+   #  Start Add OptionValues to the Scope : 192.168.1.0, Server : DHCPSERVER.test.net.local          
+   # ======================================================================
+
+
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.1.0 set optionvalue 15 STRING "test.space.local" 
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.1.0 set optionvalue 6 IPADDRESS "8.8.8.8" "8.8.4.4" "2.2.2.2" 
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.1.0 set optionvalue 51 DWORD "432000" 
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.1.0 set optionvalue 3 IPADDRESS "192.168.1.1" 
+
+   # ======================================================================
+   #  End   Add OptionValues to the Scope : 192.168.1.0, Server : DHCPSERVER.test.net.local          
+   # ======================================================================
+
+
+   # ======================================================================
+   #  Start Add ReservedIp to the Scope : 192.168.1.0, Server : DHCPSERVER.test.net.local            
+   # ======================================================================
+
+
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.1.0 Add reservedip 192.168.1.30 a1b2c3d4e5f7 "windowsmachine2.test.space.local" "win2" "BOTH"
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.1.0 Add reservedip 192.168.1.31 a1b2c3d4e5f6 "windowsmachine1.test.space.local" "win1" "BOTH"
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.1.0 Add reservedip 192.168.1.252 f6aad4b2c5ee "printer1.test.space.local" "prn1" "BOTH"
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.1.0 Add reservedip 192.168.1.253 f6b1d4b2c5e7 "printer2.test.space.local" "prn2" "BOTH"
+
+
+   # ======================================================================
+   #  End   Add ReservedIp to the Scope : 192.168.1.0, Server : DHCPSERVER.test.net.local            
+   # ======================================================================
+
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.2.0 Add iprange 192.168.2.1 192.168.2.254 
+Dhcp Server \\DHCPSERVER.test.net.local scope 192.168.2.0 set napstate Off
+
+   # ======================================================================
+   #  End   Add Ipranges to the Scope 192.168.2.0, Server DHCPSERVER.test.net.local                  
+   # ======================================================================
+
+
+   # ======================================================================
+   #  Start Add Excluderanges to the Scope : 192.168.2.0, Server : DHCPSERVER.test.net.local         
+   # ======================================================================
+
+
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.2.0 add excluderange 192.168.2.1 192.168.2.39
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.2.0 add excluderange 192.168.2.121 192.168.2.200
+
+   # ======================================================================
+   #  End   Add Excluderanges to the Scope : 192.168.2.0, Server : DHCPSERVER.test.net.local         
+   # ======================================================================
+
+
+   # ======================================================================
+   #  Start Add OptionValues to the Scope : 192.168.2.0, Server : DHCPSERVER.test.net.local          
+   # ======================================================================
+
+
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.2.0 set optionvalue 15 STRING "test.space.local" 
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.2.0 set optionvalue 6 IPADDRESS "8.8.8.8" "8.8.4.4" "2.2.2.2" 
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.2.0 set optionvalue 51 DWORD "432000" 
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.2.0 set optionvalue 3 IPADDRESS "192.168.2.1" 
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.2.0 set optionvalue 6 IPADDRESS user="testuser" "192.168.100.1"
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.2.0 set optionvalue 15 STRING user="testuse" "domain.test.space.local" 
+
+   # ======================================================================
+   #  End   Add OptionValues to the Scope : 192.168.2.0, Server : DHCPSERVER.test.net.local          
+   # ======================================================================
+
+
+   # ======================================================================
+   #  Start Add ReservedIp to the Scope : 192.168.2.0, Server : DHCPSERVER.test.net.local            
+   # ======================================================================
+
+
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.2.0 Add reservedip 192.168.2.249 0000aaabbc02 "win6.test.space.local." "win6" "BOTH"
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.2.0 Add reservedip 192.168.2.219 0000aabbc015 "win7.test.space.local" "win7" "BOTH"
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.2.0 Add reservedip 192.168.2.239 0000223656de "prn6.test.space.local" "prn6" "BOTH"
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.2.0 Add reservedip 192.168.2.221 0000223656df "prn7.test.space.local" "prn7" "BOTH"
+
+   # ======================================================================
+   #  End   Add ReservedIp to the Scope : 192.168.2.0, Server : DHCPSERVER.test.net.local            
+   # ======================================================================
+
+
+# =====================================
+#     Add Scope End                    
+# =====================================
+
+
+# =====================================
+#     Add Super Scope                  
+# =====================================
+
+Dhcp Server \\DHCPSERVER.test.net.local scope 10.64.192.0 set superscope "Test site 1" 1
+Dhcp Server \\DHCPSERVER.test.net.local scope 10.64.193.0 set superscope "Test site 1" 1
+Dhcp Server \\DHCPSERVER.test.net.local scope 10.64.194.0 set superscope "Test site 2" 1
+Dhcp Server \\DHCPSERVER.test.net.local scope 10.64.195.0 set superscope "Test site 2" 1
+Dhcp Server \\DHCPSERVER.test.net.local scope 10.64.196.0 set superscope "Test site 2" 1
+

@@ -1,0 +1,1 @@
+aws-vault exec $1 -- aws s3 cp s3://staff-device-production-dhcp-config-bucket/config.json data/kea.json
