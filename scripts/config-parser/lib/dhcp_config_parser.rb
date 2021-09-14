@@ -33,7 +33,6 @@ class DhcpConfigParser
 
     reservations = shared_networks.inject([]) do |accumulator, shared_network|
       shared_network["subnet4"].each do |subnet|
-        # accumulator += (subnet["reservations"] || [])
         accumulator += subnet["reservations"] if subnet["reservations"]
       end
 
