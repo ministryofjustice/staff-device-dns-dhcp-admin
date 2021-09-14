@@ -55,41 +55,6 @@ class DhcpConfigParser
     legacy_reservations.map { |row| reservation_fields.zip(row).to_h }
   end
 
-  def self.compare_reservations(kea_reservations:, legacy_reservations:)
-    compared_resverations = kea_reservations.map do |kea_reservation|
-      hw_address = kea_reservation["hw-address"].downcase.tr(":", "")
-
-      found_legacy = legacy_reservations.detect do |legacy_reservation|
-        legacy_reservation["hw-address"].downcase.tr(":", "") == hw_address
-      end
-
-      {
-        "hw-address" => hw_address,
-        "kea" => kea_reservation,
-        "legacy" => found_legacy
-      }
-    end
-
-    compared_resverations += legacy_reservations.map do |legacy_reservation|
-      hw_address = legacy_reservation["hw-address"].downcase.tr(":", "")
-
-      found_kea = kea_reservations.detect do |kea_reservation|
-        kea_reservation["hw-address"].downcase.tr(":", "") == hw_address
-      end
-
-      {
-        "hw-address" => hw_address,
-        "legacy" => legacy_reservation,
-        "kea" => found_kea
-      }
-    end
-
-    compared_resverations.reject do |reservation|
-      reservation["kea"] && reservation["legacy"]
-      # place to look into return IP == IP
-    end
-  end
-
   def self.find_missing_reservations(kea_reservations:, legacy_reservations:)
     grouped_kea_reservations = kea_reservations.group_by { |res| res["hw-address"].downcase.tr(":", "") }
     grouped_legacy_reservations = legacy_reservations.group_by { |res| res["hw-address"].downcase.tr(":", "") }
