@@ -134,3 +134,9 @@ When run locally, you need to target the AWS account directly with AWS Vault.
 The AWS RDS SSL certificate is due to expire August 22, 2024. See [the documentation](https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html) for information on updating the certificate closer to the date.
 
 To update the certificate, update the Dockerfile to use the new intermediate (region specific) certificate (found [here](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html)), and update the `config/database.yml` to point to the new certificate file path.
+
+## DHCP Data Checks
+
+### Pre Go live checks 
+
+For the data check script please see [the docs](https://github.com/ministryofjustice/staff-device-dns-dhcp-admin/blob/main/scripts/config-parser/readme.md)
