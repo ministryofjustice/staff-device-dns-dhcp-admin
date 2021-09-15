@@ -13,6 +13,12 @@ class DhcpConfigParser
     shared_network_id = "FITS_####"
     subnet_list = ["192.168.1.0", "192.168.2.0", "192.168.3.0"]
 
+    exclusion_data = get_legacy_exclusions(File.read(LEGACY_CONFIG_FILEPATH), subnet_list)
+
+    puts "This site has the following #{exclusion_data.length} exclusions configured :"
+    puts exclusion_data
+    puts "----"
+
     compared_reservations = find_missing_reservations(
       kea_reservations: get_kea_reservations(shared_network_id, File.read(KEA_CONFIG_FILEPATH)),
       legacy_reservations: get_legacy_reservations(File.read(LEGACY_CONFIG_FILEPATH), subnet_list)
