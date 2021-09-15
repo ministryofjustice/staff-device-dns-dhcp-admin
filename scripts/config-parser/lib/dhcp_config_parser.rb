@@ -36,16 +36,16 @@ class DhcpConfigParser
   def self.get_legacy_exclusions(export, subnet_list)
     exclusion_fields = ["type", "start-ip", "end-ip"]
     legacy_exclusions = []
-  
+
     subnet_list.each do |subnet|
       exclusion_regex = /excluderange.#{subnet.chop}\d{1,3}.#{subnet.chop}\d{1,3}/
       export.scan(exclusion_regex)
         .each do |exclusion|
-          exclusions = exclusion.split(" ")
+        exclusions = exclusion.split(" ")
         legacy_exclusions.push(exclusions)
       end
     end
-  
+
     legacy_exclusions.map { |row| exclusion_fields.zip(row).to_h }
   end
 
