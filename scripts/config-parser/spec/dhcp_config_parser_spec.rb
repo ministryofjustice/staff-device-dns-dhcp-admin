@@ -141,4 +141,38 @@ describe DhcpConfigParser do
       ])
     end
   end
+
+  describe "get_legacy_exclusions" do
+    let(:export) { File.read("spec/data/export.txt") }
+    let(:subnet_list) { ["192.168.1.0", "192.168.7.0", "192.168.2.0"] }
+    it "returns a hash of all exlcusions for the given list of subnets" do
+
+      expect(DhcpConfigParser.get_legacy_exclusions(export, subnet_list
+    )).to match_array([
+      {
+        "type"=>"excluderange", 
+        "start-ip"=>"192.168.1.1", 
+        "end-ip"=>"192.168.1.39"
+      },
+      {
+        "type"=>"excluderange",
+        "start-ip"=>"192.168.1.40",
+        "end-ip"=>"192.168.1.120"
+      },
+      {
+        "type"=>"excluderange", 
+        "start-ip"=>"192.168.2.1", 
+        "end-ip"=>"192.168.2.39"
+      },
+      {
+        "type"=>"excluderange",
+        "start-ip"=>"192.168.2.121",
+        "end-ip"=>"192.168.2.200"
+      }
+    ])
+    end
+  end
+
+
+
 end

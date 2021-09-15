@@ -27,6 +27,22 @@ class DhcpConfigParser
     File.exist?(LEGACY_CONFIG_FILEPATH)
   end
 
+  def self.get_legacy_exclusions(export, subnet_list)
+    exclusion_fields = ["type", "start-ip", "end-ip"]
+    legacy_exclusions = []
+  
+    subnet_list.each do |subnet|
+      exclusion_regex = /excluderange.#{subnet.chop}\d{1,3}.#{subnet.chop}\d{1,3}/
+      export.scan(exclusion_regex)
+        .each do |exclusion|
+          exclusions = exclusion.split(" ")
+        legacy_exclusions.push(exclusions)
+      end
+    end
+  
+    legacy_exclusions.map { |row| exclusion_fields.zip(row).to_h }
+  end
+
   def self.get_kea_reservations(shared_network_id, kea_config)
     kea_config_hash = JSON.parse(kea_config)
     shared_networks = kea_config_hash["Dhcp4"]["shared-networks"].select { |shared_network| shared_network["name"].include?(shared_network_id) }
