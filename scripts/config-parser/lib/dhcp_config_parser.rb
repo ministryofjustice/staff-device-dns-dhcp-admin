@@ -13,6 +13,12 @@ class DhcpConfigParser
     shared_network_id = "FITS_####"
     subnet_list = ["192.168.1.0", "192.168.2.0", "192.168.3.0"]
 
+    exclusion_data = get_legacy_exclusions(File.read(LEGACY_CONFIG_FILEPATH), subnet_list)
+
+    puts "This site has the following #{exclusion_data.length} exclusions configured :"
+    puts exclusion_data
+    puts "----"
+
     compared_reservations = find_missing_reservations(
       kea_reservations: get_kea_reservations(shared_network_id, File.read(KEA_CONFIG_FILEPATH)),
       legacy_reservations: get_legacy_reservations(File.read(LEGACY_CONFIG_FILEPATH), subnet_list)
@@ -25,6 +31,22 @@ class DhcpConfigParser
 
   def self.export_file_exists?
     File.exist?(LEGACY_CONFIG_FILEPATH)
+  end
+
+  def self.get_legacy_exclusions(export, subnet_list)
+    exclusion_fields = ["type", "start-ip", "end-ip"]
+    legacy_exclusions = []
+
+    subnet_list.each do |subnet|
+      exclusion_regex = /excluderange.#{subnet.chop}\d{1,3}.#{subnet.chop}\d{1,3}/
+      export.scan(exclusion_regex)
+        .each do |exclusion|
+        exclusions = exclusion.split(" ")
+        legacy_exclusions.push(exclusions)
+      end
+    end
+
+    legacy_exclusions.map { |row| exclusion_fields.zip(row).to_h }
   end
 
   def self.get_kea_reservations(shared_network_id, kea_config)

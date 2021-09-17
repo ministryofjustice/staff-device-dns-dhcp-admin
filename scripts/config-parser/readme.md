@@ -46,3 +46,5 @@ The data directory is .gitignored, so be sure to use it.
 
 This will create a `reservation_diff.json` in your data directory. A `kea` or `legacy` key with a value of `null` means that reservation is missing from the associated config. 
 
+You'll also see the exclusion information output directly into the terminal.
+
