@@ -86,6 +86,13 @@ class Subnet < ApplicationRecord
     subnets_in_same_site - subnets_in_same_shared_network
   end
 
+  attr_accessor :total_addresses,
+                :num_assigned_ips
+
+  def num_remaining_ips
+    total_addresses - num_assigned_ips
+  end
+
   private
 
   def cidr_block_is_a_valid_ipv4_subnet
