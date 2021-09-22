@@ -12,17 +12,17 @@ RSpec.describe "Listing leases", type: :feature do
   let(:kea_response) do
     [
       {
-        "arguments": {
-          "leases": [
+        arguments: {
+          leases: [
             {
               "hw-address": hw_address,
               "ip-address": ip_address,
-              "hostname": hostname,
-              "state": 0
+              hostname: hostname,
+              state: 0
             }
           ]
         },
-        "result": 0
+        result: 0
       }
     ].to_json
   end
