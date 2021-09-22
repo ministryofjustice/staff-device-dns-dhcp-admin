@@ -13,6 +13,21 @@ class Exclusion < ApplicationRecord
 
   audited
 
+
+  def start_address_ip_addr
+    IPAddr.new(start_address)
+  end
+
+  def end_address_ip_addr
+    IPAddr.new(end_address)
+  end
+
+  def total_addresses
+    # TODO: Should this include x.x.x.0 if the mask overlaps 
+    # subnets larger than /24?
+    (start_address_ip_addr..end_address_ip_addr).to_a.length
+  end
+
   private
 
   def start_address_is_a_valid_ipv4_address
