@@ -4,7 +4,8 @@ RSpec.describe "Listing leases", type: :feature do
   let(:user) { create :user, :editor }
   let(:subnet) { create(:subnet) }
 
-  let(:hw_address) { "00:0c:01:02:03:05" }
+  let(:hw_address) { "00-0c-01-02-03-05" }
+  let(:formatted_hw_address) { "00:0c:01:02:03:05" }
   let(:ip_address) { "172.0.0.2" }
   let(:hostname) { "test.example.com" }
 
@@ -44,7 +45,8 @@ RSpec.describe "Listing leases", type: :feature do
     visit "/subnets/#{subnet.to_param}"
     click_on "View leases"
 
-    expect(page).to have_content hw_address
+    expect(page).not_to have_content hw_address
+    expect(page).to have_content formatted_hw_address
     expect(page).to have_content ip_address
     expect(page).to have_content hostname
     expect(page).to have_content "Leased"
