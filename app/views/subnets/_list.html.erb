@@ -1,6 +1,6 @@
 <% hide_actions ||= false %>
 
-<table class="govuk-table">
+<table id="subnets" class="govuk-table">
   <caption class="govuk-table__caption">List of subnets</caption>
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
@@ -8,6 +8,9 @@
       <th scope="col" class="govuk-table__header">Start address</th>
       <th scope="col" class="govuk-table__header">End address</th>
       <th scope="col" class="govuk-table__header">Routers</th>
+      <th scope="col" class="govuk-table__header">Reserved IPs</th>
+      <th scope="col" class="govuk-table__header">Remaining IPs</th>
+      <th scope="col" class="govuk-table__header">% Allocated</th>
       <% if !hide_actions %>
         <th scope="col" class="govuk-table__header">
           <span class="govuk-visually-hidden">Actions</span>
@@ -22,6 +25,9 @@
         <td class="govuk-table__cell"><%= subnet.start_address %></td>
         <td class="govuk-table__cell"><%= subnet.end_address %></td>
         <td class="govuk-table__cell"><%= subnet.routers.join(",") %></td>
+        <td class="govuk-table__cell num_reserved_ips">0</td>
+        <td class="govuk-table__cell num_remaining_ips"><%= subnet.num_remaining_ips %></td>
+        <td class="govuk-table__cell percentage_used">0</td>
         <% if !hide_actions %>
           <td class="govuk-table__cell">
             <% if can?(:manage, Subnet) %>

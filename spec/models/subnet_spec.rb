@@ -138,4 +138,19 @@ RSpec.describe Subnet, type: :model do
       end
     end
   end
+
+  describe "#total_addresses" do
+    it "returns number of total IPs" do
+      expect(subject.total_addresses).to eq(100)
+    end
+  end
+
+  describe "#num_remaining_ips" do
+    it "returns the #total_addresses minus the #num_assigned_ips" do
+      subject.total_addresses = 200
+      subject.num_assigned_ips = 100
+      expect(subject.num_remaining_ips).to eq(100)
+    end
+  end
+
 end

@@ -40,6 +40,17 @@
       <% end %>
     </dd>
   </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Capacity</dt>
+    <dd class="govuk-summary-list__value"><%= @subnet.routers.join(", ") %></dd>
+    <dd class="govuk-summary-list__actions">
+      <%= link_to edit_subnet_path(@subnet), class: "govuk-link" do %>
+        Change<span class="govuk-visually-hidden"> routers</span>
+      <% end %>
+    </dd>
+  </div>
+
 </dl>
 
 <h3 class="govuk-heading-m">Exclusion</h3>
