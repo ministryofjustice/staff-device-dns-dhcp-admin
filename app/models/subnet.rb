@@ -90,17 +90,13 @@ class Subnet < ApplicationRecord
   #               :num_assigned_ips
 
   def total_excluded_addresses  
-    exclusions.map(&:total_addresses).reduce(:+)
+    exclusions.map(&:total_addresses).sum
   end
 
   def total_addresses
     # TODO: Should this include x.x.x.0 if the mask overlaps 
     # subnets larger than /24?
     (start_address_ip_addr..end_address_ip_addr).to_a.length - total_excluded_addresses
-  end
-
-  def num_remaining_ips
-    total_addresses - num_assigned_ips
   end
 
   private

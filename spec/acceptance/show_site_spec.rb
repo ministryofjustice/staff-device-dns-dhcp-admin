@@ -23,6 +23,10 @@ describe "showing a site", type: :feature do
         subnet2 = create :subnet, index: 2, shared_network: shared_network 
         subnet3 = create :subnet, index: 3 
 
+        stub_subnet_leases_api_request(subnet.kea_id, [])
+        stub_subnet_leases_api_request(subnet2.kea_id, [])
+        stub_subnet_leases_api_request(subnet3.kea_id, [])
+
         visit "/dhcp"
 
         click_on "View", match: :first
@@ -40,38 +44,48 @@ describe "showing a site", type: :feature do
       end
 
       it "shows data about each subnet" do
-        stub_request(:post, ENV.fetch("KEA_CONTROL_AGENT_URI"))
-          .with(body: {
-            command: "stat-lease4-get",
-            service: ["dhcp4"]
-          }, headers: {
-            "Content-Type": "application/json"
-          })
-          .to_return(body: [
-            {
-              "result": 0,
-              "arguments": {
-                "result-set": {
-                  "columns": [ "subnet-id",
-                                "total-addresses",
-                                "cumulative-assigned-addresses",
-                                "assigned-addresses",
-                                "declined-addresses" ],
-                  "rows": [
-                    [ 1, 200, 100, 100, 0 ]
-                  ]
-                }
-              }
-            }
-          ].to_json)
+        leases_json = [
+          {
+            "hw-address": "01:16:ed:54:9d:92",
+            "ip-address": "192.168.0.10",
+            "hostname": "whatever.local",
+            "state": 0
+          }
+        ]
+
+        stub_subnet_leases_api_request(subnet.kea_id, leases_json)
 
         visit "/sites/#{site.to_param}"
 
         first_subnet = page.find("#subnets")
         # expect(first_subnet.find(".num_reserved_ips")).to have_content("0")
-        expect(first_subnet.find(".num_remaining_ips")).to have_content("100")
-        expect(first_subnet.find(".percentage_used")).to have_content("50%")
+        expect(first_subnet.find(".num_remaining_ips"))
+          .to have_content(subnet.total_addresses - leases_json.length)
+        # expect(first_subnet.find(".percentage_used")).to have_content("50%")
       end
     end
+  end
+
+  def stub_subnet_leases_api_request(subnet_kea_id, leases_json)
+    stub_request(:post, ENV["KEA_CONTROL_AGENT_URI"])
+      .with(
+        body: {
+          command: "lease4-get-all",
+          service: ["dhcp4"],
+          arguments: {
+            subnets: [subnet_kea_id]
+          }
+        }.to_json,
+        headers: {
+          'Content-Type'=>'application/json'
+        }
+      ).to_return(body: [
+        {
+          "arguments": {
+            "leases": leases_json
+          },
+          "result": 0
+        }
+      ].to_json)
   end
 end
