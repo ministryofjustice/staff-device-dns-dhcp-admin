@@ -8,6 +8,13 @@ class SitesController < ApplicationController
 
   def show
     @subnets = @site.subnets.sort_by(&:ip_addr)
+    @leases = {}
+    @subnets.each do |subnet|
+      @leases[subnet.id] = UseCases::FetchLeases.new(
+        gateway: kea_control_agent_gateway,
+        subnet_kea_id: subnet.kea_id
+      ).call
+    end
     @navigation_crumbs = [["Home", root_path], ["DHCP", dhcp_path]]
   end
 
