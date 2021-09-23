@@ -21,7 +21,7 @@ build-dev:
 	$(DOCKER_COMPOSE) build
 
 start-db:
-	$(DOCKER_COMPOSE) up -d db
+	$(DOCKER_COMPOSE) up -d admin-db --remove-orphans
 	ENV=${ENV} ./scripts/wait_for_db.sh
 
 db-setup: start-db

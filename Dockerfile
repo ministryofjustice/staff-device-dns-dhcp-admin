@@ -9,7 +9,7 @@ ARG APPDIR=$HOME/staff-device-dns-dhcp-admin
 ARG CERTDIR=$HOME/cert
 
 ARG RACK_ENV=development
-ARG DB_HOST=db
+ARG DB_HOST=admin-db
 ARG DB_USER=root
 ARG DB_PASS=root
 ARG SECRET_KEY_BASE="fakekeybase"
