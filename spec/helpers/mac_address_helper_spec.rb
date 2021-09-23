@@ -25,6 +25,12 @@ describe MacAddressHelper do
 
       expect(helper.format_mac_address(mac_address)).to eq("01:bb:cc:dd:ee:ff")
     end
+
+    it "given a mixed MAC address" do
+      mac_address = "01-bB-Cc:dd:EE ff"
+
+      expect(helper.format_mac_address(mac_address)).to eq("01:bB:Cc:dd:EE:ff")
+    end
   end
 
   context "when given a incorrect MAC address" do
