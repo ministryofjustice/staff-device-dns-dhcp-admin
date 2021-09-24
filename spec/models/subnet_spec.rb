@@ -164,6 +164,4 @@ RSpec.describe Subnet, type: :model do
       end
     end
   end
-
-
 end
