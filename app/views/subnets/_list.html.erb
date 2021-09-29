@@ -32,7 +32,7 @@
 
         <% if defined? leases %>
           <td class="govuk-table__cell num_reserved_ips">0</td>
-          <td class="govuk-table__cell num_remaining_ips"><%= subnet.total_addresses - leases.count %></td>
+          <td class="govuk-table__cell num_remaining_ips"><%= subnet.total_addresses - (leases[subnet.id] || []).count %></td>
           <td class="govuk-table__cell percentage_used">0</td>
         <% end %>
 

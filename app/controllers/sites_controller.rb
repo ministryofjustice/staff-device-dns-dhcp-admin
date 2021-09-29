@@ -7,7 +7,7 @@ class SitesController < ApplicationController
   end
 
   def show
-    @subnets = @site.subnets.sort_by(&:ip_addr)
+    @subnets = @site.subnets.sort_by(&:ip_addr).map do |subnet|
     @leases = {}
     @subnets.each do |subnet|
       @leases[subnet.id] = UseCases::FetchLeases.new(

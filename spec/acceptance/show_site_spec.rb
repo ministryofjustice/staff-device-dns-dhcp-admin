@@ -43,6 +43,19 @@ describe "showing a site", type: :feature do
         expect(page).not_to have_content subnet3.cidr_block
       end
 
+      it "shows data about each subnet with no leases" do
+        leases_json = []
+
+        stub_subnet_leases_api_request(subnet.kea_id, leases_json)
+
+        visit "/sites/#{site.to_param}"
+
+        first_subnet = page.find("#subnets")
+        expect(first_subnet.find(".num_reserved_ips")).to have_content("0")
+        expect(first_subnet.find(".num_remaining_ips")).to have_content(subnet.total_addresses)
+        expect(first_subnet.find(".percentage_used")).to have_content("0")
+      end
+
       it "shows data about each subnet" do
         leases_json = [
           {
@@ -58,7 +71,7 @@ describe "showing a site", type: :feature do
         visit "/sites/#{site.to_param}"
 
         first_subnet = page.find("#subnets")
-        # expect(first_subnet.find(".num_reserved_ips")).to have_content("0")
+        expect(first_subnet.find(".num_reserved_ips")).to have_content("0")
         expect(first_subnet.find(".num_remaining_ips"))
           .to have_content(subnet.total_addresses - leases_json.length)
         # expect(first_subnet.find(".percentage_used")).to have_content("50%")
