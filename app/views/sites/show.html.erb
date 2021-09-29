@@ -26,4 +26,4 @@
   <%= link_to "Create a new subnet", new_site_subnet_path(@site), class: "govuk-button" %>
 <% end %>
 
-<%= render "subnets/list", subnets: @subnets, leases: @leases %>
+<%= render "subnets/list", subnets: @subnets, subnet_statistics: @subnet_statistics %>
