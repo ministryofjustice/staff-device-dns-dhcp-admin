@@ -8,6 +8,6 @@ class SubnetStatistic
   end
 
   def num_remaining_ips
-    subnet.total_addresses - leases.count
+    (subnet.total_addresses - leases.count) - subnet.reservations.count
   end
 end
