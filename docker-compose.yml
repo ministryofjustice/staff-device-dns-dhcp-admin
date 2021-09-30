@@ -1,7 +1,7 @@
 version: "3.4"
 
 services:
-  db:
+  admin-db:
     image: "${SHARED_SERVICES_ACCOUNT_ID}.dkr.ecr.eu-west-2.amazonaws.com/admin-mysql:mysql-5-7"
     env_file: .env.${ENV}
     expose:
@@ -24,7 +24,7 @@ services:
       - .:/home/app/staff-device-dns-dhcp-admin
       - node_modules:/home/app/staff-device-dns-dhcp-admin/node_modules
     links:
-      - db
+      - admin-db
     expose:
       - "3000"
     ports:
