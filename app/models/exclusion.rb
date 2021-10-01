@@ -28,6 +28,10 @@ class Exclusion < ApplicationRecord
     (start_address_ip_addr..end_address_ip_addr).to_a.length
   end
 
+  def contains_ip_address?(ip_address)
+    (start_address_ip_addr..end_address_ip_addr).to_a.include?(ip_address)
+  end
+
   private
 
   def start_address_is_a_valid_ipv4_address

@@ -17,26 +17,146 @@ RSpec.describe SubnetStatistic do
         expect(subject.num_remaining_ips).to eql(10)
       end
 
-      context "when there are reservations between the start and end addresses" do
+      context "when there are exclusions" do
         before do
-          create :reservation, subnet: subnet, ip_address: "192.168.0.15"
+          create :exclusion, subnet: subnet, start_address: "192.168.0.15", end_address: "192.168.0.16" 
         end
 
-        it "returns 9" do
-          expect(subject.num_remaining_ips).to eql(9)  
+        context "when there are reservations outside the range of the exclusion" do
+          before do
+            create :reservation, subnet: subnet, ip_address: "192.168.0.14"
+          end
+
+          it "returns 7" do
+            expect(subject.num_remaining_ips).to eql(7)  
+          end
+        end
+
+        context "and there are reservations in the range of the exclusion" do
+          before do
+            create :reservation, subnet: subnet, ip_address: "192.168.0.15"
+          end
+
+          it "returns 8" do
+            expect(subject.num_remaining_ips).to eql(8)  
+          end
         end
       end
-
-      context "when there are reservations outside the the start and end addresses"
     end
 
-    context "when there are leases" do
-      let(:lease) { instance_double(Lease) }
+    context "when there are leases and they were reserved" do
+      let(:lease) { instance_double(Lease, ip_address: '192.168.0.15') }
       let(:leases) { [lease] }
+
+      before do
+        create :reservation, subnet: subnet, ip_address: "192.168.0.15"
+      end
 
       it "returns 9" do
         expect(subject.num_remaining_ips).to eql(9)
       end
     end
+
+    context "when there are leases and they were not reserved" do
+      let(:lease) { instance_double(Lease, ip_address: '192.168.0.16') }
+      let(:leases) { [lease] }
+
+      before do
+        create :reservation, subnet: subnet, ip_address: "192.168.0.15"
+      end
+
+      it "returns 8" do
+        expect(subject.num_remaining_ips).to eql(8)
+      end
+    end
+
+    context "when there are no exclusions" do
+      context "when there are leases" do
+        let(:lease) { instance_double(Lease, ip_address: '192.168.0.16') }
+        let(:leases) { [lease] }
+
+        context "and the leases were reserved" do
+          before do
+            create :reservation, subnet: subnet, ip_address: "192.168.0.16"
+          end
+
+          it "returns 9" do
+            expect(subject.num_remaining_ips).to eql(9)
+          end
+        end
+        context "and the leases were not reserved" do
+          it "returns 9" do
+            expect(subject.num_remaining_ips).to eql(9)
+          end
+        end
+      end
+    end
+    
+    context "when there are exclusions" do
+      before do
+        create :exclusion, subnet: subnet, start_address: "192.168.0.15", end_address: "192.168.0.16" 
+      end
+      context "when there are leases" do
+        let(:lease) { instance_double(Lease, ip_address: '192.168.0.18') }
+        let(:leases) { [lease] }
+
+        context "and the leases weren't reserved" do
+          it "returns 7" do
+
+            # p subject.leased_unreserved_ip_addresses[0].ip_address
+            printf "Exclusions - Start Address: \t\t\t" + subnet.exclusions[0].start_address + "\n" 
+            printf "Exclusions - End Address: \t\t\t" + subnet.exclusions[0].end_address + "\n" 
+            printf "Lease IP: \t\t\t\t\t" + subject.leases[0].ip_address + "\n" 
+            printf "Total Reservations outside of Exclusions: \t" + subject.reservations_outside_of_exclusions.count.to_s + "\n" 
+            printf "Total Addresses: \t\t\t\t" + subnet.total_addresses.to_s + "\n" 
+            printf "Dynamically Allocatable IPs: \t\t\t" + subject.dynamically_allocatable_ips.to_s + "\n" 
+            printf "Number of Leased reserved IP addresses: \t" + subject.leased_reserved_ip_addresses.count.to_s + "\n" 
+            printf "Number of Leases: \t\t\t\t" + subject.leases.count.to_s + "\n" 
+            printf "Number of Leases not reserved: \t\t\t" + subject.unreserved_leases.count.to_s + "\n"
+            # p subject.reservations_outside_of_exclusions[0].ip_address
+
+            expect(subject.num_remaining_ips).to eql(7)
+          end
+        end
+        
+
+        context "and the leases were reserved and reservation was within the exclusion" do
+          before do
+            create :reservation, subnet: subnet, ip_address: "192.168.0.18"
+          end
+
+          it "returns 7" do
+            # p subject.leased_unreserved_ip_addresses[0].ip_address
+            printf "Exclusions - Start Address: \t\t\t" + subnet.exclusions[0].start_address + "\n" 
+            printf "Exclusions - End Address: \t\t\t" + subnet.exclusions[0].end_address + "\n" 
+            printf "Lease IP: \t\t\t\t\t" + subject.leases[0].ip_address + "\n" 
+            printf "Total Reservations outside of Exclusions: \t" + subject.reservations_outside_of_exclusions.count.to_s + "\n" 
+            printf "Total Addresses: \t\t\t\t" + subnet.total_addresses.to_s + "\n" 
+            printf "Dynamically Allocatable IPs: \t\t\t" + subject.dynamically_allocatable_ips.to_s + "\n" 
+            printf "Number of Leased Reserved IP addresses: \t" + subject.leased_reserved_ip_addresses.count.to_s + "\n" 
+            printf "Number of Leases: \t\t\t\t" + subject.leases.count.to_s + "\n" 
+            # p subject.reservations_outside_of_exclusions[0].ip_address
+            expect(subject.num_remaining_ips).to eql(7)
+          end
+        end
+        
+        context "and the leases were reserved and reservation was without the exclusion" do
+          before do
+            create :reservation, subnet: subnet, ip_address: "192.168.0.16"
+          end
+
+          it "returns 7" do
+            expect(subject.num_remaining_ips).to eql(7)
+          end
+        end
+
+        context "and the leases were not reserved" do
+          
+        end
+        
+      end
+    end
+    
+    
   end
 end
