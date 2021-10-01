@@ -103,7 +103,6 @@ RSpec.describe SubnetStatistic do
         context "and the leases weren't reserved" do
           it "returns 7" do
 
-            # p subject.leased_unreserved_ip_addresses[0].ip_address
             printf "Exclusions - Start Address: \t\t\t" + subnet.exclusions[0].start_address + "\n" 
             printf "Exclusions - End Address: \t\t\t" + subnet.exclusions[0].end_address + "\n" 
             printf "Lease IP: \t\t\t\t\t" + subject.leases[0].ip_address + "\n" 
@@ -113,7 +112,6 @@ RSpec.describe SubnetStatistic do
             printf "Number of Leased reserved IP addresses: \t" + subject.leased_reserved_ip_addresses.count.to_s + "\n" 
             printf "Number of Leases: \t\t\t\t" + subject.leases.count.to_s + "\n" 
             printf "Number of Leases not reserved: \t\t\t" + subject.unreserved_leases.count.to_s + "\n"
-            # p subject.reservations_outside_of_exclusions[0].ip_address
 
             expect(subject.num_remaining_ips).to eql(7)
           end
@@ -126,7 +124,7 @@ RSpec.describe SubnetStatistic do
           end
 
           it "returns 7" do
-            # p subject.leased_unreserved_ip_addresses[0].ip_address
+
             printf "Exclusions - Start Address: \t\t\t" + subnet.exclusions[0].start_address + "\n" 
             printf "Exclusions - End Address: \t\t\t" + subnet.exclusions[0].end_address + "\n" 
             printf "Lease IP: \t\t\t\t\t" + subject.leases[0].ip_address + "\n" 
@@ -135,7 +133,7 @@ RSpec.describe SubnetStatistic do
             printf "Dynamically Allocatable IPs: \t\t\t" + subject.dynamically_allocatable_ips.to_s + "\n" 
             printf "Number of Leased Reserved IP addresses: \t" + subject.leased_reserved_ip_addresses.count.to_s + "\n" 
             printf "Number of Leases: \t\t\t\t" + subject.leases.count.to_s + "\n" 
-            # p subject.reservations_outside_of_exclusions[0].ip_address
+
             expect(subject.num_remaining_ips).to eql(7)
           end
         end
