@@ -42,13 +42,5 @@ class SubnetStatistic
   def unreserved_leases
     leases_not_in_exclusion_zones - leased_reserved_ip_addresses
   end
-
-  # def leased_unreserved_ip_addresses
-  #   leases.select do |lease|
-  #     !reservations_outside_of_exclusions
-  #       .map(&:ip_address)
-  #       .include?(lease.ip_address)
-  #   end
-  # end
-
+  
 end
