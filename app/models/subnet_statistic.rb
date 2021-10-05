@@ -7,12 +7,12 @@ class SubnetStatistic
     @leases = leases
   end
 
-  def num_remaining_ips
-    dynamically_allocatable_ips - unreserved_leases.count
+  def percentage_used
+    (unreserved_leases.count.to_f / dynamically_allocatable_ips.to_f) * 100
   end
 
-  def dynamically_allocatable_ips
-    subnet.total_addresses - reservations_outside_of_exclusions.count
+  def num_remaining_ips
+    dynamically_allocatable_ips - unreserved_leases.count
   end
 
   def reservations_outside_of_exclusions
@@ -42,5 +42,8 @@ class SubnetStatistic
   def unreserved_leases
     leases_not_in_exclusion_zones - leased_reserved_ip_addresses
   end
-  
+
+  def dynamically_allocatable_ips
+    subnet.total_addresses - reservations_outside_of_exclusions.count
+  end
 end

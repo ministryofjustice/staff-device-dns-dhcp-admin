@@ -17,7 +17,13 @@ describe "showing a site", type: :feature do
     context "when the site exists" do
       let!(:site) { create :site }
       let!(:shared_network) { create :shared_network, site: site }
-      let!(:subnet) { create :subnet, index: 1, shared_network: shared_network }
+      let!(:subnet) do
+        create :subnet, 
+          shared_network: shared_network,
+          cidr_block: "192.168.0.0/24",
+          start_address: "192.168.0.10",
+          end_address: "192.168.0.211"
+      end
 
       it "allows viewing sites and its subnets" do
         subnet2 = create :subnet, index: 2, shared_network: shared_network 
@@ -52,29 +58,30 @@ describe "showing a site", type: :feature do
 
         first_subnet = page.find("#subnets")
         expect(first_subnet.find(".num_reserved_ips")).to have_content("0")
-        expect(first_subnet.find(".num_remaining_ips")).to have_content(subnet.total_addresses)
+        expect(first_subnet.find(".num_remaining_ips")).to have_content("202")
         expect(first_subnet.find(".percentage_used")).to have_content("0")
       end
 
-      it "shows data about each subnet" do
+      it "shows data about each subnet and its usage" do
         leases_json = [
           {
             "hw-address": "01:16:ed:54:9d:92",
-            "ip-address": "192.168.0.10",
+            "ip-address": "192.168.0.15",
             "hostname": "whatever.local",
             "state": 0
           }
         ]
+
+        create :reservation, subnet: subnet, ip_address: "192.168.0.16"
 
         stub_subnet_leases_api_request(subnet.kea_id, leases_json)
 
         visit "/sites/#{site.to_param}"
 
         first_subnet = page.find("#subnets")
-        expect(first_subnet.find(".num_reserved_ips")).to have_content("0")
-        expect(first_subnet.find(".num_remaining_ips"))
-          .to have_content(subnet.total_addresses - leases_json.length)
-        # expect(first_subnet.find(".percentage_used")).to have_content("50%")
+        expect(first_subnet.find(".num_reserved_ips")).to have_content("1")
+        expect(first_subnet.find(".num_remaining_ips")).to have_content("200")
+        expect(first_subnet.find(".percentage_used")).to have_content("0.5%")
       end
     end
   end

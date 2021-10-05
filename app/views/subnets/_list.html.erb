@@ -31,9 +31,9 @@
         <td class="govuk-table__cell"><%= subnet.routers.join(",") %></td>
 
         <% if defined? subnet_statistics %>
-          <td class="govuk-table__cell num_reserved_ips">0</td>
+          <td class="govuk-table__cell num_reserved_ips"><%= subnet.reservations.count %></td>
           <td class="govuk-table__cell num_remaining_ips"><%= subnet_statistics[subnet.id].num_remaining_ips %></td>
-          <td class="govuk-table__cell percentage_used">0</td>
+          <td class="govuk-table__cell percentage_used"><%= subnet_statistics[subnet.id].percentage_used.round(2) %>%</td>
         <% end %>
 
         <% if !hide_actions %>
