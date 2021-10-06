@@ -18,7 +18,7 @@ describe "showing a site", type: :feature do
       let!(:site) { create :site }
       let!(:shared_network) { create :shared_network, site: site }
       let!(:subnet) do
-        create :subnet, 
+        create :subnet,
           shared_network: shared_network,
           cidr_block: "192.168.0.0/24",
           start_address: "192.168.0.10",
@@ -26,8 +26,8 @@ describe "showing a site", type: :feature do
       end
 
       it "allows viewing sites and its subnets" do
-        subnet2 = create :subnet, index: 2, shared_network: shared_network 
-        subnet3 = create :subnet, index: 3 
+        subnet2 = create :subnet, index: 2, shared_network: shared_network
+        subnet3 = create :subnet, index: 3
 
         stub_subnet_leases_api_request(subnet.kea_id, [])
         stub_subnet_leases_api_request(subnet2.kea_id, [])
@@ -67,8 +67,8 @@ describe "showing a site", type: :feature do
           {
             "hw-address": "01:16:ed:54:9d:92",
             "ip-address": "192.168.0.15",
-            "hostname": "whatever.local",
-            "state": 0
+            hostname: "whatever.local",
+            state: 0
           }
         ]
 
@@ -97,14 +97,14 @@ describe "showing a site", type: :feature do
           }
         }.to_json,
         headers: {
-          'Content-Type'=>'application/json'
+          "Content-Type" => "application/json"
         }
       ).to_return(body: [
         {
-          "arguments": {
-            "leases": leases_json
+          arguments: {
+            leases: leases_json
           },
-          "result": 0
+          result: 0
         }
       ].to_json)
   end

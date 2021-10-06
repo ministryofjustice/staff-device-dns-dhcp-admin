@@ -57,14 +57,14 @@ describe "showing a subnet", type: :feature do
           }
         }.to_json,
         headers: {
-          'Content-Type'=>'application/json'
+          "Content-Type" => "application/json"
         }
       ).to_return(body: [
         {
-          "arguments": {
-            "leases": leases_json
+          arguments: {
+            leases: leases_json
           },
-          "result": 0
+          result: 0
         }
       ].to_json)
   end

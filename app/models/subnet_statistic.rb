@@ -1,6 +1,6 @@
 class SubnetStatistic
   attr_reader :subnet,
-              :leases
+    :leases
 
   def initialize(subnet:, leases:)
     @subnet = subnet

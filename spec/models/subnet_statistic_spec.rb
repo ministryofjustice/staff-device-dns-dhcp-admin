@@ -1,10 +1,10 @@
 require "rails_helper"
 
 RSpec.describe SubnetStatistic do
-  let(:subnet) do 
-    create :subnet, 
+  let(:subnet) do
+    create :subnet,
       cidr_block: "192.168.0.0/24",
-      start_address: "192.168.0.11", 
+      start_address: "192.168.0.11",
       end_address: "192.168.0.20"
   end
   let(:leases) { [] }
@@ -20,7 +20,7 @@ RSpec.describe SubnetStatistic do
 
       context "when there are exclusions" do
         before do
-          create :exclusion, subnet: subnet, start_address: "192.168.0.15", end_address: "192.168.0.16" 
+          create :exclusion, subnet: subnet, start_address: "192.168.0.15", end_address: "192.168.0.16"
         end
 
         context "when there are reservations outside the range of the exclusion" do
@@ -29,7 +29,7 @@ RSpec.describe SubnetStatistic do
           end
 
           it "returns 7" do
-            expect(subject.num_remaining_ips).to eql(7)  
+            expect(subject.num_remaining_ips).to eql(7)
           end
         end
 
@@ -39,14 +39,14 @@ RSpec.describe SubnetStatistic do
           end
 
           it "returns 8" do
-            expect(subject.num_remaining_ips).to eql(8)  
+            expect(subject.num_remaining_ips).to eql(8)
           end
         end
       end
     end
 
     context "when there are leases and they were reserved" do
-      let(:lease) { instance_double(Lease, ip_address: '192.168.0.15') }
+      let(:lease) { instance_double(Lease, ip_address: "192.168.0.15") }
       let(:leases) { [lease] }
 
       before do
@@ -59,7 +59,7 @@ RSpec.describe SubnetStatistic do
     end
 
     context "when there are leases and they were not reserved" do
-      let(:lease) { instance_double(Lease, ip_address: '192.168.0.16') }
+      let(:lease) { instance_double(Lease, ip_address: "192.168.0.16") }
       let(:leases) { [lease] }
 
       before do
@@ -73,7 +73,7 @@ RSpec.describe SubnetStatistic do
 
     context "when there are no exclusions" do
       context "when there are leases" do
-        let(:lease) { instance_double(Lease, ip_address: '192.168.0.16') }
+        let(:lease) { instance_double(Lease, ip_address: "192.168.0.16") }
         let(:leases) { [lease] }
 
         context "and the leases were reserved" do
@@ -92,13 +92,13 @@ RSpec.describe SubnetStatistic do
         end
       end
     end
-    
+
     context "when there are exclusions" do
       before do
-        create :exclusion, subnet: subnet, start_address: "192.168.0.15", end_address: "192.168.0.16" 
+        create :exclusion, subnet: subnet, start_address: "192.168.0.15", end_address: "192.168.0.16"
       end
       context "when there are leases outside exclusion" do
-        let(:lease) { instance_double(Lease, ip_address: '192.168.0.18') }
+        let(:lease) { instance_double(Lease, ip_address: "192.168.0.18") }
         let(:leases) { [lease] }
 
         context "and the leases weren't reserved" do
@@ -106,7 +106,7 @@ RSpec.describe SubnetStatistic do
             expect(subject.num_remaining_ips).to eql(7)
           end
         end
-        
+
         context "and the leases were reserved and reservation was outside the exclusion" do
           before do
             create :reservation, subnet: subnet, ip_address: "192.168.0.18"
@@ -115,11 +115,11 @@ RSpec.describe SubnetStatistic do
           it "returns 7" do
             expect(subject.num_remaining_ips).to eql(7)
           end
-        end        
+        end
       end
 
       context "when there are lease inside exclusion" do
-        let(:lease) { instance_double(Lease, ip_address: '192.168.0.16') }
+        let(:lease) { instance_double(Lease, ip_address: "192.168.0.16") }
         let(:leases) { [lease] }
 
         it "returns 8" do
@@ -154,11 +154,9 @@ RSpec.describe SubnetStatistic do
         expect(subject.reservations_outside_of_exclusions).to eql([reservation])
       end
     end
-    
   end
 
   describe "#leases_not_in_exclusion_zones:" do
-
     it "returns empty list when there are no leases" do
       expect(subject.leases_not_in_exclusion_zones).to eql([])
     end
@@ -232,5 +230,4 @@ RSpec.describe SubnetStatistic do
       end
     end
   end
-  
 end
