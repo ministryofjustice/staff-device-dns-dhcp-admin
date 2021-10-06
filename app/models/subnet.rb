@@ -86,7 +86,7 @@ class Subnet < ApplicationRecord
     subnets_in_same_site - subnets_in_same_shared_network
   end
 
-  def total_excluded_addresses  
+  def total_excluded_addresses
     exclusions.map(&:total_addresses).sum
   end
 

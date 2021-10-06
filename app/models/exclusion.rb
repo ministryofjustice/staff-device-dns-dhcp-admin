@@ -13,7 +13,6 @@ class Exclusion < ApplicationRecord
 
   audited
 
-
   def start_address_ip_addr
     IPAddr.new(start_address)
   end
@@ -23,7 +22,7 @@ class Exclusion < ApplicationRecord
   end
 
   def total_addresses
-    # TODO: Should this include x.x.x.0 if the mask overlaps 
+    # TODO: Should this include x.x.x.0 if the mask overlaps
     # subnets larger than /24?
     (start_address_ip_addr..end_address_ip_addr).to_a.length
   end
