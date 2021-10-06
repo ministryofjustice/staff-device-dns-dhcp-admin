@@ -32,8 +32,4 @@ describe Gateways::KeaControlAgent do
       end
     end
   end
-
-  describe "#fetch_leases" do
-    
-  end 
 end
