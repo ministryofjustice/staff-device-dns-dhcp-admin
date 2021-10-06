@@ -86,6 +86,14 @@ class Subnet < ApplicationRecord
     subnets_in_same_site - subnets_in_same_shared_network
   end
 
+  def total_excluded_addresses
+    exclusions.map(&:total_addresses).sum
+  end
+
+  def total_addresses
+    (start_address_ip_addr..end_address_ip_addr).to_a.length - total_excluded_addresses
+  end
+
   private
 
   def cidr_block_is_a_valid_ipv4_subnet

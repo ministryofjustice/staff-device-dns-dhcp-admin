@@ -8,6 +8,16 @@ class SitesController < ApplicationController
 
   def show
     @subnets = @site.subnets.sort_by(&:ip_addr)
+    @subnet_statistics = {}
+    @subnets.each do |subnet|
+      @subnet_statistics[subnet.id] = SubnetStatistic.new(
+        subnet: subnet,
+        leases: UseCases::FetchLeases.new(
+          gateway: kea_control_agent_gateway,
+          subnet_kea_id: subnet.kea_id
+        ).call
+      )
+    end
     @navigation_crumbs = [["Home", root_path], ["DHCP", dhcp_path]]
   end
 

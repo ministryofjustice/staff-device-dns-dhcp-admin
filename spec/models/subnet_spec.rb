@@ -138,4 +138,30 @@ RSpec.describe Subnet, type: :model do
       end
     end
   end
+
+  describe "#total_addresses" do
+    before do
+      subject.start_address = "192.168.0.251"
+      subject.end_address = "192.168.1.5"
+    end
+
+    context "with no exclusions or reservations" do
+      it "returns number of total IPs between the start_address and end_address" do
+        expect(subject.total_addresses).to eq(11)
+      end
+    end
+
+    context "with an exclusion range" do
+      before do
+        subject.exclusions.build(
+          start_address: "192.168.0.255",
+          end_address: "192.168.1.3"
+        )
+      end
+
+      it "returns number of total IPs between the start_address and end_address minus exclusions" do
+        expect(subject.total_addresses).to eq(6)
+      end
+    end
+  end
 end

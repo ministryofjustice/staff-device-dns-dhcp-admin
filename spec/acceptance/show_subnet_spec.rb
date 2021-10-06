@@ -19,6 +19,7 @@ describe "showing a subnet", type: :feature do
       let(:site) { subnet.site }
 
       it "allows viewing subnets" do
+        stub_subnet_leases_api_request(subnet.kea_id, [])
         visit "/sites/#{site.to_param}"
 
         click_on "View"
@@ -43,5 +44,28 @@ describe "showing a subnet", type: :feature do
         expect(page).to have_content other_subnet.end_address
       end
     end
+  end
+
+  def stub_subnet_leases_api_request(subnet_kea_id, leases_json)
+    stub_request(:post, ENV["KEA_CONTROL_AGENT_URI"])
+      .with(
+        body: {
+          command: "lease4-get-all",
+          service: ["dhcp4"],
+          arguments: {
+            subnets: [subnet_kea_id]
+          }
+        }.to_json,
+        headers: {
+          "Content-Type" => "application/json"
+        }
+      ).to_return(body: [
+        {
+          arguments: {
+            leases: leases_json
+          },
+          result: 0
+        }
+      ].to_json)
   end
 end
