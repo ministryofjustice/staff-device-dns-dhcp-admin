@@ -194,7 +194,6 @@ RSpec.describe SubnetStatistic do
 
         it "returns the leases that are not inside of any exclusion ranges" do
           expect(subject.leases_not_in_exclusion_zones).to include(lease_2)
-          expect(subject.leases_not_in_exclusion_zones).not_to include(lease_1)
         end
 
         it "does not return the leases that are inside of exclusion ranges" do
