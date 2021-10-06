@@ -184,20 +184,20 @@ RSpec.describe SubnetStatistic do
       end
 
       context "where are leases inside and on the outside of the exclusions" do
-        let(:lease_1) { instance_double(Lease, ip_address: "192.168.0.16") }
-        let(:lease_2) { instance_double(Lease, ip_address: "192.168.0.17") }
-        let(:leases) { [lease_1, lease_2] }
+        let(:lease_in_exclusion_zone) { instance_double(Lease, ip_address: "192.168.0.16") }
+        let(:lease_not_in_exclusion_zone) { instance_double(Lease, ip_address: "192.168.0.17") }
+        let(:leases) { [lease_in_exclusion_zone, lease_not_in_exclusion_zone] }
 
         before do
           create :exclusion, subnet: subnet, start_address: "192.168.0.15", end_address: "192.168.0.16"
         end
 
         it "returns the leases that are not inside of any exclusion ranges" do
-          expect(subject.leases_not_in_exclusion_zones).to include(lease_2)
+          expect(subject.leases_not_in_exclusion_zones).to include(lease_not_in_exclusion_zone)
         end
 
         it "does not return the leases that are inside of exclusion ranges" do
-          expect(subject.leases_not_in_exclusion_zones).not_to include(lease_1)
+          expect(subject.leases_not_in_exclusion_zones).not_to include(lease_in_exclusion_zone)
         end
       end
     end
@@ -209,26 +209,26 @@ RSpec.describe SubnetStatistic do
     end
 
     context "when there are leases," do
-      let(:lease_1) { instance_double(Lease, ip_address: "192.168.0.15") }
-      let(:lease_2) { instance_double(Lease, ip_address: "192.168.0.16") }
-      let(:leases) { [lease_1, lease_2] }
+      let(:lease_reserved) { instance_double(Lease, ip_address: "192.168.0.15") }
+      let(:lease_not_reserved) { instance_double(Lease, ip_address: "192.168.0.16") }
+      let(:leases) { [lease_reserved, lease_not_reserved] }
 
       before do
         create :reservation, subnet: subnet, ip_address: "192.168.0.15"
       end
 
       it "returns leases that are reserved" do
-        expect(subject.leased_reserved_ip_addresses).to include(lease_1)
+        expect(subject.leased_reserved_ip_addresses).to include(lease_reserved)
       end
 
       it "does not return leases that are not reserved" do
-        expect(subject.leased_reserved_ip_addresses).not_to include(lease_2)
+        expect(subject.leased_reserved_ip_addresses).not_to include(lease_not_reserved)
       end
 
       it "does not return leases that are reserved but they are inside of exclusion ranges" do
         create :exclusion, subnet: subnet, start_address: "192.168.0.14", end_address: "192.168.0.15"
 
-        expect(subject.leased_reserved_ip_addresses).not_to include(lease_1)
+        expect(subject.leased_reserved_ip_addresses).not_to include(lease_reserved)
       end
     end
   end
