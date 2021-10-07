@@ -9,9 +9,9 @@ Before you begin you will need the following data:
   - Login to the DNS DHCP admin portal.
   - click DHCP.
   - `ctrl + f` the site you are looking for
-  - copy the the FITS_#### to `bin/dhcp_config_parser` line 12 (shared_network_id variable).
+  - copy the the FITS_#### to `lib/dhcp_config_parser` line 12 (shared_network_id variable).
 - A list of subnets for that site.
-  - Populate `bin/dhcp_config_parser` line 13 with your subnet list.
+  - Populate `lib/dhcp_config_parser` line 13 with your subnet list.
 - A copy of the latest KEA config (downloaded from S3). (see below).
 - A full or partial export dhcp server export from the incumbent provider.
 
@@ -27,7 +27,7 @@ Before you begin you will need the following data:
 - Legacy data exports will be provided as .zip files from the current provider, usually with a `sitenameVLAN##.txt` file for each subnet (VLAN).
 - You can use the below line of powershell to quickly convert those files into an export.txt, which you can copy into your data directory.
 - `Get-Content .\sitenameVLAN10.txt, .\sitenameVLAN20.txt | Set-Content export.txt`
-
+- save the export.txt file in the data directory.
 ---
 **Important**
 

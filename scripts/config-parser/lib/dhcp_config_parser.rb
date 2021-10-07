@@ -1,17 +1,27 @@
 require "json"
 
 class DhcpConfigParser
-  KEA_CONFIG_FILEPATH = "./data/kea.json".freeze
   LEGACY_CONFIG_FILEPATH = "./data/export.txt".freeze
 
-  def self.run
+  # Integration test for the class with expectation to have reservations created when they are missing on the kea config
+
+  # dhcp_config_parser_spec calls .run which has no arguments, i.e. the entire method is called
+  # this means that KEA_CONFIG_FILEPATH, is called which is a statically defined file.
+
+  # refactor run to create more flexibility
+
+  def initialize(kea_config_filepath:)
+    @kea_config_filepath = kea_config_filepath
+  end
+
+  def run
     throw StandardError unless kea_config_exists?
     throw StandardError unless export_file_exists?
 
     # Populate these with data from the portal/export before running.
     # See readme if you're feeling ¯\_(ツ)_/¯
-    shared_network_id = "FITS_####"
-    subnet_list = ["192.168.1.0", "192.168.2.0", "192.168.3.0"]
+    shared_network_id = "FITS_1646"
+    subnet_list = ["10.81.48.0", "10.81.49.0", "10.81.50.0", "10.81.51.0", "10.81.52.0", "10.81.53.0", "10.81.54.0", "10.81.55.0"]
 
     exclusion_data = get_legacy_exclusions(File.read(LEGACY_CONFIG_FILEPATH), subnet_list)
 
@@ -20,20 +30,20 @@ class DhcpConfigParser
     puts "----"
 
     compared_reservations = find_missing_reservations(
-      kea_reservations: get_kea_reservations(shared_network_id, File.read(KEA_CONFIG_FILEPATH)),
+      kea_reservations: get_kea_reservations(shared_network_id, File.read(@kea_config_filepath)),
       legacy_reservations: get_legacy_reservations(File.read(LEGACY_CONFIG_FILEPATH), subnet_list)
     )
   end
 
-  def self.kea_config_exists?
-    File.exist?(KEA_CONFIG_FILEPATH)
+  def kea_config_exists?
+    File.exist?(@kea_config_filepath)
   end
 
-  def self.export_file_exists?
+  def export_file_exists?
     File.exist?(LEGACY_CONFIG_FILEPATH)
   end
 
-  def self.get_legacy_exclusions(export, subnet_list)
+  def get_legacy_exclusions(export, subnet_list)
     exclusion_fields = ["type", "start-ip", "end-ip"]
     legacy_exclusions = []
 
@@ -49,7 +59,7 @@ class DhcpConfigParser
     legacy_exclusions.map { |row| exclusion_fields.zip(row).to_h }
   end
 
-  def self.get_kea_reservations(shared_network_id, kea_config)
+  def get_kea_reservations(shared_network_id, kea_config)
     kea_config_hash = JSON.parse(kea_config)
     shared_networks = kea_config_hash["Dhcp4"]["shared-networks"].select { |shared_network| shared_network["name"].include?(shared_network_id) }
 
@@ -62,7 +72,7 @@ class DhcpConfigParser
     end
   end
 
-  def self.get_legacy_reservations(export, subnet_list)
+  def get_legacy_reservations(export, subnet_list)
     reservation_fields = ["ip-address", "hw-address", "hostname"]
     legacy_reservations = []
 
@@ -77,7 +87,7 @@ class DhcpConfigParser
     legacy_reservations.map { |row| reservation_fields.zip(row).to_h }
   end
 
-  def self.find_missing_reservations(kea_reservations:, legacy_reservations:)
+  def find_missing_reservations(kea_reservations:, legacy_reservations:)
     grouped_kea_reservations = kea_reservations.group_by { |res| res["hw-address"].downcase.tr(":", "") }
     grouped_legacy_reservations = legacy_reservations.group_by { |res| res["hw-address"].downcase.tr(":", "") }
 
