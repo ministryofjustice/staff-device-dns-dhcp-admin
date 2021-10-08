@@ -10,10 +10,24 @@ describe DhcpConfigParser do
       expect(subject.run).not_to be_nil
     end
 
-    it "creates reservations not in admin which are in the old system" do
-      # setup scenario assumptions
+    it "creates reservations from the legacy config which do not exist in the kea config" do
+      # setup reservations in the legacy config
+      # at least one reservation should not be in kea
       # do the thing
       # check data is created
+      result = described_class.new(legacy_config_filepath: "./spec/data/brand_new_reservation.txt", kea_config_filepath: kea_config_filepath).run
+      expect(result).to eql([
+        {
+          "hw-address" => "aabbcc66ffee",
+          "kea" => nil,
+          "legacy" => {
+            "hw-address" => "aabbcc66ffee",
+            "ip-address" => "192.168.1.50",
+            "hostname" => "win6.test.space.local."
+          }
+        }
+      ]
+    )
     end
   end
 

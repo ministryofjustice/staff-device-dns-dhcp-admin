@@ -1,7 +1,7 @@
 require "json"
 
 class DhcpConfigParser
-  
+
   # Integration test for the class with expectation to have reservations created when they are missing on the kea config
 
   # dhcp_config_parser_spec calls .run which has no arguments, i.e. the entire method is called
@@ -21,7 +21,7 @@ class DhcpConfigParser
     # Populate these with data from the portal/export before running.
     # See readme if you're feeling ¯\_(ツ)_/¯
     shared_network_id = "FITS_1646"
-    subnet_list = ["10.81.48.0", "10.81.49.0", "10.81.50.0", "10.81.51.0", "10.81.52.0", "10.81.53.0", "10.81.54.0", "10.81.55.0"]
+    subnet_list = ["192.168.1.0"]
 
     exclusion_data = get_legacy_exclusions(File.read(@legacy_config_filepath), subnet_list)
 
@@ -77,8 +77,9 @@ class DhcpConfigParser
     legacy_reservations = []
 
     subnet_list.each do |subnet|
-      export.scan(/#{subnet.chop}\d{1,3}.(?:[a-fA-F0-9]{12})."[^"]*"."[^"]*"/)
-        .each do |reservation|
+      ip_mac_hostname_regex = /#{subnet.chop}\d{1,3}.(?:[a-fA-F0-9]{12})."[^"]*"."[^"]*"/
+      reservations_data = export.scan(ip_mac_hostname_regex)
+      reservations_data.each do |reservation|
         reservations = reservation.tr('"', "").split(" ")
         legacy_reservations.push(reservations)
       end
