@@ -1,8 +1,9 @@
 require "dhcp_config_parser"
 
 describe DhcpConfigParser do
-  let(:kea_config_filepath) { "./data/kea.json" }
-  subject { described_class.new(kea_config_filepath: kea_config_filepath) }
+  let(:kea_config_filepath) { "./spec/data/kea.json" }
+  let(:legacy_config_filepath) { "./spec/data/export.txt" }
+  subject { described_class.new(kea_config_filepath: kea_config_filepath, legacy_config_filepath: legacy_config_filepath) }
 
   describe "#run" do
     it "runs" do
@@ -26,7 +27,7 @@ describe DhcpConfigParser do
 
     context "when kea.json is present" do
       it "returns true" do
-        expect(File).to receive(:exist?).with("./data/kea.json").and_return(true)
+        expect(File).to receive(:exist?).with("./spec/data/kea.json").and_return(true)
         expect(subject.kea_config_exists?).to eq(true)
       end
     end
@@ -42,7 +43,7 @@ describe DhcpConfigParser do
 
     context "when export.txt is present" do
       it "returns true" do
-        expect(File).to receive(:exist?).with("./data/export.txt").and_return(true)
+        expect(File).to receive(:exist?).with("./spec/data/export.txt").and_return(true)
         expect(subject.export_file_exists?).to eq(true)
       end
     end

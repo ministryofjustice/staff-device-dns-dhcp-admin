@@ -1,8 +1,7 @@
 require "json"
 
 class DhcpConfigParser
-  LEGACY_CONFIG_FILEPATH = "./data/export.txt".freeze
-
+  
   # Integration test for the class with expectation to have reservations created when they are missing on the kea config
 
   # dhcp_config_parser_spec calls .run which has no arguments, i.e. the entire method is called
@@ -10,8 +9,9 @@ class DhcpConfigParser
 
   # refactor run to create more flexibility
 
-  def initialize(kea_config_filepath:)
+  def initialize(kea_config_filepath:, legacy_config_filepath:)
     @kea_config_filepath = kea_config_filepath
+    @legacy_config_filepath = legacy_config_filepath
   end
 
   def run
@@ -23,7 +23,7 @@ class DhcpConfigParser
     shared_network_id = "FITS_1646"
     subnet_list = ["10.81.48.0", "10.81.49.0", "10.81.50.0", "10.81.51.0", "10.81.52.0", "10.81.53.0", "10.81.54.0", "10.81.55.0"]
 
-    exclusion_data = get_legacy_exclusions(File.read(LEGACY_CONFIG_FILEPATH), subnet_list)
+    exclusion_data = get_legacy_exclusions(File.read(@legacy_config_filepath), subnet_list)
 
     puts "This site has the following #{exclusion_data.length} exclusions configured :"
     puts exclusion_data
@@ -31,7 +31,7 @@ class DhcpConfigParser
 
     compared_reservations = find_missing_reservations(
       kea_reservations: get_kea_reservations(shared_network_id, File.read(@kea_config_filepath)),
-      legacy_reservations: get_legacy_reservations(File.read(LEGACY_CONFIG_FILEPATH), subnet_list)
+      legacy_reservations: get_legacy_reservations(File.read(@legacy_config_filepath), subnet_list)
     )
   end
 
@@ -40,7 +40,7 @@ class DhcpConfigParser
   end
 
   def export_file_exists?
-    File.exist?(LEGACY_CONFIG_FILEPATH)
+    File.exist?(@legacy_config_filepath)
   end
 
   def get_legacy_exclusions(export, subnet_list)
