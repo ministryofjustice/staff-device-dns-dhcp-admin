@@ -6,6 +6,11 @@ describe DhcpConfigParser do
   subject { described_class.new(kea_config_filepath: kea_config_filepath, legacy_config_filepath: legacy_config_filepath) }
 
   describe "#run" do
+    before do 
+      create(:subnet, cidr_block: "192.168.1.0/24", start_address: "192.168.1.1", end_address: "192.168.1.255")
+      create(:subnet, cidr_block: "192.168.2.0/24", start_address: "192.168.2.1", end_address: "192.168.2.255")
+    end 
+
     it "runs" do
       expect(subject.run).not_to be_nil
     end
@@ -13,13 +18,61 @@ describe DhcpConfigParser do
     it "creates a reservation from the legacy config which does not exist in the kea config" do
       # setup reservations in the legacy config
       # at least one reservation should not be in kea
-      # do the thing
+      # do the thing :
+        ## Need to know which subnet to create the reservation in (Scope 192.168.1.0)
+        ## reservation ip
+        ## hardware address
+        ## name
       # check data is created
       described_class.new(legacy_config_filepath: "./spec/lib/data/brand_new_reservation.txt", kea_config_filepath: kea_config_filepath).run
-
+      
       expect(Reservation.find_by(ip_address: "192.168.1.50")).not_to eql(nil)
     end
   end
+  
+
+  describe "#reservations_by_subnet" do 
+    it "groups missing reservations by subnets" do
+      reservation = {
+          "hw-address" => "aabbcc66ffee", 
+          "kea" => nil, 
+          "legacy" => { 
+            "ip-address" => "192.168.1.50", 
+            "hw-address" => "aabbcc66ffee",  
+            "hostname" => "win6.test.space.local."
+          }
+        }
+      compared_reservations = [reservation]
+
+      result = subject.reservations_by_subnet(compared_reservations)
+
+      expect(result["192.168.1."]).to eq([reservation])
+    end 
+  end 
+
+  describe "#create_reservations" do 
+    before do 
+      create(:subnet, cidr_block: "192.168.1.0/24", start_address: "192.168.1.1", end_address: "192.168.1.255")
+    end
+
+    it "creates a reservation" do 
+      reservations_by_subnet =  {  
+        "192.168.1." => [
+          {
+            "hw-address" => "aabbcc66ffee", 
+            "kea" => nil, 
+            "legacy" => { 
+              "ip-address" => "192.168.1.50", 
+              "hw-address" => "aabbcc66ffee",  
+              "hostname" => "win6.test.space.local."
+            }
+          } 
+        ]
+      } 
+
+      expect { subject.create_reservations(reservations_by_subnet) }.to change { Reservation.count }.by(1)
+    end 
+  end 
 
   describe ".kea_config_exists?" do
     context "when kea.json is not present" do

@@ -1,6 +1,7 @@
 require "json"
 
 class DhcpConfigParser
+  include MacAddressHelper
 
   # Integration test for the class with expectation to have reservations created when they are missing on the kea config
 
@@ -21,7 +22,7 @@ class DhcpConfigParser
     # Populate these with data from the portal/export before running.
     # See readme if you're feeling ¯\_(ツ)_/¯
     shared_network_id = "FITS_1646"
-    subnet_list = ["192.168.1.0"]
+    subnet_list = ["192.168.1.0", "192.168.2.0"]
 
     exclusion_data = get_legacy_exclusions(File.read(@legacy_config_filepath), subnet_list)
 
@@ -34,18 +35,50 @@ class DhcpConfigParser
       legacy_reservations: get_legacy_reservations(File.read(@legacy_config_filepath), subnet_list)
     )
 
-    subnet = Subnet.create(
-      cidr_block: "24",
-      start_address: "192.168.0.1",
-      end_address: "192.168.0.255",
+    create_reservations(
+      reservations_by_subnet(compared_reservations)
     )
+  end
 
-    Reservation.create(
-      subnet: subnet,
-      hw_address: "aabbcc66ffee",
-      ip_address: "192.168.1.50",
-      hostname: "win6.test.space.local."
-    )
+  def reservations_by_subnet(compared_reservations)
+    compared_reservations.group_by do |reservation|
+      reservation["legacy"]["ip-address"].gsub(/(\d{1,3})$/, '')
+    end
+  end
+
+  def create_reservations(reservations_by_subnet)
+    # subnet = Subnet.create!(
+    #   cidr_block: "192.168.1.0/24",
+    #   start_address: "192.168.1.1",
+    #   end_address: "192.168.1.255",
+    #   routers: "192.168.1.1",
+    #   shared_network: SharedNetwork.create
+    # )
+    
+    reservations_by_subnet.each {
+      |subnet, reservations|
+      subnet = Subnet.where("cidr_block LIKE ?", "#{subnet}%").first
+
+      reservations.each {
+          |reservation|
+
+    #     # Reservation #=> { 
+    #     #   "hw-address" => "aabbcc66ffee", 
+    #     #   "kea" => nil, 
+    #     #   "legacy" => { 
+    #     #     "ip-address" => "192.168.1.50", 
+    #     #     "hw-address" => "aabbcc66ffee",  
+    #     #     "hostname" => "win6.test.space.local."
+    #     #   }
+    #     # }
+         Reservation.create!(
+          subnet: subnet,
+          hw_address: format_mac_address(reservation["legacy"]["hw-address"]),
+          ip_address: reservation["legacy"]["ip-address"],
+          hostname: reservation["legacy"]["hostname"].chop
+        )
+      }
+    }
   end
 
   def kea_config_exists?
@@ -90,10 +123,28 @@ class DhcpConfigParser
     legacy_reservations = []
 
     subnet_list.each do |subnet|
+      # \d = 0123456789
+      # {1,3} 1, 12, 123 of \d
+      # . => anything
+      # ( ... ) match group 
+      # ?: -> Can't remember but used in match group
+      # [a-fA-F0-9]{12} => MAC Address
+      # . => anything
+      # "
+      # [^"] -> Anything that isn't "
+      # * -> Any number of times
+      # "
+      # . => anything
+      # "
+      # [^"] -> Anything that isn't "
+      # * -> Any number of times
+      # "
+
       ip_mac_hostname_regex = /#{subnet.chop}\d{1,3}.(?:[a-fA-F0-9]{12})."[^"]*"."[^"]*"/
       reservations_data = export.scan(ip_mac_hostname_regex)
       reservations_data.each do |reservation|
         reservations = reservation.tr('"', "").split(" ")
+        # puts reservations
         legacy_reservations.push(reservations)
       end
     end
