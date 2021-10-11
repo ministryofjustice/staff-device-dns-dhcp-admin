@@ -1,9 +1,8 @@
-require "dhcp_config_parser"
-require "../../app/models/reservation"
+require "rails_helper"
 
 describe DhcpConfigParser do
-  let(:kea_config_filepath) { "./spec/data/kea.json" }
-  let(:legacy_config_filepath) { "./spec/data/export.txt" }
+  let(:kea_config_filepath) { "./spec/lib/data/kea.json" }
+  let(:legacy_config_filepath) { "./spec/lib/data/export.txt" }
   subject { described_class.new(kea_config_filepath: kea_config_filepath, legacy_config_filepath: legacy_config_filepath) }
 
   describe "#run" do
@@ -16,9 +15,9 @@ describe DhcpConfigParser do
       # at least one reservation should not be in kea
       # do the thing
       # check data is created
-      described_class.new(legacy_config_filepath: "./spec/data/brand_new_reservation.txt", kea_config_filepath: kea_config_filepath).run
+      described_class.new(legacy_config_filepath: "./spec/lib/data/brand_new_reservation.txt", kea_config_filepath: kea_config_filepath).run
 
-      expect(Reservation.find_by(ip_address: "192.168.1.50")).to be_true
+      expect(Reservation.find_by(ip_address: "192.168.1.50")).not_to eql(nil)
     end
   end
 
@@ -32,7 +31,7 @@ describe DhcpConfigParser do
 
     context "when kea.json is present" do
       it "returns true" do
-        expect(File).to receive(:exist?).with("./spec/data/kea.json").and_return(true)
+        expect(File).to receive(:exist?).with("./spec/lib/data/kea.json").and_return(true)
         expect(subject.kea_config_exists?).to eq(true)
       end
     end
@@ -48,7 +47,7 @@ describe DhcpConfigParser do
 
     context "when export.txt is present" do
       it "returns true" do
-        expect(File).to receive(:exist?).with("./spec/data/export.txt").and_return(true)
+        expect(File).to receive(:exist?).with("./spec/lib/data/export.txt").and_return(true)
         expect(subject.export_file_exists?).to eq(true)
       end
     end
@@ -56,9 +55,9 @@ describe DhcpConfigParser do
 
   describe "get_kea_reservations" do
     context "given a shared network ID and KEA config file" do
-      let(:kea_config) { File.read("spec/data/kea.json") }
+      let(:kea_config) { File.read("spec/lib/data/kea.json") }
       let(:shared_network_id) { "FITS_0001" }
-      let(:kea_reservations) { JSON.parse(File.read("spec/data/reservations.txt")) }
+      let(:kea_reservations) { JSON.parse(File.read("spec/lib/data/reservations.txt")) }
 
       it "returns an array of hashes containing all reservations" do
         expect(subject.get_kea_reservations(shared_network_id, kea_config)).to eql(kea_reservations)
@@ -68,8 +67,8 @@ describe DhcpConfigParser do
 
   describe "get_legacy_reservations" do
     context "given a legacy config file and an array of subnets" do
-      let(:reservations) { JSON.parse(File.read("spec/data/legacy_reservations.txt")) }
-      let(:export) { File.read("spec/data/export.txt") }
+      let(:reservations) { JSON.parse(File.read("spec/lib/data/legacy_reservations.txt")) }
+      let(:export) { File.read("spec/lib/data/export.txt") }
       let(:subnet_list) { ["192.168.1.0", "192.168.7.0", "192.168.2.0"] }
 
       it "returns an array of hashes containing all reservations for those subnets" do
@@ -79,8 +78,8 @@ describe DhcpConfigParser do
   end
 
   describe "find_missing_reservations" do
-    let(:kea_reservations) { JSON.parse(File.read("spec/data/reservations.txt")) }
-    let(:legacy_reservations) { JSON.parse(File.read("spec/data/legacy_reservations.txt")) }
+    let(:kea_reservations) { JSON.parse(File.read("spec/lib/data/reservations.txt")) }
+    let(:legacy_reservations) { JSON.parse(File.read("spec/lib/data/legacy_reservations.txt")) }
 
     it "returns true if both hashes are equal" do
       expect(
@@ -164,7 +163,7 @@ describe DhcpConfigParser do
   end
 
   describe "get_legacy_exclusions" do
-    let(:export) { File.read("spec/data/export.txt") }
+    let(:export) { File.read("spec/lib/data/export.txt") }
     let(:subnet_list) { ["192.168.1.0", "192.168.7.0", "192.168.2.0"] }
     it "returns a hash of all exclusions for the given list of subnets" do
       expect(subject.get_legacy_exclusions(export, subnet_list)).to match_array([

@@ -33,6 +33,19 @@ class DhcpConfigParser
       kea_reservations: get_kea_reservations(shared_network_id, File.read(@kea_config_filepath)),
       legacy_reservations: get_legacy_reservations(File.read(@legacy_config_filepath), subnet_list)
     )
+
+    subnet = Subnet.create(
+      cidr_block: "24",
+      start_address: "192.168.0.1",
+      end_address: "192.168.0.255",
+    )
+
+    Reservation.create(
+      subnet: subnet,
+      hw_address: "aabbcc66ffee",
+      ip_address: "192.168.1.50",
+      hostname: "win6.test.space.local."
+    )
   end
 
   def kea_config_exists?
