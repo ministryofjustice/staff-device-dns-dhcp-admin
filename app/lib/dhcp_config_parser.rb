@@ -26,10 +26,6 @@ class DhcpConfigParser
 
     exclusion_data = get_legacy_exclusions(File.read(@legacy_config_filepath), subnet_list)
 
-    puts "This site has the following #{exclusion_data.length} exclusions configured :"
-    puts exclusion_data
-    puts "----"
-
     compared_reservations = find_missing_reservations(
       kea_reservations: get_kea_reservations(shared_network_id, File.read(@kea_config_filepath)),
       legacy_reservations: get_legacy_reservations(File.read(@legacy_config_filepath), subnet_list)
@@ -51,7 +47,6 @@ class DhcpConfigParser
   def create_reservations(reservations_by_subnet)
     reservations_by_subnet.each do |subnet, reservations|
       subnet = Subnet.where("cidr_block LIKE ?", "#{subnet}%").first
-
       reservations.each do |reservation|
         Reservation.create!(
           subnet: subnet,
