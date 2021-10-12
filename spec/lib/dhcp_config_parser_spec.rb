@@ -15,9 +15,9 @@ describe DhcpConfigParser do
       expect(subject.run).not_to be_nil
     end
 
-    # it "returns an array of hashes" do
-    #   expect(subject.run).to eq([{}, {}])
-    # end
+    it "returns an array of data about IP reservations" do
+      expect(subject.run).to include(hash_including("hw-address", "kea", "legacy"))
+    end
 
     it "creates reservations from the legacy config which do not exist in the kea config" do
       described_class.new(legacy_config_filepath: "./spec/lib/data/brand_new_reservation.txt", kea_config_filepath: kea_config_filepath).run

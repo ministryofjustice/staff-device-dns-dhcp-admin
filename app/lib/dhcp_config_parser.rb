@@ -38,6 +38,8 @@ class DhcpConfigParser
     create_reservations(
       reservations_by_subnet(compared_reservations)
     )
+
+    compared_reservations
   end
 
   def reservations_by_subnet(compared_reservations)
@@ -50,7 +52,7 @@ class DhcpConfigParser
     reservations_by_subnet.each do |subnet, reservations|
       subnet = Subnet.where("cidr_block LIKE ?", "#{subnet}%").first
 
-      reservations.each do |reservation| 
+      reservations.each do |reservation|
         Reservation.create!(
           subnet: subnet,
           hw_address: format_mac_address(reservation["legacy"]["hw-address"]),
