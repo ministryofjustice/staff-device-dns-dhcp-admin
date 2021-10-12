@@ -16,14 +16,6 @@ describe DhcpConfigParser do
     end
 
     it "creates a reservation from the legacy config which does not exist in the kea config" do
-      # setup reservations in the legacy config
-      # at least one reservation should not be in kea
-      # do the thing :
-        ## Need to know which subnet to create the reservation in (Scope 192.168.1.0)
-        ## reservation ip
-        ## hardware address
-        ## name
-      # check data is created
       described_class.new(legacy_config_filepath: "./spec/lib/data/brand_new_reservation.txt", kea_config_filepath: kea_config_filepath).run
       
       expect(Reservation.find_by(ip_address: "192.168.1.50")).not_to eql(nil)

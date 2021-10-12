@@ -47,38 +47,18 @@ class DhcpConfigParser
   end
 
   def create_reservations(reservations_by_subnet)
-    # subnet = Subnet.create!(
-    #   cidr_block: "192.168.1.0/24",
-    #   start_address: "192.168.1.1",
-    #   end_address: "192.168.1.255",
-    #   routers: "192.168.1.1",
-    #   shared_network: SharedNetwork.create
-    # )
-    
-    reservations_by_subnet.each {
-      |subnet, reservations|
+    reservations_by_subnet.each do |subnet, reservations|
       subnet = Subnet.where("cidr_block LIKE ?", "#{subnet}%").first
 
-      reservations.each {
-          |reservation|
-
-    #     # Reservation #=> { 
-    #     #   "hw-address" => "aabbcc66ffee", 
-    #     #   "kea" => nil, 
-    #     #   "legacy" => { 
-    #     #     "ip-address" => "192.168.1.50", 
-    #     #     "hw-address" => "aabbcc66ffee",  
-    #     #     "hostname" => "win6.test.space.local."
-    #     #   }
-    #     # }
-         Reservation.create!(
+      reservations.each do |reservation| 
+        Reservation.create!(
           subnet: subnet,
           hw_address: format_mac_address(reservation["legacy"]["hw-address"]),
           ip_address: reservation["legacy"]["ip-address"],
           hostname: reservation["legacy"]["hostname"].chop
         )
-      }
-    }
+      end
+    end
   end
 
   def kea_config_exists?
@@ -123,28 +103,10 @@ class DhcpConfigParser
     legacy_reservations = []
 
     subnet_list.each do |subnet|
-      # \d = 0123456789
-      # {1,3} 1, 12, 123 of \d
-      # . => anything
-      # ( ... ) match group 
-      # ?: -> Can't remember but used in match group
-      # [a-fA-F0-9]{12} => MAC Address
-      # . => anything
-      # "
-      # [^"] -> Anything that isn't "
-      # * -> Any number of times
-      # "
-      # . => anything
-      # "
-      # [^"] -> Anything that isn't "
-      # * -> Any number of times
-      # "
-
       ip_mac_hostname_regex = /#{subnet.chop}\d{1,3}.(?:[a-fA-F0-9]{12})."[^"]*"."[^"]*"/
       reservations_data = export.scan(ip_mac_hostname_regex)
       reservations_data.each do |reservation|
         reservations = reservation.tr('"', "").split(" ")
-        # puts reservations
         legacy_reservations.push(reservations)
       end
     end
