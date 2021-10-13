@@ -40,7 +40,7 @@ class DhcpConfigParser
 
   def reservations_by_subnet(compared_reservations)
     compared_reservations.group_by do |reservation|
-      reservation["legacy"]["ip-address"].gsub(/(\d{1,3})$/, '')
+      reservation["legacy"]["ip-address"].gsub(/(\d{1,3})$/, "")
     end
   end
 

@@ -29,14 +29,14 @@ describe DhcpConfigParser do
   describe "#reservations_by_subnet" do
     it "groups missing reservations by subnets" do
       reservation = {
+        "hw-address" => "aabbcc66ffee",
+        "kea" => nil,
+        "legacy" => {
+          "ip-address" => "192.168.1.50",
           "hw-address" => "aabbcc66ffee",
-          "kea" => nil,
-          "legacy" => {
-            "ip-address" => "192.168.1.50",
-            "hw-address" => "aabbcc66ffee",
-            "hostname" => "win6.test.space.local."
-          }
+          "hostname" => "win6.test.space.local."
         }
+      }
       compared_reservations = [reservation]
 
       result = subject.reservations_by_subnet(compared_reservations)
@@ -51,7 +51,7 @@ describe DhcpConfigParser do
     end
 
     it "creates a reservation" do
-      reservations_by_subnet =  {
+      reservations_by_subnet = {
         "192.168.1." => [
           {
             "hw-address" => "aabbcc66ffee",
