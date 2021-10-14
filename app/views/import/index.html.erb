@@ -1,4 +1,25 @@
 <div>
   <h2 class="govuk-heading-l">Import Data</h2>
 
+  <%= form_with scope: :import do |f| %>
+    <div class="govuk-form-group">
+      <%= f.label "file", 'Import file', class: "govuk-label" %>
+      <%= f.file_field "file", class: "govuk-input" %>
+    </div>
+
+    <div class="govuk-form-group">
+      <%= f.label "subnet_list", 'Subnet list', class: "govuk-label" %>
+      <%= f.text_field "subnet_list", class: "govuk-input" %>
+    </div>
+
+    <div class="govuk-form-group">
+      <%= f.label "fits_id", 'FITS id', class: "govuk-label" %>
+      <%= f.text_field "fits_id", class: "govuk-input" %>
+    </div>
+    
+    <%= f.submit "Submit", {
+      class: "govuk-button",
+      "data-module" => "govuk-button"
+    } %>
+  <% end %>
 </div>

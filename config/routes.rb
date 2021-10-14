@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   get "/healthcheck", to: "monitoring#healthcheck"
 
   get "/import", to: "import#index"
+  post "/import", to: "import#create"
 
   root "home#index"
 end
