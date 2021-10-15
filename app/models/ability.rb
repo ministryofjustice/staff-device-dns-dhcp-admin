@@ -24,6 +24,7 @@ class Ability
       can :manage, Exclusion
       can :manage, Zone
       can :manage, ReservationOption
+      can :manage, Lease
       can :manage, :import
     end
   end

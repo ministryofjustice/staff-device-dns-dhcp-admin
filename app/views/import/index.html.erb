@@ -1,22 +1,28 @@
 <div>
   <h2 class="govuk-heading-l">Import Data</h2>
 
-  <%= form_with scope: :import do |f| %>
+  <%= form_with local: true, scope: :import do |f| %>
+
     <div class="govuk-form-group">
-      <%= f.label "file", 'Import file', class: "govuk-label" %>
-      <%= f.file_field "file", class: "govuk-input" %>
+      <%= f.label "fits_id", 'FITS id', class: "govuk-label" %>
+      <%= f.text_field "fits_id", class: "govuk-input", required: true %>
     </div>
 
     <div class="govuk-form-group">
       <%= f.label "subnet_list", 'Subnet list', class: "govuk-label" %>
-      <%= f.text_field "subnet_list", class: "govuk-input" %>
+      <%= f.text_field "subnet_list", class: "govuk-input", required: true %>
+    </div>
+    
+    <div class="govuk-form-group">
+      <%= f.label "file", 'Import file', class: "govuk-label" %>
+      <%= f.file_field "file", class: "govuk-input", required: true %>
     </div>
 
     <div class="govuk-form-group">
-      <%= f.label "fits_id", 'FITS id', class: "govuk-label" %>
-      <%= f.text_field "fits_id", class: "govuk-input" %>
+      <%= f.label "kea_config_file", 'Kea Config file', class: "govuk-label" %>
+      <%= f.file_field "kea_config_file", class: "govuk-input", required: true %>
     </div>
-    
+
     <%= f.submit "Submit", {
       class: "govuk-button",
       "data-module" => "govuk-button"

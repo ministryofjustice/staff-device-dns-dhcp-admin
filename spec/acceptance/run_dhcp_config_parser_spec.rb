@@ -46,6 +46,9 @@ describe "dhcp config parser page", type: :feature do
         # When I select a config file
         attach_file 'Import file', './spec/fixtures/dxc_exports/export.txt'
 
+        # And I provide a kea config file
+        attach_file 'Kea Config file', './spec/fixtures/kea_configs/kea.json'
+
         # And I provide a subnet list
         fill_in "Subnet list", with: "192.168.0.1, 192.168.1.1"
         
