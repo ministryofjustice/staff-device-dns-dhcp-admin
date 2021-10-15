@@ -7,11 +7,7 @@ class SitesController < ApplicationController
   end
 
   def show
-    @subnets = if params[:eager_load_db].to_s == "true"
-      @site.subnets.includes(:reservations, :exclusions).sort_by(&:ip_addr)
-    else
-      @site.subnets.sort_by(&:ip_addr)
-    end
+    @subnets = @site.subnets.sort_by(&:ip_addr)
 
     @subnet_statistics = {}
     @subnets.each do |subnet|
