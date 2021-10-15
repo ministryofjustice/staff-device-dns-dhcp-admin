@@ -16,7 +16,7 @@ class SubnetStatistic
   end
 
   def reservations_outside_of_exclusions
-    subnet.reservations.select do |reservation|
+    @reservations_outside_of_exclusions ||= subnet.reservations.select do |reservation|
       subnet.exclusions.none? do |exclusion|
         exclusion.contains_ip_address? reservation.ip_address
       end
@@ -24,7 +24,7 @@ class SubnetStatistic
   end
 
   def leases_not_in_exclusion_zones
-    leases.select do |lease|
+    @leases_not_in_exclusion_zones ||= leases.select do |lease|
       subnet.exclusions.none? do |exclusion|
         exclusion.contains_ip_address? lease.ip_address
       end
@@ -32,7 +32,7 @@ class SubnetStatistic
   end
 
   def leased_reserved_ip_addresses
-    leases.select do |lease|
+    @leased_reserved_ip_addresses ||= leases.select do |lease|
       reservations_outside_of_exclusions
         .map(&:ip_address)
         .include?(lease.ip_address)
@@ -40,10 +40,10 @@ class SubnetStatistic
   end
 
   def unreserved_leases
-    leases_not_in_exclusion_zones - leased_reserved_ip_addresses
+    @unreserved_leases ||= leases_not_in_exclusion_zones - leased_reserved_ip_addresses
   end
 
   def dynamically_allocatable_ips
-    subnet.total_addresses - reservations_outside_of_exclusions.count
+    @dynamically_allocatable_ips ||= subnet.total_addresses - reservations_outside_of_exclusions.count
   end
 end
