@@ -11,11 +11,11 @@ class ImportController < ApplicationController
       legacy_config_filepath: import_params[:file]
     )
 
-    if update_dhcp_config.call(nil, -> { 
+    if update_dhcp_config.call(nil, -> {
       config_parser.run(
         fits_id: import_params[:fits_id],
         subnet_list: import_params[:subnet_list].split(",").map(&:squish)
-      ) 
+      )
     })
       redirect_to import_path, notice: "Successfully ran the import."
     else
