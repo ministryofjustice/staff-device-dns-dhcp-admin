@@ -15,14 +15,13 @@ class DhcpConfigParser
     @legacy_config_filepath = legacy_config_filepath
   end
 
-  def run
+  def run(fits_id:, subnet_list:)
     throw StandardError unless kea_config_exists?
     throw StandardError unless export_file_exists?
 
     # Populate these with data from the portal/export before running.
     # See readme if you're feeling ¯\_(ツ)_/¯
-    shared_network_id = "FITS_1646"
-    subnet_list = ["192.168.1.0", "192.168.2.0"]
+    shared_network_id = fits_id
 
     exclusion_data = get_legacy_exclusions(File.read(@legacy_config_filepath), subnet_list)
 
@@ -52,7 +51,7 @@ class DhcpConfigParser
           subnet: subnet,
           hw_address: format_mac_address(reservation["legacy"]["hw-address"]),
           ip_address: reservation["legacy"]["ip-address"],
-          hostname: reservation["legacy"]["hostname"].chop
+          hostname: reservation["legacy"]["hostname"].gsub(/\.$/, "")
         )
       end
     end
