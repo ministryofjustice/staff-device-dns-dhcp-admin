@@ -54,6 +54,9 @@ describe "dhcp config parser page", type: :feature do
       # And I provide a fits_id
       fill_in "FITS id", with: "MYFITS101"
 
+      expect_config_to_be_verified
+      expect_config_to_be_published
+
       # When I submit it
       click_on "Submit"
 

@@ -11,10 +11,12 @@ class ImportController < ApplicationController
       legacy_config_filepath: import_params[:file]
     )
 
-    if config_parser.run(
-      fits_id: import_params[:fits_id],
-      subnet_list: import_params[:subnet_list].split(",").map(&:squish)
-    )
+    if update_dhcp_config.call(nil, -> { 
+      config_parser.run(
+        fits_id: import_params[:fits_id],
+        subnet_list: import_params[:subnet_list].split(",").map(&:squish)
+      ) 
+    })
       redirect_to import_path, notice: "Successfully ran the import."
     else
       render :index, error: "Failed to run the import."
