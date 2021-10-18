@@ -22,7 +22,7 @@ Replace ```SHARED_SERVICES_VAULT_PROFILE_NAME``` and ```SHARED_SERVICES_ACCOUNT_
 
 This repo is dependant on a locally running dhcp network. This is so that the admin app can query the dhcp api without timing out.
 1. Clone the repository [here](https://github.com/ministryofjustice/staff-device-dhcp-server)
-1. Follow the insturctions in the cloned repository to run the dhcp server
+1. Follow the instructions in the cloned repository to run the dhcp server
 1. Navigate back to this repo
 
 ### Starting the App
