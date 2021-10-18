@@ -51,7 +51,7 @@ class DhcpConfigParser
           subnet: subnet,
           hw_address: format_mac_address(reservation["legacy"]["hw-address"]),
           ip_address: reservation["legacy"]["ip-address"],
-          hostname: reservation["legacy"]["hostname"].gsub(/\.$/, '')
+          hostname: reservation["legacy"]["hostname"].gsub(/\.$/, "")
         )
       end
     end

@@ -23,7 +23,7 @@ describe DhcpConfigParser do
 
     it "creates reservations from the legacy config which do not exist in the kea config" do
       described_class.new(legacy_config_filepath: "./spec/lib/data/brand_new_reservation.txt", kea_config_filepath: kea_config_filepath)
-                     .run(fits_id: fits_id, subnet_list: subnet_list)
+        .run(fits_id: fits_id, subnet_list: subnet_list)
 
       expect(Reservation.count).to eql(2)
     end
