@@ -73,5 +73,38 @@ describe "dhcp config parser page", type: :feature do
       # Act, Arrange, Assert
       # Given, When, Then
     end
+
+    it "tells the user about any errors importing dhcp configs" do
+      # given there is a subnet
+      subnet = create :subnet,
+        cidr_block: "192.168.0.0/24",
+        start_address: "192.168.0.1",
+        end_address: "192.168.0.255"
+
+      # When i visit the import page
+      visit "/import"
+
+      # and i fill in the subnet cidr range
+      fill_in "Subnet list", with: "192.168.0.1, 192.168.1.1"
+
+      # and i fill in the fits id
+      fill_in "FITS id", with: "MYFITS101"
+
+      # and i upload the import file
+      attach_file "Import file", "./spec/fixtures/dxc_exports/export.txt"
+
+      # And I provide a kea config file
+      attach_file "Kea Config file", "./spec/fixtures/kea_configs/kea.json"
+
+      # and the kea server says the config is invalid
+      allow_any_instance_of(Gateways::KeaControlAgent).to receive(:verify_config)
+        .and_raise(Gateways::KeaControlAgent::InternalError.new("this isnt what kea looks like :("))
+      # when i submit
+      click_on "Submit"
+
+      # then i should see the kea server validation errors
+      expect(page).to have_content("this isnt what kea looks like :(")
+
+    end
   end
 end
