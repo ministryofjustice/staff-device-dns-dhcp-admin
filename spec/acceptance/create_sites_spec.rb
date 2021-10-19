@@ -62,5 +62,19 @@ describe "create sites", type: :feature do
 
       expect(page).to have_content "There is a problem"
     end
+
+    it "displays the kea error if the config cannot be validated" do
+      visit "/sites/new"
+
+      fill_in "FITS id", with: "MYFITS101"
+      fill_in "Name", with: "My London Site"
+
+      allow_any_instance_of(Gateways::KeaControlAgent).to receive(:verify_config)
+        .and_raise(Gateways::KeaControlAgent::InternalError.new("this isnt what kea looks like :("))
+
+      click_on "Create"
+
+      expect(page).to have_content("this isnt what kea looks like :(")
+    end
   end
 end
