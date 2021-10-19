@@ -11,7 +11,7 @@ class SubnetExtensionsController < ApplicationController
     @extension = @subnet.shared_network.subnets.build(extension_params)
     authorize! :create, @extension
 
-    if update_dhcp_config.call(@extension, -> { @extension.save })
+    if update_dhcp_config.call(@extension, -> { @extension.save }).success?
       redirect_to @extension, notice: "Successfully extended subnet." + CONFIG_UPDATE_DELAY_NOTICE
     else
       @global_option = GlobalOption.first
@@ -26,7 +26,7 @@ class SubnetExtensionsController < ApplicationController
     authorize! :update, @extension
 
     if confirmed?
-      if update_dhcp_config.call(@extension, -> { save_subnet_and_destroy_shared_network(@extension, old_shared_network) })
+      if update_dhcp_config.call(@extension, -> { save_subnet_and_destroy_shared_network(@extension, old_shared_network) }).success?
         redirect_to @subnet, notice: "Successfully extended subnet." + CONFIG_UPDATE_DELAY_NOTICE
       else
         @global_option = GlobalOption.first

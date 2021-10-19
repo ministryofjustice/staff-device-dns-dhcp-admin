@@ -31,7 +31,7 @@ class SitesController < ApplicationController
     @site = Site.new(site_params)
     authorize! :create, @site
 
-    if update_dhcp_config.call(@site, -> { @site.save })
+    if update_dhcp_config.call(@site, -> { @site.save }).success?
       redirect_to site_path(@site), notice: "Successfully created site. " + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :new
@@ -46,7 +46,7 @@ class SitesController < ApplicationController
     authorize! :update, @site
     @site.assign_attributes(site_params)
 
-    if update_dhcp_config.call(@site, -> { @site.save })
+    if update_dhcp_config.call(@site, -> { @site.save }).success?
       redirect_to site_path(@site), notice: "Successfully updated site. " + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :edit
@@ -57,7 +57,7 @@ class SitesController < ApplicationController
     authorize! :destroy, @site
     @subnets = @site.subnets.sort_by(&:ip_addr)
     if confirmed?
-      if update_dhcp_config.call(@site, -> { @site.destroy })
+      if update_dhcp_config.call(@site, -> { @site.destroy }).success?
         redirect_to dhcp_path, notice: "Successfully deleted site. " + CONFIG_UPDATE_DELAY_NOTICE
       else
         redirect_to dhcp_path, error: "Failed to delete the site"

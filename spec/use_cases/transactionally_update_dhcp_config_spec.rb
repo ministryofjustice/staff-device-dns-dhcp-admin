@@ -37,9 +37,9 @@ RSpec.describe UseCases::TransactionallyUpdateDhcpConfig do
         expect(publish_kea_config).to have_received(:call)
       end
 
-      it "returns true" do
+      it "returns a successful result" do
         result = use_case.call(record, operation)
-        expect(result).to eql(true)
+        expect(result.success?).to eql(true)
       end
     end
 
@@ -48,17 +48,17 @@ RSpec.describe UseCases::TransactionallyUpdateDhcpConfig do
         allow(record).to receive(:valid?).and_return(false)
       end
 
-      it "returns false" do
+      it "returns an unsuccessful result" do
         result = use_case.call(record, operation)
-        expect(result).to eql(false)
+        expect(result.success?).to eql(false)
       end
     end
 
-    context "when the kea config is invalid" do
-      let(:result) { double(:result, success?: false, error: StandardError.new("im borked")) }
-
+    context "when the kea config fails verification" do
       before do
-        allow(verify_kea_config).to receive(:call).and_return(result)
+        allow(verify_kea_config).to receive(:call).and_return(
+          UseCases::Result.new(StandardError.new("im borked"))
+        )
       end
 
       it "does not save the record" do
@@ -66,9 +66,9 @@ RSpec.describe UseCases::TransactionallyUpdateDhcpConfig do
         expect(record).not_to be_persisted
       end
 
-      it "adds errors to the record" do
-        use_case.call(record, operation)
-        expect(record.errors[:base]).to include(result.error.message)
+      it "adds errors to the result" do
+        result = use_case.call(record, operation)
+        expect(result.errors.full_messages).to include("im borked")
       end
     end
   end

@@ -11,7 +11,7 @@ class ReservationsController < ApplicationController
     @reservation = @subnet.reservations.build(reservation_params)
     authorize! :create, @reservation
 
-    if update_dhcp_config.call(@reservation, -> { @reservation.save })
+    if update_dhcp_config.call(@reservation, -> { @reservation.save }).success?
       redirect_to subnet_path(@reservation.subnet), notice: "Successfully created reservation." + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :new
@@ -30,7 +30,7 @@ class ReservationsController < ApplicationController
     authorize! :update, @reservation
     @reservation.assign_attributes(reservation_params)
 
-    if update_dhcp_config.call(@reservation, -> { @reservation.save })
+    if update_dhcp_config.call(@reservation, -> { @reservation.save }).success?
       redirect_to subnet_path(@reservation.subnet), notice: "Successfully updated reservation." + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :edit
@@ -40,7 +40,7 @@ class ReservationsController < ApplicationController
   def destroy
     authorize! :destroy, @reservation
     if confirmed?
-      if update_dhcp_config.call(@reservation, -> { @reservation.destroy })
+      if update_dhcp_config.call(@reservation, -> { @reservation.destroy }).success?
         redirect_to subnet_path(@reservation.subnet), notice: "Successfully deleted reservation." + CONFIG_UPDATE_DELAY_NOTICE
       else
         redirect_to subnet_path(@reservation.subnet), error: "Failed to delete the reservation"

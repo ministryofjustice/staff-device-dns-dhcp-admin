@@ -31,7 +31,7 @@ RSpec.describe UseCases::VerifyKeaConfig do
       end
 
       it "returns the result error" do
-        expect(use_case.call(config).error).to eql(error)
+        expect(use_case.call(config).errors.full_messages).to include(error.message)
       end
     end
   end

@@ -5,21 +5,11 @@ class ImportController < ApplicationController
 
   def create
     authorize! :manage, :import
-
-    config_parser = DhcpConfigParser.new(
-      kea_config_filepath: import_params[:kea_config_file],
-      legacy_config_filepath: import_params[:file]
-    )
-
-    if update_dhcp_config.call(nil, -> {
-      config_parser.run(
-        fits_id: import_params[:fits_id],
-        subnet_list: import_params[:subnet_list].split(",").map(&:squish)
-      )
-    })
+    @result = update_dhcp_config.call(nil, -> { run_import })
+    if @result.success?
       redirect_to import_path, notice: "Successfully ran the import."
     else
-      render :index, error: "Failed to run the import."
+      render :index
     end
   end
 
@@ -27,6 +17,20 @@ class ImportController < ApplicationController
 
   def import_params
     params.require(:import).permit(:file, :kea_config_file, :fits_id, :subnet_list)
+  end
+
+  def config_parser
+    DhcpConfigParser.new(
+      kea_config_filepath: import_params[:kea_config_file],
+      legacy_config_filepath: import_params[:file]
+    )
+  end
+
+  def run_import
+    config_parser.run(
+      fits_id: import_params[:fits_id],
+      subnet_list: import_params[:subnet_list].split(",").map(&:squish)
+    )
   end
 end
 

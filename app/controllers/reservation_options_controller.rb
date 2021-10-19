@@ -11,7 +11,7 @@ class ReservationOptionsController < ApplicationController
     @reservation_option = @reservation.build_reservation_option(reservation_option_params)
     authorize! :create, @reservation_option
 
-    if update_dhcp_config.call(@reservation_option, -> { @reservation_option.save })
+    if update_dhcp_config.call(@reservation_option, -> { @reservation_option.save }).success?
       redirect_to reservation_path(@reservation), notice: "Successfully created reservation options." + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :new
@@ -26,7 +26,7 @@ class ReservationOptionsController < ApplicationController
     authorize! :update, @reservation_option
     @reservation_option.assign_attributes(reservation_option_params)
 
-    if update_dhcp_config.call(@reservation_option, -> { @reservation_option.save })
+    if update_dhcp_config.call(@reservation_option, -> { @reservation_option.save }).success?
       redirect_to reservation_path(@reservation_option.reservation), notice: "Successfully updated reservation options." + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :edit
@@ -36,7 +36,7 @@ class ReservationOptionsController < ApplicationController
   def destroy
     authorize! :destroy, @reservation_option
     if confirmed?
-      if update_dhcp_config.call(@reservation_options, -> { @reservation_option.destroy })
+      if update_dhcp_config.call(@reservation_options, -> { @reservation_option.destroy }).success?
         redirect_to reservation_path(@reservation_option.reservation), notice: "Successfully deleted reservation options." + CONFIG_UPDATE_DELAY_NOTICE
       else
         redirect_to reservation_path(@reservation_option.reservation), error: "Failed to delete the reservation options"

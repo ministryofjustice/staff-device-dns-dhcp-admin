@@ -11,7 +11,7 @@ class ExclusionsController < ApplicationController
     @exclusion = @subnet.exclusions.build(exclusion_params)
     authorize! :create, @exclusion
 
-    if update_dhcp_config.call(@exclusion, -> { @exclusion.save })
+    if update_dhcp_config.call(@exclusion, -> { @exclusion.save }).success?
       redirect_to subnet_path(@exclusion.subnet), notice: "Successfully created exclusion." + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :new
@@ -21,7 +21,7 @@ class ExclusionsController < ApplicationController
   def destroy
     authorize! :destroy, @exclusion
     if confirmed?
-      if update_dhcp_config.call(@exclusion, -> { @exclusion.destroy })
+      if update_dhcp_config.call(@exclusion, -> { @exclusion.destroy }).success?
         redirect_to subnet_path(@exclusion.subnet), notice: "Successfully deleted exclusion." + CONFIG_UPDATE_DELAY_NOTICE
       else
         redirect_to subnet_path(@exclusion.subnet), error: "Failed to delete the exclusion"
