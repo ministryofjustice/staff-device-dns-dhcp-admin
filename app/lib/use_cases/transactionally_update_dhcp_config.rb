@@ -26,6 +26,8 @@ module UseCases
       Result.new(error)
     rescue OperationFailedError => error
       Result.new(error)
+    rescue ActiveRecord::RecordInvalid => error
+      Result.new(error)
     end
 
     private
