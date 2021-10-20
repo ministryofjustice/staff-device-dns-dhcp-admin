@@ -106,5 +106,46 @@ describe "dhcp config parser page", type: :feature do
       expect(page).to have_content("this isnt what kea looks like :(")
 
     end
+
+    it "displays error on import page when a reservation already exists" do
+      # given there is a subnet
+      subnet = create :subnet,
+        cidr_block: "192.168.0.0/24",
+        start_address: "192.168.0.1",
+        end_address: "192.168.0.255"
+
+      # with an existing reservation
+      reservation = create :reservation,
+        subnet: subnet,
+        hw_address: "a1:b2:c3:d4:e5:f7",
+        ip_address: "192.168.0.30",
+        hostname: "windowsmachine4.test.space.local"
+
+      # When i visit the import page
+      visit "/import"
+
+      # and i fill in the subnet cidr range
+      fill_in "Subnet list", with: "192.168.0.0"
+
+      # and i fill in the fits id
+      fill_in "FITS id", with: "MYFITS101"
+
+      # and i upload the import file
+      attach_file "Import file", "./spec/fixtures/dxc_exports/export.txt"
+
+      # And I provide a kea config file
+      attach_file "Kea Config file", "./spec/fixtures/kea_configs/kea.json"
+
+      expect_config_to_be_verified
+      
+      # when i submit
+      click_on "Submit"
+
+      # expect errors to be presented on the import page (not blow up)
+      
+      expect(page).to have_content "There is a problem"
+
+
+    end
   end
 end
