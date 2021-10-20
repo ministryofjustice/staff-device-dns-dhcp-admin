@@ -104,10 +104,9 @@ describe "dhcp config parser page", type: :feature do
 
       # then i should see the kea server validation errors
       expect(page).to have_content("this isnt what kea looks like :(")
-
     end
 
-    it "displays error on import page when a reservation already exists" do
+    it "cancels all updates if there are any errors or duplicates" do
       # given there is a subnet
       subnet = create :subnet,
         cidr_block: "192.168.0.0/24",
@@ -117,7 +116,7 @@ describe "dhcp config parser page", type: :feature do
       # with an existing reservation
       reservation = create :reservation,
         subnet: subnet,
-        hw_address: "a1:b2:c3:d4:e5:f7",
+        hw_address: "f7:e5:d4:c3:b2:a1",
         ip_address: "192.168.0.30",
         hostname: "windowsmachine4.test.space.local"
 
@@ -135,17 +134,19 @@ describe "dhcp config parser page", type: :feature do
 
       # And I provide a kea config file
       attach_file "Kea Config file", "./spec/fixtures/kea_configs/kea.json"
-
-      expect_config_to_be_verified
       
       # when i submit
       click_on "Submit"
 
-      # expect errors to be presented on the import page (not blow up)
-      
+      # then errors are presented on the import page (not blow up)
       expect(page).to have_content "There is a problem"
 
+      # And none of the updates should have been run
+      visit "/subnets/#{subnet.to_param}"
 
+      expect(page).to have_content "192.168.0.30"
+      expect(page).to have_content "f7:e5:d4:c3:b2:a1"
+      expect(page).not_to have_content "a1:b2:c3:d4:e5:f7"
     end
   end
 end
