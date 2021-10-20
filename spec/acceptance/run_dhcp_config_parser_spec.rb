@@ -140,6 +140,7 @@ describe "dhcp config parser page", type: :feature do
 
       # then errors are presented on the import page (not blow up)
       expect(page).to have_content "There is a problem"
+      expect(page).to have_content "IP address 192.168.0.30 has already been reserved in the subnet 192.168.0.0/24"
 
       # And none of the updates should have been run
       visit "/subnets/#{subnet.to_param}"
