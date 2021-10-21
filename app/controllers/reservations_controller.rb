@@ -10,8 +10,9 @@ class ReservationsController < ApplicationController
   def create
     @reservation = @subnet.reservations.build(reservation_params)
     authorize! :create, @reservation
+    @result = update_dhcp_config.call(@reservation, -> { @reservation.save! })
 
-    if update_dhcp_config.call(@reservation, -> { @reservation.save }).success?
+    if @result.success?
       redirect_to subnet_path(@reservation.subnet), notice: "Successfully created reservation." + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :new
@@ -29,8 +30,9 @@ class ReservationsController < ApplicationController
   def update
     authorize! :update, @reservation
     @reservation.assign_attributes(reservation_params)
+    @result = update_dhcp_config.call(@reservation, -> { @reservation.save! })
 
-    if update_dhcp_config.call(@reservation, -> { @reservation.save }).success?
+    if @result.success?
       redirect_to subnet_path(@reservation.subnet), notice: "Successfully updated reservation." + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :edit

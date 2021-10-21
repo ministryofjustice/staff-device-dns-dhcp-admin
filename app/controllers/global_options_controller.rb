@@ -14,8 +14,8 @@ class GlobalOptionsController < ApplicationController
   def create
     @global_option = GlobalOption.new(global_option_params)
     authorize! :create, @global_option
-
-    if update_dhcp_config.call(@global_options, -> { @global_option.save }).success?
+    @result = update_dhcp_config.call(@global_options, -> { @global_option.save! })
+    if @result.success?
       redirect_to global_options_path, notice: "Successfully created global options. " + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :new
@@ -29,8 +29,9 @@ class GlobalOptionsController < ApplicationController
   def update
     authorize! :update, @global_option
     @global_option.assign_attributes(global_option_params)
+    @result = update_dhcp_config.call(@global_options, -> { @global_option.save! })
 
-    if update_dhcp_config.call(@global_options, -> { @global_option.save }).success?
+    if @result.success?
       redirect_to global_options_path, notice: "Successfully updated global options" + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :edit

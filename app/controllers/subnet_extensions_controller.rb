@@ -10,8 +10,8 @@ class SubnetExtensionsController < ApplicationController
   def create
     @extension = @subnet.shared_network.subnets.build(extension_params)
     authorize! :create, @extension
-
-    if update_dhcp_config.call(@extension, -> { @extension.save }).success?
+    @result = update_dhcp_config.call(@extension, -> { @extension.save! })
+    if @result.success?
       redirect_to @extension, notice: "Successfully extended subnet." + CONFIG_UPDATE_DELAY_NOTICE
     else
       @global_option = GlobalOption.first

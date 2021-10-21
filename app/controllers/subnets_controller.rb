@@ -10,11 +10,12 @@ class SubnetsController < ApplicationController
 
   def create
     @subnet = Subnet.new(subnet_params)
-    @subnet.shared_network = SharedNetwork.new(site: @site)
-
     authorize! :create, @subnet
 
-    if update_dhcp_config.call(@subnet, -> { @subnet.save }).success?
+    @subnet.shared_network = SharedNetwork.new(site: @site)
+    @result = update_dhcp_config.call(@subnet, -> { @subnet.save! })
+
+    if @result.success?
       redirect_to @subnet, notice: "Successfully created subnet." + CONFIG_UPDATE_DELAY_NOTICE
     else
       @global_option = GlobalOption.first
@@ -35,8 +36,9 @@ class SubnetsController < ApplicationController
   def update
     authorize! :update, @subnet
     @subnet.assign_attributes(subnet_params)
+    @result = update_dhcp_config.call(@subnet, -> { @subnet.save! })
 
-    if update_dhcp_config.call(@subnet, -> { @subnet.save }).success?
+    if @result.success?
       redirect_to @subnet, notice: "Successfully updated subnet." + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :edit

@@ -57,9 +57,9 @@ describe "create exclusion", type: :feature do
       expect(page).to have_content "this isnt what kea looks like :("
     end
   end
-end
 
-def when_i_fill_in_the_form_with_valid_data
-  fill_in "Start address", with: subnet.start_address.gsub(/([1-9]{1,3})$/, "50")
-  fill_in "End address", with: subnet.end_address.gsub(/([1-9]{1,3})$/, "100")
+  def when_i_fill_in_the_form_with_valid_data
+    fill_in "Start address", with: subnet.start_address.gsub(/([1-9]{1,3})$/, "50")
+    fill_in "End address", with: subnet.end_address.gsub(/([1-9]{1,3})$/, "100")
+  end
 end

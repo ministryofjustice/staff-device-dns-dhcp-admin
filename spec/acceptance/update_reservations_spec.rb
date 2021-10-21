@@ -70,17 +70,26 @@ describe "update reservations", type: :feature do
       expect_audit_log_entry_for(editor.email, "update", "Reservation")
     end
 
-    it "displays error if form cannot be submitted" do
+    it "displays validations errors if form cannot be submitted" do
       visit "/reservations/#{reservation.id}/edit"
 
       fill_in "HW address", with: ""
-      fill_in "IP address", with: ""
-      fill_in "Hostname", with: ""
-      fill_in "Description", with: ""
 
       click_on "Update"
 
       expect(page).to have_content "There is a problem"
+      expect(page).to have_content "HW address can't be blank"
     end
+
+    it "displays dhcp config verification errors" do
+      visit "/reservations/#{reservation.id}/edit"
+
+      allow_config_verification_to_fail_with_message("this isnt what kea looks like :(")
+
+      click_on "Update"
+
+      expect(page).to have_content "There is a problem"
+      expect(page).to have_content "this isnt what kea looks like :("
+    end  
   end
 end

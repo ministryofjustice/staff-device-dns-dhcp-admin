@@ -10,8 +10,9 @@ class ExclusionsController < ApplicationController
   def create
     @exclusion = @subnet.exclusions.build(exclusion_params)
     authorize! :create, @exclusion
+    @result = update_dhcp_config.call(@exclusion, -> { @exclusion.save! })
 
-    if update_dhcp_config.call(@exclusion, -> { @exclusion.save }).success?
+    if @result.success?
       redirect_to subnet_path(@exclusion.subnet), notice: "Successfully created exclusion." + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :new

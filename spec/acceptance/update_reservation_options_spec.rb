@@ -27,7 +27,7 @@ describe "update reservation options", type: :feature do
 
       expect(page).not_to have_content("Edit")
 
-      visit "/reservation_options/#{reservation_option.to_param}/edit"
+      visit "/reservation_options/#{reservation_option.to_param}/edit"  
 
       expect(page).to have_content("You are not authorized to access this page.")
     end
@@ -65,7 +65,7 @@ describe "update reservation options", type: :feature do
       expect_audit_log_entry_for(editor.email, "update", "Reservation option")
     end
 
-    it "displays error if form cannot be submitted" do
+    it "displays validations errors if form cannot be submitted" do
       visit "/reservation_options/#{reservation_option.to_param}/edit"
 
       fill_in "Routers", with: ""
@@ -74,6 +74,18 @@ describe "update reservation options", type: :feature do
       click_on "Update"
 
       expect(page).to have_content "There is a problem"
+      expect(page).to have_content "At least one option must be filled out"
     end
+
+    it "displays dhcp config verification errors" do
+      visit "/reservation_options/#{reservation_option.to_param}/edit"
+
+      allow_config_verification_to_fail_with_message("this isnt what kea looks like :(")
+
+      click_on "Update"
+
+      expect(page).to have_content "There is a problem"
+      expect(page).to have_content "this isnt what kea looks like :("
+    end 
   end
 end

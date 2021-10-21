@@ -64,14 +64,26 @@ describe "update global options", type: :feature do
       expect_audit_log_entry_for(editor.email, "update", "Global option")
     end
 
-    it "displays error if form cannot be submitted" do
-      visit "/global-options/#{global_option.id}/edit"
+    it "displays validation errors if the record fails to save" do
+      visit "/global-options/#{global_option.to_param}/edit"
 
-      fill_in "Domain name servers", with: ""
+      fill_in "Domain name", with: ""
 
       click_on "Update"
 
       expect(page).to have_content "There is a problem"
+      expect(page).to have_content "Domain name can't be blank"
+    end
+
+    it "displays dhcp config verification errors" do
+      visit "/global-options/#{global_option.to_param}/edit"
+
+      allow_config_verification_to_fail_with_message("this isnt what kea looks like :(")
+
+      click_on "Update"
+
+      expect(page).to have_content "There is a problem"
+      expect(page).to have_content "this isnt what kea looks like :("
     end
   end
 end
