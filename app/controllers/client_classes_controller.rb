@@ -17,8 +17,9 @@ class ClientClassesController < ApplicationController
   def create
     @client_class = ClientClass.new(client_class_params)
     authorize! :create, @client_class
+    @result = update_dhcp_config.call(@client_class, -> { @client_class.save! })
 
-    if update_dhcp_config.call(@client_class, -> { @client_class.save }).success?
+    if @result.success?
       redirect_to client_classes_path, notice: "Successfully created client class." + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :new

@@ -57,12 +57,29 @@ describe "create client class", type: :feature do
       expect_audit_log_entry_for(editor.email, "create", "Client class")
     end
 
-    it "displays error if form cannot be submitted" do
+    it "displays validation errors if the record fails to save" do
       visit "/client-classes/new"
 
       click_on "Create"
 
       expect(page).to have_content "There is a problem"
+      expect(page).to have_content "Name can't be blank"
+    end
+
+    it "displays dhcp config verification errors" do
+      visit "/client-classes/new"
+
+      fill_in "Name", with: "usr1_device"
+      fill_in "Client id", with: "A20YYQ"
+      fill_in "Domain name servers", with: "10.0.2.1,10.0.2.2"
+      fill_in "Domain name", with: "test.example.com"
+
+      allow_config_verification_to_fail_with_message("this isnt what kea looks like :(")
+
+      click_on "Create"
+
+      expect(page).to have_content "There is a problem"
+      expect(page).to have_content "this isnt what kea looks like :("
     end
   end
 end
