@@ -69,8 +69,7 @@ describe "create sites", type: :feature do
       fill_in "FITS id", with: "MYFITS101"
       fill_in "Name", with: "My London Site"
 
-      allow_any_instance_of(Gateways::KeaControlAgent).to receive(:verify_config)
-        .and_raise(Gateways::KeaControlAgent::InternalError.new("this isnt what kea looks like :("))
+      allow_config_verification_to_fail_with_message("this isnt what kea looks like :(")
 
       click_on "Create"
 

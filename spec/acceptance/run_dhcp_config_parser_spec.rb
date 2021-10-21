@@ -97,8 +97,8 @@ describe "dhcp config parser page", type: :feature do
       attach_file "Kea Config file", "./spec/fixtures/kea_configs/kea.json"
 
       # and the kea server says the config is invalid
-      allow_any_instance_of(Gateways::KeaControlAgent).to receive(:verify_config)
-        .and_raise(Gateways::KeaControlAgent::InternalError.new("this isnt what kea looks like :("))
+      allow_config_verification_to_fail_with_message("this isnt what kea looks like :(")
+
       # when i submit
       click_on "Submit"
 
