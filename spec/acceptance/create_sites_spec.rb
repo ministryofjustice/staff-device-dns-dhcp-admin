@@ -39,8 +39,7 @@ describe "create sites", type: :feature do
 
       expect(current_path).to eql("/sites/new")
 
-      fill_in "FITS id", with: "MYFITS101"
-      fill_in "Name", with: "My London Site"
+      when_i_fill_in_the_form_with_valid_data
 
       expect_config_to_be_verified
       expect_config_to_be_published
@@ -55,25 +54,31 @@ describe "create sites", type: :feature do
       expect_audit_log_entry_for(editor.email, "create", "Site")
     end
 
-    it "displays error if form cannot be submitted" do
+    it "displays validation errors if form cannot be submitted" do
       visit "/sites/new"
 
       click_on "Create"
 
       expect(page).to have_content "There is a problem"
+      expect(page).to have_content "FITS id can't be blank"
     end
 
-    it "displays the kea error if the config cannot be validated" do
+    it "displays dhcp config verification errors" do
       visit "/sites/new"
 
-      fill_in "FITS id", with: "MYFITS101"
-      fill_in "Name", with: "My London Site"
+      when_i_fill_in_the_form_with_valid_data
 
       allow_config_verification_to_fail_with_message("this isnt what kea looks like :(")
 
       click_on "Create"
 
-      expect(page).to have_content("this isnt what kea looks like :(")
-    end
+      expect(page).to have_content "There is a problem"
+      expect(page).to have_content "this isnt what kea looks like :("
+    end  
+  end
+
+  def when_i_fill_in_the_form_with_valid_data
+    fill_in "FITS id", with: "MYFITS101"
+    fill_in "Name", with: "My London Site"
   end
 end

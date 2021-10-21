@@ -65,12 +65,33 @@ describe "create reservations", type: :feature do
       expect_audit_log_entry_for(editor.email, "create", "Reservation")
     end
 
-    it "displays error if form cannot be submitted" do
+    it "displays validations errors if form cannot be submitted" do
       visit "/subnets/#{reservation.subnet_id}/reservations/new"
 
       click_on "Create"
 
       expect(page).to have_content "There is a problem"
+      expect(page).to have_content "HW address can't be blank"
     end
+
+    it "displays dhcp config verification errors" do
+      visit "/subnets/#{reservation.subnet_id}/reservations/new"
+
+      when_i_fill_in_the_form_with_valid_data
+
+      allow_config_verification_to_fail_with_message("this isnt what kea looks like :(")
+
+      click_on "Create"
+
+      expect(page).to have_content "There is a problem"
+      expect(page).to have_content "this isnt what kea looks like :("
+    end  
+  end
+
+  def when_i_fill_in_the_form_with_valid_data
+    fill_in "HW address", with: "01:bb:cc:dd:ee:fe"
+    fill_in "IP address", with: reservation.subnet.end_address
+    fill_in "Hostname", with: "test.example2.com"
+    fill_in "Description", with: "Test reservation"
   end
 end

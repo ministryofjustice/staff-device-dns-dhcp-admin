@@ -47,10 +47,7 @@ describe "create options", type: :feature do
       expect(page).to_not have_content("Global Options")
       expect(page).to_not have_content("Subnet specific options will override the global options.")
 
-      fill_in "Domain name servers", with: "10.0.2.1,10.0.2.2"
-      fill_in "Domain name", with: "test.example.com"
-      fill_in "Valid lifetime", with: "12345"
-      select "Seconds", from: "option[valid_lifetime_unit]"
+      when_i_fill_in_the_form_with_valid_data
 
       expect_config_to_be_verified
       expect_config_to_be_published
@@ -101,12 +98,33 @@ describe "create options", type: :feature do
       expect_audit_log_entry_for(editor.email, "create", "Option")
     end
 
-    it "displays error if form cannot be submitted" do
+    it "displays validation errors if the record fails to save" do
       visit "/subnets/#{subnet.to_param}/options/new"
 
       click_on "Create"
 
       expect(page).to have_content "There is a problem"
+      expect(page).to have_content "At least one option must be filled out"
+    end
+
+    it "displays dhcp config verification errors" do
+      visit "/subnets/#{subnet.to_param}/options/new"
+
+      when_i_fill_in_the_form_with_valid_data
+
+      allow_config_verification_to_fail_with_message("this isnt what kea looks like :(")
+
+      click_on "Create"
+
+      expect(page).to have_content "There is a problem"
+      expect(page).to have_content "this isnt what kea looks like :("
+    end
+
+    def when_i_fill_in_the_form_with_valid_data
+      fill_in "Domain name servers", with: "10.0.2.1,10.0.2.2"
+      fill_in "Domain name", with: "test.example.com"
+      fill_in "Valid lifetime", with: "12345"
+      select "Seconds", from: "option[valid_lifetime_unit]"
     end
   end
 end

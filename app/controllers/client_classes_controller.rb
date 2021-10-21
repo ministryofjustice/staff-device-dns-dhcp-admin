@@ -33,8 +33,8 @@ class ClientClassesController < ApplicationController
   def update
     authorize! :update, @client_class
     @client_class.assign_attributes(client_class_params)
-
-    if update_dhcp_config.call(@client_class, -> { @client_class.save }).success?
+    @result = update_dhcp_config.call(@client_class, -> { @client_class.save! })
+    if @result.success?
       redirect_to client_classes_path, notice: "Successfully updated client class." + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :edit

@@ -30,7 +30,7 @@ class SitesController < ApplicationController
   def create
     @site = Site.new(site_params)
     authorize! :create, @site
-    @result = update_dhcp_config.call(@site, -> { @site.save })
+    @result = update_dhcp_config.call(@site, -> { @site.save! })
 
     if @result.success?
       redirect_to site_path(@site), notice: "Successfully created site. " + CONFIG_UPDATE_DELAY_NOTICE
@@ -46,8 +46,9 @@ class SitesController < ApplicationController
   def update
     authorize! :update, @site
     @site.assign_attributes(site_params)
+    @result = update_dhcp_config.call(@site, -> { @site.save! })
 
-    if update_dhcp_config.call(@site, -> { @site.save }).success?
+    if @result.success?
       redirect_to site_path(@site), notice: "Successfully updated site. " + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :edit

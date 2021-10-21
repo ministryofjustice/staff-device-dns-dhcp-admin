@@ -65,15 +65,27 @@ describe "update options", type: :feature do
       expect_audit_log_entry_for(editor.email, "update", "Option")
     end
 
-    it "displays error if form cannot be submitted" do
+    it "displays validation errors if the record fails to save" do
       visit "/subnets/#{subnet.to_param}/options/edit"
 
-      fill_in "Domain name servers", with: ""
       fill_in "Domain name", with: ""
+      fill_in "Domain name servers", with: ""
 
       click_on "Update"
 
       expect(page).to have_content "There is a problem"
+      expect(page).to have_content "At least one option must be filled out"
+    end
+
+    it "displays dhcp config verification errors" do
+      visit "/subnets/#{subnet.to_param}/options/edit"
+
+      allow_config_verification_to_fail_with_message("this isnt what kea looks like :(")
+
+      click_on "Update"
+
+      expect(page).to have_content "There is a problem"
+      expect(page).to have_content "this isnt what kea looks like :("
     end
   end
 end

@@ -10,8 +10,8 @@ class ReservationOptionsController < ApplicationController
   def create
     @reservation_option = @reservation.build_reservation_option(reservation_option_params)
     authorize! :create, @reservation_option
-
-    if update_dhcp_config.call(@reservation_option, -> { @reservation_option.save }).success?
+    @result = update_dhcp_config.call(@reservation_option, -> { @reservation_option.save! })
+    if @result.success?
       redirect_to reservation_path(@reservation), notice: "Successfully created reservation options." + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :new
@@ -25,8 +25,9 @@ class ReservationOptionsController < ApplicationController
   def update
     authorize! :update, @reservation_option
     @reservation_option.assign_attributes(reservation_option_params)
+    @result = update_dhcp_config.call(@reservation_option, -> { @reservation_option.save! })
 
-    if update_dhcp_config.call(@reservation_option, -> { @reservation_option.save }).success?
+    if @result.success?
       redirect_to reservation_path(@reservation_option.reservation), notice: "Successfully updated reservation options." + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :edit

@@ -2,13 +2,12 @@ require "rails_helper"
 
 describe "creating a subnet extension", type: :feature do
   let(:editor) { create(:user, :editor) }
-
+  let(:subnet) { Audited.audit_class.as_user(editor) { create(:subnet) } }
   before do
     login_as editor
   end
 
   it "creates a new subnet in a shared network" do
-    subnet = Audited.audit_class.as_user(editor) { create :subnet }
     visit "/subnets/#{subnet.to_param}"
 
     expect(page).to have_content("Subnets in the same shared network")
@@ -37,19 +36,32 @@ describe "creating a subnet extension", type: :feature do
     expect_audit_log_entry_for(editor.email, "create", "Subnet")
   end
 
-  it "displays error if form cannot be submitted" do
-    subnet = create :subnet
-    visit "/subnets/#{subnet.to_param}"
+  it "displays validation errors if form cannot be submitted" do
+    visit "/subnets/#{subnet.to_param}/extensions/new"
 
-    click_on "Add a subnet to this shared network"
-
-    fill_in "CIDR block", with: "a"
-    fill_in "Start address", with: "b"
-    fill_in "End address", with: "c"
-    fill_in "Routers", with: "d"
-
-    click_button "Create"
+    click_on "Create"
 
     expect(page).to have_content "There is a problem"
+    expect(page).to have_content "CIDR block can't be blank"
+  end
+  
+  it "displays dhcp config verification errors" do
+    visit "/subnets/#{subnet.to_param}/extensions/new"
+
+    when_i_fill_in_the_form_with_valid_data
+
+    allow_config_verification_to_fail_with_message("this isnt what kea looks like :(")
+
+    click_on "Create"
+
+    expect(page).to have_content "There is a problem"
+    expect(page).to have_content "this isnt what kea looks like :("
+  end  
+
+  def when_i_fill_in_the_form_with_valid_data
+    fill_in "CIDR block", with: "10.0.1.0/24"
+    fill_in "Start address", with: "10.0.1.1"
+    fill_in "End address", with: "10.0.1.255"
+    fill_in "Routers", with: "10.0.1.0,10.0.1.2"
   end
 end

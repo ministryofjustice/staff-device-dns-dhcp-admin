@@ -64,5 +64,26 @@ describe "update sites", type: :feature do
 
       expect_audit_log_entry_for(editor.email, "update", "Site")
     end
+
+    it "displays validation errors if form cannot be submitted" do
+      visit "/sites/#{site.id}/edit"
+
+      fill_in "FITS id", with: ""
+      click_on "Update"
+
+      expect(page).to have_content "There is a problem"
+      expect(page).to have_content "FITS id can't be blank"
+    end
+
+    it "displays dhcp config verification errors" do
+      visit "/sites/#{site.id}/edit"
+
+      allow_config_verification_to_fail_with_message("this isnt what kea looks like :(")
+
+      click_on "Update"
+
+      expect(page).to have_content "There is a problem"
+      expect(page).to have_content "this isnt what kea looks like :("
+    end  
   end
 end

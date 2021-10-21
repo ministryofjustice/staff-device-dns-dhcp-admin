@@ -2,13 +2,13 @@ require "rails_helper"
 
 describe "update subnets", type: :feature do
   let(:editor) { create(:user, :editor) }
+  let(:subnet) { Audited.audit_class.as_user(User.first) { create(:subnet) } }
 
   before do
     login_as editor
   end
 
   it "update an existing subnet" do
-    subnet = Audited.audit_class.as_user(User.first) { create(:subnet) }
     visit "/subnets/#{subnet.id}"
 
     expect(current_path).to eq("/subnets/#{subnet.id}")
@@ -52,5 +52,27 @@ describe "update subnets", type: :feature do
     expect(page).to have_content("Global Options")
     expect(page).to have_content(global_option.domain_name_servers.join(","))
     expect(page).to have_content(global_option.domain_name)
+  end
+
+  it "displays validation errors if form cannot be submitted" do
+    visit "/subnets/#{subnet.id}/edit"
+
+    fill_in "CIDR block", with: ""
+
+    click_on "Update"
+
+    expect(page).to have_content "There is a problem"
+    expect(page).to have_content "CIDR block can't be blank"
+  end
+
+  it "displays dhcp config verification errors" do
+    visit "/subnets/#{subnet.id}/edit"
+
+    allow_config_verification_to_fail_with_message("this isnt what kea looks like :(")
+
+    click_on "Update"
+
+    expect(page).to have_content "There is a problem"
+    expect(page).to have_content "this isnt what kea looks like :("
   end
 end

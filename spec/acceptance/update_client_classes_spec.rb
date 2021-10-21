@@ -69,14 +69,26 @@ describe "update client class", type: :feature do
       expect_audit_log_entry_for(editor.email, "update", "Client class")
     end
 
-    it "displays error if form cannot be submitted" do
-      visit "/client-classes/#{client_class.id}/edit"
+    it "displays validation errors if the record fails to save" do
+      visit "/client-classes/#{client_class.to_param}/edit"
 
       fill_in "Name", with: ""
 
       click_on "Update"
 
       expect(page).to have_content "There is a problem"
+      expect(page).to have_content "Name can't be blank"
+    end
+
+    it "displays dhcp config verification errors" do
+      visit "/client-classes/#{client_class.to_param}/edit"
+
+      allow_config_verification_to_fail_with_message("this isnt what kea looks like :(")
+
+      click_on "Update"
+
+      expect(page).to have_content "There is a problem"
+      expect(page).to have_content "this isnt what kea looks like :("
     end
   end
 end
