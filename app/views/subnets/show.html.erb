@@ -84,6 +84,7 @@
 <h3 class="govuk-heading-m">Reservations</h3>
 
 <%= link_to "Create a new reservation", new_subnet_reservations_path(@subnet), class: "govuk-button" if can?(:create, Reservation) %>
+<%= link_to "Delete all reservations", subnet_reservations_path(@subnet), class: "govuk-button govuk-button--secondary", method: :delete if can?(:destroy, Reservation) %>
 
 <% if @subnet.reservations.any? %>
   <%= render "reservations/list", reservations: @subnet.reservations %>

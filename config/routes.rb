@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     resources :exclusions, only: [:new, :create]
     resource :options, only: [:new, :create, :edit, :update, :destroy]
     resource :reservations, only: [:new, :create]
+    delete '/reservations', controller: :reservations, action: :destroy_all
+
     resources :leases, only: [:index, :destroy]
 
     resources :extensions, only: [:new, :create], controller: :subnet_extensions

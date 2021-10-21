@@ -52,6 +52,22 @@ class ReservationsController < ApplicationController
     end
   end
 
+  def destroy_all
+    set_subnet
+    authorize! :destroy, Reservation
+
+    if confirmed?
+      if @subnet.reservations.delete_all
+        redirect_to subnet_path(@subnet), notice: "Successfully deleted all reservations for subnet #{@subnet.cidr_block}." + CONFIG_UPDATE_DELAY_NOTICE
+      else
+        redirect_to subnet_path(@subnet), error: "Failed to delete all reservations"
+      end
+    else
+      render "destroy_all"
+    end
+  end
+
+
   private
 
   def set_subnet
