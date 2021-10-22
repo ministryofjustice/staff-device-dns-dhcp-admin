@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :reservation do
     subnet
-    hw_address { "01:bb:cc:dd:ee:ff" }
+    hw_address { "aa:bb:cc:dd:ee:ff" }
     ip_address { subnet.start_address }
     hostname { "test.example.com" }
     description { "Test reservation" }

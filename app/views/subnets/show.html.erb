@@ -86,5 +86,7 @@
 <%= link_to "Create a new reservation", new_subnet_reservations_path(@subnet), class: "govuk-button" if can?(:create, Reservation) %>
 
 <% if @subnet.reservations.any? %>
+  <%= link_to "Delete all reservations", subnet_reservations_path(@subnet), class: "govuk-button govuk-button--secondary", method: :delete if can?(:destroy, Reservation) %>
   <%= render "reservations/list", reservations: @subnet.reservations %>
 <% end %>
+

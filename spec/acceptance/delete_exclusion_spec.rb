@@ -14,10 +14,10 @@ describe "delete exclusion", type: :feature do
     login_as editor
   end
 
-  it "delete an exclusion" do
+  it "deletes an exclusion" do
     visit "/subnets/#{subnet.to_param}"
 
-    click_on "Delete"
+    click_on("Delete", match: :first)
 
     expect(page).to have_content("Are you sure you want to delete this exclusion?")
     expect(page).to have_content(exclusion.start_address)
