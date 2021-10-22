@@ -1,7 +1,9 @@
 <h2 class="govuk-heading-l">Are you sure you want to delete all reservations for the following subnet?</h2>
 
 <div class="govuk-inset-text">
-  <h4 class="govuk-heading-s">CIDR Block:</h4>
+  <h4 class="govuk-heading-s">Site Name:</h4>
+  <p class="govuk-body"><%= @subnet.shared_network.site.name %></p>
+    <h4 class="govuk-heading-s">CIDR Block:</h4>
   <p class="govuk-body"><%= @subnet.cidr_block %></p>
 </div>
 
