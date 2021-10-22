@@ -9,12 +9,12 @@ describe "delete all reservations in a subnet", type: :feature do
   end
 
   it "delete all reservations" do
-    reservation1 = create :reservation, subnet: subnet 
-    reservation2 = create(:reservation, 
+    reservation1 = create :reservation, subnet: subnet
+    reservation2 = create(:reservation,
       subnet: subnet,
       hw_address: "ab:bb:cc:dd:ee:ff",
       ip_address: subnet.end_address,
-      hostname: "test2.example.com") 
+      hostname: "test2.example.com")
 
     visit "/subnets/#{subnet.to_param}"
 
@@ -40,6 +40,5 @@ describe "delete all reservations in a subnet", type: :feature do
     visit "/subnets/#{subnet.to_param}"
 
     expect(page).not_to have_content("Delete all reservations")
-
   end
 end
