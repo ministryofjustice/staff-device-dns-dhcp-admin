@@ -57,7 +57,14 @@ class ReservationsController < ApplicationController
     authorize! :destroy, Reservation
 
     if confirmed?
-      if @subnet.reservations.delete_all
+      reservations_data = @subnet.reservations.map(&:attributes)
+      if update_dhcp_config.call(@subnet, -> { @subnet.reservations.delete_all }).success?
+        Audit.create(
+          auditable: @subnet,
+          user: current_user,
+          action: "delete all reservations", 
+          audited_changes: reservations_data
+        ) unless reservations_data.empty?
         redirect_to subnet_path(@subnet), notice: "Successfully deleted all reservations for subnet #{@subnet.cidr_block}." + CONFIG_UPDATE_DELAY_NOTICE
       else
         redirect_to subnet_path(@subnet), error: "Failed to delete all reservations"

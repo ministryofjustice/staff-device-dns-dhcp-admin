@@ -10,7 +10,11 @@ describe "delete all reservations in a subnet", type: :feature do
 
   it "delete all reservations" do
     reservation1 = create :reservation, subnet: subnet 
-    reservation2 = create :reservation, subnet: subnet
+    reservation2 = create(:reservation, 
+      subnet: subnet,
+      hw_address: "ab:bb:cc:dd:ee:ff",
+      ip_address: subnet.end_address,
+      hostname: "test2.example.com") 
 
     visit "/subnets/#{subnet.to_param}"
 
@@ -29,6 +33,13 @@ describe "delete all reservations in a subnet", type: :feature do
     expect(page).not_to have_content(reservation1.hw_address)
     expect(page).not_to have_content(reservation2.hw_address)
 
-    expect_audit_log_entry_for(editor.email, "destroy", "Reservation")
+    expect_audit_log_entry_for(editor.email, "delete all reservations", "Subnet (#{subnet.cidr_block})")
+  end
+
+  it "there are no reservations and as such deletion is not an option to the user" do
+    visit "/subnets/#{subnet.to_param}"
+
+    expect(page).not_to have_content("Delete all reservations")
+
   end
 end
