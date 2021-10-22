@@ -4,12 +4,6 @@ describe "delete all reservations in a subnet", type: :feature do
   let(:subnet) { create :subnet }
   let(:subnet2) { create :subnet}
   let(:editor) { create(:user, :editor) }
-  # let(:reservation3) { create :reservation,
-  #   subnet: subnet2,
-  #   hw_address: "a5:b2:c4:d1:f9:1a",
-  #   ip_address: subnet2.start_address,
-  #   hostname: "test99.example.com"
-  # }
 
   before do
     login_as editor
