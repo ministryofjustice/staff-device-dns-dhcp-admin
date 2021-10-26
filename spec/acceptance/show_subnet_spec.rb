@@ -40,8 +40,8 @@ describe "showing a subnet", type: :feature do
         visit "/subnets/#{subnet.to_param}"
 
         expect(page).to have_content other_subnet.cidr_block
-        expect(page).to have_content other_subnet.start_address
-        expect(page).to have_content other_subnet.end_address
+        expect(page).not_to have_content other_subnet.start_address
+        expect(page).not_to have_content other_subnet.end_address
       end
     end
   end
