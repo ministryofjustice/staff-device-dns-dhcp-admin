@@ -41,8 +41,8 @@ describe "showing a site", type: :feature do
         expect(page).to have_content site.name
 
         expect(page).to have_content subnet.cidr_block
-        expect(page).to have_content subnet.start_address
-        expect(page).to have_content subnet.end_address
+        expect(page).not_to have_content subnet.start_address
+        expect(page).not_to have_content subnet.end_address
 
         expect(page).to have_content subnet2.cidr_block
 
