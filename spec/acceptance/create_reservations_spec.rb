@@ -15,6 +15,39 @@ describe "create reservations", type: :feature do
     end
   end
 
+  context "when a user is logged in as a support user" do
+    before do
+      login_as create(:user, :second_line_support)
+    end
+  
+    it "creates a new subnet reservation" do
+      visit "/subnets/#{reservation.subnet_id}"
+
+      click_on "Create a new reservation"
+
+      expect(page).to have_content(reservation.subnet.start_address + " to " + reservation.subnet.end_address)
+
+      fill_in "HW address", with: "01:bb:cc:dd:ee:fe"
+      fill_in "IP address", with: reservation.subnet.end_address
+      fill_in "Hostname", with: "test.example2.com"
+      fill_in "Description", with: "Test reservation"
+
+      expect_config_to_be_verified
+      expect_config_to_be_published
+
+      click_on "Create"
+
+      expect(page).to have_content("Successfully created reservation")
+      expect(page).to have_content("This could take up to 10 minutes to apply.")
+      expect(page).to have_content("01:bb:cc:dd:ee:fe")
+      expect(page).to have_content(reservation.subnet.end_address)
+      expect(page).to have_content("test.example2.com")
+      expect(page).to have_content("Test reservation")
+
+      expect_audit_log_entry_for(editor.email, "create", "Reservation")
+    end
+  end
+
   context "when a user is logged in as a viewer" do
     before do
       login_as create(:user, :reader)
