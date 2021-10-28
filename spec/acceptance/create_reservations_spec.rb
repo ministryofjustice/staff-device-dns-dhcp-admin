@@ -17,11 +17,11 @@ describe "create reservations", type: :feature do
 
   context "when a user is logged in as a support user" do
     let(:second_line_support) { create(:user, :second_line_support) }
-    
+
     before do
       login_as second_line_support
     end
-  
+
     it "creates a new subnet reservation" do
       visit "/subnets/#{reservation.subnet_id}"
 
@@ -120,7 +120,7 @@ describe "create reservations", type: :feature do
 
       expect(page).to have_content "There is a problem"
       expect(page).to have_content "this isnt what kea looks like :("
-    end  
+    end
   end
 
   def when_i_fill_in_the_form_with_valid_data

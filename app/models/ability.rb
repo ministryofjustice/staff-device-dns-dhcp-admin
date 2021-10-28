@@ -30,6 +30,6 @@ class Ability
 
     if user.second_line_support?
       can :manage, Reservation
-    end 
+    end
   end
 end
