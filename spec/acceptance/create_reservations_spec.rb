@@ -16,8 +16,10 @@ describe "create reservations", type: :feature do
   end
 
   context "when a user is logged in as a support user" do
+    let(:second_line_support) { create(:user, :second_line_support) }
+    
     before do
-      login_as create(:user, :second_line_support)
+      login_as second_line_support
     end
   
     it "creates a new subnet reservation" do
@@ -44,7 +46,7 @@ describe "create reservations", type: :feature do
       expect(page).to have_content("test.example2.com")
       expect(page).to have_content("Test reservation")
 
-      expect_audit_log_entry_for(editor.email, "create", "Reservation")
+      expect_audit_log_entry_for(second_line_support.email, "create", "Reservation")
     end
   end
 

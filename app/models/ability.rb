@@ -27,5 +27,9 @@ class Ability
       can :manage, Lease
       can :manage, :import
     end
+
+    if user.second_line_support?
+      can :manage, Reservation
+    end 
   end
 end
