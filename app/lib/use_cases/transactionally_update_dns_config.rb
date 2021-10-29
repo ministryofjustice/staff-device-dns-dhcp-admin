@@ -16,19 +16,18 @@ module UseCases
             publish_bind_config.call(bind_config)
             deploy_dns_service.call
           else
-            raise BindConfigInvalidError.new(config_verification_result.error.message)
+            raise BindConfigInvalidError.new(config_verification_result.errors.first.message)
           end
         else
           raise OperationFailedError.new
         end
       end
 
-      true
+      Result.new
     rescue BindConfigInvalidError => error
-      record.errors.add(:base, error.message)
-      false
-    rescue OperationFailedError
-      false
+      Result.new(error)
+    rescue OperationFailedError => error
+      Result.new(error)
     end
 
     private
