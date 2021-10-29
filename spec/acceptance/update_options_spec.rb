@@ -19,7 +19,7 @@ describe "update options", type: :feature do
 
   context "when a user is logged in as an viewer" do
     before do
-      login_as create(:user, :reader)
+      login_as create(:user, :viewer)
     end
 
     it "does not allow editing options" do

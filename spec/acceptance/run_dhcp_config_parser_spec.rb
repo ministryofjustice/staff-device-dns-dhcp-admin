@@ -11,7 +11,7 @@ describe "dhcp config parser page", type: :feature do
 
   context "when the user is authenticated and the user is a reader" do
     before do
-      login_as create(:user, :reader)
+      login_as create(:user, :viewer)
     end
 
     it "shows a warning text" do

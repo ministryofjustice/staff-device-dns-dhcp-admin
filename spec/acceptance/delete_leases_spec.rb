@@ -104,7 +104,7 @@ RSpec.describe "delete leases", type: :feature do
 
   context "when the user is a viewer" do
     before do
-      login_as create(:user, :reader)
+      login_as create(:user, :viewer)
     end
 
     it "does not allow deleting leases" do

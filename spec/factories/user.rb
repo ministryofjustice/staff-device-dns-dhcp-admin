@@ -10,8 +10,8 @@ FactoryBot.define do
       role { User.roles[:second_line_support] }
     end
 
-    trait :reader do
-      editor { false }
+    trait :viewer do
+      role { User.roles[:viewer] }
     end
   end
 end

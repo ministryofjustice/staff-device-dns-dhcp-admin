@@ -11,7 +11,7 @@ describe "showing a reservation", type: :feature do
 
   context "when the user is authenticated" do
     before do
-      login_as create(:user, :reader)
+      login_as create(:user, :viewer)
     end
 
     context "when the reservation exists" do

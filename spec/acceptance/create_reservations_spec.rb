@@ -52,7 +52,7 @@ describe "create reservations", type: :feature do
 
   context "when a user is logged in as a viewer" do
     before do
-      login_as create(:user, :reader)
+      login_as create(:user, :viewer)
     end
 
     it "does not allow editing reservations" do
