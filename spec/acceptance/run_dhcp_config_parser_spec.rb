@@ -134,7 +134,7 @@ describe "dhcp config parser page", type: :feature do
 
       # And I provide a kea config file
       attach_file "Kea Config file", "./spec/fixtures/kea_configs/kea.json"
-      
+
       # when i submit
       click_on "Submit"
 

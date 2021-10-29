@@ -90,6 +90,6 @@ describe "update reservations", type: :feature do
 
       expect(page).to have_content "There is a problem"
       expect(page).to have_content "this isnt what kea looks like :("
-    end  
+    end
   end
 end

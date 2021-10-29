@@ -27,7 +27,7 @@ describe "update reservation options", type: :feature do
 
       expect(page).not_to have_content("Edit")
 
-      visit "/reservation_options/#{reservation_option.to_param}/edit"  
+      visit "/reservation_options/#{reservation_option.to_param}/edit"
 
       expect(page).to have_content("You are not authorized to access this page.")
     end
@@ -86,6 +86,6 @@ describe "update reservation options", type: :feature do
 
       expect(page).to have_content "There is a problem"
       expect(page).to have_content "this isnt what kea looks like :("
-    end 
+    end
   end
 end

@@ -81,7 +81,7 @@ describe "create reservation options", type: :feature do
 
       expect(page).to have_content "There is a problem"
       expect(page).to have_content "this isnt what kea looks like :("
-    end   
+    end
   end
 
   def when_i_fill_in_the_form_with_valid_data
