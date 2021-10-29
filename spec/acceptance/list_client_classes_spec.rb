@@ -14,7 +14,7 @@ RSpec.describe "Listing Client Classes", type: :feature do
     let!(:client_class2) { create :client_class }
 
     before do
-      login_as create(:user, :reader)
+      login_as create(:user, :viewer)
     end
 
     it "displays a list of client classes" do

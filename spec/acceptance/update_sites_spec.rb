@@ -17,7 +17,7 @@ describe "update sites", type: :feature do
 
   context "when the user is a viewer" do
     before do
-      login_as create(:user, :reader)
+      login_as create(:user, :viewer)
     end
 
     it "does not allow editing sites" do
@@ -84,6 +84,6 @@ describe "update sites", type: :feature do
 
       expect(page).to have_content "There is a problem"
       expect(page).to have_content "this isnt what kea looks like :("
-    end  
+    end
   end
 end

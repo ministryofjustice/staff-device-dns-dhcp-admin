@@ -11,7 +11,7 @@ describe "dhcp config parser page", type: :feature do
 
   context "when the user is authenticated and the user is a reader" do
     before do
-      login_as create(:user, :reader)
+      login_as create(:user, :viewer)
     end
 
     it "shows a warning text" do
@@ -134,7 +134,7 @@ describe "dhcp config parser page", type: :feature do
 
       # And I provide a kea config file
       attach_file "Kea Config file", "./spec/fixtures/kea_configs/kea.json"
-      
+
       # when i submit
       click_on "Submit"
 

@@ -19,7 +19,7 @@ describe "update reservations", type: :feature do
 
   context "when a user is logged in as an viewer" do
     before do
-      login_as create(:user, :reader)
+      login_as create(:user, :viewer)
     end
 
     it "does not allow editing reservations" do
@@ -90,6 +90,6 @@ describe "update reservations", type: :feature do
 
       expect(page).to have_content "There is a problem"
       expect(page).to have_content "this isnt what kea looks like :("
-    end  
+    end
   end
 end
