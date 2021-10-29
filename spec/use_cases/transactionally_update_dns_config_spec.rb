@@ -73,7 +73,7 @@ RSpec.describe UseCases::TransactionallyUpdateDnsConfig do
         expect(record).not_to be_persisted
       end
 
-      xit "adds errors to the record" do
+      it "adds errors to the record" do
         use_case.call(record, operation)
         expect(record.errors[:base]).to include(result.error.message)
       end

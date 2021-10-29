@@ -23,16 +23,19 @@ describe "create reservations", type: :feature do
     end
 
     it "creates a new subnet reservation" do
+      reservation_ip = reservation.subnet.start_address.chop + "25"
+
       visit "/subnets/#{reservation.subnet_id}"
 
       click_on "Create a new reservation"
 
       expect(page).to have_content(reservation.subnet.start_address + " to " + reservation.subnet.end_address)
+      
 
-      fill_in "HW address", with: "01:bb:cc:dd:ee:fe"
-      fill_in "IP address", with: reservation.subnet.end_address
-      fill_in "Hostname", with: "test.example2.com"
-      fill_in "Description", with: "Test reservation"
+      fill_in "HW address", with: "1a:bb:cc:dd:ee:fe"
+      fill_in "IP address", with: reservation_ip
+      fill_in "Hostname", with: "test.example3.com"
+      fill_in "Description", with: "Test reservation 2"
 
       expect_config_to_be_verified
       expect_config_to_be_published
@@ -41,10 +44,10 @@ describe "create reservations", type: :feature do
 
       expect(page).to have_content("Successfully created reservation")
       expect(page).to have_content("This could take up to 10 minutes to apply.")
-      expect(page).to have_content("01:bb:cc:dd:ee:fe")
-      expect(page).to have_content(reservation.subnet.end_address)
-      expect(page).to have_content("test.example2.com")
-      expect(page).to have_content("Test reservation")
+      expect(page).to have_content("1a:bb:cc:dd:ee:fe")
+      expect(page).to have_content(reservation_ip)
+      expect(page).to have_content("test.example3.com")
+      expect(page).to have_content("Test reservation 2")
 
       expect_audit_log_entry_for(second_line_support.email, "create", "Reservation")
     end
