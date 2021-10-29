@@ -18,7 +18,7 @@ class User < ApplicationRecord
   def self.from_developer_omniauth(auth)
     user = find_or_initialize_by(provider: auth.provider, uid: auth.uid)
     user.email = auth.info.email
-    user.editor = true
+    user.role = :editor
     user.save
     user
   end
