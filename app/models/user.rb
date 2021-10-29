@@ -1,7 +1,7 @@
 class User < ApplicationRecord
-  MAX_SESSION_TIME = 8.hours 
+  MAX_SESSION_TIME = 8.hours
 
-  enum role: { viewer: 0, second_line_support: 1, editor: 2 }
+  enum role: {viewer: 0, second_line_support: 1, editor: 2}
 
   devise :omniauthable, :timeoutable, :hard_timeoutable,
     omniauth_providers: (Rails.env.development? ? %i[cognito developer] : %i[cognito]),
