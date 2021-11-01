@@ -33,7 +33,7 @@ describe "create reservations", type: :feature do
 
       fill_in "HW address", with: "1a:bb:cc:dd:ee:fe"
       fill_in "IP address", with: reservation_ip
-      fill_in "Hostname", with: "test.example3.com"
+      fill_in "Hostname", with: "test_example3.com"
       fill_in "Description", with: "Test reservation 2"
 
       expect_config_to_be_verified
@@ -45,7 +45,7 @@ describe "create reservations", type: :feature do
       expect(page).to have_content("This could take up to 10 minutes to apply.")
       expect(page).to have_content("1a:bb:cc:dd:ee:fe")
       expect(page).to have_content(reservation_ip)
-      expect(page).to have_content("test.example3.com")
+      expect(page).to have_content("test_example3.com")
       expect(page).to have_content("Test reservation 2")
 
       expect_audit_log_entry_for(second_line_support.email, "create", "Reservation")
