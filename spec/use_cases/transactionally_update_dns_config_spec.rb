@@ -5,7 +5,7 @@ RSpec.describe UseCases::TransactionallyUpdateDnsConfig do
   let(:verify_bind_config) { spy(:verify_bind_config) }
   let(:publish_bind_config) { spy(:publish_bind_config) }
   let(:deploy_dns_service) { spy(:deploy_dns_service) }
-  let(:record) { build(:reservation) }
+  let(:record) { build(:zone) }
   let(:operation) { -> { record.save } }
 
   subject(:use_case) do
@@ -75,7 +75,6 @@ RSpec.describe UseCases::TransactionallyUpdateDnsConfig do
 
       it "adds errors to the result" do
         result = use_case.call(record, operation)
-        p result.errors.full_messages
         expect(result.errors.full_messages).to include("im borked")
       end
     end
