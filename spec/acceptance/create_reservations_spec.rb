@@ -112,8 +112,8 @@ describe "create reservations", type: :feature do
       expect(page).to have_content(reservation.subnet.start_address + " to " + reservation.subnet.end_address)
 
       fill_in "HW address", with: "02:bb:cc:dd:ee:fe"
-      fill_in "IP address", with:  no_hostname_reservation_ip
-      
+      fill_in "IP address", with: no_hostname_reservation_ip
+
       expect_config_to_be_verified
       expect_config_to_be_published
 
