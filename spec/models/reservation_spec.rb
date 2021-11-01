@@ -8,6 +8,7 @@ RSpec.describe Reservation, type: :model do
   it { is_expected.to validate_presence_of :hostname }
 
   context "hostname validation" do
+    it { should allow_value("example").for(:hostname) }
     it { should allow_value("example.com").for(:hostname) }
     it { should allow_value("foo.example.com").for(:hostname) }
     it { should allow_value("foo-bar-1.abc.123.example.com").for(:hostname) }
