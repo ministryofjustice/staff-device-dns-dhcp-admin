@@ -102,6 +102,30 @@ describe "create reservations", type: :feature do
       expect_audit_log_entry_for(editor.email, "create", "Reservation")
     end
 
+    it "creates a new subnet reservation without a hostname" do
+      no_hostname_reservation_ip = reservation.subnet.start_address.chop + "26"
+
+      visit "/subnets/#{reservation.subnet_id}"
+
+      click_on "Create a new reservation"
+
+      expect(page).to have_content(reservation.subnet.start_address + " to " + reservation.subnet.end_address)
+
+      fill_in "HW address", with: "02:bb:cc:dd:ee:fe"
+      fill_in "IP address", with:  no_hostname_reservation_ip
+      
+      expect_config_to_be_verified
+      expect_config_to_be_published
+
+      click_on "Create"
+
+      expect(page).to have_content("Successfully created reservation")
+      expect(page).to have_content("This could take up to 10 minutes to apply.")
+      expect(page).to have_content("02:bb:cc:dd:ee:fe")
+      expect(page).to have_content(no_hostname_reservation_ip)
+      expect_audit_log_entry_for(editor.email, "create", "Reservation")
+    end
+
     it "displays validations errors if form cannot be submitted" do
       visit "/subnets/#{reservation.subnet_id}/reservations/new"
 
