@@ -65,7 +65,7 @@ RSpec.describe UseCases::TransactionallyUpdateDnsConfig do
       before do
         allow(verify_bind_config).to receive(:call).and_return(
           UseCases::Result.new(StandardError.new("im borked"))
-          )
+        )
       end
 
       it "does not save the record" do
