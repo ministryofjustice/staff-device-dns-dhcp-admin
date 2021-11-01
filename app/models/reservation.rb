@@ -5,7 +5,7 @@ class Reservation < ApplicationRecord
   has_one :reservation_option, dependent: :destroy
 
   validates :ip_address, presence: true
-  validates :hostname, domain_name: true, presence: true
+  validates :hostname, host_name: true, presence: true
   validates :hw_address, format: {with: MAC_ADDRESS_REGEX, message: "%{value} must be in the form 1a:1b:1c:1d:1e:1f"}, presence: true
 
   validate :ip_address_is_a_valid_ipv4_address
@@ -88,4 +88,11 @@ class Reservation < ApplicationRecord
       errors.add(:hostname, "#{hostname} has already been reserved in the subnet #{subnet.cidr_block}")
     end
   end
+
+  def hostname_is_valid
+    unless HOSTNAME_REGEX.match?(:hostname)
+      errors.add(:hostname, "is not valid")
+    end
+  end
+
 end
