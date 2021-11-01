@@ -94,5 +94,4 @@ class Reservation < ApplicationRecord
       errors.add(:hostname, "is not valid")
     end
   end
-
 end
