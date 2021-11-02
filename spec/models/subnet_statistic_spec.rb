@@ -169,6 +169,10 @@ RSpec.describe SubnetStatistic do
         expect(subject.leases_not_in_exclusion_zones).to eql(leases)
       end
 
+      it "returns a count of all leases" do
+        expect(subject.num_of_used_leases).to eql(1)
+      end
+
       it "returns leases when there are some and they are outside the exclusion ranges" do
         create :exclusion, subnet: subnet, start_address: "192.168.0.14", end_address: "192.168.0.15"
 

@@ -59,6 +59,7 @@ describe "showing a site", type: :feature do
         first_subnet = page.find("#subnets")
         expect(first_subnet.find(".num_reserved_ips")).to have_content("0")
         expect(first_subnet.find(".num_remaining_ips")).to have_content("202")
+        expect(first_subnet.find(".num_of_used_leases")).to have_content("0")
         expect(first_subnet.find(".percentage_used")).to have_content("0")
       end
 
@@ -81,6 +82,7 @@ describe "showing a site", type: :feature do
         first_subnet = page.find("#subnets")
         expect(first_subnet.find(".num_reserved_ips")).to have_content("1")
         expect(first_subnet.find(".num_remaining_ips")).to have_content("200")
+        expect(first_subnet.find(".num_of_used_leases")).to have_content("1")
         expect(first_subnet.find(".percentage_used")).to have_content("0.5%")
       end
     end
