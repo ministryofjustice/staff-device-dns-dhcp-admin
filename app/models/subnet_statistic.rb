@@ -11,6 +11,10 @@ class SubnetStatistic
     (unreserved_leases.count.to_f / dynamically_allocatable_ips.to_f) * 100
   end
 
+  def num_of_used_leases
+    leases.count 
+  end 
+
   def num_remaining_ips
     dynamically_allocatable_ips - unreserved_leases.count
   end
