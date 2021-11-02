@@ -12,8 +12,8 @@ class SubnetStatistic
   end
 
   def num_of_used_leases
-    leases.count 
-  end 
+    leases.count
+  end
 
   def num_remaining_ips
     dynamically_allocatable_ips - unreserved_leases.count
