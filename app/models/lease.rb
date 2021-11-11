@@ -21,6 +21,10 @@ class Lease
     "Unknown"
   end
 
+  def lease_details
+    [ @hw_address, @ip_address, @hostname, @state ]
+  end
+    
   def subnet
     @subnet ||= Subnet.find_by_kea_id(kea_subnet_id)
   end

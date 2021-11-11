@@ -1,6 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "Listing leases", type: :feature do
+
   let(:user) { create :user, :editor }
   let(:subnet) { create(:subnet) }
 
@@ -41,15 +42,10 @@ RSpec.describe "Listing leases", type: :feature do
       .to_return(body: kea_response)
   end
 
-  it "displays a list of leases" do
-    visit "/subnets/#{subnet.to_param}"
-    click_on "View leases"
+  it "exports the list of leases to a csv" do
+    visit "/subnets/#{subnet.to_param}/leases"
+    click_on "Export"
 
-    expect(page).not_to have_content hw_address
-    expect(page).to have_content formatted_hw_address
-    expect(page).to have_content ip_address
-    expect(page).to have_content hostname
-    expect(page).to have_content "Leased"
-    expect(page).to have_content "Export"
   end
+
 end
