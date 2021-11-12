@@ -1,4 +1,4 @@
-require 'csv'
+require "csv"
 
 class LeasesController < ApplicationController
   def index
@@ -28,19 +28,17 @@ class LeasesController < ApplicationController
   end
 
   def export
-    
-    index 
+    index
 
     column_names = ["HW address", "IP address", "Hostname", "State"]
     content = CSV.generate do |csv|
-        csv << column_names
-        @leases.each do |lease|
-            csv << lease.lease_details
-        end
+      csv << column_names
+      @leases.each do |lease|
+        csv << lease.lease_details
+      end
     end
 
-    send_data content, :filename => "#{@subnet.start_address}.csv"
-
+    send_data content, filename: "#{@subnet.start_address}.csv"
   end
 
   private
