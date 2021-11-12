@@ -1,3 +1,5 @@
+require 'csv'
+
 class LeasesController < ApplicationController
   def index
     @subnet = Subnet.find(params[:subnet_id])
@@ -25,25 +27,21 @@ class LeasesController < ApplicationController
     end
   end
 
-  # def export 
-  #   lease_report = [] 
-  #   @leases.each do |lease|
-  #     lease.hw_address
-  #     lease.ip_address
+  def export
+    
+    index 
 
-  #     ^ add these things to lease_report
+    column_names = ["HW address", "IP address", "Hostname", "State"]
+    content = CSV.generate do |csv|
+        csv << column_names
+        @leases.each do |lease|
+            csv << lease.lease_details
+        end
+    end
 
-  #   lease_report
+    send_data content, :filename => "#{@subnet.start_address}.csv"
 
-  #   column_names = ["HW address", "IP address", "Hostname", "State"]
-  #   content = CSV.generate do |csv|
-  #       csv << column_names
-  #       @leases.each do |lease|
-  #           csv << lease.values
-  #       end
-  #   end
-
-  # end
+  end
 
   private
 
