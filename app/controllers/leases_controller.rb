@@ -1,5 +1,3 @@
-require 'csv'
-
 class LeasesController < ApplicationController
   def index
     @subnet = Subnet.find(params[:subnet_id])
@@ -27,26 +25,25 @@ class LeasesController < ApplicationController
     end
   end
 
-  def export
+  # def export 
+  #   lease_report = [] 
+  #   @leases.each do |lease|
+  #     lease.hw_address
+  #     lease.ip_address
 
-    @subnet = Subnet.find(params[:subnet_id])
-    @leases = UseCases::FetchLeases.new(
-      gateway: kea_control_agent_gateway,
-      subnet_kea_id: @subnet.kea_id
-    ).call 
+  #     ^ add these things to lease_report
 
-    column_names = ["HW address", "IP address", "Hostname", "State"]
+  #   lease_report
 
-    content = CSV.generate do |csv|
-      csv << column_names
-      @leases.each do |lease|
-        csv << lease.lease_details
-      end
-    end
-    
-    send_data content, :filename => "#{@subnet.start_address}.csv"
+  #   column_names = ["HW address", "IP address", "Hostname", "State"]
+  #   content = CSV.generate do |csv|
+  #       csv << column_names
+  #       @leases.each do |lease|
+  #           csv << lease.values
+  #       end
+  #   end
 
-  end
+  # end
 
   private
 
