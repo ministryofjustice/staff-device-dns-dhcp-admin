@@ -1,13 +1,12 @@
 require "rails_helper"
 
 RSpec.describe "Exporting leases to .csv", type: :feature do
-
   let(:user) { create :user, :editor }
   let(:subnet) { create(:subnet) }
 
   let(:hw_address) { "00-0c-01-02-03-05" }
   let(:formatted_hw_address) { "00:0c:01:02:03:05" }
-  let(:ip_address) { "#{subnet.end_address}" }
+  let(:ip_address) { subnet.end_address.to_s }
   let(:hostname) { "test.example.com" }
 
   let(:kea_response) do
@@ -43,14 +42,13 @@ RSpec.describe "Exporting leases to .csv", type: :feature do
   end
 
   it "exports the list of leases to a csv" do
-    
     visit "/subnets/#{subnet.to_param}/leases"
     click_on "Export"
 
-    expect(response_headers['Content-Disposition'])
-    .to have_content "attachment"
+    expect(response_headers["Content-Disposition"])
+      .to have_content "attachment"
 
-    expect(response_headers['Content-Disposition'])
+    expect(response_headers["Content-Disposition"])
       .to have_content "#{subnet.start_address}.csv"
 
     expect(body).to eq <<~CSV
@@ -58,5 +56,4 @@ RSpec.describe "Exporting leases to .csv", type: :feature do
       00-0c-01-02-03-05,#{subnet.end_address},test.example.com,0
     CSV
   end
-
 end
