@@ -65,7 +65,6 @@ describe "dhcp config parser page", type: :feature do
 
       # Then I can see a reservation
       expect(page).to have_content("a1:b2:c3:d4:e5:f7")
-
     end
 
     it "tells the user about any errors importing dhcp configs" do
