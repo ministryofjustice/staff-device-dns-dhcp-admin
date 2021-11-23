@@ -10,23 +10,20 @@ class DhcpConfigParser
 
   # refactor run to create more flexibility
 
-  def initialize(kea_config_filepath:, legacy_config_filepath:)
-    @kea_config_filepath = kea_config_filepath
+  def initialize(kea_config_json:, legacy_config_filepath:)
+    @kea_config_json = kea_config_json
     @legacy_config_filepath = legacy_config_filepath
   end
 
   def run(fits_id:, subnet_list:)
-    throw StandardError unless kea_config_exists?
     throw StandardError unless export_file_exists?
 
-    # Populate these with data from the portal/export before running.
-    # See readme if you're feeling ¯\_(ツ)_/¯
     shared_network_id = fits_id
 
     exclusion_data = get_legacy_exclusions(File.read(@legacy_config_filepath), subnet_list)
 
     compared_reservations = find_missing_reservations(
-      kea_reservations: get_kea_reservations(shared_network_id, File.read(@kea_config_filepath)),
+      kea_reservations: get_kea_reservations(shared_network_id, @kea_config_json),
       legacy_reservations: get_legacy_reservations(File.read(@legacy_config_filepath), subnet_list)
     )
 
@@ -55,10 +52,6 @@ class DhcpConfigParser
         )
       end
     end
-  end
-
-  def kea_config_exists?
-    File.exist?(@kea_config_filepath)
   end
 
   def export_file_exists?
