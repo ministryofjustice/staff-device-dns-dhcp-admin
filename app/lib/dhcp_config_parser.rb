@@ -5,11 +5,6 @@ class DhcpConfigParser
 
   # Integration test for the class with expectation to have reservations created when they are missing on the kea config
 
-  # dhcp_config_parser_spec calls .run which has no arguments, i.e. the entire method is called
-  # this means that KEA_CONFIG_FILEPATH, is called which is a statically defined file.
-
-  # refactor run to create more flexibility
-
   def initialize(kea_config_json:, legacy_config_filepath:)
     @kea_config_json = kea_config_json
     @legacy_config_filepath = legacy_config_filepath
