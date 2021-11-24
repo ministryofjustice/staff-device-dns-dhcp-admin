@@ -1,11 +1,11 @@
 require "rails_helper"
 
 describe DhcpConfigParser do
-  let(:kea_config_filepath) { "./spec/lib/data/kea.json" }
+  let(:kea_config_json) { File.read("./spec/lib/data/kea.json") }
   let(:legacy_config_filepath) { "./spec/lib/data/export.txt" }
   let(:subnet_list) { ["192.168.1.0", "192.168.2.0"] }
   let(:fits_id) { "FITS_1646" }
-  subject { described_class.new(kea_config_filepath: kea_config_filepath, legacy_config_filepath: legacy_config_filepath) }
+  subject { described_class.new(kea_config_json: kea_config_json, legacy_config_filepath: legacy_config_filepath) }
 
   describe "#run" do
     before do
@@ -22,7 +22,7 @@ describe DhcpConfigParser do
     end
 
     it "creates reservations from the legacy config which do not exist in the kea config" do
-      described_class.new(legacy_config_filepath: "./spec/lib/data/brand_new_reservation.txt", kea_config_filepath: kea_config_filepath)
+      described_class.new(legacy_config_filepath: "./spec/lib/data/brand_new_reservation.txt", kea_config_json: kea_config_json)
         .run(fits_id: fits_id, subnet_list: subnet_list)
 
       expect(Reservation.count).to eql(2)
@@ -69,22 +69,6 @@ describe DhcpConfigParser do
       }
 
       expect { subject.create_reservations(reservations_by_subnet) }.to change { Reservation.count }.by(1)
-    end
-  end
-
-  describe ".kea_config_exists?" do
-    context "when kea.json is not present" do
-      it "returns false" do
-        expect(File).to receive(:exist?).and_return(false)
-        expect(subject.kea_config_exists?).to eq(false)
-      end
-    end
-
-    context "when kea.json is present" do
-      it "returns true" do
-        expect(File).to receive(:exist?).with("./spec/lib/data/kea.json").and_return(true)
-        expect(subject.kea_config_exists?).to eq(true)
-      end
     end
   end
 
