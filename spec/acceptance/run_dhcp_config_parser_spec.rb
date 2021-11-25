@@ -45,14 +45,11 @@ describe "dhcp config parser page", type: :feature do
       # When I select a config file
       attach_file "Import file", "./spec/fixtures/dxc_exports/export.txt"
 
-      # And I provide a kea config file
-      attach_file "Kea Config file", "./spec/fixtures/kea_configs/kea.json"
-
       # And I provide a subnet list
       fill_in "Subnet list", with: "192.168.0.1, 192.168.1.1"
 
       # And I provide a fits_id
-      fill_in "FITS id", with: "MYFITS101"
+      fill_in "FITS id", with: subnet.shared_network.name
 
       expect_config_to_be_verified
       expect_config_to_be_published
@@ -68,10 +65,6 @@ describe "dhcp config parser page", type: :feature do
 
       # Then I can see a reservation
       expect(page).to have_content("a1:b2:c3:d4:e5:f7")
-
-      # Also,
-      # Act, Arrange, Assert
-      # Given, When, Then
     end
 
     it "tells the user about any errors importing dhcp configs" do
@@ -88,13 +81,10 @@ describe "dhcp config parser page", type: :feature do
       fill_in "Subnet list", with: "192.168.0.1, 192.168.1.1"
 
       # and i fill in the fits id
-      fill_in "FITS id", with: "MYFITS101"
+      fill_in "FITS id", with: subnet.shared_network.name
 
       # and i upload the import file
       attach_file "Import file", "./spec/fixtures/dxc_exports/export.txt"
-
-      # And I provide a kea config file
-      attach_file "Kea Config file", "./spec/fixtures/kea_configs/kea.json"
 
       # and the kea server says the config is invalid
       allow_config_verification_to_fail_with_message("this isnt what kea looks like :(")
@@ -127,13 +117,10 @@ describe "dhcp config parser page", type: :feature do
       fill_in "Subnet list", with: "192.168.0.0"
 
       # and i fill in the fits id
-      fill_in "FITS id", with: "MYFITS101"
+      fill_in "FITS id", with: subnet.shared_network.name
 
       # and i upload the import file
       attach_file "Import file", "./spec/fixtures/dxc_exports/export.txt"
-
-      # And I provide a kea config file
-      attach_file "Kea Config file", "./spec/fixtures/kea_configs/kea.json"
 
       # when i submit
       click_on "Submit"

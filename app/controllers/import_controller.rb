@@ -16,12 +16,14 @@ class ImportController < ApplicationController
   private
 
   def import_params
-    params.require(:import).permit(:file, :kea_config_file, :fits_id, :subnet_list)
+    params.require(:import).permit(:file, :fits_id, :subnet_list)
   end
 
   def config_parser
+    kea_config_json = UseCases::GenerateKeaConfig.new.call.to_json
+
     DhcpConfigParser.new(
-      kea_config_filepath: import_params[:kea_config_file],
+      kea_config_json: kea_config_json,
       legacy_config_filepath: import_params[:file]
     )
   end

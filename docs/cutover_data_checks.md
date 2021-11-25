@@ -7,13 +7,12 @@ Follow the instructions below
 _This process can take ~30 minutes._
 
 Gather the following data: 
-- export data (export.txt document from current DHCP provider)
+- export data (save attachment from current provider as export.txt)
     * Note that this file should be UTF-8
     * To ensure this, open the provided file in notepad and save as UTF-8.
     * By default the file will be ANSI encoded if directly pulled from Outlook. 
 - FITS ID 
 - List of subnets
-- Latest kea.json downloaded from S3
 
 
 

@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     resource :options, only: [:new, :create, :edit, :update, :destroy]
     resource :reservations, only: [:new, :create]
     delete "/reservations", controller: :reservations, action: :destroy_all
+    post "/leases", controller: :leases, action: :export
 
     resources :leases, only: [:index, :destroy]
 
