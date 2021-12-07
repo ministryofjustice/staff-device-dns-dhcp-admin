@@ -8,10 +8,8 @@ _This process can take ~30 minutes._
 
 ### Required Information
 
-- export data (save attachment from current provider as export.txt)
-    - Note that this file should be UTF-8
-    - To ensure this, open the provided file in notepad and save as UTF-8.
-    - By default the file will be ANSI encoded when saved from Outlook.
+- Sanitised DHCP export file (save attachment from current provider as export.txt)
+    - See [Network Cutover Tools - Pre-load of export files](https://github.com/ministryofjustice/staff-device-network-cutover-reporting-tools#pre-load-of-export-files) for a script and instructions.
 - FITS ID
 - List of subnets. (Detailed in the email with the export.)
 
