@@ -43,7 +43,7 @@ class DhcpConfigParser
           subnet: subnet,
           hw_address: format_mac_address(reservation["legacy"]["hw-address"]),
           ip_address: reservation["legacy"]["ip-address"],
-          hostname: reservation["legacy"]["hostname"].gsub(/\.$/, "")
+          hostname: reservation["legacy"]["hostname"].to_s.gsub(/\.$/, "")
         )
       end
     end
@@ -87,7 +87,7 @@ class DhcpConfigParser
     legacy_reservations = []
 
     subnet_list.each do |subnet|
-      ip_mac_hostname_regex = /#{subnet.chop}\d{1,3}.(?:[a-fA-F0-9]{12})."[^"]*"."[^"]*"/
+      ip_mac_hostname_regex = /#{subnet.chop}\d{1,3}.(?:[a-fA-F0-9]{12})."[^"]*"."/
       reservations_data = export.scan(ip_mac_hostname_regex)
       reservations_data.each do |reservation|
         reservations = reservation.tr('"', "").split(" ")
