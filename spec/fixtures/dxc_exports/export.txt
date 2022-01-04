@@ -1,1 +1,2 @@
 Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.0.0 Add reservedip 192.168.0.30 a1b2c3d4e5f7 "windowsmachine2.test.space.local" "win2" "BOTH"
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.0.0 Add reservedip 192.168.0.31 a1b2c3d4e5f8 "" "win3" "BOTH"
