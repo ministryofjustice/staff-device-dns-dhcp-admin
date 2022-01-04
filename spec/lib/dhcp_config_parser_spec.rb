@@ -163,7 +163,7 @@ describe DhcpConfigParser do
           "legacy" => {
             "hw-address" => "0000aaabbc02",
             "ip-address" => "192.168.2.249",
-            "hostname" => "win6.test.space.local."
+            "hostname" => nil # This line tests for empty string as a hostname.
           }
         },
         {
