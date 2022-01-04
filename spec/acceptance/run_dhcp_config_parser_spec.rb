@@ -42,11 +42,11 @@ describe "dhcp config parser page", type: :feature do
       # Given I am on the import page
       visit "/import"
 
-      # When I select a config file
+      # When I select a export file containing 2 reservations, one with a blank hostname
       attach_file "Import file", "./spec/fixtures/dxc_exports/export.txt"
 
       # And I provide a subnet list
-      fill_in "Subnet list", with: "192.168.0.1, 192.168.1.1"
+      fill_in "Subnet list", with: "192.168.0.0"
 
       # And I provide a fits_id
       fill_in "FITS id", with: subnet.shared_network.name
@@ -63,8 +63,9 @@ describe "dhcp config parser page", type: :feature do
       # When I visit subnet page
       visit "/subnets/#{subnet.to_param}"
 
-      # Then I can see a reservation
+      # Then I can see the reservations
       expect(page).to have_content("a1:b2:c3:d4:e5:f7")
+      expect(page).to have_content("a1:b2:c3:d4:e5:f8")
     end
 
     it "tells the user about any errors importing dhcp configs" do
