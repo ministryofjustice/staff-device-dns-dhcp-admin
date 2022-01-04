@@ -103,7 +103,7 @@ Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.2.0 set optionvalue 15 STR
    # ======================================================================
 
 
-Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.2.0 Add reservedip 192.168.2.249 0000aaabbc02 "win6.test.space.local." "win6" "BOTH"
+Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.2.0 Add reservedip 192.168.2.249 0000aaabbc02 "" "win6" "BOTH"
 Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.2.0 Add reservedip 192.168.2.219 0000aabbc015 "win7.test.space.local" "win7" "BOTH"
 Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.2.0 Add reservedip 192.168.2.239 0000223656de "prn6.test.space.local" "prn6" "BOTH"
 Dhcp Server \\DHCPSERVER.test.net.local Scope 192.168.2.0 Add reservedip 192.168.2.221 0000223656df "prn7.test.space.local" "prn7" "BOTH"

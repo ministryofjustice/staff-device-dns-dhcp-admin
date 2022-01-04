@@ -12,7 +12,7 @@
   "hostname":"printer2.test.space.local"},
  {"ip-address":"192.168.2.249",
   "hw-address":"0000aaabbc02",
-  "hostname":"win6.test.space.local."},
+  "hostname":null},
  {"ip-address":"192.168.2.219",
   "hw-address":"0000aabbc015",
   "hostname":"win7.test.space.local"},
