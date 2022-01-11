@@ -60,7 +60,7 @@
   <%= link_to "Add a subnet to this shared network", new_subnet_extension_path(@subnet), class: "govuk-button" if can?(:update, @subnet) %>
 <% else %>
   <h3 class="govuk-heading-m">Subnets in the same shared network</h3>
-  <h4 class="govuk-inset-text">None</h4>        
+  <h4 class="govuk-inset-text">None</h4>
   <%= link_to "Add a subnet to this shared network", new_subnet_extension_path(@subnet), class: "govuk-button" if can?(:update, @subnet) %>
 <% end %>
 
@@ -87,6 +87,6 @@
 
 <% if @subnet.reservations.any? %>
   <%= link_to "Delete all reservations", subnet_reservations_path(@subnet), class: "govuk-button govuk-button--secondary", method: :delete if can?(:destroy, Reservation) %>
-  <%= render "reservations/list", reservations: @subnet.reservations %>
+  <%= render "reservations/list", reservations: @subnet.reservations.sort_by {  |reservation| reservation.ip_address.split(".").last.to_i } %>
 <% end %>
 
