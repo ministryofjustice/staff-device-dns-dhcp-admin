@@ -1,3 +1,7 @@
+#!make
+-include .env
+export
+
 ifndef ENV
 ENV=development
 endif
