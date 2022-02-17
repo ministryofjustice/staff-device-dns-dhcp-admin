@@ -2,7 +2,7 @@
 
 # Staff Device DNS / DHCP Admin
 
-This is the web frontend for managing Staff Device DNS / DHCP servers
+This is the web portal for managing Staff Device DNS / DHCP servers
 
 ## Getting Started  
 
