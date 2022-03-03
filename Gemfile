@@ -7,7 +7,7 @@ gem "rails", "~> 7.0.2"
 gem "mysql2", "~> 0.5.3"
 gem "puma", "~> 5.6"
 gem "sassc-rails"
-gem "sprockets", "~> 4.0.2"
+gem "sprockets", "~> 4.0.3"
 gem "jbuilder", "~> 2.11"
 gem "bootsnap", ">= 1.4.2", require: false
 gem "tzinfo-data"
