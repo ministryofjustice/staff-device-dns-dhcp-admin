@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby File.read(".ruby-version").strip
 
 gem "rails", "~> 7.0.2"
-gem "mysql2", "~> 0.5.3"
+gem "mysql2", "~> 0.5.4"
 gem "puma", "~> 5.6"
 gem "sassc-rails"
 gem "sprockets", "~> 4.0.3"
