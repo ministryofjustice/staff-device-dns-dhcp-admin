@@ -53,3 +53,5 @@ coverage
 !/.env.example
 !/.env.development
 !/.env.test
+
+.DS_Store
