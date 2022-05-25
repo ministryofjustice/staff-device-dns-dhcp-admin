@@ -5,5 +5,13 @@ class Site < ApplicationRecord
   validates :fits_id, presence: true, uniqueness: {case_sensitive: false}
   validates :name, presence: true, uniqueness: {case_sensitive: false}
 
+  before_save :ensure_uuid_has_a_value
+
   audited
+
+  private
+
+  def ensure_uuid_has_a_value
+    self.uuid = SecureRandom.uuid unless uuid.present?
+  end
 end

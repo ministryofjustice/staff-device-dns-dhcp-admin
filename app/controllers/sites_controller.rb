@@ -84,6 +84,6 @@ class SitesController < ApplicationController
   end
 
   def site_params
-    params.require(:site).permit(:fits_id, :name)
+    params.require(:site).permit(:fits_id, :name, :windows_update_delivery_optimisation_enabled)
   end
 end

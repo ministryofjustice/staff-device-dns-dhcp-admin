@@ -12,6 +12,20 @@
     <%= f.text_field :name, class: "govuk-input" %>
   </div>
 
+    <div class="govuk-form-group">
+   <div id="action-hint" class="govuk-label">Windows update delivery optimisation</div>
+   <div class="govuk-radios" data-module="govuk-radios">
+      <div class="govuk-radios__item">
+        <%= f.radio_button :windows_update_delivery_optimisation_enabled, true, checked: site.windows_update_delivery_optimisation_enabled?, class: "govuk-radios__input" %>
+        <%= f.label :windows_update_delivery_optimisation_enabled, "Enabled", class: "govuk-label govuk-radios__label" %>
+      </div>
+      <div class="govuk-radios__item">
+        <%= f.radio_button :windows_update_delivery_optimisation_enabled, false, checked: !site.windows_update_delivery_optimisation_enabled?, class: "govuk-radios__input" %>
+        <%= f.label :windows_update_delivery_optimisation_enabled, "Disabled", class: "govuk-label govuk-radios__label" %>
+      </div>
+    </div>
+  </div>
+
   <%= f.submit f.object.new_record? ? "Create" : "Update", {
     class: "govuk-button",
     "data-module" => "govuk-button"
