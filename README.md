@@ -25,16 +25,6 @@ Assuming you have been granted necessary access permissions to the Shared Servic
 
 3. Copy `.env.development` to `.env.<your terraform namespace>`
 
-### Authenticating Docker with AWS ECR
-
-The Docker base image is stored in ECR. Prior to building the container you must authenticate Docker to the ECR registry. [Details can be found here](https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html#registry_auth).
-
-If you have [aws-vault](https://github.com/99designs/aws-vault#installing) configured according to CloudOps best practices, do the following to authenticate:
-
-```bash
-make authenticate-docker
-```  
-
 ### Prerequisite to starting the App
 
 This repo is dependant on a locally running dhcp network. This is so that the admin app can query the dhcp api without timing out.
