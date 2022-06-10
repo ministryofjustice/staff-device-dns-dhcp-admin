@@ -726,12 +726,18 @@ describe UseCases::GenerateKeaConfig do
              "high-availability": [
                {
                  "this-server-name": "<SERVER_NAME>",
-                 mode: "hot-standby",
+                 "mode": "hot-standby",
                  "heartbeat-delay": 10000,
                  "max-response-delay": 60000,
                  "max-ack-delay": 10000,
                  "max-unacked-clients": 0,
-                 peers:
+                 "multi-threading": {
+                    "enable-multi-threading": true,
+                    "http-dedicated-listener": true,
+                    "http-listener-threads": 4,
+                    "http-client-threads": 4
+                  },
+                  peers:
                   [
                     {
                       name: "primary",

@@ -209,13 +209,6 @@ module UseCases
             host: "<DB_HOST>",
             port: 3306
           },
-          "valid-lifetime": DEFAULT_VALID_LIFETIME_SECONDS,
-          "host-reservation-identifiers": [
-            "circuit-id",
-            "hw-address",
-            "duid",
-            "client-id"
-          ],
           "hosts-database": {
             type: "mysql",
             name: "<DB_NAME>",
@@ -224,6 +217,18 @@ module UseCases
             host: "<DB_HOST>",
             port: 3306
           },
+          "multi-threading": {
+            "enable-multi-threading": true,
+            "thread-pool-size": 12,
+            "packet-queue-size": 792
+          },
+          "valid-lifetime": DEFAULT_VALID_LIFETIME_SECONDS,
+          "host-reservation-identifiers": [
+            "circuit-id",
+            "hw-address",
+            "duid",
+            "client-id"
+          ],
           "control-socket": {
             "socket-type": "unix",
             "socket-name": "/tmp/dhcp4-socket"
@@ -265,11 +270,17 @@ module UseCases
                 "high-availability": [
                   {
                     "this-server-name": "<SERVER_NAME>",
-                    mode: "hot-standby",
+                    "mode": "hot-standby",
                     "heartbeat-delay": 10000,
                     "max-response-delay": 60000,
                     "max-ack-delay": 10000,
                     "max-unacked-clients": 0,
+                    "multi-threading": {
+                      "enable-multi-threading": true,
+                      "http-dedicated-listener": true,
+                      "http-listener-threads": 4,
+                      "http-client-threads": 4
+                    },
                     peers: [
                       {
                         name: "primary",
@@ -288,12 +299,7 @@ module UseCases
                 ]
               }
             }
-          ],
-          "multi-threading": {
-            "enable-multi-threading": true,
-            "thread-pool-size": 12,
-            "packet-queue-size": 65
-          }
+          ]
         }.merge(UseCases::KeaConfig::GenerateOptionDataConfig.new.call(@global_option))
           .merge(valid_lifetime_config)
           .merge(client_class_config)
