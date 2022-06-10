@@ -67,7 +67,7 @@ describe UseCases::GenerateKeaConfig do
       shared_network = build_stubbed(:shared_network, site: site)
       exclusion = build_stubbed(:exclusion, start_address: "10.0.1.90", end_address: "10.0.1.100")
       subnet1 = build_stubbed(:subnet, cidr_block: "10.0.1.0/24", start_address: "10.0.1.1",
-                                       end_address: "10.0.1.255", exclusions: [exclusion], routers: "10.0.1.2,10.0.1.3", shared_network: shared_network)
+        end_address: "10.0.1.255", exclusions: [exclusion], routers: "10.0.1.2,10.0.1.3", shared_network: shared_network)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
@@ -104,7 +104,7 @@ describe UseCases::GenerateKeaConfig do
       shared_network = build_stubbed(:shared_network, site: site)
       exclusion = build_stubbed(:exclusion, start_address: "10.0.1.50", end_address: "10.0.1.60")
       subnet1 = build_stubbed(:subnet, cidr_block: "10.0.1.0/24", start_address: "10.0.1.1",
-                                       end_address: "10.0.1.255", exclusions: [exclusion], routers: "10.0.1.2,10.0.1.3", shared_network: shared_network)
+        end_address: "10.0.1.255", exclusions: [exclusion], routers: "10.0.1.2,10.0.1.3", shared_network: shared_network)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
@@ -141,7 +141,7 @@ describe UseCases::GenerateKeaConfig do
       shared_network = build_stubbed(:shared_network, site: site)
       exclusion = build_stubbed(:exclusion, start_address: "10.0.1.150", end_address: "10.0.1.170")
       subnet1 = build_stubbed(:subnet, cidr_block: "10.0.1.0/24", start_address: "10.0.1.1",
-                                       end_address: "10.0.1.255", exclusions: [exclusion], routers: "10.0.1.2,10.0.1.3", shared_network: shared_network)
+        end_address: "10.0.1.255", exclusions: [exclusion], routers: "10.0.1.2,10.0.1.3", shared_network: shared_network)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
@@ -178,7 +178,7 @@ describe UseCases::GenerateKeaConfig do
       shared_network = build_stubbed(:shared_network, site: site)
       exclusion = build_stubbed(:exclusion, start_address: "10.0.2.150", end_address: "10.0.2.170")
       subnet1 = build_stubbed(:subnet, cidr_block: "10.0.2.0/24", start_address: "10.0.2.1",
-                                       end_address: "10.0.2.255", exclusions: [exclusion], routers: "10.0.2.2,10.0.2.3", shared_network: shared_network)
+        end_address: "10.0.2.255", exclusions: [exclusion], routers: "10.0.2.2,10.0.2.3", shared_network: shared_network)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
@@ -215,7 +215,7 @@ describe UseCases::GenerateKeaConfig do
       shared_network = build_stubbed(:shared_network, site: site)
       exclusion = build_stubbed(:exclusion, start_address: "10.0.2.1", end_address: "10.0.2.170")
       subnet1 = build_stubbed(:subnet, cidr_block: "10.0.2.0/24", start_address: "10.0.2.1",
-                                       end_address: "10.0.2.255", exclusions: [exclusion], routers: "10.0.2.2,10.0.2.3", shared_network: shared_network)
+        end_address: "10.0.2.255", exclusions: [exclusion], routers: "10.0.2.2,10.0.2.3", shared_network: shared_network)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
@@ -249,7 +249,7 @@ describe UseCases::GenerateKeaConfig do
       shared_network = build_stubbed(:shared_network, site: site)
       exclusion = build_stubbed(:exclusion, start_address: "10.0.2.1", end_address: "10.0.2.70")
       subnet1 = build_stubbed(:subnet, cidr_block: "10.0.2.0/24", start_address: "10.0.2.1",
-                                       end_address: "10.0.2.255", exclusions: [exclusion], routers: "10.0.2.2,10.0.2.3", shared_network: shared_network)
+        end_address: "10.0.2.255", exclusions: [exclusion], routers: "10.0.2.2,10.0.2.3", shared_network: shared_network)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
@@ -283,7 +283,7 @@ describe UseCases::GenerateKeaConfig do
       shared_network = build_stubbed(:shared_network, site: site)
       exclusion = build_stubbed(:exclusion, start_address: "10.0.1.1", end_address: "10.0.1.70")
       subnet1 = build_stubbed(:subnet, cidr_block: "10.0.1.0/24", start_address: "10.0.1.1",
-                                       end_address: "10.0.1.255", exclusions: [exclusion], routers: "10.0.1.2,10.0.1.3", shared_network: shared_network)
+        end_address: "10.0.1.255", exclusions: [exclusion], routers: "10.0.1.2,10.0.1.3", shared_network: shared_network)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
@@ -317,7 +317,7 @@ describe UseCases::GenerateKeaConfig do
       shared_network = build_stubbed(:shared_network, site: site)
       exclusion = build_stubbed(:exclusion, start_address: "10.0.2.200", end_address: "10.0.2.255")
       subnet1 = build_stubbed(:subnet, cidr_block: "10.0.2.0/24", start_address: "10.0.2.1",
-                                       end_address: "10.0.2.255", exclusions: [exclusion], routers: "10.0.2.2,10.0.2.3", shared_network: shared_network)
+        end_address: "10.0.2.255", exclusions: [exclusion], routers: "10.0.2.2,10.0.2.3", shared_network: shared_network)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
@@ -351,7 +351,7 @@ describe UseCases::GenerateKeaConfig do
       shared_network = build_stubbed(:shared_network, site: site)
       exclusion = build_stubbed(:exclusion, start_address: "10.0.2.230", end_address: "10.0.2.255")
       subnet1 = build_stubbed(:subnet, cidr_block: "10.0.2.0/24", start_address: "10.0.2.1",
-                                       end_address: "10.0.2.255", exclusions: [exclusion], routers: "10.0.2.2,10.0.2.3", shared_network: shared_network)
+        end_address: "10.0.2.255", exclusions: [exclusion], routers: "10.0.2.2,10.0.2.3", shared_network: shared_network)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
@@ -385,7 +385,7 @@ describe UseCases::GenerateKeaConfig do
       shared_network = build_stubbed(:shared_network, site: site)
       exclusion = build_stubbed(:exclusion, start_address: "10.0.1.230", end_address: "10.0.1.255")
       subnet1 = build_stubbed(:subnet, cidr_block: "10.0.1.0/24", start_address: "10.0.1.1",
-                                       end_address: "10.0.1.255", exclusions: [exclusion], routers: "10.0.1.2,10.0.1.3", shared_network: shared_network)
+        end_address: "10.0.1.255", exclusions: [exclusion], routers: "10.0.1.2,10.0.1.3", shared_network: shared_network)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
@@ -419,7 +419,7 @@ describe UseCases::GenerateKeaConfig do
       shared_network = build_stubbed(:shared_network, site: site)
       exclusion = build_stubbed(:exclusion, start_address: "10.0.1.1", end_address: "10.0.1.255")
       subnet1 = build_stubbed(:subnet, cidr_block: "10.0.1.0/24", start_address: "10.0.1.1",
-                                       end_address: "10.0.1.255", exclusions: [exclusion], routers: "10.0.1.2,10.0.1.3", shared_network: shared_network)
+        end_address: "10.0.1.255", exclusions: [exclusion], routers: "10.0.1.2,10.0.1.3", shared_network: shared_network)
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet1]).call
 
@@ -726,18 +726,18 @@ describe UseCases::GenerateKeaConfig do
              "high-availability": [
                {
                  "this-server-name": "<SERVER_NAME>",
-                 "mode": "hot-standby",
+                 mode: "hot-standby",
                  "heartbeat-delay": 10000,
                  "max-response-delay": 60000,
                  "max-ack-delay": 10000,
                  "max-unacked-clients": 0,
                  "multi-threading": {
-                    "enable-multi-threading": true,
-                    "http-dedicated-listener": true,
-                    "http-listener-threads": 4,
-                    "http-client-threads": 4
-                  },
-                  peers:
+                   "enable-multi-threading": true,
+                   "http-dedicated-listener": true,
+                   "http-listener-threads": 4,
+                   "http-client-threads": 4
+                 },
+                 peers:
                   [
                     {
                       name: "primary",
