@@ -45,6 +45,7 @@ Rails.application.routes.draw do
   get "/healthcheck", to: "monitoring#healthcheck"
 
   get "/import", to: "import#index"
+  get "/api/subnet-stats", to: "api/subnet_stats#index"
   post "/import", to: "import#create"
 
   root "home#index"
