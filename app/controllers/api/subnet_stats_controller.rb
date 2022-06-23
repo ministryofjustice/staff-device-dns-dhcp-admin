@@ -17,7 +17,6 @@ class Api::SubnetStatsController < ApplicationController
           ).call
         )
       end
-
     end
 
     render json: @result.to_json
