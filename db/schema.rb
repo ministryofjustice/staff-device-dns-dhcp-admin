@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_28_095031) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_27_100242) do
   create_table "audits", charset: "latin1", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
@@ -38,8 +38,8 @@ ActiveRecord::Schema.define(version: 2021_10_28_095031) do
     t.string "client_id", null: false
     t.string "domain_name_servers", null: false
     t.string "domain_name", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["client_id"], name: "index_client_classes_on_client_id", unique: true
     t.index ["name"], name: "index_client_classes_on_name", unique: true
   end
@@ -47,8 +47,8 @@ ActiveRecord::Schema.define(version: 2021_10_28_095031) do
   create_table "exclusions", charset: "latin1", force: :cascade do |t|
     t.string "start_address"
     t.string "end_address"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "subnet_id", null: false
     t.index ["subnet_id"], name: "index_exclusions_on_subnet_id"
   end
@@ -56,8 +56,8 @@ ActiveRecord::Schema.define(version: 2021_10_28_095031) do
   create_table "global_options", charset: "latin1", force: :cascade do |t|
     t.string "domain_name_servers", null: false
     t.string "domain_name", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "valid_lifetime", unsigned: true
     t.string "valid_lifetime_unit"
   end
@@ -65,8 +65,8 @@ ActiveRecord::Schema.define(version: 2021_10_28_095031) do
   create_table "options", charset: "latin1", force: :cascade do |t|
     t.string "domain_name_servers"
     t.string "domain_name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "subnet_id", null: false
     t.integer "valid_lifetime", unsigned: true
     t.string "valid_lifetime_unit"
@@ -77,8 +77,8 @@ ActiveRecord::Schema.define(version: 2021_10_28_095031) do
     t.string "domain_name"
     t.string "routers"
     t.bigint "reservation_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["reservation_id"], name: "index_reservation_options_on_reservation_id"
   end
 
@@ -88,14 +88,14 @@ ActiveRecord::Schema.define(version: 2021_10_28_095031) do
     t.string "ip_address"
     t.string "hostname"
     t.string "description"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["subnet_id"], name: "index_reservations_on_subnet_id"
   end
 
   create_table "shared_networks", charset: "latin1", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "site_id"
     t.index ["site_id"], name: "index_shared_networks_on_site_id"
   end
@@ -103,24 +103,26 @@ ActiveRecord::Schema.define(version: 2021_10_28_095031) do
   create_table "sites", charset: "latin1", force: :cascade do |t|
     t.string "name", null: false
     t.string "fits_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "uuid", null: false
+    t.boolean "windows_update_delivery_optimisation_enabled", default: false
   end
 
   create_table "subnets", charset: "latin1", force: :cascade do |t|
     t.string "cidr_block", null: false
     t.string "start_address", null: false
     t.string "end_address", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "routers", null: false
     t.bigint "shared_network_id"
     t.index ["shared_network_id"], name: "index_subnets_on_shared_network_id"
   end
 
   create_table "users", charset: "latin1", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "provider"
     t.string "uid"
     t.boolean "editor", default: false
@@ -132,8 +134,8 @@ ActiveRecord::Schema.define(version: 2021_10_28_095031) do
     t.string "name", null: false
     t.string "forwarders", null: false
     t.string "purpose"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "exclusions", "subnets"

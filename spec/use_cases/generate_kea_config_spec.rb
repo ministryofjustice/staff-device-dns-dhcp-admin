@@ -451,7 +451,7 @@ describe UseCases::GenerateKeaConfig do
         :"host-reservation-identifiers", :"hosts-database", :"interfaces-config",
         :"lease-database", :"valid-lifetime", :loggers, :subnet4,
         :"control-socket", :"hooks-libraries", :"multi-threading",
-        :"shared-networks"
+        :"shared-networks", :"option-def"
       ])
     end
 
@@ -761,6 +761,7 @@ describe UseCases::GenerateKeaConfig do
 
     it "stores subnet options as a client class" do
       subnet = create(:subnet, :with_option)
+      subnet.site.toggle!(:windows_update_delivery_optimisation_enabled)
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet]).call
 
       expect(config.dig(:Dhcp4, :"shared-networks")&.first&.dig(:subnet4)).to include(
@@ -775,7 +776,8 @@ describe UseCases::GenerateKeaConfig do
           "option-data": match_array([
             {name: "domain-name-servers", data: subnet.domain_name_servers.join(", ")},
             {name: "routers", data: subnet.routers.join(", ")},
-            {name: "domain-name", data: subnet.domain_name}
+            {name: "domain-name", data: subnet.domain_name},
+            {name: "delivery-optimisation", space: "dhcp4", code: 234, data: subnet.site.uuid}
           ])
         }
       ])
@@ -798,6 +800,19 @@ describe UseCases::GenerateKeaConfig do
 
       config = UseCases::GenerateKeaConfig.new(subnets: [subnet, subnet2]).call
       expect(config.dig(:Dhcp4, :"client-classes")).to_not include nil
+    end
+
+    it "expect to see option-def in the kea config file" do
+      subnet = create(:subnet, index: 0)
+      subnet2 = create(:subnet, :with_option, index: 1)
+
+      config = UseCases::GenerateKeaConfig.new(subnets: [subnet, subnet2]).call
+      expect(config.dig(:Dhcp4, :"option-def")).to eq([{
+        name: "delivery-optimisation",
+        code: 234,
+        type: "string",
+        space: "dhcp4"
+      }])
     end
   end
 end

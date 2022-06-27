@@ -196,6 +196,14 @@ module UseCases
     def default_config
       {
         Dhcp4: {
+          "option-def": [
+            {
+              name: "delivery-optimisation",
+              code: 234,
+              type: "string",
+              space: "dhcp4"
+            }
+          ],
           "interfaces-config": {
             interfaces: ["*"],
             "dhcp-socket-type": "udp",
