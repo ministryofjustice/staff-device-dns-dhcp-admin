@@ -1,7 +1,7 @@
-require 'ipaddr'
+require "ipaddr"
 
 def random_mac
-  6.times.map { '%02x' % rand(0..255) }.join(':')
+  6.times.map { "%02x" % rand(0..255) }.join(":")
 end
 
 def end_range(range)
