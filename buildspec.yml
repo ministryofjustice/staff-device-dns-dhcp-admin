@@ -18,8 +18,6 @@ env:
     DHCP_DNS_TERRAFORM_OUTPUTS: "/terraform_dns_dhcp/$ENV/outputs"
     DOCKER_USERNAME: "/moj-network-access-control/docker/username"
     DOCKER_PASSWORD: "/moj-network-access-control/docker/password"
-    API_BASIC_AUTH_USERNAME: "/codebuild/dhcp/$ENV/admin/api/basic_auth_username"
-    API_BASIC_AUTH_PASSWORD: "/codebuild/dhcp/$ENV/admin/api/basic_auth_password"
 
 phases:
   install:
