@@ -3,7 +3,7 @@ class Api::DhcpStatsController < ApplicationController
   http_basic_authenticate_with name: ENV["API_BASIC_AUTH_USERNAME"], password: ENV["API_BASIC_AUTH_PASSWORD"]
 
   def index
-    sites = Site.includes(subnets: [:exclusions]).all
+    sites = Site.includes(subnets: [:exclusions, :reservations]).all
 
     @sites_list = sites.map do |site|
       subnets = site.subnets.sort_by(&:ip_addr)
