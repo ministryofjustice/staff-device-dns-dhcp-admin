@@ -164,4 +164,28 @@ RSpec.describe Subnet, type: :model do
       end
     end
   end
+
+  describe "reservations_count" do
+    it "defaults to 0" do
+      subnet = create(:subnet)
+      expect(subnet.reservations_count).to eq(0)
+    end
+    it "increments to 1 when a reservation is added" do
+      subnet = create(:subnet, :with_reservation)
+      expect(subnet.reservations_count).to eq(1)
+    end
+    context "with 2 reservations" do
+      let(:subnet) {create(:subnet,:with_reservation, cidr_block: "10.0.0.0/24", start_address: "10.0.0.1", end_address: "10.0.0.255")}
+      before do 
+        create(:reservation, hw_address: "aa:bb:ee:dd:ee:ff", ip_address: "10.0.0.2", hostname: "test123.example.com", subnet: subnet)
+      end
+      it "increments to 2" do
+        expect(subnet.reservations_count).to eq(2)
+      end
+      it "decrements to 1 when a reservation is removed" do
+        subnet.reservations.last.destroy!
+        expect(subnet.reservations_count).to eq(1)
+      end
+    end
+  end
 end
