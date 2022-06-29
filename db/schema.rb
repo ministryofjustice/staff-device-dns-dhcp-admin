@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_27_100242) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_28_152956) do
   create_table "audits", charset: "latin1", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
@@ -117,6 +117,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_27_100242) do
     t.datetime "updated_at", null: false
     t.string "routers", null: false
     t.bigint "shared_network_id"
+    t.integer "reservations_count"
     t.index ["shared_network_id"], name: "index_subnets_on_shared_network_id"
   end
 

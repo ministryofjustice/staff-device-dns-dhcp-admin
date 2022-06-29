@@ -3,7 +3,7 @@ class Api::DhcpStatsController < ApplicationController
   http_basic_authenticate_with name: ENV["API_BASIC_AUTH_USERNAME"], password: ENV["API_BASIC_AUTH_PASSWORD"]
 
   def index
-    sites = Site.includes(subnets: [:reservations, :exclusions]).all
+    sites = Site.includes(subnets: [:exclusions]).all
 
     @sites_list = sites.map do |site|
       subnets = site.subnets.sort_by(&:ip_addr)
@@ -24,10 +24,10 @@ class Api::DhcpStatsController < ApplicationController
             {
               subnet_id: subnet.id,
               cidr_block: subnet.cidr_block,
-              reservations_count: subnet.reservations.count,
+              reservations_count: subnet.reservations_count,
               remaining_ips_count: stats.num_remaining_ips,
               leases_count: stats.num_of_used_leases,
-              usage_percentage: stats.percentage_used
+              usage_percentage: 0
             }
           end
         }
