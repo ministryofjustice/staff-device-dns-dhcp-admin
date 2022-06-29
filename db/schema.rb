@@ -25,7 +25,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_28_152956) do
     t.string "comment"
     t.string "remote_address"
     t.string "request_uuid"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.index ["associated_type", "associated_id"], name: "associated_index"
     t.index ["auditable_type", "auditable_id", "version"], name: "auditable_index"
     t.index ["created_at"], name: "index_audits_on_created_at"
@@ -117,7 +117,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_28_152956) do
     t.datetime "updated_at", null: false
     t.string "routers", null: false
     t.bigint "shared_network_id"
-    t.integer "reservations_count"
+    t.integer "reservations_count", default: 0
     t.index ["shared_network_id"], name: "index_subnets_on_shared_network_id"
   end
 
