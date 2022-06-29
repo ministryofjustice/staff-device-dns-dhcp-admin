@@ -40,7 +40,6 @@ class Reservation < ApplicationRecord
   end
 
   def excluded?
-
   end
 
   def hw_address=(val)
