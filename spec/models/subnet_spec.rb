@@ -175,8 +175,8 @@ RSpec.describe Subnet, type: :model do
       expect(subnet.reservations_count).to eq(1)
     end
     context "with 2 reservations" do
-      let(:subnet) {create(:subnet,:with_reservation, cidr_block: "10.0.0.0/24", start_address: "10.0.0.1", end_address: "10.0.0.255")}
-      before do 
+      let(:subnet) { create(:subnet, :with_reservation, cidr_block: "10.0.0.0/24", start_address: "10.0.0.1", end_address: "10.0.0.255") }
+      before do
         create(:reservation, hw_address: "aa:bb:ee:dd:ee:ff", ip_address: "10.0.0.2", hostname: "test123.example.com", subnet: subnet)
       end
       it "increments to 2" do
