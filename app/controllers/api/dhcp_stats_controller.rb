@@ -27,7 +27,7 @@ class Api::DhcpStatsController < ApplicationController
               reservations_count: subnet.reservations_count,
               remaining_ips_count: stats.num_remaining_ips,
               leases_count: stats.num_of_used_leases,
-              usage_percentage: 0
+              usage_percentage: stats.percentage_used
             }
           end
         }
