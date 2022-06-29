@@ -39,9 +39,6 @@ class Reservation < ApplicationRecord
     IPAddr.new(ip_address)
   end
 
-  def excluded?
-  end
-
   def hw_address=(val)
     self[:hw_address] = val.try(:strip)
   end
