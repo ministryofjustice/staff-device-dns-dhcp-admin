@@ -1,0 +1,33 @@
+#!/bin/bash
+
+set -euo pipefail
+
+source ./scripts/aws_helpers.sh
+
+seed() {
+  local seed_command="./bin/rails DISABLE_DATABASE_ENVIRONMENT_CHECK=1 db:seed"
+  local docker_service_name="admin"
+  local cluster_name service_name task_definition docker_service_name
+
+  cluster_name="staff-device-${ENV}-dhcp-admin-cluster"
+  service_name="staff-device-${ENV}-dhcp-admin"
+  task_definition="staff-device-${ENV}-dhcp-admin-task"
+
+  aws sts get-caller-identity
+
+  run_task_with_command \
+    "${cluster_name}" \
+    "${service_name}" \
+    "${task_definition}" \
+    "${docker_service_name}" \
+    "${seed_command}"
+}
+
+main() {
+  if [ "$ENV" = "development" ]; then
+    assume_deploy_role
+    seed
+  fi
+}
+
+main
