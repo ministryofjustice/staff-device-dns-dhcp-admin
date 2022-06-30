@@ -50,13 +50,4 @@ def main
   end
 end
 
-def clear
-  Site.destroy_all
-  SharedNetwork.destroy_all
-  Subnet.destroy_all
-  Reservation.destroy_all
-  Exclusion.destroy_all
-end
-
-clear
 main
