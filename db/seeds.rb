@@ -30,7 +30,7 @@ end
 
 def create_site(count)
   p "Creating site: ##{count + 1}"
-  Site.create!(name: "Site #{count+1}", fits_id: "FITS_#{count+1}")
+  Site.create!(name: "Site #{count + 1}", fits_id: "FITS_#{count + 1}")
 end
 
 def create_shared_network(site)
