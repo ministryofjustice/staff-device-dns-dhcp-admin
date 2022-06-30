@@ -5,7 +5,7 @@ SITE_COUNT = 150
 SUBNET_COUNT = 5
 
 def range(site_index, subnet_index)
-  IPAddr.new("#{site_index + 10}.0.#{subnet_index + 1}.0/24")
+  IPAddr.new("172.#{site_index + 1}.#{subnet_index + 1}.0/24")
 end
 
 def start_address(range)
@@ -29,7 +29,8 @@ def reserved_address(range, reservation_index)
 end
 
 def create_site(count)
-  Site.create!(name: "Site #{count}", fits_id: "FITS_#{count}")
+  p "Creating site: ##{count + 1}"
+  Site.create!(name: "Site #{count+1}", fits_id: "FITS_#{count+1}")
 end
 
 def create_shared_network(site)
@@ -37,6 +38,7 @@ def create_shared_network(site)
 end
 
 def create_subnet(range, shared_network)
+  p "Creating subnet: #{range}/24"
   Subnet.create!(
     cidr_block: "#{range}/24".to_s,
     start_address: start_address(range),
