@@ -10,23 +10,22 @@ end
 
 def start_address(range)
   p "start address"
-  byebug
-  range.to_range.first.to_s
+  range.to_range.to_a[1].to_s
 end
 
 def end_address(range)
   p "end address"
-  range.to_range.last.to_s
+  range.to_range.to_a[254].to_s
 end
 
 def exclusion_start_address(range)
   p "exclusion start"
-  range.to_range[2]
+  range.to_range.to_a[rand(80..90)]
 end
 
 def exclusion_end_address(range)
   p "exclusion end"
-  range.to_range[50]
+  range.to_range.to_a[rand(80..90)]
 end
 
 def reserved_address(range, reservation_index)
