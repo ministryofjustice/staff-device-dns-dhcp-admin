@@ -22,6 +22,7 @@ gem "cancancan", "~> 3.3"
 gem "sentry-raven"
 gem "audited"
 gem "kaminari"
+gem "faker"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -40,7 +41,6 @@ group :development do
   gem "spring-watcher-listen", "~> 2.0.0"
 
   gem "standardrb"
-  gem "faker"
 end
 
 group :test do
