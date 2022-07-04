@@ -8,7 +8,7 @@ class SubnetStatistic
   end
 
   def percentage_used
-    (unreserved_leases.count.to_f / dynamically_allocatable_ips.to_f) * 100
+    ((unreserved_leases.count.to_f / dynamically_allocatable_ips.to_f) * 100).round(2)
   end
 
   def num_of_used_leases
