@@ -30,7 +30,7 @@ class Api::DhcpStatsController < ApplicationController
           }
         end
       }
-      
+
       subnets_list
     end
 
