@@ -54,4 +54,6 @@ group :test do
   gem "webmock"
   gem "rails-controller-testing"
   gem "shoulda-matchers", "~> 5.1"
+  # database cleaner
+  gem 'database_cleaner-active_record'
 end

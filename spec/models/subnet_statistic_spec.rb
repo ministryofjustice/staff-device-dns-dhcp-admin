@@ -1,4 +1,7 @@
 require "rails_helper"
+require 'database_cleaner/active_record'
+
+DatabaseCleaner.strategy = :truncation
 
 RSpec.describe SubnetStatistic do
   let(:subnet) do
@@ -11,6 +14,8 @@ RSpec.describe SubnetStatistic do
   subject { described_class.new(subnet: subnet, leases: leases) }
 
   describe "#num_remaining_ips" do
+    before { DatabaseCleaner.start }
+    after {  DatabaseCleaner.clean }
     context "when there are no leases" do
       let(:leases) { [] }
 
@@ -130,6 +135,8 @@ RSpec.describe SubnetStatistic do
   end
 
   describe "#reservations_outside_of_exclusions:" do
+    before { DatabaseCleaner.start }
+    after {  DatabaseCleaner.clean }
     it "returns an empty list" do
       expect(subject.reservations_outside_of_exclusions).to eql([])
     end
@@ -157,6 +164,8 @@ RSpec.describe SubnetStatistic do
   end
 
   describe "#leases_not_in_exclusion_zones:" do
+    before { DatabaseCleaner.start }
+    after {  DatabaseCleaner.clean }
     it "returns empty list when there are no leases" do
       expect(subject.leases_not_in_exclusion_zones).to eql([])
     end
@@ -204,8 +213,9 @@ RSpec.describe SubnetStatistic do
       end
     end
   end
-
   describe "#leased_reserved_ip_addresses:" do
+    before { DatabaseCleaner.start }
+    after {  DatabaseCleaner.clean }
     it "returns an empty list when there are no leases" do
       expect(subject.leased_reserved_ip_addresses).to eql([])
     end
@@ -229,7 +239,6 @@ RSpec.describe SubnetStatistic do
 
       it "does not return leases that are reserved but they are inside of exclusion ranges" do
         create :exclusion, subnet: subnet, start_address: "192.168.0.14", end_address: "192.168.0.15"
-
         expect(subject.leased_reserved_ip_addresses).not_to include(lease_reserved)
       end
     end
