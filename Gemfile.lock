@@ -93,11 +93,11 @@ GEM
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.16)
     bindex (0.8.1)
-    bootsnap (1.11.1)
+    bootsnap (1.12.0)
       msgpack (~> 1.2)
     builder (3.2.4)
     byebug (11.1.3)
-    cancancan (3.3.0)
+    cancancan (3.4.0)
     capybara (3.37.1)
       addressable
       matrix
@@ -191,7 +191,7 @@ GEM
     mini_mime (1.1.2)
     mini_portile2 (2.8.0)
     minitest (5.15.0)
-    msgpack (1.4.5)
+    msgpack (1.5.3)
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
@@ -401,7 +401,7 @@ DEPENDENCIES
   aws-sdk-s3 (~> 1.114)
   bootsnap (>= 1.4.2)
   byebug
-  cancancan (~> 3.3)
+  cancancan (~> 3.4)
   capybara (>= 2.15)
   devise
   dotenv-rails
