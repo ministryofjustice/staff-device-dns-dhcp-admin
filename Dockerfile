@@ -50,7 +50,7 @@ RUN yarn && yarn cache clean
 
 COPY --chown=$USER:$GROUP . $APPDIR
 
-ADD https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem $CERTDIR/
+ADD https://truststore.pki.rds.amazonaws.com/eu-west-2/eu-west-2-bundle.pem $CERTDIR/
 
 USER root
 RUN chown -R $USER:$GROUP $CERTDIR &&\
