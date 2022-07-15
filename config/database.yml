@@ -17,5 +17,5 @@ test:
 production:
   <<: *default
   database: <%= ENV.fetch('DB_NAME') %>
-  ssl_mode: :verify_identity
+  ssl_mode: :verify_ca
   sslca: <%= Rails.root.join("../cert/eu-west-2-bundle.pem") %>
