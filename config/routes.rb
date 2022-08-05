@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'errors/not_found'
+  match "/404", to: "errors#not_found", via: :all
+  
   devise_for :users, controllers: {omniauth_callbacks: "users/omniauth_callbacks"}
   devise_scope :user do
     get "sign_in", to: "devise/sessions#new", as: :new_user_session
