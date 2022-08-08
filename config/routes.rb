@@ -48,5 +48,10 @@ Rails.application.routes.draw do
   get "/api/dhcp-stats", to: "api/dhcp_stats#index"
   post "/import", to: "import#create"
 
+  get "errors/not_found"
+  match "/404", via: :all, to: "errors#not_found"
+  get "errors/server_error"
+  match "/500", via: :all, to: "errors#server_error"
+
   root "home#index"
 end
