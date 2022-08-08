@@ -49,6 +49,6 @@ Rails.application.routes.draw do
   post "/import", to: "import#create"
 
   match "*path", via: :all, to: "application#error"
-  
+
   root "home#index"
 end
