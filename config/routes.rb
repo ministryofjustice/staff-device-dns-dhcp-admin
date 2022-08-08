@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  get 'errors/not_found'
-  match "/404", to: "errors#not_found", via: :all
-  
   devise_for :users, controllers: {omniauth_callbacks: "users/omniauth_callbacks"}
   devise_scope :user do
     get "sign_in", to: "devise/sessions#new", as: :new_user_session
@@ -50,6 +47,11 @@ Rails.application.routes.draw do
   get "/import", to: "import#index"
   get "/api/dhcp-stats", to: "api/dhcp_stats#index"
   post "/import", to: "import#create"
+
+  get 'errors/not_found'
+  match '/404', via: :all, to: 'errors#not_found'
+  get 'errors/server_error'
+  match '/500', via: :all, to: 'errors#server_error'
 
   root "home#index"
 end
