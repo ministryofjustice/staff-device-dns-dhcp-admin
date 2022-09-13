@@ -2,7 +2,7 @@
 [![Brakeman Scan](https://github.com/ministryofjustice/staff-device-dns-dhcp-admin/actions/workflows/brakeman-analysis.yml/badge.svg)](https://github.com/ministryofjustice/staff-device-dns-dhcp-admin/actions/workflows/brakeman-analysis.yml)
 # Staff Device DNS / DHCP Admin
 
-This is the web portal for managing Staff Device DNS / DHCP servers
+This is the web portal for managing Staff Device [DNS](https://ministryofjustice.github.io/cloud-operations/documentation/products/dns.html) / [DHCP](https://ministryofjustice.github.io/cloud-operations/documentation/products/dhcp.html) servers
 
 ## Getting Started  
 
