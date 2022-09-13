@@ -1,33 +1,35 @@
 ![.github/workflows/format-code.yml](https://github.com/ministryofjustice/staff-device-dns-dhcp-admin/workflows/.github/workflows/format-code.yml/badge.svg)
 [![Brakeman Scan](https://github.com/ministryofjustice/staff-device-dns-dhcp-admin/actions/workflows/brakeman-analysis.yml/badge.svg)](https://github.com/ministryofjustice/staff-device-dns-dhcp-admin/actions/workflows/brakeman-analysis.yml)
+
 # Staff Device DNS / DHCP Admin
 
 This is the web portal for managing Staff Device [DNS](https://ministryofjustice.github.io/cloud-operations/documentation/products/dns.html) / [DHCP](https://ministryofjustice.github.io/cloud-operations/documentation/products/dhcp.html) servers
 
-## Getting Started  
+## Getting Started
 
-### Authenticate with AWS  
+### Authenticate with AWS
 
-Assuming you have been granted necessary access permissions to the Shared Service Account, please follow the CloudOps best practices provided [step-by-step guide](https://ministryofjustice.github.io/cloud-operations/documentation/team-guide/best-practices/use-aws-sso.html#re-configure-aws-vault) to configure your AWS Vault and AWS Cli with AWS SSO.  
+Assuming you have been granted necessary access permissions to the Shared Service Account, please follow the CloudOps best practices provided [step-by-step guide](https://ministryofjustice.github.io/cloud-operations/documentation/team-guide/best-practices/use-aws-sso.html#re-configure-aws-vault) to configure your AWS Vault and AWS Cli with AWS SSO.
 
-### Prepare the variables  
+### Prepare the variables
 
-1. Clone the repository  
+1. Clone the repository
 1. Copy `.env.example` to `.env`
-1. Modify the `.env` file and provide values for variables as below:  
+1. Modify the `.env` file and provide values for variables as below:
 
-| Variables | How? |
-| --- | --- |
-| `AWS_PROFILE=` | your **AWS-CLI** profile name for the **Shared Services** AWS account. Check [this guide](https://ministryofjustice.github.io/cloud-operations/documentation/team-guide/best-practices/use-aws-sso.html#re-configure-aws-vault) if you need help. |
-| `SHARED_SERVICES_ACCOUNT_ID=` | Account ID of the MoJO Shared Services AWS account.  |
-| `REGISTRY_URL=` | `<MoJO Development AWS Account ID>`.dkr.ecr.eu-west-2.amazonaws.com |  
-| `ENV=` | Your Terraform namespace from the DNS DHCP Infrastructure repo. |  
+| Variables                     | How?                                                                                                                                                                                                                                              |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `AWS_PROFILE=`                | your **AWS-CLI** profile name for the **Shared Services** AWS account. Check [this guide](https://ministryofjustice.github.io/cloud-operations/documentation/team-guide/best-practices/use-aws-sso.html#re-configure-aws-vault) if you need help. |
+| `SHARED_SERVICES_ACCOUNT_ID=` | Account ID of the MoJO Shared Services AWS account.                                                                                                                                                                                               |
+| `REGISTRY_URL=`               | `<MoJO Development AWS Account ID>`.dkr.ecr.eu-west-2.amazonaws.com                                                                                                                                                                               |
+| `ENV=`                        | Your Terraform namespace from the DNS DHCP Infrastructure repo.                                                                                                                                                                                   |
 
 3. Copy `.env.development` to `.env.<your terraform namespace>`
 
 ### Prerequisite to starting the App
 
 This repo is dependant on a locally running dhcp network. This is so that the admin app can query the dhcp api without timing out.
+
 1. Clone the repository [here](https://github.com/ministryofjustice/staff-device-dhcp-server)
 1. Follow the instructions in the cloned repository to run the dhcp server
 1. Navigate back to this repo
@@ -36,17 +38,17 @@ This repo is dependant on a locally running dhcp network. This is so that the ad
 
 1. If this is the first time you have setup the project:
 
-   1. Build the base containers
+    1. Build the base containers
 
-      ```sh
-      make build-dev
-      ```
+        ```sh
+        make build-dev
+        ```
 
-   2. Setup the database
+    2. Setup the database
 
-      ```sh
-      make db-setup
-      ```
+        ```sh
+        make db-setup
+        ```
 
 1. Start the application
 
