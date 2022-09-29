@@ -17,6 +17,7 @@ options {
   };
 
   listen-on port 53 { any; };
+  listen-on port 5353 { any; };
   listen-on-v6 { none; };
 
   pid-file "/var/run/named/named.pid";
