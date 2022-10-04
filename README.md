@@ -1,7 +1,4 @@
-[![repo standards badge](https://img.shields.io/badge/dynamic/json?color=blue&style=for-the-badge&logo=github&label=MoJ%20Compliant&query=%24.result&url=https%3A%2F%2Foperations-engineering-reports.cloud-platform.service.justice.gov.uk%2Fapi%2Fv1%2Fcompliant_public_repositories%2Fstaff-device-dns-dhcp-admin)](https://operations-engineering-reports.cloud-platform.service.justice.gov.uk/public-github-repositories.html#staff-device-dns-dhcp-admin "Link to report")
-
-![.github/workflows/format-code.yml](https://github.com/ministryofjustice/staff-device-dns-dhcp-admin/workflows/.github/workflows/format-code.yml/badge.svg)
-[![Brakeman Scan](https://github.com/ministryofjustice/staff-device-dns-dhcp-admin/actions/workflows/brakeman-analysis.yml/badge.svg)](https://github.com/ministryofjustice/staff-device-dns-dhcp-admin/actions/workflows/brakeman-analysis.yml)
+[![repo standards badge](https://img.shields.io/badge/dynamic/json?color=blue&style=flat&logo=github&labelColor=32393F&label=MoJ%20Compliant&query=%24.result&url=https%3A%2F%2Foperations-engineering-reports.cloud-platform.service.justice.gov.uk%2Fapi%2Fv1%2Fcompliant_public_repositories%2Fstaff-device-dns-dhcp-admin)](https://operations-engineering-reports.cloud-platform.service.justice.gov.uk/public-github-repositories.html#staff-device-dns-dhcp-admin "Link to report") ![.github/workflows/format-code.yml](https://github.com/ministryofjustice/staff-device-dns-dhcp-admin/workflows/.github/workflows/format-code.yml/badge.svg) [![Brakeman Scan](https://github.com/ministryofjustice/staff-device-dns-dhcp-admin/actions/workflows/brakeman-analysis.yml/badge.svg)](https://github.com/ministryofjustice/staff-device-dns-dhcp-admin/actions/workflows/brakeman-analysis.yml)
 
 # Staff Device DNS / DHCP Admin
 
