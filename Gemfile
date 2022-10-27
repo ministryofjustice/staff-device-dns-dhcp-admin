@@ -5,7 +5,7 @@ ruby File.read(".ruby-version").strip
 
 gem "rails", "~> 7.0.4"
 gem "mysql2", "~> 0.5.4"
-gem "puma", "~> 5.6"
+gem "puma", "~> 6.0"
 gem "sassc-rails"
 gem "sprockets", "~> 4.1.1"
 gem "jbuilder", "~> 2.11"
