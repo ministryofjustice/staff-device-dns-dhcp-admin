@@ -17,7 +17,7 @@ _This process can take ~30 minutes._
 
 1. Navigate to the [portal](https://dhcp-dns-admin.staff.service.justice.gov.uk/sign_in).
 1. Click on 'Sign In'.
-    (If you don't have access to this please contact Cloud Ops via the [#ask-cloud-ops](https://mojdt.slack.com/archives/C026AFE617T) Slack channel).
+    (If you don't have access to this please contact NVVS DevOps via the [#ask-nvvs-devops](https://mojdt.slack.com/archives/C026AFE617T) Slack channel).
 1. Click on 'DHCP'.
 1. Find (Ctrl + F), on the DHCP page, the site in question.
 1. Click on 'Manage' for this site.
