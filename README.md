@@ -16,12 +16,12 @@ Assuming you have been granted necessary access permissions to the Shared Servic
 1. Copy `.env.example` to `.env`
 1. Modify the `.env` file and provide values for variables as below:
 
-| Variables                     | How?                                                                                                                                                                                                                                              |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Variables                     | How?                                                                                                                                                                                                                                         |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `AWS_PROFILE=`                | your **AWS-CLI** profile name for the **Shared Services** AWS account. Check [this guide](https://ministryofjustice.github.io/nvvs-devops/documentation/team-guide/best-practices/use-aws-sso.html#re-configure-aws-vault) if you need help. |
-| `SHARED_SERVICES_ACCOUNT_ID=` | Account ID of the MoJO Shared Services AWS account.                                                                                                                                                                                               |
-| `REGISTRY_URL=`               | `<MoJO Development AWS Account ID>`.dkr.ecr.eu-west-2.amazonaws.com                                                                                                                                                                               |
-| `ENV=`                        | Your Terraform namespace from the DNS DHCP Infrastructure repo.                                                                                                                                                                                   |
+| `SHARED_SERVICES_ACCOUNT_ID=` | Account ID of the MoJO Shared Services AWS account.                                                                                                                                                                                          |
+| `REGISTRY_URL=`               | `<MoJO Development AWS Account ID>`.dkr.ecr.eu-west-2.amazonaws.com                                                                                                                                                                          |
+| `ENV=`                        | Your Terraform namespace from the DNS DHCP Infrastructure repo.                                                                                                                                                                              |
 
 3. Copy `.env.development` to `.env.<your terraform namespace>`
 
