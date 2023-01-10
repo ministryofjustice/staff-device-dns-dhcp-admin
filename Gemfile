@@ -49,5 +49,5 @@ group :test do
   gem "webdrivers"
   gem "webmock"
   gem "rails-controller-testing"
-  gem "shoulda-matchers", "~> 5.2"
+  gem "shoulda-matchers", "~> 5.3"
 end
