@@ -74,13 +74,13 @@ GEM
       activerecord (>= 5.0, < 7.1)
       request_store (~> 1.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.759.0)
-    aws-sdk-core (3.171.0)
+    aws-partitions (1.760.0)
+    aws-sdk-core (3.171.1)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
       jmespath (~> 1, >= 1.6.1)
-    aws-sdk-ecs (1.117.0)
+    aws-sdk-ecs (1.118.0)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-kms (1.63.0)
@@ -379,7 +379,7 @@ PLATFORMS
 
 DEPENDENCIES
   audited
-  aws-sdk-ecs (~> 1.117)
+  aws-sdk-ecs (~> 1.118)
   aws-sdk-s3 (~> 1.121)
   bootsnap (>= 1.4.2)
   byebug
