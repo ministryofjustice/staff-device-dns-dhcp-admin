@@ -13,10 +13,6 @@ require_ssl() {
   service_name=$( jq -r '.admin.ecs.service_name' <<< "${DHCP_DNS_TERRAFORM_OUTPUTS}" )
   task_definition=$( jq -r '.admin.ecs.task_definition_name' <<< "${DHCP_DNS_TERRAFORM_OUTPUTS}" )
 
-  cluster_name="staff-device-${ENV}-dhcp-admin-cluster"
-  service_name="staff-device-${ENV}-dhcp-admin"
-  task_definition="staff-device-${ENV}-dhcp-admin-task"
-
   echo "${cluster_name}"
   echo "${service_name}"
   echo "${task_definition}"
