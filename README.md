@@ -154,4 +154,4 @@ For information on how to perform the data import before network cutover, please
 
 ## Known Issues
 
-Dependabot currently does not support a container image monitoring solution. so the [Docker container](Dockerfile)  needs to be  updated manually,This cannot currently be automated through a dependabot and therefore this process needs to be done manually.
+- Dependabot currently does not support a container image monitoring solution only for the [Docker container](Dockerfile) *ruby:3.2.2-alpine3.16*, this alpine images needs to be  updated manually.
