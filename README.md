@@ -150,3 +150,7 @@ For information on how to perform the data import before network cutover, please
 -   Terraform module - module "pttp-infrastructure-ci-pipeline-dns-dhcp-admin-container"
 -   AWS Account - MOJ Official (Shared Services)
 -   [Pipeline "Staff-Device-Admin-Portal"](https://eu-west-2.console.aws.amazon.com/codesuite/codepipeline/pipelines/Staff-Device-Admin-Portal/view?region=eu-west-2)
+
+## Known Issues
+
+-   Dependabot currently does not support a container image monitoring solution only for the [Docker container](Dockerfile) _ruby:3.2.2-alpine3.16_, this alpine images needs to be updated manually.
