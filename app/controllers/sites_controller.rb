@@ -4,6 +4,17 @@ class SitesController < ApplicationController
   def index
     @sites = Site.order(:fits_id).all
     @navigation_crumbs = [["Home", root_path]]
+    @sites = if params[:query].present?
+               # Site.where('name LIKE ? OR fits_id LIKE ?', "%#{params[:query]}%", "%#{params[:query]}%")
+               Site.where('name LIKE ? OR fits_id LIKE ? OR id IN (
+               SELECT sn.site_id
+               FROM subnets s
+               INNER JOIN shared_networks sn ON s.shared_network_id = sn.id
+               WHERE s.cidr_block LIKE ?
+             )', "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%")
+             else
+               Site.all
+             end
   end
 
   def show
