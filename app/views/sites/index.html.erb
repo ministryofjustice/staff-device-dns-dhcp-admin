@@ -12,12 +12,6 @@
       <%= submit_tag "Search", class: "govuk-button", "data-module" => "govuk-button" %>
     <% end %>
   </div>
-<!--  <div style="text-align: right; margin-bottom: 10px;">-->
-  <%#= form_tag(dhcp_path, method: :get, class: "govuk-form") do %>
-    <%#= text_field_tag :query, params[:query], placeholder: "Search sites..." %>
-    <%#= submit_tag "Search", class: "govuk-button" %>
-  <%# end %>
-<!--  </div>-->
   <% if can? :create, Site %>
     <%= link_to "Create a new site", new_site_path, class: "govuk-button" %>
   <% end %>

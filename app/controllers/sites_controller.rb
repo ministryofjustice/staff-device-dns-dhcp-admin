@@ -5,7 +5,6 @@ class SitesController < ApplicationController
     @sites = Site.order(:fits_id).all
     @navigation_crumbs = [["Home", root_path]]
     @sites = if params[:query].present?
-               # Site.where('name LIKE ? OR fits_id LIKE ?', "%#{params[:query]}%", "%#{params[:query]}%")
                Site.where('name LIKE ? OR fits_id LIKE ? OR id IN (
                SELECT sn.site_id
                FROM subnets s
@@ -13,7 +12,7 @@ class SitesController < ApplicationController
                WHERE s.cidr_block LIKE ?
              )', "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%")
              else
-               Site.all
+               Site.order(:fits_id).all
              end
   end
 
