@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   admin-db:
-    image: "mysql:5.7"
+    image: "mysql:8.0.35"
     env_file: .env.${ENV}
     expose:
       - "3306"
@@ -39,6 +39,5 @@ volumes:
 
 networks:
   dhcp:
-    external:
-      name: "staff-device-dhcp-server_default"
-
+    external: true
+    name: "staff-device-dhcp-server_default"
