@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   get "/dhcp", to: "sites#index", as: :dhcp
 
+  get "/search", to: "search#index"
+
   resources :sites, except: [:index] do
     resources :subnets, only: [:new, :create]
   end
