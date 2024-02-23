@@ -4,9 +4,9 @@ class SearchController < ApplicationController
   def index
     @hw_addresses = if params[:query].present?
               Reservation.where("hw_address LIKE ?",
-              "%#{params[:query]}%").pluck("reservations.hw_address")
+              "%#{params[:query]}%")
              else
-               Reservation.all.map(&:hw_address)
+               Reservation.all
              end
   end
 
