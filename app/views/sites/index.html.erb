@@ -10,7 +10,7 @@
   <!-- Adding the search form -->
   <div style="text-align: right;class="govuk-grid-column-one-half search_bar">
     <%= form_tag(dhcp_path, method: :get, class: "govuk-form") do %>
-      <%= text_field_tag :query, params[:query], placeholder: "Search sites by FITS ID or name...", class: 'govuk-input govuk-input--width-10' %>
+      <%= text_field_tag :query, params[:query], placeholder: "Search sites by FITS ID or name...", class: 'govuk-input govuk-input--width-20' %>
       <%= submit_tag "Search", class: "govuk-button", "data-module" => "govuk-button" %>
     <% end %>
   </div>
