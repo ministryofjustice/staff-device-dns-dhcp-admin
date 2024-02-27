@@ -5,8 +5,7 @@ class SitesController < ApplicationController
     @sites = {}
     @navigation_crumbs = [["Home", root_path]]
     @sites = if params[:query].present?
-               Site.with_search(params[:query]) if params[:query].present?
-
+               Site.with_search(params[:query])
              else
                Site.order(:fits_id).all
              end

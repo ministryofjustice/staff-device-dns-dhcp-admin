@@ -18,6 +18,12 @@ class Site < ApplicationRecord
       .where('sites.name LIKE ? OR sites.fits_id LIKE ? OR sites.id LIKE ? OR subnets.cidr_block LIKE ?', "%#{query}%", "%#{query}%", "%#{query}%", "%#{query}%")
       .select('sites.id,sites.fits_id, sites.name')
       .order('sites.fits_id')
+  }
+
+  scope :with_mac_search, ->(query) {
+      joins("INNER JOIN shared_networks ON shared_networks.site_id = sites.id INNER JOIN subnets ON subnets.shared_network_id = shared_networks.id INNER JOIN reservations ON reservations.subnet_id = subnets.id")
+        .where('reservations.hw_address LIKE ? ' ,"%#{query}%")
+        .select('sites.fits_id, sites.name, subnets.cidr_block, reservations.hw_address, reservations.ip_address, reservations.hostname, reservations.id')
 
   }
   def ensure_uuid_has_a_value

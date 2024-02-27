@@ -7,26 +7,43 @@
   <div style="text-align: right;class="govuk-grid-column-one-half search_bar">
     <%= form_tag("/search", method: :get, class: "govuk-form") do %>
       <%= text_field_tag :query, params[:query], placeholder: "Search by MAC Address", class: 'govuk-input govuk-input--width-10' %>
-      <%= submit_tag "Search", class: "govuk-button", "data-module" => "govuk-button" %>
+      <%= submit_tag "MAC Search", class: "govuk-button", "data-module" => "govuk-button" %>
     <% end %>
   </div>
 
-<div><p><%= @navigation_crumbs %></p></div>
+<!--<div><p><%#= @navigation_crumbs %></p></div>-->
 
   <table class="govuk-table">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header">Subnet ID</th>
+        <th scope="col" class="govuk-table__header">FITS ID</th>
+<!--        <th scope="col" class="govuk-table__header">Site Name</th>-->
+        <th scope="col" class="govuk-table__header">CIDR Block</th>
         <th scope="col" class="govuk-table__header">HW Address</th>
-        <th scope="col" class="govuk-table__header">Host name</th>
+        <th scope="col" class="govuk-table__header">IP Address</th>
+<!--        <th scope="col" class="govuk-table__header">Host Name</th>-->
+        <th scope="col" class="govuk-table__header">
+          <span class="govuk-visually-hidden">Actions</span>
+        </th>
       </tr>
     </thead>
     <tbody class="govuk-table__body">
-    <% @hw_addresses.each do |hwa| %>
+    <% @reservations.each do |res| %>
       <tr class="govuk-table__row">
-        <td class="govuk-table__cell"><%= hwa.subnet_id %></td>
-        <td class="govuk-table__cell"><%= hwa.hw_address %></td>
-        <td class="govuk-table__cell"><%= hwa.hostname %></td>
+        <td class="govuk-table__cell"><%= res.fits_id %></td>
+<!--        <td class="govuk-table__cell"><%#= res.name %></td>-->
+        <td class="govuk-table__cell"><%= res.cidr_block %></td>
+        <td class="govuk-table__cell"><%= res.hw_address %></td>
+        <td class="govuk-table__cell"><%= res.ip_address %></td>
+<!--        <td class="govuk-table__cell"><%#= res.hostname %></td>-->
+        <td class="govuk-table__cell">
+          <% if can?(:manage, Reservation) %>
+            <%= link_to "Manage", reservation_path(res), class: "govuk-link" %>
+            <%= link_to "Delete", reservation_path(res), class: "govuk-link", method: :delete %>
+          <% else %>
+            <%= link_to "View", reservation_path(res), class: "govuk-link" %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
     </tbody>
