@@ -32,13 +32,13 @@ start-db: ## start database
 
 .PHONY: db-setup
 db-setup: ## setup database
-	start-db 
+	$(MAKE) start-db
 	$(DOCKER_COMPOSE) run --rm app ./bin/rails db:drop db:create db:schema:load
 
 .PHONY: serve
 serve: ## Start application
-	stop 
-	start-db
+	$(MAKE) stop
+	$(MAKE) start-db
 	$(DOCKER_COMPOSE) up app
 
 # TODO - this is potentially not needed, but we should check by running tests before removing
@@ -63,7 +63,7 @@ stop: ## docker compose down
 	$(DOCKER_COMPOSE) down
 
 .PHONY: migrate
-migrate: ## run migrate script 
+migrate: ## run migrate script
 	./scripts/migrate.sh
 
 .PHONY: seed
@@ -71,7 +71,7 @@ seed: ## run seed script
 	./scripts/seed.sh
 
 .PHONY: migrate-dev
-migrate-dev: ## run rails migrate dev 
+migrate-dev: ## run rails migrate dev
 	$(DOCKER_COMPOSE) run --rm app bundle exec rake db:migrate
 
 .PHONY: bootstrap
@@ -90,8 +90,8 @@ push: ## push image to ECR
 
 .PHONY: publish
 publish: ## run build and push targets
-	build 
-	push
+	$(MAKE) build
+	$(MAKE) push
 
 .PHONY: lint
 lint: ## lint
