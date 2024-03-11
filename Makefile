@@ -36,7 +36,7 @@ db-setup: ## setup database
 	$(DOCKER_COMPOSE) run --rm app ./bin/rails db:drop db:create db:schema:load
 
 .PHONY: serve
-serve: ## stop start database
+serve: ## Start application
 	stop 
 	start-db
 	$(DOCKER_COMPOSE) up app
