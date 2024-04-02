@@ -43,4 +43,3 @@ networks:
   dhcp:
     external:
       name: "staff-device-dhcp-server_default"
-
