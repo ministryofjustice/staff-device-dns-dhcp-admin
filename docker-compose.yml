@@ -2,6 +2,7 @@ version: "3.4"
 
 services:
   admin-db:
+    platform: linux/amd64
     image: "mysql:5.7"
     env_file: .env.${ENV}
     expose:
@@ -12,6 +13,7 @@ services:
       - datavolume:/var/lib/mysql
 
   app:
+    platform: linux/amd64
     build:
       context: .
       args:
@@ -41,4 +43,3 @@ networks:
   dhcp:
     external:
       name: "staff-device-dhcp-server_default"
-
