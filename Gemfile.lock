@@ -92,6 +92,7 @@ GEM
       aws-sigv4 (~> 1.6)
     aws-sigv4 (1.6.1)
       aws-eventstream (~> 1, >= 1.0.2)
+    base64 (0.2.0)
     bcrypt (3.1.18)
     bigdecimal (3.1.7)
     bindex (0.8.1)
@@ -151,7 +152,8 @@ GEM
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     jmespath (1.6.2)
-    jwt (2.7.1)
+    jwt (2.8.1)
+      base64
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.2)
