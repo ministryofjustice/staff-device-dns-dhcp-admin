@@ -41,5 +41,5 @@ volumes:
 
 networks:
   dhcp:
-    external:
-      name: "staff-device-dhcp-server_default"
+    name: "staff-device-dhcp-server_default"
+    external: True
