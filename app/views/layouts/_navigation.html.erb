@@ -13,6 +13,10 @@
         <%= link_to "Import", import_path, class: "govuk-header__link", data: { topnav: "Import" } %>
       </li>
 
+      <li class="govuk-header__navigation-item<%= selected_class_if_controller('import_sites') %>">
+        <%= link_to "Import Sites", import_sites_path, class: "govuk-header__link", data: { topnav: "Import Sites" } %>
+      </li>
+
       <li class="govuk-header__navigation-item<%= selected_class_if_controller('audit_log') %>">
         <%= link_to "Audit log", audits_path, class: "govuk-header__link", data: { topnav: "Audit log" } %>
       </li>
