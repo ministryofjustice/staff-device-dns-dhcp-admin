@@ -48,6 +48,9 @@ Rails.application.routes.draw do
   get "/api/dhcp-stats", to: "api/dhcp_stats#index"
   post "/import", to: "import#create"
 
+  get "/import_sites", to: "import_sites#index"
+  post "/import_sites", to: "import_sites#create"
+
   match "*path", via: :all, to: "application#error"
 
   root "home#index"
