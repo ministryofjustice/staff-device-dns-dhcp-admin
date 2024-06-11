@@ -35,6 +35,20 @@ services:
       - default
       - dhcp
 
+  phpmyadmin:
+    platform: linux/amd64
+    image: "phpmyadmin"
+    links:
+      - admin-db
+    expose:
+      - "8080"
+    ports:
+      - "8080:80"
+    env_file: .phpmyadmin
+    networks:
+      - default
+      - dhcp
+
 volumes:
   node_modules:
   datavolume:
