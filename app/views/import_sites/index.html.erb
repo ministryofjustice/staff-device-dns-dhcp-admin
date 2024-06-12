@@ -2,15 +2,7 @@
 
 <h2 class="govuk-heading-l">Import Sites</h2>
 
-<%= form_with local: true, scope: :import do |f| %>
-
-  <div class="govuk-form-group">
-    <%= f.label "file", 'Import file', class: "govuk-label" %>
-    <%= f.file_field :file, accept: ".csv" , class: "govuk-input", required: true %>
-  </div>
-
-  <%= f.submit "Submit", {
-    class: "govuk-button",
-    "data-module" => "govuk-button"
-  } %>
-<% end %>
+<ul class="govuk-list">
+  <li><%= link_to "Import sites from CSV", "import_sites/new", class:"govuk-link" %></li>
+  <li><%= link_to "Import subnets from CSV", "import_sites_subnets", class:"govuk-link" %></li>
+</ul>

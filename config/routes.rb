@@ -49,7 +49,11 @@ Rails.application.routes.draw do
   post "/import", to: "import#create"
 
   get "/import_sites", to: "import_sites#index"
-  post "/import_sites", to: "import_sites#create"
+  get "/import_sites/new", to: "import_sites#new"
+  post "/import_sites/new", to: "import_sites#create"
+
+  get "/import_sites_subnets", to: "import_sites_subnets#index"
+  post "/import_sites_subnets", to: "import_sites_subnets#create"
 
   match "*path", via: :all, to: "application#error"
 

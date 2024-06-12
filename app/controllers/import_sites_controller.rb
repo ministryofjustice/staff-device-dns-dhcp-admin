@@ -3,13 +3,17 @@
     authorize! :manage, :import_sites
   end
 
+  def new
+    authorize! :manage, :import_sites
+  end
+
   def create
     authorize! :manage, :import_sites
     @result = update_dhcp_config.call(nil, -> { csv_import_sites })
     if @result.success?
       redirect_to import_sites_path, notice: "Successfully ran the sites import."
     else
-      render :index
+      render :new
     end
   end
 
