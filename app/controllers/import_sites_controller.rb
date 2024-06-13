@@ -21,7 +21,7 @@
   private
 
   def import_params
-    params.require(:import).permit(:file, :name, :fits_id)
+    params.require(:import).permit(:file)
   end
 
   def csv_import_sites
