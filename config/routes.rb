@@ -51,6 +51,8 @@ Rails.application.routes.draw do
   get "/import_sites", to: "import_sites#index"
   get "/import_sites/new", to: "import_sites#new"
   post "/import_sites/new", to: "import_sites#create"
+  get "/import_sites/update_dhcp_config", to: "import_sites#update_dhcp_config"
+  post "/import_sites/update_dhcp_config", to: "import_sites#run_update_dhcp_config"
 
   get "/import_sites_subnets", to: "import_sites_subnets#index"
   post "/import_sites_subnets", to: "import_sites_subnets#create"
