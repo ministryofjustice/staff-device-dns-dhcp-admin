@@ -68,8 +68,8 @@ class ImportSitesController < ApplicationController
 
   def create_or_update_site(row)
     site_attributes = {
-      name: row['SITENAME'],
-      fits_id: row['FITSID'],
+      name: row['name'],
+      fits_id: row['fits_id'],
       windows_update_delivery_optimisation_enabled: row['windows_opt']
     }
 

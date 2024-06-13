@@ -36,7 +36,7 @@ class ImportSitesSubnetsController < ApplicationController
     CSV.open(file.path, headers: true, col_sep: ',') do |csv|
       ActiveRecord::Base.transaction do
         csv.each do |row|
-          site = Site.find_by!(fits_id: row['FITSID'])
+          site = Site.find_by!(fits_id: row['fits_id'])
           shared_network = create_shared_network(site)
           create_or_update_subnet(row, shared_network)
         end
