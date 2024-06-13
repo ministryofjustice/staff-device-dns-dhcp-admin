@@ -24,29 +24,19 @@
     file = File.open(import_params[:file])
     csv = CSV.parse(file, headers: true, col_sep: ',')
     csv.each do |row|
+      @site = Site.where(fits_id: row['FITSID']).first!
 
-      @site = Site.where(fits_id: row['FITSID'])
-
-      @shared_network = SharedNetwork.new(site_id: @site)
+      @shared_network = SharedNetwork.new(site_id: @site.id)
+      @shared_network.save!
 
       subnet_hash = {}
       subnet_hash[:cidr_block] = row['cidr_block']
       subnet_hash[:start_address] = row['start_address']
       subnet_hash[:end_address] = row['end_address']
       subnet_hash[:routers] = row['routers']
-
-      subnet_hash[:shared_network] = @shared_network.id
-
-
-      # @subnet = Subnet.new(subnet_params)
-      # lookup site id from site with fits_id
-
-
+      subnet_hash[:shared_network] = @shared_network
 
       @subnet = Subnet.find_or_create_by!(subnet_hash)
-
-
-
     end
   end
 
