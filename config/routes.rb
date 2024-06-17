@@ -57,6 +57,9 @@ Rails.application.routes.draw do
   get "/import_sites_subnets", to: "import_sites_subnets#index"
   post "/import_sites_subnets", to: "import_sites_subnets#create"
 
+  get "/import_sites_reservations", to: "import_sites_reservations#index"
+  post "/import_sites_reservations", to: "import_sites_reservations#create"
+
   match "*path", via: :all, to: "application#error"
 
   root "home#index"
