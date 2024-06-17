@@ -1,9 +1,12 @@
 class ImportSitesReservationsController < ApplicationController
   before_action :authorize_import_sites
 
-  def index; end
+  def index;
+    @navigation_crumbs = [["Home", root_path], ["Import", import_sites_path]]
+  end
 
   def create
+    @navigation_crumbs = [["Home", root_path], ["Import", import_sites_path]]
     if csv_import_reservations
       redirect_to import_sites_path, notice: "Successfully ran the Reservations import."
     else

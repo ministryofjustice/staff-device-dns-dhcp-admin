@@ -1,9 +1,13 @@
 class ImportSitesController < ApplicationController
   before_action :authorize_import_sites
 
-  def index; end
+  def index;
+    @navigation_crumbs = [["Home", root_path], ["Import", import_sites_path]]
+  end
 
-  def new; end
+  def new;
+    @navigation_crumbs = [["Home", root_path], ["Import", import_sites_path]]
+  end
 
   def create
     if csv_import_sites
