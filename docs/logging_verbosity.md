@@ -1,4 +1,4 @@
-# Altering Logging Verbosiuty 
+# Altering Logging Verbosiuty
 
 Logs for the DHCP server (in Cloudwatch with log group staff-device-development-dhcp-server-log-group) are sent to MIP via Kinesis Firehose.
 
@@ -13,7 +13,7 @@ Logs are currently set to INFO e.g. :
 ```
         "severity": "INFO",
         "debuglevel": 0
-      
+
 ```
 
 If MIP request them to be reverted to DEBUG:
@@ -21,10 +21,10 @@ If MIP request them to be reverted to DEBUG:
 ```
         "severity": "DEBUG",
         "debuglevel": 99
-      
+
 ```
 
-Once the changes have been merged and the pipeline has ran, further actions need to be taken to deploy these changes. 
+Once the changes have been merged and the pipeline has ran, further actions need to be taken to deploy these changes.
 
-The config bucket (mojo-{environment}-nac-config-bucket) will only pick up the new changes once it has been updated. 
+The config bucket (mojo-{environment}-nac-config-bucket) will only pick up the new changes once it has been updated.
 To update the config.json file in the bucket a change needs to be made on the admin portal. Once a change is made the new config will be picked up and the changes will be implemented.
