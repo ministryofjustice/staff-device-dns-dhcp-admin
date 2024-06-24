@@ -1,6 +1,6 @@
-# Altering Logging Verbosiuty
+# Altering Logging Verbosity
 
-Logs for the DHCP server (in Cloudwatch with log group staff-device-development-dhcp-server-log-group) are sent to MIP via Kinesis Firehose.
+Logs for the DHCP server (in Cloudwatch with log group staff-device-{environment}-dhcp-server-log-group) are sent to MIP via Kinesis Firehose.
 
 If MIP request the verbosity of the logging to be altered, the files below will need to be changed:
 
