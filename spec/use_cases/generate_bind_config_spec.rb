@@ -25,11 +25,41 @@ options {
 
   allow-transfer { none; };
   allow-query { any; };
+  querylog yes;
 };
 
 statistics-channels {
   inet 127.0.0.1 port 8080 allow { 127.0.0.1; };
 };
+
+logging {
+  channel query_logging {
+    stderr;
+    print-category yes;
+    severity info;
+    print-time yes;
+  };
+
+  channel query_errors_log {
+     stderr;
+     print-time yes;
+     print-category yes;
+     print-severity yes;
+     severity info;
+   };
+   channel resolver {
+      stderr;
+      print-time yes;
+      print-category yes;
+      print-severity yes;
+      severity info;
+      };
+
+  category queries { query_logging; };
+  category query-errors {query_errors_log; };
+  category resolver { resolver; };
+};
+
 
 zone "localhost" IN {
   type master;
