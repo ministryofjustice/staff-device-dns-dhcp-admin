@@ -36,7 +36,7 @@ class ImportSitesReservationsController < ApplicationController
       raise "No file uploaded"
     end
 
-    CSV.open(file.path, headers: true, col_sep: ',') do |csv|
+    CSV.read(file.path, headers: true, col_sep: ',') do |csv|
       ActiveRecord::Base.transaction do
         csv.each do |row|
           @subnet = Subnet.where(cidr_block: row['cidr_block']).first!
