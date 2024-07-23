@@ -60,6 +60,12 @@ Rails.application.routes.draw do
   get "/import_sites_reservations", to: "import_sites_reservations#index"
   post "/import_sites_reservations", to: "import_sites_reservations#create"
 
+  get "/import_sites_options", to: "import_sites_options#index"
+  post "/import_sites_options", to: "import_sites_options#create"
+
+  get "/import_sites_exclusions", to: "import_sites_exclusions#index"
+  post "/import_sites_exclusions", to: "import_sites_exclusions#create"
+
   match "*path", via: :all, to: "application#error"
 
   root "home#index"
