@@ -1,0 +1,3 @@
+fits_id,cidr_block,start_address,end_address,routers,domain_name_servers,domain_name,valid_lifetime,valid_lifetime_unit
+FITS_8061,101.151.92.0/24,101.151.92.1,101.151.92.254,101.151.92.1,10.180.231.254,dom1.infra.int,1,Days
+FITS_8061,101.151.93.0/24,101.151.93.1,101.151.93.254,101.151.93.1,10.180.231.254,dom1.infra.int,1,Days
