@@ -7,7 +7,7 @@ class ImportSitesExclusionsController < ApplicationController
 
   def create
     @navigation_crumbs = [["Home", root_path], ["Import", import_sites_path]]
-    if csv_import_reservations
+    if csv_import_exclusions
       redirect_to import_sites_path, notice: "Successfully ran the Subnet Exclusions import."
     else
       flash[:alert] = "Failed to import Subnet Exclusions."
@@ -28,7 +28,7 @@ class ImportSitesExclusionsController < ApplicationController
     params.require(:import).permit(:file)
   end
 
-  def csv_import_reservations
+  def csv_import_exclusions
     require 'csv'
     file = import_params[:file]
 
@@ -36,33 +36,33 @@ class ImportSitesExclusionsController < ApplicationController
       raise "No file uploaded"
     end
 
-    CSV.read(file.path, headers: true, col_sep: ',') do |csv|
+    csv = CSV.open(file.path, headers: true, col_sep: ',')
+    begin
       ActiveRecord::Base.transaction do
         csv.each do |row|
           @subnet = Subnet.where(cidr_block: row['cidr_block']).first!
-          create_or_update_reservation(row, @subnet.id)
+          create_or_update_exclusions(row, @subnet.id)
         end
       end
+      true
+    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotFound => e
+      raise "Database error: #{e.message}"
+    rescue CSV::MalformedCSVError => e
+      raise "CSV parsing error: #{e.message}"
+    rescue StandardError => e
+      raise "An unexpected error occurred: #{e.message}"
+    ensure
+      csv.close if csv
     end
-    true
-  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotFound => e
-    raise "Database error: #{e.message}"
-  rescue CSV::MalformedCSVError => e
-    raise "CSV parsing error: #{e.message}"
-  rescue StandardError => e
-    raise "An unexpected error occurred: #{e.message}"
   end
 
-  def create_or_update_reservation(row, subnet_id)
-    reservation_attributes = {
+  def create_or_update_exclusions(row, subnet_id)
+    exclusion_attributes = {
       subnet_id: subnet_id,
-      hw_address: row['hw_address'],
-      ip_address: row['ip_address'],
-      hostname: row['hostname'],
-      description: row['description'],
-      hostname: row['hostname']
+      start_address: row['exclusion_start_address'],
+      end_address: row['exclusion_end_address']
     }
 
-    Reservation.find_or_create_by!(reservation_attributes)
+    Exclusion.find_or_create_by!(exclusion_attributes)
   end
 end

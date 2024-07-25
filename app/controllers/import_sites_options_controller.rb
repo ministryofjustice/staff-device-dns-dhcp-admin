@@ -1,13 +1,13 @@
 class ImportSitesOptionsController < ApplicationController
   before_action :authorize_import_sites
-
+  
   def index;
     @navigation_crumbs = [["Home", root_path], ["Import", import_sites_path]]
   end
 
   def create
     @navigation_crumbs = [["Home", root_path], ["Import", import_sites_path]]
-    if csv_import_reservations
+    if csv_import_options
       redirect_to import_sites_path, notice: "Successfully ran the Subnet Options import."
     else
       flash[:alert] = "Failed to import Subnet Options."
@@ -36,31 +36,33 @@ class ImportSitesOptionsController < ApplicationController
       raise "No file uploaded"
     end
 
-    CSV.read(file.path, headers: true, col_sep: ',') do |csv|
+    csv = CSV.open(file.path, headers: true, col_sep: ',')
+    begin
       ActiveRecord::Base.transaction do
         csv.each do |row|
           @subnet = Subnet.where(cidr_block: row['cidr_block']).first!
           create_or_update_option(row, @subnet.id)
         end
       end
+      true
+    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotFound => e
+      raise "Database error: #{e.message}"
+    rescue CSV::MalformedCSVError => e
+      raise "CSV parsing error: #{e.message}"
+    rescue StandardError => e
+      raise "An unexpected error occurred: #{e.message}"
+    ensure
+      csv.close if csv
     end
-    true
-  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotFound => e
-    raise "Database error: #{e.message}"
-  rescue CSV::MalformedCSVError => e
-    raise "CSV parsing error: #{e.message}"
-  rescue StandardError => e
-    raise "An unexpected error occurred: #{e.message}"
   end
 
   def create_or_update_option(row, subnet_id)
     option_attributes = {
       subnet_id: subnet_id,
-      hw_address: row['hw_address'],
-      ip_address: row['ip_address'],
-      hostname: row['hostname'],
-      description: row['description'],
-      hostname: row['hostname']
+      domain_name_servers: row['domain_name_servers'],
+      domain_name: row['domain_name'],
+      valid_lifetime: row['valid_lifetime'],
+      valid_lifetime_unit: row['valid_lifetime_unit']
     }
 
     Option.find_or_create_by!(option_attributes)
