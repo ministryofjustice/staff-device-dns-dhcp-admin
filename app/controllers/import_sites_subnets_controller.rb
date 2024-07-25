@@ -43,6 +43,15 @@ class ImportSitesSubnetsController < ApplicationController
           site = Site.find_by!(fits_id: row['fits_id'])
           shared_network = create_shared_network(site)
           create_or_update_subnet(row, shared_network)
+
+          ##Experimental
+          @subnet = Subnet.where(cidr_block: row['cidr_block']).first!
+          if row['exclusion_start_address'].present?
+            create_or_update_exclusions(row, @subnet.id)
+          end
+          if row['domain_name'].present?
+            create_or_update_option(row, @subnet.id)
+          end
         end
       end
       true
@@ -71,5 +80,28 @@ class ImportSitesSubnetsController < ApplicationController
     }
 
     Subnet.find_or_create_by!(subnet_attributes)
+  end
+
+  ##Experimental
+  def create_or_update_exclusions(row, subnet_id)
+    exclusion_attributes = {
+      subnet_id: subnet_id,
+      start_address: row['exclusion_start_address'],
+      end_address: row['exclusion_end_address']
+    }
+
+    Exclusion.find_or_create_by!(exclusion_attributes)
+  end
+
+  def create_or_update_option(row, subnet_id)
+    option_attributes = {
+      subnet_id: subnet_id,
+      domain_name_servers: row['domain_name_servers'],
+      domain_name: row['domain_name'],
+      valid_lifetime: row['valid_lifetime'],
+      valid_lifetime_unit: row['valid_lifetime_unit']
+    }
+
+    Option.find_or_create_by!(option_attributes)
   end
 end
