@@ -36,7 +36,7 @@ class ImportSitesSubnetsController < ApplicationController
       raise "No file uploaded"
     end
 
-    CSV.read(file.path, headers: true, col_sep: ',') do |csv|
+    CSV.open(file.path, headers: true, col_sep: ',') do |csv|
       ActiveRecord::Base.transaction do
         csv.each do |row|
           site = Site.find_by!(fits_id: row['fits_id'])
