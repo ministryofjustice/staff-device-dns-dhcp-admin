@@ -1,7 +1,7 @@
 class ImportSitesReservationsController < ApplicationController
   before_action :authorize_import_sites
 
-  def index;
+  def index
     @navigation_crumbs = [["Home", root_path], ["Import", import_sites_path]]
   end
 
@@ -36,21 +36,24 @@ class ImportSitesReservationsController < ApplicationController
       raise "No file uploaded"
     end
 
-    CSV.open(file.path, headers: true, col_sep: ',') do |csv|
+    csv = CSV.open(file.path, headers: true, col_sep: ',')
+    begin
       ActiveRecord::Base.transaction do
         csv.each do |row|
           @subnet = Subnet.where(cidr_block: row['cidr_block']).first!
           create_or_update_reservation(row, @subnet.id)
         end
       end
+      true
+    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotFound => e
+      raise "Database error: #{e.message}"
+    rescue CSV::MalformedCSVError => e
+      raise "CSV parsing error: #{e.message}"
+    rescue StandardError => e
+      raise "An unexpected error occurred: #{e.message}"
+    ensure
+      csv.close if csv
     end
-    true
-  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotFound => e
-    raise "Database error: #{e.message}"
-  rescue CSV::MalformedCSVError => e
-    raise "CSV parsing error: #{e.message}"
-  rescue StandardError => e
-    raise "An unexpected error occurred: #{e.message}"
   end
 
   def create_or_update_reservation(row, subnet_id)
