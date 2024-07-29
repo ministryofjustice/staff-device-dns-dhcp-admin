@@ -45,13 +45,20 @@ Rails.application.configure do
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 
+
+  # Use the lowest log level to ensure availability of diagnostic information
+  # when problems arise.
+  config.log_level = ENV["log_level"] || :debug
+
+  # Prepend all log lines with the following tags.
+  config.log_tags = [:request_id]
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
 
   # Suppress logger output for asset requests.
-  config.assets.quiet = true
+  # config.assets.quiet = true
   config.force_ssl = false
 
   # Raises error for missing translations.
@@ -69,4 +76,12 @@ Rails.application.configure do
   config.ecs_aws_config = {
     stub_responses: true
   }
+
+  # https://github.com/rails/web-console
+  # If you want to whitelist the whole private network:
+  # config.web_console.permissions = '192.168.0.0/16'
+  config.web_console.permissions = ['10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16']
+  config.web_console.whiny_requests = false
+
+
 end

@@ -42,6 +42,10 @@ serve: ## Start application
 	$(MAKE) start-db
 	$(DOCKER_COMPOSE) up app
 
+.PHONY: phpmyadmin
+phpmyadmin: ## Start phpmyadmin
+	$(DOCKER_COMPOSE) up phpmyadmin
+
 # TODO - this is potentially not needed, but we should check by running tests before removing
 # run: serve
 

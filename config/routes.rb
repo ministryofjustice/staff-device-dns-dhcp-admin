@@ -48,6 +48,24 @@ Rails.application.routes.draw do
   get "/api/dhcp-stats", to: "api/dhcp_stats#index"
   post "/import", to: "import#create"
 
+  get "/import_sites", to: "import_sites#index"
+  get "/import_sites/new", to: "import_sites#new"
+  post "/import_sites/new", to: "import_sites#create"
+  get "/import_sites/update_dhcp_config", to: "import_sites#update_dhcp_config"
+  post "/import_sites/update_dhcp_config", to: "import_sites#run_update_dhcp_config"
+
+  get "/import_sites_subnets", to: "import_sites_subnets#index"
+  post "/import_sites_subnets", to: "import_sites_subnets#create"
+
+  get "/import_sites_reservations", to: "import_sites_reservations#index"
+  post "/import_sites_reservations", to: "import_sites_reservations#create"
+
+  get "/import_sites_options", to: "import_sites_options#index"
+  post "/import_sites_options", to: "import_sites_options#create"
+
+  get "/import_sites_exclusions", to: "import_sites_exclusions#index"
+  post "/import_sites_exclusions", to: "import_sites_exclusions#create"
+
   match "*path", via: :all, to: "application#error"
 
   root "home#index"
