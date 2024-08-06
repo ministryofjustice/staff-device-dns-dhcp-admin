@@ -1,4 +1,4 @@
-FROM ruby:3.2.2-alpine3.16
+FROM ruby:3.2.5-alpine3.20
 
 ARG UID=1001
 ARG GROUP=app
@@ -47,7 +47,8 @@ USER $USER
 WORKDIR $APPDIR
 
 COPY --chown=$USER:$GROUP Gemfile Gemfile.lock .ruby-version ./
-RUN bundle config set no-cache 'true' && \
+RUN bundle update --bundler && \
+  bundle config set no-cache 'true' && \
   bundle install ${BUNDLE_INSTALL_FLAGS}
 
 COPY --chown=$USER:$GROUP  package.json yarn.lock ./
