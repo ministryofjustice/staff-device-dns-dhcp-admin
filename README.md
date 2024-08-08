@@ -158,3 +158,23 @@ Details of how to perform a new [Site Import from CSV](docs/site_import_from_csv
 ## Known Issues
 
 -   Dependabot currently does not support a container image monitoring solution only for the [Docker container](Dockerfile) _ruby:3.2.2-alpine3.16_, this alpine images needs to be updated manually.
+
+
+## Updating Gems 
+
+Developer tools (alpine-sdk, ruby-dev) have been added to the container to facilitate Gem version updates. To update a Gem version:
+- Build the dev container 
+```bash
+  make build-dev
+```
+- Run the application with an interactive shell
+```bash
+  make shell-dev
+```
+- Change the version in the Gemfile
+- In the interactive shell run a bundle update for the Gem being updated, e.g.
+
+```bash
+  bundle update rails
+```
+- Check that the Gemfile.lock has the new version
