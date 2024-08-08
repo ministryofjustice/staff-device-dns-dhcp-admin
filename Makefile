@@ -5,6 +5,7 @@ export
 
 ifndef ENV
 ENV=development
+REGISTRY_URL=068084030754.dkr.ecr.eu-west-2.amazonaws.com
 endif
 
 UID=$(shell id -u)
@@ -23,7 +24,11 @@ build: ## docker build image
 
 .PHONY: build-dev
 build-dev: ## build-dev image
-	$(DOCKER_COMPOSE) build
+	$(DOCKER_COMPOSE) build --build-arg BUILD_DEV="true"
+
+.PHONY: shell-dev
+shell-dev: ## Run application and start shell
+	$(DOCKER_COMPOSE) run --rm app sh
 
 .PHONY: start-db
 start-db: ## start database
@@ -40,6 +45,10 @@ serve: ## Start application
 	$(MAKE) stop
 	$(MAKE) start-db
 	$(DOCKER_COMPOSE) up app
+
+.PHONY: phpmyadmin
+phpmyadmin: ## Start phpmyadmin
+	$(DOCKER_COMPOSE) up phpmyadmin
 
 # TODO - this is potentially not needed, but we should check by running tests before removing
 # run: serve

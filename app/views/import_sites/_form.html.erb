@@ -1,0 +1,12 @@
+<%= form_with local: true, scope: :import do |f| %>
+
+  <div class="govuk-form-group">
+    <%= f.label "file", 'Import file', class: "govuk-label" %>
+    <%= f.file_field :file, accept: ".csv" , class: "govuk-input", required: true %>
+  </div>
+
+  <%= f.submit "Submit", {
+    class: "govuk-button",
+    "data-module" => "govuk-button"
+  } %>
+<% end %>

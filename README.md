@@ -144,6 +144,10 @@ To update the certificate, update the Dockerfile to use the new intermediate (re
 
 For information on how to perform the data import before network cutover, please see [the documentation](docs/cutover_data_checks.md).
 
+## Site Import from CSV
+
+Details of how to perform a new [Site Import from CSV](docs/site_import_from_csv.md). 
+
 ## CI/CD
 
 -   [CI Terraform code - staff-device-dns-dhcp-admin](https://github.com/ministryofjustice/staff-device-dns-dhcp-admin)

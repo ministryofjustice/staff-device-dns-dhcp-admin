@@ -55,5 +55,6 @@ _This process can take ~30 minutes._
         - Select the corresponding subnet from the drop down list.
 
 1. Click on Import
+1. Click on Import Data
 1. Populate the fields (subnet list should be comma separated)
 1. Click Submit

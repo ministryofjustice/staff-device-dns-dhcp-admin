@@ -16,6 +16,7 @@ ARG DB_NAME=root
 ARG BUNDLE_WITHOUT=""
 ARG BUNDLE_INSTALL_FLAGS=""
 ARG RUN_PRECOMPILATION=true
+ARG BUILD_DEV
 
 # required for certain linting tools that read files, such as erb-lint
 ENV LANG='C.UTF-8' \
@@ -31,6 +32,10 @@ ENV LANG='C.UTF-8' \
 
 RUN apk add --no-cache --virtual .build-deps build-base && \
   apk add --no-cache nodejs yarn mysql-dev mysql-client bash make bind shadow
+
+RUN if [ "${BUILD_DEV}" = "true" ] ; then \
+    apk add --no-cache alpine-sdk ruby-dev; \
+  fi
 
 RUN groupadd -g $UID -o $GROUP && \
   useradd -m -u $UID -g $UID -o -s /bin/false $USER && \
