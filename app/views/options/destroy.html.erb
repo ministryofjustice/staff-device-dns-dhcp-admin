@@ -1,6 +1,19 @@
 <h2 class="govuk-heading-l">Are you sure you want to delete these options?</h2>
 
-<p class="govuk-body">Deleting options cannot be undone</p>
+<div class="govuk-inset-text">
+  <h4 class="govuk-heading-s">Domain name:</h4>
+  <p class="govuk-body"><%= @option.domain_name %></p>
+  <h4 class="govuk-heading-s">Domain name servers:</h4>
+  <p class="govuk-body"><%= @option.domain_name_servers.join(", ") %></p>
+</div>
+
+<div class="govuk-warning-text">
+  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+  <strong class="govuk-warning-text__text">
+    <span class="govuk-warning-text__assistive">Warning</span>
+      Deleting options cannot be undone.
+  </strong>
+</div>
 
 <%= button_to "Delete options", subnet_options_path(@option.subnet),
   method: :delete,

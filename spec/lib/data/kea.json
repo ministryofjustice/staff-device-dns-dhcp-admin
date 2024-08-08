@@ -1,0 +1,252 @@
+{
+  "Dhcp4": {
+    "interfaces-config": {
+      "interfaces": [
+        "*"
+      ],
+      "dhcp-socket-type": "udp",
+      "outbound-interface": "use-routing"
+    },
+    "lease-database": {
+      "type": "mysql",
+      "name": "<DB_NAME>",
+      "user": "<DB_USER>",
+      "password": "<DB_PASS>",
+      "host": "<DB_HOST>",
+      "port": 3306
+    },
+    "valid-lifetime": 604800,
+    "host-reservation-identifiers": [
+      "circuit-id",
+      "hw-address",
+      "duid",
+      "client-id"
+    ],
+    "hosts-database": {
+      "type": "mysql",
+      "name": "<DB_NAME>",
+      "user": "<DB_USER>",
+      "password": "<DB_PASS>",
+      "host": "<DB_HOST>",
+      "port": 3306
+    },
+    "control-socket": {
+      "socket-type": "unix",
+      "socket-name": "/tmp/dhcp4-socket"
+    },
+    "shared-networks": [
+      {
+        "name": "FITS_0001-1",
+        "subnet4": [
+          {
+            "pools": [
+              {
+                "pool": "192.168.1.11 - 192.168.1.255"
+              }
+            ],
+            "subnet": "192.168.1.0/24",
+            "id": 3494,
+            "user-context": {
+              "site-id": "FITS_0001",
+              "site-name": "Test Site 1"
+            },
+            "reservations": [
+              {
+                "hw-address": "a1b2c3d4e5f6",
+                "ip-address": "192.168.1.31",
+                "hostname": "windowsmachine1.test.space.local"
+              },
+              {
+                "hw-address": "a1b2c3d4e5f7",
+                "ip-address": "192.168.1.30",
+                "hostname": "windowsmachine2.test.space.local",
+                "user-context": {
+                  "description": "Test Site LOAP166"
+                }
+              },
+              {
+                "hw-address": "f6:aa:d4:b2:c5:ee",
+                "ip-address": "192.168.1.252",
+                "hostname": "printer1.test.space.local"
+              },
+              {
+                "hw-address": "f6:b1:d4:b2:c5:e7",
+                "ip-address": "192.168.1.253",
+                "hostname": "printer2.test.space.local"
+              }
+            ],
+            "require-client-classes": [
+              "subnet-192.168.1.0-client"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "FITS_0001-2",
+        "subnet4": [
+          {
+            "pools": [
+              {
+                "pool": "192.168.7.192 - 192.168.7.192"
+              }
+            ],
+            "subnet": "192.168.7.192/24",
+            "id": 3495,
+            "user-context": {
+              "site-id": "FITS_0001",
+              "site-name": "Test Site 1"
+            },
+            "reservations": [
+              {
+                "hw-address": "a1b2c3d439b9",
+                "ip-address": "192.168.7.31",
+                "hostname": "windowsmachine3.test.space.local"
+              },
+              {
+                "hw-address": "ccddc3d4e5f7",
+                "ip-address": "192.168.7.30",
+                "hostname": "windowsmachine4.test.space.local",
+                "user-context": {
+                  "description": "Test Site LOAP166"
+                }
+              },
+              {
+                "hw-address": "f6:aa:d4:b2:bb:d9",
+                "ip-address": "192.168.7.252",
+                "hostname": "printer3.test.space.local"
+              },
+              {
+                "hw-address": "f6:b1:d4:b2:aa:d2",
+                "ip-address": "192.168.7.253",
+                "hostname": "printer4.test.space.local"
+              }
+            ],
+            "require-client-classes": [
+              "subnet-192.168.7.0-client"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "FITS_0001-3",
+        "subnet4": [
+          {
+            "pools": [
+              {
+                "pool": "192.168.2.1 - 192.168.2.255"
+              }
+            ],
+            "subnet": "192.168.2.0/24",
+            "id": 3496,
+            "user-context": {
+              "site-id": "FITS_0001",
+              "site-name": "Test Site 1"
+            },
+            "require-client-classes": [
+              "subnet-192.168.2.0-client"
+            ]
+          }
+        ]
+      }
+    ],
+    "loggers": [
+      {
+        "name": "kea-dhcp4",
+        "output_options": [
+          {
+            "output": "stdout"
+          }
+        ],
+        "severity": "INFO",
+        "debuglevel": 0
+      }
+    ],
+    "hooks-libraries": [
+      {
+        "library": "/usr/lib/kea/hooks/libdhcp_lease_cmds.so"
+      },
+      {
+        "library": "/usr/lib/kea/hooks/libdhcp_stat_cmds.so"
+      },
+      {
+        "library": "/usr/lib/kea/hooks/libdhcp_ha.so",
+        "parameters": {
+          "high-availability": [
+            {
+              "this-server-name": "<SERVER_NAME>",
+              "mode": "hot-standby",
+              "heartbeat-delay": 10000,
+              "max-response-delay": 60000,
+              "max-ack-delay": 10000,
+              "max-unacked-clients": 0,
+              "peers": [
+                {
+                  "name": "primary",
+                  "url": "http://<PRIMARY_IP>:8000",
+                  "role": "primary",
+                  "auto-failover": true
+                },
+                {
+                  "name": "standby",
+                  "url": "http://<STANDBY_IP>:8000",
+                  "role": "standby",
+                  "auto-failover": true
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "multi-threading": {
+      "enable-multi-threading": true,
+      "thread-pool-size": 12,
+      "packet-queue-size": 65
+    },
+    "option-data": [
+      {
+        "name": "domain-name",
+        "data": "test.space.local"
+      },
+      {
+        "name": "domain-name-servers",
+        "data": "10.180.80.5, 10.180.81.5"
+      }
+    ],
+    "client-classes": [
+      {
+        "name": "subnet-192.168.1.0-client",
+        "test": "member('ALL')",
+        "only-if-required": true,
+        "option-data": [
+          {
+            "name": "routers",
+            "data": "192.168.1.1"
+          }
+        ]
+      },
+      {
+        "name": "subnet-192.168.7.0-client",
+        "test": "member('ALL')",
+        "only-if-required": true,
+        "option-data": [
+          {
+            "name": "routers",
+            "data": "192.168.7.1"
+          }
+        ]
+      },
+      {
+        "name": "subnet-192.168.2.0-client",
+        "test": "member('ALL')",
+        "only-if-required": true,
+        "option-data": [
+          {
+            "name": "routers",
+            "data": "192.168.2.1"
+          }
+        ]
+      }
+    ]
+  }
+}

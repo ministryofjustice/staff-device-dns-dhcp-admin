@@ -1,12 +1,12 @@
 class Reservation < ApplicationRecord
   MAC_ADDRESS_REGEX = /\A([0-9a-fA-F][0-9a-fA-F]:){5}([0-9a-fA-F][0-9a-fA-F])\z/
 
-  belongs_to :subnet
+  belongs_to :subnet, counter_cache: true
   has_one :reservation_option, dependent: :destroy
 
   validates :ip_address, presence: true
-  validates :hostname, domain_name: true, presence: true
-  validates :hw_address, format: {with: MAC_ADDRESS_REGEX, message: "must be in the form 1a:1b:1c:1d:1e:1f"}, presence: true
+  validates :hostname, host_name: true
+  validates :hw_address, format: {with: MAC_ADDRESS_REGEX, message: "%{value} must be in the form 1a:1b:1c:1d:1e:1f"}, presence: true
 
   validate :ip_address_is_a_valid_ipv4_address
   validate :ip_address_is_within_the_subnet
@@ -57,7 +57,7 @@ class Reservation < ApplicationRecord
     return if ip_address.blank?
 
     unless IPAddress.valid_ipv4?(ip_address)
-      errors.add(:ip_address, "is not a valid IPv4 address")
+      errors.add(:ip_address, "#{ip_address} is not a valid IPv4 address")
     end
   end
 
@@ -67,25 +67,31 @@ class Reservation < ApplicationRecord
 
     if !subnet_ip_addr.include?(ip_addr) ||
         (ip_addr < subnet_start_address_ip_addr || ip_addr > subnet_end_address_ip_addr)
-      errors.add(:ip_address, "is not within the subnet range")
+      errors.add(:ip_address, "#{ip_address} is not within the subnet range #{subnet_start_address_ip_addr} - #{subnet_end_address_ip_addr}")
     end
   end
 
   def hw_address_is_unique_within_subnet
     if Reservation.for_subnet_and_hw_address(subnet_id, hw_address).where.not(id: id).exists?
-      errors.add(:hw_address, "has already been reserved in the subnet")
+      errors.add(:hw_address, "#{hw_address} has already been reserved in the subnet #{subnet.cidr_block}")
     end
   end
 
   def ip_address_is_unique_within_subnet
     if Reservation.for_subnet_and_ip_address(subnet_id, ip_address).where.not(id: id).exists?
-      errors.add(:ip_address, "has already been reserved in the subnet")
+      errors.add(:ip_address, "#{ip_address} has already been reserved in the subnet #{subnet.cidr_block}")
     end
   end
 
   def hostname_is_unique_within_subnet
     if Reservation.for_subnet_and_hostname(subnet_id, hostname).where.not(id: id).exists?
-      errors.add(:hostname, "has already been reserved in the subnet")
+      errors.add(:hostname, "#{hostname} has already been reserved in the subnet #{subnet.cidr_block}")
+    end
+  end
+
+  def hostname_is_valid
+    unless HOSTNAME_REGEX.match?(:hostname)
+      errors.add(:hostname, "is not valid")
     end
   end
 end

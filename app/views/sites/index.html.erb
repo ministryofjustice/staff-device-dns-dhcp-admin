@@ -5,7 +5,13 @@
   <%= link_to "Client classes", client_classes_path, class: "govuk-button govuk-button--secondary" %>
 
   <h3 class="govuk-heading-m">Sites</h3>
-
+  <!-- Adding the search form -->
+  <div style="text-align: right;class="govuk-grid-column-one-half search_bar">
+    <%= form_tag(dhcp_path, method: :get, class: "govuk-form") do %>
+      <%= text_field_tag :query, params[:query], placeholder: "Search sites by FITS ID or name...", class: 'govuk-input govuk-input--width-10' %>
+      <%= submit_tag "Search", class: "govuk-button", "data-module" => "govuk-button" %>
+    <% end %>
+  </div>
   <% if can? :create, Site %>
     <%= link_to "Create a new site", new_site_path, class: "govuk-button" %>
   <% end %>

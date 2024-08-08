@@ -3,39 +3,38 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby File.read(".ruby-version").strip
 
-gem "rails", "~> 6.1.1"
-gem "mysql2", "~> 0.5.3"
-gem "puma", "~> 5.2"
+gem "rails", "~> 7.0.8"
+gem "mysql2", "~> 0.5.5"
+gem "puma", "~> 6.4.2"
 gem "sassc-rails"
-gem "sprockets", "~> 4.0.2"
+gem "sprockets", "~> 4.2.1"
 gem "jbuilder", "~> 2.11"
 gem "bootsnap", ">= 1.4.2", require: false
 gem "tzinfo-data"
 gem "devise"
 gem "jwt"
 gem "omniauth-oauth2"
-gem "omniauth-rails_csrf_protection", "~> 0.1"
-gem "aws-sdk-s3", "~> 1.88"
+gem "omniauth-rails_csrf_protection", "~> 1.0.1"
+gem "aws-sdk-s3", "~> 1.136"
 gem "ipaddress_2"
-gem "aws-sdk-ecs", "~> 1.74"
-gem "cancancan", "~> 3.2"
-gem "sentry-raven"
+gem "aws-sdk-ecs", "~> 1.131"
+gem "cancancan", "~> 3.5"
 gem "audited"
 gem "kaminari"
-gem "breadcrumbs_on_rails"
+gem "faker"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   gem "dotenv-rails"
-  gem "rspec-rails", "~> 4.0.2"
+  gem "rspec-rails", "~> 6.0.3"
   gem "factory_bot_rails"
 end
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem "web-console", ">= 3.3.0"
-  gem "listen", "~> 3.4"
+  gem "listen", "~> 3.8"
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem "spring"
   gem "spring-watcher-listen", "~> 2.0.0"
@@ -53,5 +52,5 @@ group :test do
   gem "webdrivers"
   gem "webmock"
   gem "rails-controller-testing"
-  gem "shoulda-matchers", "~> 4.5"
+  gem "shoulda-matchers", "~> 5.3"
 end

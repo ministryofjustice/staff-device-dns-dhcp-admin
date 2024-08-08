@@ -17,7 +17,7 @@ describe "update sites", type: :feature do
 
   context "when the user is a viewer" do
     before do
-      login_as create(:user, :reader)
+      login_as create(:user, :viewer)
     end
 
     it "does not allow editing sites" do
@@ -63,6 +63,27 @@ describe "update sites", type: :feature do
       expect(page).to have_content("This could take up to 10 minutes to apply.")
 
       expect_audit_log_entry_for(editor.email, "update", "Site")
+    end
+
+    it "displays validation errors if form cannot be submitted" do
+      visit "/sites/#{site.id}/edit"
+
+      fill_in "FITS id", with: ""
+      click_on "Update"
+
+      expect(page).to have_content "There is a problem"
+      expect(page).to have_content "FITS id can't be blank"
+    end
+
+    it "displays dhcp config verification errors" do
+      visit "/sites/#{site.id}/edit"
+
+      allow_config_verification_to_fail_with_message("this isnt what kea looks like :(")
+
+      click_on "Update"
+
+      expect(page).to have_content "There is a problem"
+      expect(page).to have_content "this isnt what kea looks like :("
     end
   end
 end

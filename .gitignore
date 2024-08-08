@@ -34,6 +34,10 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
+# Ignore DHCP config files and exports
+
+/scripts/config-parser/data/*
+
 /public/packs
 /public/packs-test
 /node_modules
@@ -43,3 +47,12 @@ yarn-debug.log*
 
 .vscode
 coverage
+.idea
+
+/.env
+/.env.*
+!/.env.example
+!/.env.development
+!/.env.test
+
+.DS_Store

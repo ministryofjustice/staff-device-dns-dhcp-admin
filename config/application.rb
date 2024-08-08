@@ -24,6 +24,10 @@ module StaffDeviceDnsDhcpAdmin
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
 
+    # Bypass internal error logic to use custom routes for custom error routes (e.g. public/404.html)
+    config.exceptions_app = routes
+
+    config.active_record.legacy_connection_handling = false
     # Force HTTPS for all requests except healthcheck endpoint
     config.force_ssl = true
     config.ssl_options = {

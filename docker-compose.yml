@@ -1,8 +1,9 @@
 version: "3.4"
 
 services:
-  db:
-    image: "${SHARED_SERVICES_ACCOUNT_ID}.dkr.ecr.eu-west-2.amazonaws.com/admin-mysql:mysql-5-7"
+  admin-db:
+    platform: linux/amd64
+    image: "mysql:8.0"
     env_file: .env.${ENV}
     expose:
       - "3306"
@@ -12,24 +13,38 @@ services:
       - datavolume:/var/lib/mysql
 
   app:
+    platform: linux/amd64
     build:
       context: .
       args:
         UID: "${UID}"
-        BUNDLE_INSTALL_FLAGS: "${BUNDLE_INSTALL_FLAGS:- --jobs 20 --retry 5}"
-        SHARED_SERVICES_ACCOUNT_ID: "${SHARED_SERVICES_ACCOUNT_ID}"
+        BUNDLE_INSTALL_FLAGS: "${BUNDLE_INSTALL_FLAGS:- --jobs 20 --retry 5 --full-index}"
     user: "${UID}:${UID}"
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
       - .:/home/app/staff-device-dns-dhcp-admin
       - node_modules:/home/app/staff-device-dns-dhcp-admin/node_modules
     links:
-      - db
+      - admin-db
     expose:
       - "3000"
     ports:
       - "3000:3000"
     env_file: .env.${ENV}
+    networks:
+      - default
+      - dhcp
+
+  phpmyadmin:
+    platform: linux/amd64
+    image: "phpmyadmin"
+    links:
+      - admin-db
+    expose:
+      - "8080"
+    ports:
+      - "8080:80"
+    env_file: .phpmyadmin
     networks:
       - default
       - dhcp
@@ -40,6 +55,5 @@ volumes:
 
 networks:
   dhcp:
-    external:
-      name: "staff-device-dhcp-server_default"
-
+    name: "staff-device-dhcp-server_default"
+    external: True

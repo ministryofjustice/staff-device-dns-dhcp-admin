@@ -10,6 +10,7 @@ class Ability
     can :read, Option
     can :read, Site
     can :read, Subnet
+    can :read, Exclusion
     can :read, Zone
     can :read, ReservationOption
 
@@ -20,8 +21,16 @@ class Ability
       can :manage, Option
       can :manage, Site
       can :manage, Subnet
+      can :manage, Exclusion
       can :manage, Zone
       can :manage, ReservationOption
+      can :manage, Lease
+      can :manage, :import
+      can :manage, :import_sites
+    end
+
+    if user.second_line_support?
+      can :manage, Reservation
     end
   end
 end

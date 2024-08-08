@@ -19,7 +19,7 @@ describe "update reservations", type: :feature do
 
   context "when a user is logged in as an viewer" do
     before do
-      login_as create(:user, :reader)
+      login_as create(:user, :viewer)
     end
 
     it "does not allow editing reservations" do
@@ -44,13 +44,14 @@ describe "update reservations", type: :feature do
       visit "/reservations/#{reservation.id}"
       first(:link, "Change").click
 
+      expect(page).to have_content(reservation.subnet.start_address + " to " + reservation.subnet.end_address)
       expect(page).to have_field("HW address", with: reservation.hw_address)
       expect(page).to have_field("IP address", with: reservation.ip_address)
       expect(page).to have_field("Hostname", with: reservation.hostname)
       expect(page).to have_field("Description", with: reservation.description)
 
       fill_in "HW address", with: "1a:1b:1c:1d:1e:1f"
-      fill_in "IP address", with: "192.0.2.3"
+      fill_in "IP address", with: reservation.subnet.end_address
       fill_in "Hostname", with: "testier.example.com"
       fill_in "Description", with: "Changed test reservation"
 
@@ -62,24 +63,33 @@ describe "update reservations", type: :feature do
       expect(page).to have_content("Successfully updated reservation")
       expect(page).to have_content("This could take up to 10 minutes to apply.")
       expect(page).to have_content("1a:1b:1c:1d:1e:1f")
-      expect(page).to have_content("192.0.2.3")
+      expect(page).to have_content(reservation.subnet.end_address)
       expect(page).to have_content("testier.example.com")
       expect(page).to have_content("Changed test reservation")
 
       expect_audit_log_entry_for(editor.email, "update", "Reservation")
     end
 
-    it "displays error if form cannot be submitted" do
+    it "displays validations errors if form cannot be submitted" do
       visit "/reservations/#{reservation.id}/edit"
 
       fill_in "HW address", with: ""
-      fill_in "IP address", with: ""
-      fill_in "Hostname", with: ""
-      fill_in "Description", with: ""
 
       click_on "Update"
 
       expect(page).to have_content "There is a problem"
+      expect(page).to have_content "HW address can't be blank"
+    end
+
+    it "displays dhcp config verification errors" do
+      visit "/reservations/#{reservation.id}/edit"
+
+      allow_config_verification_to_fail_with_message("this isnt what kea looks like :(")
+
+      click_on "Update"
+
+      expect(page).to have_content "There is a problem"
+      expect(page).to have_content "this isnt what kea looks like :("
     end
   end
 end

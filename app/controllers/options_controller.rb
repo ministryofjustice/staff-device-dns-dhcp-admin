@@ -10,15 +10,18 @@ class OptionsController < ApplicationController
     authorize! :create, @option
     add_breadcrumb "Site #{@subnet.site.name}", @subnet.site
     add_breadcrumb "Subnet #{@subnet.cidr_block}", @subnet
+    @global_option = GlobalOption.first
   end
 
   def create
     @option = @subnet.build_option(option_params)
     authorize! :create, @option
+    @result = update_dhcp_config.call(@option, -> { @option.save! })
 
-    if update_dhcp_config.call(@option, -> { @option.save })
+    if @result.success?
       redirect_to subnet_path(@option.subnet), notice: "Successfully created options." + CONFIG_UPDATE_DELAY_NOTICE
     else
+      @global_option = GlobalOption.first
       render :new
     end
   end
@@ -27,13 +30,15 @@ class OptionsController < ApplicationController
     authorize! :update, @option
     add_breadcrumb "Site #{@subnet.site.name}", @subnet.site
     add_breadcrumb "Subnet #{@subnet.cidr_block}", @subnet
+    @global_option = GlobalOption.first
   end
 
   def update
     authorize! :update, @option
     @option.assign_attributes(option_params)
+    @result = update_dhcp_config.call(@option, -> { @option.save! })
 
-    if update_dhcp_config.call(@option, -> { @option.save })
+    if @result.success?
       redirect_to subnet_path(@option.subnet), notice: "Successfully updated options." + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :edit
@@ -45,7 +50,7 @@ class OptionsController < ApplicationController
     add_breadcrumb "Site #{@subnet.site.name}", @subnet.site
     add_breadcrumb "Subnet #{@subnet.cidr_block}", @subnet
     if confirmed?
-      if update_dhcp_config.call(@option, -> { @option.destroy })
+      if update_dhcp_config.call(@option, -> { @option.destroy }).success?
         redirect_to subnet_path(@option.subnet), notice: "Successfully deleted option." + CONFIG_UPDATE_DELAY_NOTICE
       else
         redirect_to subnet_path(@option.subnet), error: "Failed to delete the option"

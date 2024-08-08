@@ -20,6 +20,8 @@ describe "delete reservations", type: :feature do
     click_on "Delete"
 
     expect(page).to have_content("Are you sure you want to delete this reservation?")
+    expect(page).to have_content(reservation.hostname)
+    expect(page).to have_content(reservation.ip_address)
 
     expect_config_to_be_verified
     expect_config_to_be_published

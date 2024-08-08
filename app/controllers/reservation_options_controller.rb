@@ -16,8 +16,8 @@ class ReservationOptionsController < ApplicationController
   def create
     @reservation_option = @reservation.build_reservation_option(reservation_option_params)
     authorize! :create, @reservation_option
-
-    if update_dhcp_config.call(@reservation_option, -> { @reservation_option.save })
+    @result = update_dhcp_config.call(@reservation_option, -> { @reservation_option.save! })
+    if @result.success?
       redirect_to reservation_path(@reservation), notice: "Successfully created reservation options." + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :new
@@ -34,8 +34,9 @@ class ReservationOptionsController < ApplicationController
   def update
     authorize! :update, @reservation_option
     @reservation_option.assign_attributes(reservation_option_params)
+    @result = update_dhcp_config.call(@reservation_option, -> { @reservation_option.save! })
 
-    if update_dhcp_config.call(@reservation_option, -> { @reservation_option.save })
+    if @result.success?
       redirect_to reservation_path(@reservation_option.reservation), notice: "Successfully updated reservation options." + CONFIG_UPDATE_DELAY_NOTICE
     else
       render :edit
@@ -48,7 +49,7 @@ class ReservationOptionsController < ApplicationController
     add_breadcrumb "Subnet #{@reservation_option.reservation.subnet.cidr_block}", @reservation_option.reservation.subnet
     add_breadcrumb "Reservation #{@reservation_option.reservation.ip_address}", @reservation_option.reservation
     if confirmed?
-      if update_dhcp_config.call(@reservation_options, -> { @reservation_option.destroy })
+      if update_dhcp_config.call(@reservation_options, -> { @reservation_option.destroy }).success?
         redirect_to reservation_path(@reservation_option.reservation), notice: "Successfully deleted reservation options." + CONFIG_UPDATE_DELAY_NOTICE
       else
         redirect_to reservation_path(@reservation_option.reservation), error: "Failed to delete the reservation options"

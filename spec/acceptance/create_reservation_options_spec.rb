@@ -17,7 +17,7 @@ describe "create reservation options", type: :feature do
 
   context "when a user is logged in as an viewer" do
     before do
-      login_as create(:user, :reader)
+      login_as create(:user, :viewer)
     end
 
     it "does not allow editing reservation options" do
@@ -61,27 +61,31 @@ describe "create reservation options", type: :feature do
       expect_audit_log_entry_for(editor.email, "create", "Reservation option")
     end
 
-    it "displays error if form cannot be submitted" do
+    it "displays validations errors if form cannot be submitted" do
       visit "/reservations/#{reservation.to_param}/options/new"
 
       click_on "Create"
 
       expect(page).to have_content "There is a problem"
+      expect(page).to have_content "At least one option must be filled out"
     end
 
-    it "displays error if domain name invalid" do
-      visit "/reservations/#{reservation.to_param}"
+    it "displays dhcp config verification errors" do
+      visit "/reservations/#{reservation.to_param}/options/new"
 
-      expect(page).not_to have_content("Edit")
+      when_i_fill_in_the_form_with_valid_data
 
-      click_on "Create reservation options"
-
-      fill_in "Routers", with: "10.0.1.0,10.0.1.2"
-      fill_in "Domain name", with: "me.example/.co"
+      allow_config_verification_to_fail_with_message("this isnt what kea looks like :(")
 
       click_on "Create"
 
-      expect(page).to have_content("There is a problem")
+      expect(page).to have_content "There is a problem"
+      expect(page).to have_content "this isnt what kea looks like :("
     end
+  end
+
+  def when_i_fill_in_the_form_with_valid_data
+    fill_in "Routers", with: "10.0.1.0,10.0.1.2"
+    fill_in "Domain name", with: "sub.domain.my-example.com"
   end
 end

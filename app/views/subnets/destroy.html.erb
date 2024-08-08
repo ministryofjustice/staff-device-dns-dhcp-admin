@@ -1,6 +1,18 @@
 <h2 class="govuk-heading-l">Are you sure you want to delete this subnet?</h2>
 
-<p class="govuk-body">Deleting a subnet cannot be undone</p>
+
+<div class="govuk-inset-text">
+  <h4 class="govuk-heading-s">CIDR block:</h4>
+  <p class="govuk-body"><%= @subnet.cidr_block %></p>
+</div>
+
+<div class="govuk-warning-text">
+  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+  <strong class="govuk-warning-text__text">
+    <span class="govuk-warning-text__assistive">Warning</span>
+      Deleting a subnet cannot be undone.
+  </strong>
+</div>
 
 <% if @subnet.reservations.any? %>
   <p class="govuk-body">The following reservations will be destroyed</p>
@@ -20,7 +32,7 @@
     class: 'govuk-!-display-inline-block'
   }
 %>
-<%= link_to "Cancel", site_path(@subnet.site_id),
+<%= link_to "Cancel", site_path(@subnet.site),
   class: "govuk-button govuk-button--secondary",
   data: {
     module: "govuk-button"

@@ -3,9 +3,10 @@ class Subnet < ApplicationRecord
   CLIENT_CLASS_NAME_PREFIX = "subnet"
   INVALID_IPV4_LIST_MESSAGE = "contains an invalid IPv4 address or is not separated using commas"
 
-  belongs_to :site
+  belongs_to :shared_network
   has_one :option, dependent: :destroy
   has_many :reservations, dependent: :destroy
+  has_many :exclusions, dependent: :destroy
 
   validates :cidr_block, presence: true, uniqueness: {case_sensitive: false}
   validates :start_address, presence: true
@@ -27,6 +28,14 @@ class Subnet < ApplicationRecord
     :valid_lifetime_unit,
     to: :option,
     allow_nil: true
+
+  delegate :site,
+    to: :shared_network,
+    allow_nil: true
+
+  def self.find_by_kea_id(kea_id)
+    find_by(id: kea_id - KEA_SUBNET_ID_OFFSET)
+  end
 
   def routers
     return [] unless self[:routers]
@@ -63,6 +72,26 @@ class Subnet < ApplicationRecord
 
   def client_class_name
     "#{CLIENT_CLASS_NAME_PREFIX}-#{ip_addr}-client"
+  end
+
+  def subnets_in_same_shared_network
+    shared_network.subnets - [self]
+  end
+
+  def subnets_in_same_site
+    site.subnets - [self]
+  end
+
+  def subnets_in_same_site_not_network
+    subnets_in_same_site - subnets_in_same_shared_network
+  end
+
+  def total_excluded_addresses
+    exclusions.map(&:total_addresses).sum
+  end
+
+  def total_addresses
+    (start_address_ip_addr..end_address_ip_addr).to_a.length - total_excluded_addresses
   end
 
   private

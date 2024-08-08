@@ -42,6 +42,31 @@
   </div>
 </dl>
 
+<h3 class="govuk-heading-m">Exclusion</h3>
+
+<% if @subnet.exclusions.any? %>
+  <%= link_to "Delete exclusion", exclusion_path(@subnet.exclusions.first), class: "govuk-button govuk-button--secondary", method: :delete if can?(:destroy, @subnet.exclusions.first) %>
+<% else %>
+  <%= link_to "Create exclusion", new_subnet_exclusion_path(@subnet), class: "govuk-button" if can?(:create, Exclusion) %>
+<% end %>
+
+<% if @subnet.exclusions.any? %>
+  <%= render "exclusions/details", exclusion: @subnet.exclusions.first %>
+<% end %>
+
+<% if @subnet.subnets_in_same_shared_network.any? %>
+  <h3 class="govuk-heading-m">Subnets in the same shared network</h3>
+  <%= render "subnets/list", subnets: @subnet.subnets_in_same_shared_network %>
+  <%= link_to "Add a subnet to this shared network", new_subnet_extension_path(@subnet), class: "govuk-button" if can?(:update, @subnet) %>
+<% else %>
+  <h3 class="govuk-heading-m">Subnets in the same shared network</h3>
+  <h4 class="govuk-inset-text">None</h4>
+  <%= link_to "Add a subnet to this shared network", new_subnet_extension_path(@subnet), class: "govuk-button" if can?(:update, @subnet) %>
+<% end %>
+
+
+
+<h3 class="govuk-heading-m">Leases</h3>
 <%= link_to "View leases", subnet_leases_path(@subnet), class: "govuk-button govuk-button--secondary" %>
 
 <h3 class="govuk-heading-m">Options</h3>
@@ -61,5 +86,7 @@
 <%= link_to "Create a new reservation", new_subnet_reservations_path(@subnet), class: "govuk-button" if can?(:create, Reservation) %>
 
 <% if @subnet.reservations.any? %>
-  <%= render "reservations/list", reservations: @subnet.reservations %>
+  <%= link_to "Delete all reservations", subnet_reservations_path(@subnet), class: "govuk-button govuk-button--secondary", method: :delete if can?(:destroy, Reservation) %>
+  <%= render "reservations/list", reservations: @subnet.reservations.sort_by {  |reservation| reservation.ip_address.split(".").last.to_i } %>
 <% end %>
+

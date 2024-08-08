@@ -3,7 +3,7 @@ require "rails_helper"
 describe "GET /zones", type: :feature do
   context "User with viewer permissions" do
     before do
-      login_as create(:user, :reader)
+      login_as create(:user, :viewer)
     end
 
     it "lists zones" do

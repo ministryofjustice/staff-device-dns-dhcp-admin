@@ -5,9 +5,11 @@
     <dt class="govuk-summary-list__key">FITS id</dt>
     <dd class="govuk-summary-list__value"><%= @site.fits_id %></dd>
     <dd class="govuk-summary-list__actions">
+    <% if can? :manage, Site %>
       <%= link_to edit_site_path(@site), class: "govuk-link" do %>
         Change<span class="govuk-visually-hidden"> FITS id</span>
       <% end %>
+    <% end %>
     </dd>
   </div>
 
@@ -15,9 +17,23 @@
     <dt class="govuk-summary-list__key">Name</dt>
     <dd class="govuk-summary-list__value"><%= @site.name %></dd>
     <dd class="govuk-summary-list__actions">
+    <% if can? :manage, Site %>
       <%= link_to edit_site_path(@site), class: "govuk-link" do %>
         Change<span class="govuk-visually-hidden"> name</span>
       <% end %>
+    <% end %>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Windows update delivery optimisation</dt>
+    <dd class="govuk-summary-list__value"><%= @site.windows_update_delivery_optimisation_enabled? ? "Enabled (uuid: #{@site.uuid})" : "Disabled" %></dd>
+    <dd class="govuk-summary-list__actions">
+    <% if can? :manage, Site %>
+      <%= link_to edit_site_path(@site), class: "govuk-link", id: "change-windows-update-delivery-optimisation" do %>
+        Change<span class="govuk-visually-hidden"> Windows update delivery optimisation</span>
+      <% end %>
+    <% end %>
     </dd>
   </div>
 </dl>
@@ -26,5 +42,4 @@
   <%= link_to "Create a new subnet", new_site_subnet_path(@site), class: "govuk-button" %>
 <% end %>
 
-
-<%= render "subnets/list", subnets: @subnets %>
+<%= render "subnets/list", subnets: @subnets, subnet_statistics: @subnet_statistics %>

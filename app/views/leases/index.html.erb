@@ -11,11 +11,18 @@
   <tbody class="govuk-table__body">
     <% @leases.each do |lease| %>
       <tr class="govuk-table__row">
-        <td class="govuk-table__cell"><%= lease.hw_address %></td>
+        <td class="govuk-table__cell"><%= format_mac_address(lease.hw_address) %></td>
         <td class="govuk-table__cell"><%= lease.ip_address %></td>
         <td class="govuk-table__cell"><%= lease.hostname %></td>
         <td class="govuk-table__cell"><%= lease.pretty_state %></td>
+        <td class="govuk-table__cell">
+          <% if can?(:delete, lease) %>
+            <%= link_to "Delete", lease_path(lease), class: "govuk-link", method: :delete %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
+
+<%= link_to "Export", subnet_leases_path(@subnet), class: "govuk-button", method: :post %>

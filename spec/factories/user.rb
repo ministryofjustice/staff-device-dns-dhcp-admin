@@ -3,11 +3,15 @@ FactoryBot.define do
     email { "test@example.com" }
 
     trait :editor do
-      editor { true }
+      role { User.roles[:editor] }
     end
 
-    trait :reader do
-      editor { false }
+    trait :second_line_support do
+      role { User.roles[:second_line_support] }
+    end
+
+    trait :viewer do
+      role { User.roles[:viewer] }
     end
   end
 end

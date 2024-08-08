@@ -1,6 +1,19 @@
 <h2 class="govuk-heading-l">Are you sure you want to delete these options?</h2>
 
-<p class="govuk-body">Deleting reservation options cannot be undone</p>
+<div class="govuk-inset-text">
+  <h4 class="govuk-heading-s">Routers:</h4>
+  <p class="govuk-body"><%= @reservation_option.routers.join(", ") %></p>
+  <h4 class="govuk-heading-s">Domain Name:</h4>
+  <p class="govuk-body"><%= @reservation_option.domain_name %></p>
+</div>
+
+<div class="govuk-warning-text">
+  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+  <strong class="govuk-warning-text__text">
+    <span class="govuk-warning-text__assistive">Warning</span>
+      Deleting reservation options cannot be undone.
+  </strong>
+</div>
 
 <%= button_to "Delete reservation options", reservation_option_path(@reservation_option),
   method: :delete,

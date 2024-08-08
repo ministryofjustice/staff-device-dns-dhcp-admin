@@ -1,7 +1,8 @@
 require "rails_helper"
 
 describe UseCases::GenerateBindConfig do
-  let(:generated_config) { UseCases::GenerateBindConfig.new(zones: all_zones, pdns_ips: "7.7.7.7,5.5.5.5").call }
+  let(:private_zone) { "some.internal.zone" }
+  let(:generated_config) { UseCases::GenerateBindConfig.new(zones: all_zones, pdns_ips: "7.7.7.7,5.5.5.5", private_zone: private_zone).call }
 
   describe "#call" do
     let(:all_zones) { [] }
@@ -40,6 +41,13 @@ zone "localhost" IN {
 zone "127.in-addr.arpa" IN {
   type master;
   file "pri/127.zone";
+  allow-update { none; };
+  notify no;
+};
+
+zone "0.0.100.in-addr.arpa" IN {
+  type master;
+  file "/etc/bind/zones/reverse.#{private_zone}";
   allow-update { none; };
   notify no;
 };
@@ -84,10 +92,26 @@ zone "example2.test.com" IN {
   end
 
   describe "Unset pdns ips" do
-    let(:generated_config) { UseCases::GenerateBindConfig.new(pdns_ips: "").call }
+    let(:generated_config) { UseCases::GenerateBindConfig.new(pdns_ips: "", private_zone: private_zone).call }
 
     it "raises an error when PDNS IPs have not been defined" do
       expect { generated_config }.to raise_error("PDNS IPs have not been set")
+    end
+  end
+
+  describe "reverse lookup zones" do
+    let(:private_zone) { "my.made.up.zone" }
+    let(:generated_config) { described_class.new(pdns_ips: "1.1.1.1", private_zone: private_zone).call }
+
+    it "contains a path to a reverse lookup dns zone file" do
+      expect(generated_config).to include(
+        %(zone "0.0.100.in-addr.arpa" IN {
+  type master;
+  file "/etc/bind/zones/reverse.#{private_zone}";
+  allow-update { none; };
+  notify no;
+};)
+      )
     end
   end
 end

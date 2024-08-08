@@ -1,0 +1,46 @@
+<%= render "layouts/form_errors", resource: @result %>
+
+<h2 class="govuk-heading-l">Extending a shared network</h2>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h3 class="govuk-heading-m">Extend with an existing subnet</h3>
+
+
+    <%= form_tag(subnet_update_extensions_path(@subnet), method: :put, local: true) do %>
+      <div class="govuk-form-group">
+        <%= label_tag :extension_id, "Subnet", class: "govuk-label" %>
+        <%= select_tag :extension_id,
+          options_for_select(
+            @subnet.subnets_in_same_site_not_network.collect { |s| [s.cidr_block, s.id] }
+          ),
+          prompt: "Select a subnet",
+          class: "govuk-input"
+        %>
+      </div>
+
+      <%= submit_tag "Add to shared network", {
+        class: "govuk-button",
+        "data-module" => "govuk-button"
+      } %>
+    <% end %>
+  </div>
+
+  <div class="govuk-grid-column-two-thirds">
+    <h3 class="govuk-heading-m">Extend with a new subnet</h3>
+    <%= form_with(model: @extension, url: subnet_extensions_path(@subnet), local: true) do |form| %>
+      <%= render "subnets/form", f: form %>
+
+      <%= link_to "Cancel", subnet_path(@subnet),
+        class: "govuk-button govuk-button--secondary",
+        data: {
+          module: "govuk-button"
+        }
+      %>
+    <% end %>
+  </div>
+
+  <div class="govuk-grid-column-one-third">
+    <%= render "shared/global_option", global_option: @global_option if @global_option %>
+  </div>
+</div>

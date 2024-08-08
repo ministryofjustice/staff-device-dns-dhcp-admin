@@ -1,5 +1,4 @@
-ARG SHARED_SERVICES_ACCOUNT_ID
-FROM ${SHARED_SERVICES_ACCOUNT_ID}.dkr.ecr.eu-west-2.amazonaws.com/admin:ruby-2-7-1-alpine3-12
+FROM ruby:3.2.2-alpine3.16
 
 ARG UID=1001
 ARG GROUP=app
@@ -9,7 +8,7 @@ ARG APPDIR=$HOME/staff-device-dns-dhcp-admin
 ARG CERTDIR=$HOME/cert
 
 ARG RACK_ENV=development
-ARG DB_HOST=db
+ARG DB_HOST=admin-db
 ARG DB_USER=root
 ARG DB_PASS=root
 ARG SECRET_KEY_BASE="fakekeybase"
@@ -17,6 +16,7 @@ ARG DB_NAME=root
 ARG BUNDLE_WITHOUT=""
 ARG BUNDLE_INSTALL_FLAGS=""
 ARG RUN_PRECOMPILATION=true
+ARG BUILD_DEV
 
 # required for certain linting tools that read files, such as erb-lint
 ENV LANG='C.UTF-8' \
@@ -32,6 +32,10 @@ ENV LANG='C.UTF-8' \
 
 RUN apk add --no-cache --virtual .build-deps build-base && \
   apk add --no-cache nodejs yarn mysql-dev mysql-client bash make bind shadow
+
+RUN if [ "${BUILD_DEV}" = "true" ] ; then \
+    apk add --no-cache alpine-sdk ruby-dev; \
+  fi
 
 RUN groupadd -g $UID -o $GROUP && \
   useradd -m -u $UID -g $UID -o -s /bin/false $USER && \
@@ -51,7 +55,7 @@ RUN yarn && yarn cache clean
 
 COPY --chown=$USER:$GROUP . $APPDIR
 
-ADD https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem $CERTDIR/
+ADD https://truststore.pki.rds.amazonaws.com/eu-west-2/eu-west-2-bundle.pem $CERTDIR/
 
 USER root
 RUN chown -R $USER:$GROUP $CERTDIR &&\

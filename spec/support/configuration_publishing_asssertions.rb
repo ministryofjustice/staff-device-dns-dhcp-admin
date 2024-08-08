@@ -11,4 +11,9 @@ module ConfigurationPublishingAssertions
     expect_any_instance_of(Gateways::KeaControlAgent).to receive(:verify_config)
       .and_return({"result" => 0})
   end
+
+  def allow_config_verification_to_fail_with_message(message)
+    allow_any_instance_of(Gateways::KeaControlAgent).to receive(:verify_config)
+      .and_raise(Gateways::KeaControlAgent::InternalError.new(message))
+  end
 end

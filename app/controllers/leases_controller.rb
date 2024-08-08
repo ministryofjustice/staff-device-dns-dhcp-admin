@@ -1,3 +1,5 @@
+require "csv"
+
 class LeasesController < ApplicationController
 
   add_breadcrumb "Home", :root_path
@@ -11,5 +13,46 @@ class LeasesController < ApplicationController
     ).call
     add_breadcrumb "Site #{@subnet.site.name}", @subnet.site
     add_breadcrumb "Subnet #{@subnet.cidr_block}", @subnet
+  end
+
+  def destroy
+    @lease = UseCases::FetchLease.new(
+      lease_ip_address: lease_ip_address,
+      gateway: kea_control_agent_gateway
+    ).call
+
+    if confirmed?
+      UseCases::DestroyLease.new(
+        lease_ip_address: lease_ip_address,
+        gateway: kea_control_agent_gateway
+      ).call
+      redirect_to subnet_leases_path(@lease.subnet), notice: "Successfully deleted lease. "
+    else
+      render :destroy
+    end
+  end
+
+  def export
+    index
+
+    column_names = ["HW address", "IP address", "Hostname", "State"]
+    content = CSV.generate do |csv|
+      csv << column_names
+      @leases.each do |lease|
+        csv << lease.lease_details
+      end
+    end
+
+    send_data content, filename: "#{@subnet.start_address}.csv"
+  end
+
+  private
+
+  def lease_ip_address
+    params.fetch(:id).tr("-", ".")
+  end
+
+  def confirmed?
+    params.fetch(:confirm, false)
   end
 end

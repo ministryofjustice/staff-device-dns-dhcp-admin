@@ -1,5 +1,22 @@
-<%= render "layouts/form_errors", resource: @subnet %>
+<%= render "layouts/form_errors", resource: @result %>
 
 <h2 class="govuk-heading-l">Editing a subnet</h2>
 
-<%= render "subnets/form", subnet: @subnet %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(model: @subnet, url: subnet_path(@subnet), local: true) do |form| %>
+      <%= render "subnets/form", f: form %>
+
+      <%= link_to "Cancel", subnet_path(@subnet),
+        class: "govuk-button govuk-button--secondary",
+        data: {
+          module: "govuk-button"
+        }
+      %>
+    <% end %>
+  </div>
+
+  <div class="govuk-grid-column-one-third">
+    <%= render "shared/global_option", global_option: @global_option if @global_option %>
+  </div>
+</div>

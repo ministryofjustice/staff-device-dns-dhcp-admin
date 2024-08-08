@@ -1,3 +1,5 @@
+require "ipaddr"
+
 module UseCases
   class GenerateKeaConfig
     DEFAULT_VALID_LIFETIME_SECONDS = 4000
@@ -14,20 +16,62 @@ module UseCases
     def call
       config = default_config
 
-      config[:Dhcp4][:subnet4] += @subnets.map { |subnet| subnet_config(subnet) }
+      config[:Dhcp4][:"shared-networks"] += shared_networks_config
 
       config
     end
 
     private
 
+    def ip_string(ip)
+      IPAddr.new(ip, Socket::AF_INET).to_s
+    end
+
+    def create_pools(subnet)
+      if subnet.exclusions.any?
+        first_exclusion_start_address = IPAddr.new(subnet.exclusions.first.start_address).to_i
+        first_exclusion_end_address = IPAddr.new(subnet.exclusions.first.end_address).to_i
+
+        if subnet.exclusions.first.start_address == subnet.start_address && subnet.exclusions.first.end_address == subnet.end_address
+          return []
+        end
+
+        if subnet.exclusions.first.start_address == subnet.start_address
+          return [
+            {
+              pool: "#{ip_string(first_exclusion_end_address + 1)} - #{subnet.end_address}"
+            }
+          ]
+        end
+
+        if subnet.exclusions.first.end_address == subnet.end_address
+          return [
+            {
+              pool: "#{subnet.start_address} - #{ip_string(first_exclusion_start_address - 1)}"
+            }
+          ]
+        end
+
+        return [
+          {
+            pool: "#{subnet.start_address} - #{ip_string(first_exclusion_start_address - 1)}"
+          },
+          {
+            pool: "#{ip_string(first_exclusion_end_address + 1)} - #{subnet.end_address}"
+          }
+        ]
+      end
+
+      [
+        {
+          pool: "#{subnet.start_address} - #{subnet.end_address}"
+        }
+      ]
+    end
+
     def subnet_config(subnet)
       {
-        pools: [
-          {
-            pool: "#{subnet.start_address} - #{subnet.end_address}"
-          }
-        ],
+        pools: create_pools(subnet),
         subnet: subnet.cidr_block,
         id: subnet.kea_id,
         "user-context": {
@@ -39,18 +83,38 @@ module UseCases
         .merge({"require-client-classes": [subnet.client_class_name]})
     end
 
+    def subnets_config(subnets)
+      subnets.map do |subnet|
+        subnet_config(subnet)
+      end
+    end
+
+    def shared_network_config(subnets)
+      shared_network = subnets.first.shared_network
+      {
+        name: shared_network.name,
+        subnet4: subnets_config(subnets)
+      }
+    end
+
+    def shared_networks_config
+      @subnets.group_by(&:shared_network_id).map do |_, subnets|
+        shared_network_config(subnets)
+      end
+    end
+
     def reservations_config(reservations)
       return {} unless reservations.present?
 
       result = {
-        "reservations": []
+        reservations: []
       }
 
       result[:reservations] += reservations.map { |reservation|
         {
           "hw-address": reservation.hw_address,
           "ip-address": reservation.ip_address,
-          "hostname": reservation.hostname
+          hostname: reservation.hostname
         }.merge(reservation_description(reservation))
           .merge(UseCases::KeaConfig::GenerateOptionDataConfig.new.call(reservation.reservation_option))
       }
@@ -62,7 +126,7 @@ module UseCases
       return {} if reservation.description.blank?
       {
         "user-context": {
-          "description": reservation.description
+          description: reservation.description
         }
       }
     end
@@ -116,14 +180,14 @@ module UseCases
 
     def subnet_option_client_classes
       @subnet_option_client_classes ||= begin
-        option_client_classes = @subnets.filter_map { |subnet|
+        option_client_classes = @subnets.filter_map do |subnet|
           options_config = UseCases::KeaConfig::GenerateOptionDataConfig.new.call(subnet)
           {
             name: subnet.client_class_name,
             test: "member('ALL')",
             "only-if-required": true
           }.merge(options_config)
-        }
+        end
 
         option_client_classes
       end
@@ -132,8 +196,16 @@ module UseCases
     def default_config
       {
         Dhcp4: {
+          "option-def": [
+            {
+              name: "delivery-optimisation",
+              code: 234,
+              type: "string",
+              space: "dhcp4"
+            }
+          ],
           "interfaces-config": {
-            "interfaces": ["*"],
+            interfaces: ["*"],
             "dhcp-socket-type": "udp",
             "outbound-interface": "use-routing"
           },
@@ -145,13 +217,6 @@ module UseCases
             host: "<DB_HOST>",
             port: 3306
           },
-          "valid-lifetime": DEFAULT_VALID_LIFETIME_SECONDS,
-          "host-reservation-identifiers": [
-            "circuit-id",
-            "hw-address",
-            "duid",
-            "client-id"
-          ],
           "hosts-database": {
             type: "mysql",
             name: "<DB_NAME>",
@@ -160,10 +225,23 @@ module UseCases
             host: "<DB_HOST>",
             port: 3306
           },
+          "multi-threading": {
+            "enable-multi-threading": true,
+            "thread-pool-size": 12,
+            "packet-queue-size": 792
+          },
+          "valid-lifetime": DEFAULT_VALID_LIFETIME_SECONDS,
+          "host-reservation-identifiers": [
+            "circuit-id",
+            "hw-address",
+            "duid",
+            "client-id"
+          ],
           "control-socket": {
             "socket-type": "unix",
             "socket-name": "/tmp/dhcp4-socket"
           },
+          "shared-networks": [],
           subnet4: [
             {
               pools: [
@@ -178,44 +256,50 @@ module UseCases
           loggers: [
             {
               name: "kea-dhcp4",
-              "output_options": [
+              output_options: [
                 {
                   output: "stdout"
                 }
               ],
-              severity: "WARN",
+              severity: "INFO",
               debuglevel: 0
             }
           ],
           "hooks-libraries": [
             {
-              "library": "/usr/lib/kea/hooks/libdhcp_lease_cmds.so"
+              library: "/usr/lib/kea/hooks/libdhcp_lease_cmds.so"
             },
             {
-              "library": "/usr/lib/kea/hooks/libdhcp_stat_cmds.so"
+              library: "/usr/lib/kea/hooks/libdhcp_stat_cmds.so"
             },
             {
-              "library": "/usr/lib/kea/hooks/libdhcp_ha.so",
-              "parameters": {
+              library: "/usr/lib/kea/hooks/libdhcp_ha.so",
+              parameters: {
                 "high-availability": [
                   {
                     "this-server-name": "<SERVER_NAME>",
-                    "mode": "hot-standby",
+                    mode: "hot-standby",
                     "heartbeat-delay": 10000,
                     "max-response-delay": 60000,
                     "max-ack-delay": 10000,
                     "max-unacked-clients": 0,
-                    "peers": [
+                    "multi-threading": {
+                      "enable-multi-threading": true,
+                      "http-dedicated-listener": true,
+                      "http-listener-threads": 4,
+                      "http-client-threads": 4
+                    },
+                    peers: [
                       {
-                        "name": "primary",
-                        "url": "http://<PRIMARY_IP>:8000",
-                        "role": "primary",
+                        name: "primary",
+                        url: "http://<PRIMARY_IP>:8000",
+                        role: "primary",
                         "auto-failover": true
                       },
                       {
-                        "name": "standby",
-                        "url": "http://<STANDBY_IP>:8000",
-                        "role": "standby",
+                        name: "standby",
+                        url: "http://<STANDBY_IP>:8000",
+                        role: "standby",
                         "auto-failover": true
                       }
                     ]
@@ -223,12 +307,7 @@ module UseCases
                 ]
               }
             }
-          ],
-          "multi-threading": {
-            "enable-multi-threading": true,
-            "thread-pool-size": 12,
-            "packet-queue-size": 65
-          }
+          ]
         }.merge(UseCases::KeaConfig::GenerateOptionDataConfig.new.call(@global_option))
           .merge(valid_lifetime_config)
           .merge(client_class_config)

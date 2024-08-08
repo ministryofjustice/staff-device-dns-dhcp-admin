@@ -1,0 +1,37 @@
+<h2 class="govuk-heading-l">Are you sure you want to delete all reservations for the following subnet?</h2>
+
+<div class="govuk-inset-text">
+  <h4 class="govuk-heading-s">Site Name:</h4>
+  <p class="govuk-body"><%= @subnet.shared_network.site.name %></p>
+  <h4 class="govuk-heading-s">CIDR Block:</h4>
+  <p class="govuk-body"><%= @subnet.cidr_block %></p>
+</div>
+
+<div class="govuk-warning-text">
+  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+  <strong class="govuk-warning-text__text">
+    <span class="govuk-warning-text__assistive">Warning</span>
+      Deleting reservations cannot be undone.
+  </strong>
+</div>
+
+<%= button_to "Delete all reservations", subnet_reservations_path(@subnet),
+  method: :delete,
+  class: "govuk-button govuk-button--warning govuk-!-margin-right-1",
+  data: {
+    "module" => "govuk-button"
+  },
+  params: {
+    confirm: true
+  },
+  form: {
+    class: 'govuk-!-display-inline-block'
+  }
+%>
+<%= link_to "Cancel", subnet_reservations_path(@subnet),
+  class: "govuk-button govuk-button--secondary",
+  data: {
+    module: "govuk-button"
+  }
+%>
+

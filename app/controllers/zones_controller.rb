@@ -17,8 +17,9 @@ class ZonesController < ApplicationController
   def create
     @zone = Zone.new(zone_params)
     authorize! :create, @zone
+    @result = update_dns_config.call(@zone, -> { @zone.save! })
 
-    if update_dns_config.call(@zone, -> { @zone.save })
+    if @result.success?
       redirect_to dns_path, notice: "Successfully created zone"
     else
       render :new
@@ -33,8 +34,9 @@ class ZonesController < ApplicationController
   def update
     authorize! :update, @zone
     @zone.assign_attributes(zone_params)
+    @result = update_dns_config.call(@zone, -> { @zone.save! })
 
-    if update_dns_config.call(@zone, -> { @zone.save })
+    if @result.success?
       redirect_to dns_path, notice: "Successfully updated zone"
     else
       render :edit
@@ -85,7 +87,8 @@ class ZonesController < ApplicationController
   def generate_bind_config
     UseCases::GenerateBindConfig.new(
       zones: Zone.all,
-      pdns_ips: ENV["PDNS_IPS"]
+      pdns_ips: ENV["PDNS_IPS"],
+      private_zone: ENV["PRIVATE_ZONE"]
     )
   end
 

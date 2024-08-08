@@ -18,7 +18,7 @@
   <tbody class="govuk-table__body">
     <% reservations.each do |reservation| %>
       <tr class="govuk-table__row">
-        <td class="govuk-table__cell"><%= reservation.hw_address %></td>
+        <td class="govuk-table__cell"><%= format_mac_address(reservation.hw_address) %></td>
         <td class="govuk-table__cell"><%= reservation.ip_address %></td>
         <td class="govuk-table__cell"><%= reservation.hostname %></td>
         <td class="govuk-table__cell"><%= reservation.description %></td>
