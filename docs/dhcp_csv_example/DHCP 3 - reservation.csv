@@ -1,0 +1,3 @@
+fits_id,cidr_block,hw_address,ip_address,hostname,description
+FITS_8061,101.151.90.0/24,f8:b4:6a:7f:a0:9d,101.151.90.4,NPI7FA09D.a03-COL-1.a03.wp360g.svcs.hp.com,Printer
+FITS_8061,101.151.90.0/24,f9:b4:6a:7f:a0:9d,101.151.90.5,NPI7FA01D.a03-COL-1.a03.wp360g.svcs.hp.com,Printer

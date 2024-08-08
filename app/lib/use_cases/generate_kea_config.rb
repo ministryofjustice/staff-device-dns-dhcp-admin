@@ -261,7 +261,7 @@ module UseCases
                   output: "stdout"
                 }
               ],
-              severity: "WARN",
+              severity: "INFO",
               debuglevel: 0
             }
           ],

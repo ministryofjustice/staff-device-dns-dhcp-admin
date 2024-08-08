@@ -47,6 +47,7 @@ yarn-debug.log*
 
 .vscode
 coverage
+.idea
 
 /.env
 /.env.*

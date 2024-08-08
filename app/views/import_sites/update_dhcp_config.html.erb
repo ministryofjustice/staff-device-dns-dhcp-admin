@@ -1,0 +1,15 @@
+<%= render "layouts/form_errors", resource: @result %>
+
+<h2 class="govuk-heading-l">Update DHCP (KEA) Config</h2>
+
+<%= form_with local: true, scope: :import do |f| %>
+
+  <div class="govuk-form-group">
+    <%= f.label "action", 'Press submit to Update DHCP (KEA) Config', class: "govuk-label" %>
+  </div>
+
+  <%= f.submit "Submit", {
+    class: "govuk-button",
+    "data-module" => "govuk-button"
+  } %>
+<% end %>

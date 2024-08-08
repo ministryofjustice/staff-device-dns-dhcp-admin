@@ -1,6 +1,7 @@
 class ImportController < ApplicationController
   def index
     authorize! :manage, :import
+    @navigation_crumbs = [["Home", root_path], ["Import", import_sites_path]]
   end
 
   def create
