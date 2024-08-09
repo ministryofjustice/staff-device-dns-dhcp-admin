@@ -146,7 +146,7 @@ For information on how to perform the data import before network cutover, please
 
 ## Site Import from CSV
 
-Details of how to perform a new [Site Import from CSV](docs/site_import_from_csv.md). 
+Details of how to perform a new [Site Import from CSV](docs/site_import_from_csv.md).
 
 ## CI/CD
 
@@ -159,26 +159,31 @@ Details of how to perform a new [Site Import from CSV](docs/site_import_from_csv
 
 -   Dependabot currently does not support a container image monitoring solution only for the [Docker container](Dockerfile) _ruby:3.2.2-alpine3.16_, this alpine images needs to be updated manually.
 
-
-## Updating Gems 
+## Updating Gems
 
 Developer tools (alpine-sdk, ruby-dev) have been added to the container to facilitate Gem version updates. To update a Gem version:
-- Build and run tests to make sure you have a baseline of the application running well.
 
-- Build the dev container 
+-   Build and run tests to make sure you have a baseline of the application running well.
+
+-   Build the dev container
+
 ```bash
   make build-dev
 ```
-- Run the application with an interactive shell
+
+-   Run the application with an interactive shell
+
 ```bash
   make shell-dev
 ```
-- Change the version in the Gemfile
-- In the interactive shell run a bundle update for the Gem being updated, e.g.
+
+-   Change the version in the Gemfile
+-   In the interactive shell run a bundle update for the Gem being updated, e.g.
 
 ```bash
   bundle update rails
 ```
-- Check that the Gemfile.lock has the new version
 
-- Destroy container, re-build and run tests. 
+-   Check that the Gemfile.lock has the new version
+
+-   Destroy container, re-build and run tests.
