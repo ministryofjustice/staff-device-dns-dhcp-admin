@@ -163,6 +163,8 @@ Details of how to perform a new [Site Import from CSV](docs/site_import_from_csv
 ## Updating Gems 
 
 Developer tools (alpine-sdk, ruby-dev) have been added to the container to facilitate Gem version updates. To update a Gem version:
+- Build and run tests to make sure you have a baseline of the application running well.
+
 - Build the dev container 
 ```bash
   make build-dev
@@ -178,3 +180,5 @@ Developer tools (alpine-sdk, ruby-dev) have been added to the container to facil
   bundle update rails
 ```
 - Check that the Gemfile.lock has the new version
+
+- Destroy container, re-build and run tests. 
