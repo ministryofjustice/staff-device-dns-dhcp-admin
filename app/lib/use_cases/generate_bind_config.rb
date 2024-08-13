@@ -29,6 +29,7 @@ options {
 statistics-channels {
   inet 127.0.0.1 port 8080 allow { 127.0.0.1; };
 };
+
 logging {
   channel query_logging {
     stderr;

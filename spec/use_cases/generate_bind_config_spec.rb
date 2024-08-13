@@ -60,7 +60,6 @@ logging {
   category resolver { resolver; };
 };
 
-
 zone "localhost" IN {
   type master;
   file "pri/localhost.zone";
