@@ -1,9 +1,7 @@
 {
   "Dhcp4": {
     "interfaces-config": {
-      "interfaces": [
-        "*"
-      ],
+      "interfaces": ["*"],
       "dhcp-socket-type": "udp",
       "outbound-interface": "use-routing"
     },
@@ -16,12 +14,7 @@
       "port": 3306
     },
     "valid-lifetime": 604800,
-    "host-reservation-identifiers": [
-      "circuit-id",
-      "hw-address",
-      "duid",
-      "client-id"
-    ],
+    "host-reservation-identifiers": ["circuit-id", "hw-address", "duid", "client-id"],
     "hosts-database": {
       "type": "mysql",
       "name": "<DB_NAME>",
@@ -75,9 +68,7 @@
                 "hostname": "printer2.test.space.local"
               }
             ],
-            "require-client-classes": [
-              "subnet-192.168.1.0-client"
-            ]
+            "require-client-classes": ["subnet-192.168.1.0-client"]
           }
         ]
       },
@@ -121,9 +112,7 @@
                 "hostname": "printer4.test.space.local"
               }
             ],
-            "require-client-classes": [
-              "subnet-192.168.7.0-client"
-            ]
+            "require-client-classes": ["subnet-192.168.7.0-client"]
           }
         ]
       },
@@ -142,9 +131,7 @@
               "site-id": "FITS_0001",
               "site-name": "Test Site 1"
             },
-            "require-client-classes": [
-              "subnet-192.168.2.0-client"
-            ]
+            "require-client-classes": ["subnet-192.168.2.0-client"]
           }
         ]
       }
