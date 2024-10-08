@@ -28,15 +28,15 @@ phases:
     commands:
       - make authenticate-docker
       - |
-        if [ "$ENVIRONMENT" == "development" ]; then
-          echo "Building image for development"
-          make publish
-        elif [ "$ENVIRONMENT" == "pre-production" ]; then
-          echo "No need to build a new image. Promoting instead"
-          make promote IMAGE_TAG_TO_PROMOTE=development-latest
-        elif [ "$ENVIRONMENT" == "production" ]; then
-          echo "No need to build a new image. Promoting instead"
-          IMAGE_TAG_TO_PROMOTE=pre-production-latest
+        if [ "$ENV" == "development" ]; then
+          make publish;
+        elif [ "$ENV" == "pre-production" ]; then
+          make promote IMAGE_TAG_TO_PROMOTE=development-latest;
+        elif [ "$ENV" == "production" ]; then
+          IMAGE_TAG_TO_PROMOTE=pre-production-latest;
+        else
+          echo "No ENV var given!" && exit 1;
+
         fi
       - make migrate
       - make bootstrap
