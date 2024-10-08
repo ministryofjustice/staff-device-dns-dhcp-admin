@@ -28,11 +28,11 @@ phases:
     commands:
       - make authenticate-docker
       - |
-        if [ "$ENV" == "development" ]; then
+        if [ "$ENV" = "development" ]; then
           make publish;
-        elif [ "$ENV" == "pre-production" ]; then
+        elif [ "$ENV" = "pre-production" ]; then
           make promote IMAGE_TAG_TO_PROMOTE=development-latest;
-        elif [ "$ENV" == "production" ]; then
+        elif [ "$ENV" = "production" ]; then
           IMAGE_TAG_TO_PROMOTE=pre-production-latest;
         else
           echo "No ENV var given!" && exit 1;
