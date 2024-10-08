@@ -33,7 +33,7 @@ phases:
         elif [ "$ENV" = "pre-production" ]; then
           make promote IMAGE_TAG_TO_PROMOTE=development-latest;
         elif [ "$ENV" = "production" ]; then
-          IMAGE_TAG_TO_PROMOTE=pre-production-latest;
+          make IMAGE_TAG_TO_PROMOTE=pre-production-latest;
         else
           echo "No ENV var given!" && exit 1;
 
