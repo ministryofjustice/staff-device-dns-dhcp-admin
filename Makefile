@@ -5,7 +5,7 @@ export
 
 ifndef ENV
 ENV=development
-REGISTRY_URL=068084030754.dkr.ecr.eu-west-2.amazonaws.com
+REGISTRY_URL=683290208331.dkr.ecr.eu-west-2.amazonaws.com
 endif
 
 UID=$(shell id -u)
@@ -94,13 +94,19 @@ deploy: ## run deploy script
 .PHONY: push
 push: ## push image to ECR
 	aws ecr get-login-password | docker login --username AWS --password-stdin ${REGISTRY_URL}
-	docker tag admin:latest ${REGISTRY_URL}/staff-device-${ENV}-dhcp-admin:latest
-	docker push ${REGISTRY_URL}/staff-device-${ENV}-dhcp-admin:latest
+	docker tag admin:latest ${REGISTRY_URL}/staff-device-dhcp-admin:${ENV}-latest
+	docker push ${REGISTRY_URL}/staff-device-dhcp-admin:${ENV}-latest
 
 .PHONY: publish
 publish: ## run build and push targets
 	$(MAKE) build
 	$(MAKE) push
+
+.PHONY: promote
+promote: ## Re-tag image to promote to new environment
+	aws ecr get-login-password | docker login --username AWS --password-stdin ${REGISTRY_URL}
+	docker tag ${IMAGE_TAG_TO_PROMOTE} ${REGISTRY_URL}/staff-device-dhcp-admin:${ENV}-latest
+	docker push ${REGISTRY_URL}/staff-device-dhcp-admin:${ENV}-latest
 
 .PHONY: lint
 lint: ## lint

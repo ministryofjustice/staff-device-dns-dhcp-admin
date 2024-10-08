@@ -27,7 +27,17 @@ phases:
   build:
     commands:
       - make authenticate-docker
-      - make publish
+      - |
+        if [ "$ENVIRONMENT" == "development" ]; then
+          echo "Building image for development"
+          make publish
+        elif [ "$ENVIRONMENT" == "pre-production" ]; then
+          echo "No need to build a new image. Promoting instead"
+          make promote IMAGE_TAG_TO_PROMOTE=development-latest
+        elif [ "$ENVIRONMENT" == "production" ]; then
+          echo "No need to build a new image. Promoting instead"
+          IMAGE_TAG_TO_PROMOTE=pre-production-latest
+        fi
       - make migrate
       - make bootstrap
       - make deploy
