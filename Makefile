@@ -106,7 +106,7 @@ publish: ## run build and push targets
 promote: ## Re-tag image to promote to new environment
 	aws ecr get-login-password | docker login --username AWS --password-stdin ${REGISTRY_URL}
 	docker pull ${REGISTRY_URL}/staff-device-dhcp-admin:${IMAGE_TAG_TO_PROMOTE}
-	docker tag ${IMAGE_TAG_TO_PROMOTE} ${REGISTRY_URL}/staff-device-dhcp-admin:${ENV}-latest
+	docker tag ${REGISTRY_URL}/staff-device-dhcp-admin:${IMAGE_TAG_TO_PROMOTE} ${REGISTRY_URL}/staff-device-dhcp-admin:${ENV}-latest
 	docker push ${REGISTRY_URL}/staff-device-dhcp-admin:${ENV}-latest
 
 .PHONY: lint
