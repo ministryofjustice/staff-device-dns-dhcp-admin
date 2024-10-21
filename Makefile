@@ -102,6 +102,15 @@ publish: ## run build and push targets
 	$(MAKE) build
 	$(MAKE) push
 
+.PHONY: tag
+tag: ## Tag branch in git repo with next version number. Use SEMVAR=[ patch | minor | major ]
+ifeq ($(filter $(SEMVAR), patch minor major),)
+	$(error invalid `SEMVAR` value)
+endif
+	@echo "tagging with $(NEXT_VERSION)"
+	@git tag -a "$(NEXT_VERSION)" -m "Bump from $(CURRENT_VERSION) to $(NEXT_VERSION)"
+	@git push origin main --follow-tags
+
 .PHONY: promote
 promote: ## Re-tag image to promote to new environment
 	aws ecr get-login-password | docker login --username AWS --password-stdin ${REGISTRY_URL}
