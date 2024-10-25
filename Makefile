@@ -94,8 +94,8 @@ deploy: ## run deploy script
 .PHONY: push
 push: ## push image to ECR
 	aws ecr get-login-password | docker login --username AWS --password-stdin ${REGISTRY_URL}
-	docker tag admin:latest ${REGISTRY_URL}/staff-device-dhcp-admin:${ENV}-latest
-	docker push ${REGISTRY_URL}/staff-device-dhcp-admin:${ENV}-latest
+	docker tag admin:latest ${REGISTRY_URL}/staff-device-dhcp-admin:${tag_version}-dev
+	docker push ${REGISTRY_URL}/staff-device-dhcp-admin:${tag_version}-dev
 
 .PHONY: publish
 publish: ## run build and push targets
