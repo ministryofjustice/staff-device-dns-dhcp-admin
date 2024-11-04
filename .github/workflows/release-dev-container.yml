@@ -23,6 +23,6 @@ jobs:
       - name: Start Pipeline Execution
         run: |
           TAG_VERSION=${GITHUB_REF#refs/tags/}
-          aws codepipeline start-pipeline-execution --name Staff-Device-Admin-Portal --variables deploy_to_production=true tag_version=$TAG_VERSION
+          aws codepipeline start-pipeline-execution --name Staff-Device-Admin-Portal --variables name=tag_version,value=111
 
 
