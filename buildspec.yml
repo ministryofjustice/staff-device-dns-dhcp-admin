@@ -29,10 +29,18 @@ phases:
       - make authenticate-docker
       - |
         if [ "$ENV" = "development" ]; then
-          make publish;
-          make migrate;
-          make bootstrap;
-          make deploy;
+          if aws ecr describe-images --repository-name staff-device-dhcp-admin --image-ids imageTag=${tag_version} > /dev/null 2>&1; then
+            echo "Image with tag ${tag_version} already exists. Skipping push.";
+            make promote;
+            make migrate;
+            make bootstrap;
+            make deploy;
+          else
+            make publish;
+            make migrate;
+            make bootstrap;
+            make deploy;
+          fi
         elif [ "$ENV" = "pre-production" ]; then
           make promote
           make migrate;
