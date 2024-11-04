@@ -34,12 +34,12 @@ phases:
           make bootstrap;
           make deploy;
         elif [ "$ENV" = "pre-production" ]; then
-          make promote IMAGE_TAG_TO_PROMOTE=development-latest;
+          make promote
           make migrate;
           make bootstrap;
           make deploy;
         elif [ "$ENV" = "production" ]; then
-          make IMAGE_TAG_TO_PROMOTE=pre-production-latest;
+          make promote;
           make migrate;
           make bootstrap;
           make deploy;
