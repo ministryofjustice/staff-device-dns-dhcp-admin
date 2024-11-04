@@ -116,8 +116,8 @@ endif
 .PHONY: promote
 promote: ## Re-tag image to promote to new environment
 	aws ecr get-login-password | docker login --username AWS --password-stdin ${REGISTRY_URL}
-	docker pull ${REGISTRY_URL}/staff-device-dhcp-admin:${IMAGE_TAG_TO_PROMOTE}
-	docker tag ${REGISTRY_URL}/staff-device-dhcp-admin:${IMAGE_TAG_TO_PROMOTE} ${REGISTRY_URL}/staff-device-dhcp-admin:${ENV}-latest
+	docker pull ${REGISTRY_URL}/staff-device-dhcp-admin:${tag_version}
+	docker tag ${REGISTRY_URL}/staff-device-dhcp-admin:${tag_version} ${REGISTRY_URL}/staff-device-dhcp-admin:${ENV}-latest
 	docker push ${REGISTRY_URL}/staff-device-dhcp-admin:${ENV}-latest
 
 .PHONY: lint
