@@ -31,15 +31,8 @@ phases:
         if [ "$ENV" = "development" ]; then
           if aws ecr describe-images --repository-name staff-device-dhcp-admin --image-ids imageTag=${tag_version} > /dev/null 2>&1; then
             echo "Image with tag ${tag_version} already exists. Skipping push.";
-            make promote;
-            make migrate;
-            make bootstrap;
-            make deploy;
           else
-            make publish;
-            make migrate;
-            make bootstrap;
-            make deploy;
+            echo "I need to build a new image";
           fi
         elif [ "$ENV" = "pre-production" ]; then
           make promote
