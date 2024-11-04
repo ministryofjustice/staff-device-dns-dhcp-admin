@@ -29,10 +29,19 @@ phases:
       - make authenticate-docker
       - |
         if [ "$ENV" = "development" ]; then
-          if aws ecr describe-images --repository-name staff-device-dhcp-admin --image-ids imageTag=${tag_version} > /dev/null 2>&1; then
+          IMAGE_META="$( aws ecr batch-get-image --repository-name=staff-device-dhcp-admin --image-ids=imageTag=$tag_version --query 'images[].imageId.imageTag' --output text )"
+          if [ $IMAGE_META = $tag_version ]; then
             echo "Image with tag ${tag_version} already exists. Skipping push.";
+            make promote;
+            make migrate;
+            make bootstrap;
+            make deploy;
           else
-            echo "I need to build a new image";
+            echo "Image with tag ${tag_version} not found in ECR, building a new image";
+            make publish;
+            make migrate;
+            make bootstrap;
+            make deploy;
           fi
         elif [ "$ENV" = "pre-production" ]; then
           make promote
