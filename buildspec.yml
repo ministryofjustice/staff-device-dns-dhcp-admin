@@ -28,27 +28,21 @@ phases:
     commands:
       - make authenticate-docker
       - |
-        if [ "$deploy_to_production" = "true" ]; then
-          if [ "$ENV" = "development" ]; then
-            make publish;
-            make migrate;
-            make bootstrap;
-            make deploy;
-          elif [ "$ENV" = "pre-production" ]; then
-            make promote IMAGE_TAG_TO_PROMOTE=development-latest;
-            make migrate;
-            make bootstrap;
-            make deploy;
-          elif [ "$ENV" = "production" ]; then
-            make IMAGE_TAG_TO_PROMOTE=pre-production-latest;
-            make migrate;
-            make bootstrap;
-            make deploy;
-          else
-            echo "No ENV var given!" && exit 1;
-          fi
-        elif [ "$deploy_to_production" = "false" ]; then
-          echo "exiting build nothing to do"
+        if [ "$ENV" = "development" ]; then
+          make publish;
+          make migrate;
+          make bootstrap;
+          make deploy;
+        elif [ "$ENV" = "pre-production" ]; then
+          make promote IMAGE_TAG_TO_PROMOTE=development-latest;
+          make migrate;
+          make bootstrap;
+          make deploy;
+        elif [ "$ENV" = "production" ]; then
+          make IMAGE_TAG_TO_PROMOTE=pre-production-latest;
+          make migrate;
+          make bootstrap;
+          make deploy;
         else
-          echo "No deploy_to_production var given!" && exit 1;
+          echo "No ENV var given!" && exit 1;
         fi
