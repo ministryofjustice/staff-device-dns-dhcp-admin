@@ -1,8 +1,14 @@
 name: "Release Production Container"
 on:
   release:
-    tags:
+    tag_version:
       - 'v[0-9]+.[0-9]+.[0-9]+'
+  workflow_dispatch:
+    inputs:
+      tag_version:
+        description: 'Tag version to deploy: e.g: v0.0.1'
+        required: true
+        type: string
 
 jobs:
   trigger-prod-pipeline:
@@ -22,7 +28,6 @@ jobs:
 
       - name: Start Pipeline Execution
         run: |
-          TAG_VERSION=${GITHUB_REF#refs/tags/}
           GIT_HASH=$(git rev-parse --short "$GITHUB_SHA")
           aws codepipeline start-pipeline-execution --name Staff-Device-Admin-Portal --variables name=tag_version,value=${TAG_VERSION} --source-revisions actionName=Source,revisionType=COMMIT_ID,revisionValue=${GIT_HASH}
 
