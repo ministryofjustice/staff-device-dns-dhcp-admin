@@ -1,4 +1,4 @@
-name: "Release Production Container"
+name: "Release Container"
 on:
   push:
     tags:
@@ -10,8 +10,8 @@ permissions:
   contents: read
 
 jobs:
-  trigger-prod-pipeline:
-    name: 'Production'
+  trigger-pipeline:
+    name: 'Trigger Staff-Device-Admin-Portal pipeline'
     runs-on: ubuntu-latest
 
     steps:
