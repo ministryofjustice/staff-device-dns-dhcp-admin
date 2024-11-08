@@ -36,7 +36,7 @@ jobs:
 
       - name: Start Pipeline Execution
         run: |
-          GIT_HASH=$(git rev-parse --short "$GITHUB_SHA")
-          aws codepipeline start-pipeline-execution --name Staff-Device-Admin-Portal --variables name=tag_version,value=${TAG_VERSION} --source-revisions actionName=Source,revisionType=COMMIT_ID,revisionValue=${GIT_HASH}
+          GIT_HASH=$(git rev-parse HEAD)
+          aws codepipeline start-pipeline-execution --name Staff-Device-Admin-Portal --variables name=tag_version,value=${{ inputs.TAG_VERSION }} --source-revisions actionName=Source,revisionType=COMMIT_ID,revisionValue=${GIT_HASH}
 
 
