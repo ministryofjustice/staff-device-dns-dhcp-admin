@@ -31,7 +31,7 @@ phases:
         if [ "$ENV" = "development" ]; then
           IMAGE_META="$( aws ecr batch-get-image --repository-name=staff-device-dhcp-admin --image-ids=imageTag=$tag_version --query 'images[].imageId.imageTag' --output text )"
           if [ $IMAGE_META = $tag_version ]; then
-            echo "Image with tag ${tag_version} already exists. Skipping push.";
+            echo "Image with tag ${tag_version} already exists. Skipping build.";
             make promote;
             make migrate;
             make bootstrap;
