@@ -14,6 +14,33 @@ BUNDLE_FLAGS=
 
 DOCKER_BUILD_CMD = BUNDLE_INSTALL_FLAGS="$(BUNDLE_FLAGS)" $(DOCKER_COMPOSE) build
 
+CURRENT_VERSION := $$(git describe --abbrev=0)
+CURRENT_NUMBER	:= $$(echo $(CURRENT_VERSION) | cut -d "v" -f 2)
+
+ifeq ($(SEMVAR),patch)
+  NEXT_NUMBER := $$(./semver/increment_version.sh -p $(CURRENT_NUMBER))
+else ifeq ($(SEMVAR),minor)
+  NEXT_NUMBER := $$(./semver/increment_version.sh -m $(CURRENT_NUMBER))
+else ifeq ($(SEMVAR),major)
+  NEXT_NUMBER := $$(./semver/increment_version.sh -M $(CURRENT_NUMBER))
+endif
+
+NEXT_VERSION := "v$(NEXT_NUMBER)"
+
+
+.PHONY: current_version
+current_version: ## Get current version eg v3.4.1
+	@echo $(CURRENT_VERSION)
+	@echo $(CURRENT_NUMBER)
+
+.PHONY: preview_version
+preview_version: ## increment version eg v3.4.1 > v3.5.0. Use SEMVAR=[ patch | minor | major ]
+ifeq ($(filter $(SEMVAR), patch minor major),)
+	$(error invalid `SEMVAR` value)
+endif
+	@echo "CURRENT_VERSION := $(CURRENT_VERSION)"
+	@echo "$(SEMVAR) := $(NEXT_VERSION)"
+
 .PHONY: authenticate_docker
 authenticate-docker: ## Authenticate docker script
 	./scripts/authenticate_docker.sh
