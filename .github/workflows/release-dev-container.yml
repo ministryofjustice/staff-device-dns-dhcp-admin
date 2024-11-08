@@ -4,11 +4,6 @@ on:
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
   workflow_dispatch:
-    inputs:
-      tags:
-        description: 'Tag version to deploy: e.g: v0.0.1'
-        required: true
-        type: string
 
 permissions:
   id-token: write
@@ -34,9 +29,13 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           role-session-name: GitHubWorkflow
 
+      - name: Set output
+        id: vars
+        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+
       - name: Start Pipeline Execution
         run: |
           GIT_HASH=$(git rev-parse HEAD)
-          aws codepipeline start-pipeline-execution --name Staff-Device-Admin-Portal --variables name=tag_version,value=${{ inputs.tags }} --source-revisions actionName=Source,revisionType=COMMIT_ID,revisionValue=${GIT_HASH}
+          aws codepipeline start-pipeline-execution --name Staff-Device-Admin-Portal --variables name=tag_version,value=${{ steps.vars.outputs.tag }} --source-revisions actionName=Source,revisionType=COMMIT_ID,revisionValue=${GIT_HASH}
 
 
