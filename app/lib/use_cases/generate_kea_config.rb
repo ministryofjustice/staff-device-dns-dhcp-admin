@@ -261,8 +261,8 @@ module UseCases
                   output: "stdout"
                 }
               ],
-              severity: "INFO",
-              debuglevel: 0
+              severity: "DEBUG",
+              debuglevel: 99
             }
           ],
           "hooks-libraries": [
