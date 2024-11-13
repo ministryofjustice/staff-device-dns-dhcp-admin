@@ -20,7 +20,7 @@ authenticate-docker: ## Authenticate docker script
 
 .PHONY: build
 build: ## docker build image
-	docker build --platform linux/amd64 -t admin . --build-arg RACK_ENV --build-arg DB_HOST --build-arg DB_USER --build-arg DB_PASS --build-arg SECRET_KEY_BASE --build-arg DB_NAME --build-arg BUNDLE_WITHOUT
+	docker build --platform linux/amd64 -t admin . --build-arg RACK_ENV --build-arg BUNDLE_WITHOUT
 
 .PHONY: build-dev
 build-dev: ## build-dev image
