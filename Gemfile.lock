@@ -203,7 +203,7 @@ GEM
       timeout
     net-smtp (0.5.0)
       net-protocol
-    nio4r (2.7.3)
+    nio4r (2.7.4)
     nokogiri (1.16.7)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
@@ -230,7 +230,7 @@ GEM
       ast (~> 2.4.1)
       racc
     public_suffix (6.0.1)
-    puma (6.4.2)
+    puma (6.4.3)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (2.2.9)
@@ -424,7 +424,7 @@ DEPENDENCIES
   mysql2 (~> 0.5.5)
   omniauth-oauth2
   omniauth-rails_csrf_protection (~> 1.0.1)
-  puma (~> 6.4.2)
+  puma (~> 6.4.3)
   rails (~> 7.0.8)
   rails-controller-testing
   rspec-rails (~> 6.0.3)
