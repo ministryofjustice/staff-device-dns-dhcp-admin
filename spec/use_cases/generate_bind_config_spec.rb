@@ -36,7 +36,7 @@ logging {
   channel query_logging {
     stderr;
     print-category yes;
-    severity info;
+    severity debug 1;
     print-time yes;
   };
 
@@ -45,14 +45,14 @@ logging {
      print-time yes;
      print-category yes;
      print-severity yes;
-     severity info;
+     severity debug 1;
    };
    channel resolver {
       stderr;
       print-time yes;
       print-category yes;
       print-severity yes;
-      severity info;
+      severity debug 1;
       };
 
   category queries { query_logging; };
