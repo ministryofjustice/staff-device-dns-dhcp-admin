@@ -42,43 +42,44 @@ logging {
   };
 
   channel query_errors_log {
-     stderr;
-     print-time yes;
-     print-category yes;
-     print-severity yes;
-     severity debug 3;
-   };
+    stderr;
+    print-time yes;
+    print-category yes;
+    print-severity yes;
+    severity debug 3;
+  };
 
-   channel resolver {
-      stderr;
-      print-time yes;
-      print-category yes;
-      print-severity yes;
-      severity debug 3;
-      };
+  channel resolver {
+    stderr;
+    print-time yes;
+    print-category yes;
+    print-severity yes;
+    severity debug 3;
+  };
     
-      channel dispatch_log {
-        stderr;
-        severity debug 3;
-        print-category yes;
-        print-time yes;
-        print-severity yes;
-        };
+  channel dispatch_log {
+    stderr;
+    severity debug 3;
+    print-category yes;
+    print-time yes;
+    print-severity yes;
+  };
       
-      channel lame_servers_log {
-        stderr;
-        severity debug 3;
-        print-category yes;
-        print-time yes;
-        print-severity yes;
-        };
+  channel lame_servers_log {
+    stderr;
+    severity debug 3;
+    print-category yes;
+    print-time yes;
+    print-severity yes;
+  };
     
     
 
-  category queries { query_logging; };
+  category queries { query_log; };
   category query-errors {query_errors_log; };
   category resolver { resolver; };
   category dispatch { dispatch_log; };
+  category lame-servers {lame_servers_log};
 };
 
 zone "localhost" IN {
