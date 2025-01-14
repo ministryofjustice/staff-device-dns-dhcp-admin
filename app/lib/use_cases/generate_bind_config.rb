@@ -77,8 +77,6 @@ logging {
   category lame-servers { lame_servers_log; };
 };
 
-};
-
 zone "localhost" IN {
   type master;
   file "pri/localhost.zone";
