@@ -73,10 +73,10 @@ logging {
   };
     
   category queries { query_log; };
-  category query-errors {query_errors_log; };
+  category query-errors { query_errors_log; };
   category resolver { resolver; };
   category dispatch { dispatch_log; };
-  category lame-servers {lame_servers_log};
+  category lame-servers { lame_servers_log };
 };
 
 zone "localhost" IN {
