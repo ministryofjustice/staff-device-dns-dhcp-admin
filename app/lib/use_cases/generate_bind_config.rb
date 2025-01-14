@@ -36,7 +36,6 @@ logging {
     print-category yes;
     severity debug 3;
     print-time yes;
-    print-severity yes;
   };
 
   channel query_errors_log {
