@@ -33,11 +33,12 @@ statistics-channels {
 };
 
 logging {
-  channel query_logging {
+  channel query_log {
     stderr;
     print-category yes;
     severity debug 3;
     print-time yes;
+    print-severity yes;
   };
 
   channel query_errors_log {
@@ -47,6 +48,7 @@ logging {
      print-severity yes;
      severity debug 3;
    };
+
    channel resolver {
       stderr;
       print-time yes;
@@ -54,10 +56,29 @@ logging {
       print-severity yes;
       severity debug 3;
       };
+    
+      channel dispatch_log {
+        stderr;
+        severity debug 3;
+        print-category yes;
+        print-time yes;
+        print-severity yes;
+        };
+      
+      channel lame_servers_log {
+        stderr;
+        severity debug 3;
+        print-category yes;
+        print-time yes;
+        print-severity yes;
+        };
+    
+    
 
   category queries { query_logging; };
   category query-errors {query_errors_log; };
   category resolver { resolver; };
+  category dispatch { dispatch_log; };
 };
 
 zone "localhost" IN {
