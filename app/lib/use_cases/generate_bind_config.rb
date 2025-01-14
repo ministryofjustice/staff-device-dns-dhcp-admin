@@ -84,7 +84,7 @@ logging {
   category dispatch { dispatch_log; };
   category lame-servers { lame_servers_log; };
   category client { client_log; };
- };
+};
 
 zone "localhost" IN {
   type master;
