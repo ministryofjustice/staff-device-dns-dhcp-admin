@@ -33,31 +33,28 @@ statistics-channels {
 };
 
 logging {
-  channel query_logging {
+  channel stderr_channel {
     stderr;
-    print-category yes;
-    severity info;
+    severity debug 3;
     print-time yes;
+    print-severity yes;
+    print-category yes;
   };
 
-  channel query_errors_log {
-     stderr;
-     print-time yes;
-     print-category yes;
-     print-severity yes;
-     severity info;
-   };
-   channel resolver {
-      stderr;
-      print-time yes;
-      print-category yes;
-      print-severity yes;
-      severity info;
-      };
+  channel query_error {
+    stderr;
+    severity debug 3;
+    print-time yes;
+    print-severity yes;
+    print-category yes;
+  };
 
-  category queries { query_logging; };
-  category query-errors {query_errors_log; };
-  category resolver { resolver; };
+  category query-errors { query_error; };
+  category queries { stderr_channel; };
+  category resolver { stderr_channel; };
+  category client { stderr_channel; };
+  category security { stderr_channel; };
+
 };
 
 zone "localhost" IN {
