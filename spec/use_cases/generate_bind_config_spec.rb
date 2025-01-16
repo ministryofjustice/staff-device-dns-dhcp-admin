@@ -49,11 +49,11 @@ logging {
     print-category yes;
   };
 
-  category query-errors { query_error; };    
-  category queries { stderr_channel; };    
-  category resolver { stderr_channel; };     
-  category client { stderr_channel; };   
-  category security { stderr_channel; }; 
+  category query-errors { query_error; };
+  category queries { stderr_channel; };
+  category resolver { stderr_channel; };
+  category client { stderr_channel; };
+  category security { stderr_channel; };
 
 };
 
