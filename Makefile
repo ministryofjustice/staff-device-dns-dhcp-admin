@@ -9,7 +9,7 @@ REGISTRY_URL=068084030754.dkr.ecr.eu-west-2.amazonaws.com
 endif
 
 UID=$(shell id -u)
-DOCKER_COMPOSE = env ENV=${ENV} UID=$(UID) docker-compose -f docker-compose.yml
+DOCKER_COMPOSE = env ENV=${ENV} UID=$(UID) docker compose -f docker-compose.yml
 BUNDLE_FLAGS=
 
 DOCKER_BUILD_CMD = BUNDLE_INSTALL_FLAGS="$(BUNDLE_FLAGS)" $(DOCKER_COMPOSE) build
