@@ -5,12 +5,13 @@ class SitesController < ApplicationController
     @sites = Site.order(:fits_id).page(params[:page]).per(50)
     @navigation_crumbs = [["Home", root_path]]
     @sites = if params[:query].present?
-               Site.where('name LIKE ? OR fits_id LIKE ? OR id IN (
-               SELECT sn.site_id
-               FROM subnets s
-               INNER JOIN shared_networks sn ON s.shared_network_id = sn.id
-               WHERE s.cidr_block LIKE ?
-             )', "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%")
+              filtered_sites = Site.where('name LIKE ? OR fits_id LIKE ? OR id IN (
+                  SELECT sn.site_id
+                  FROM subnets s
+                  INNER JOIN shared_networks sn ON s.shared_network_id = sn.id
+                  WHERE s.cidr_block LIKE ?
+                )', "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%")
+              filtered_sites.page(params[:page]).per(10)
              else
                Site.order(:fits_id).page(params[:page]).per(50)
              end

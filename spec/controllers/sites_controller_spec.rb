@@ -17,6 +17,38 @@ describe SitesController, type: :controller do
     end
   end
 
+  describe "pagination" do
+    before do 
+      sign_in create(:user, :viewer)
+      100.times do |i|
+        create :site, fits_id: "FITS#{i+1}"
+    end
+  end
+
+    let(:per_page) {50}
+
+    it "displays 50 sites per page" do
+      first_page_sites = Site.page(1).per(per_page)
+
+      expect(first_page_sites.count).to eq(50)
+      expect(first_page_sites.first.fits_id).to eq("FITS1")
+      expect(first_page_sites.last.fits_id).to eq("FITS50")
+    end
+
+    it 'handles pagination correctly for multiple pages' do
+      
+      first_page = Site.page(1).per(per_page)
+      second_page = Site.page(2).per(per_page)
+  
+      expect(first_page.count).to eq(50)
+      expect(second_page.count).to eq(50)
+      
+      expect(first_page.last.fits_id).to eq("FITS50")
+      expect(second_page.first.fits_id).to eq("FITS51")
+    end
+  end
+
+
   describe "GET show" do
     before do
       sign_in create(:user, :viewer)
