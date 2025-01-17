@@ -17,7 +17,7 @@ describe SitesController, type: :controller do
     end
   end
 
-  describe "pagination" do
+  describe "site pagination" do
     before do 
       sign_in create(:user, :viewer)
       100.times do |i|
