@@ -2,7 +2,7 @@ class SitesController < ApplicationController
   before_action :set_site, only: [:show, :edit, :update, :destroy]
 
   def index
-    @sites = Site.order(:fits_id).page(params[:page]).per(4)
+    @sites = Site.order(:fits_id).page(params[:page]).per(50)
     @navigation_crumbs = [["Home", root_path]]
     @sites = if params[:query].present?
                Site.where('name LIKE ? OR fits_id LIKE ? OR id IN (
@@ -12,7 +12,7 @@ class SitesController < ApplicationController
                WHERE s.cidr_block LIKE ?
              )', "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%")
              else
-               Site.order(:fits_id).page(params[:page]).per(4)
+               Site.order(:fits_id).page(params[:page]).per(50)
              end
   end
 
