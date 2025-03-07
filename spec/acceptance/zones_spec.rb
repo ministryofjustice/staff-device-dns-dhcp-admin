@@ -29,7 +29,7 @@ describe "GET /zones", type: :feature do
     it "displays warning content as a valid link" do
       visit "/dns"
 
-      link = page.find('a', text: 'here')
+      link = page.find("a", text: "here")
 
       expect(link[:href]).to be_present
     end
@@ -62,7 +62,7 @@ describe "GET /zones", type: :feature do
     it "displays warning content as a valid link" do
       visit "/dns"
 
-      link = page.find('a', text: 'here')
+      link = page.find("a", text: "here")
 
       expect(link[:href]).to be_present
     end
