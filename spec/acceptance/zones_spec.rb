@@ -25,6 +25,19 @@ describe "GET /zones", type: :feature do
       expect(page).to_not have_content "Edit"
       expect(page).to_not have_content "Delete"
     end
+
+    it "displays warning content as a valid link" do
+      visit "/dns"
+
+      link = page.find('a', text: 'here')
+
+      expect(link[:href]).to be_present
+    end
+
+    it "displays warning content" do
+      visit "/dns"
+      expect(page).to have_content "Please ensure any changes made to MoJo DNS are replicated on the Prisma portal by following the front door process here."
+    end
   end
 
   context "User with editor permissions" do
@@ -39,6 +52,19 @@ describe "GET /zones", type: :feature do
       expect(page).to have_content "Create a new zone"
       expect(page).to have_content "Manage"
       expect(page).to have_content "Delete"
+    end
+
+    it "displays warning content" do
+      visit "/dns"
+      expect(page).to have_content "Please ensure any changes made to MoJo DNS are replicated on the Prisma portal by following the front door process here."
+    end
+
+    it "displays warning content as a valid link" do
+      visit "/dns"
+
+      link = page.find('a', text: 'here')
+
+      expect(link[:href]).to be_present
     end
   end
 end
