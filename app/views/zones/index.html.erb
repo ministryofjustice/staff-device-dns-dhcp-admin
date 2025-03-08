@@ -1,5 +1,12 @@
 <div>
   <h2 class="govuk-heading-l">DNS</h2>
+  <div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-visually-hidden">Warning</span>
+      Please ensure any changes made to MoJo DNS are replicated on the Prisma portal by following the front door process <a href="https://justiceuk.sharepoint.com/sites/NetworksWAN/SitePages/WAN-Front-Door.aspx?xsdata=M[…]NTAxMzEwNjAxMyIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3D%3D">here.</a> 
+    </strong>
+  </div>
   <h3 class="govuk-heading-l">Zones</h3>
 
   <% if can? :manage, Subnet %>
